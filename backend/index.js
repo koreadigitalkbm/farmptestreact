@@ -1,3 +1,10 @@
+
+//플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트
+const farmscubeplatformversion= 1.1;
+
+
+
+
 var express = require("express");
 const os = require("os");
 var fileSystem = require("fs");
@@ -25,7 +32,20 @@ var exec = require('child_process').exec, child;
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./backend/"));
 
+var islocalconnect=false;
+var myhostname=os.hostname();
 
+if (myhostname.indexOf("amazonaws.com") != -1  || myhostname.indexOf("13.209.26.2") != -1 ) {
+  //서버 IP이거나 도메인이 서버이면 서버접속임.
+  islocalconnect= false;
+      console.log("-------------------------connected aws server---------------------");
+    } else {
+      ///로컬로 접속하면 관리자 계정임
+      islocalconnect = true;
+      console.log("-------------------------connected local network---------------------:" + myhostname);
+    }
+
+    
 
  
 const hostname = "127.0.0.1";
