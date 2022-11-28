@@ -1,6 +1,6 @@
 
-//플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트
-const farmscubeplatformversion= 1.1;
+//플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
+const farmscubeplatformversion= 1.2;
 
 
 
@@ -38,12 +38,14 @@ var myhostname=os.hostname();
 if (myhostname.indexOf("EC2-") != -1 ) {
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다.
   islocalconnect= false;
-      console.log("-------------------------connected aws server---------------------");
+    
     } else {
       ///로컬로 접속하면 관리자 계정임
       islocalconnect = true;
-      console.log("-------------------------connected local network---------------------:" + myhostname);
+    
     }
+    console.log("-------------------------backend start---------------------");
+    console.log("islocalconnect : " + islocalconnect +",farmscubeplatformversion : "+farmscubeplatformversion);
 
     
 
