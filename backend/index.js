@@ -35,8 +35,8 @@ app.use(express.static("./backend/"));
 var islocalconnect=false;
 var myhostname=os.hostname();
 
-if (myhostname.indexOf("amazonaws.com") != -1  || myhostname.indexOf("13.209.26.2") != -1 ) {
-  //서버 IP이거나 도메인이 서버이면 서버접속임.
+if (myhostname.indexOf("EC2-") != -1 ) {
+  //AWS 사용할것이므로 서버 이름이 EC2로 시작한다.
   islocalconnect= false;
       console.log("-------------------------connected aws server---------------------");
     } else {
