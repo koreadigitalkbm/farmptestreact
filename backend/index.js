@@ -47,15 +47,15 @@ if (myhostname.indexOf("EC2-") != -1 ) {
       ///로컬로 접속하면 관리자 계정임
     
       backGlobal.islocal = true;
-      backGlobal.mylocaldeviceid="IF8877";
+      backGlobal.mylocaldeviceid="IF0001";
       backGlobal.ncount++;
  
-      
+      MainAPI.firebasedbtest();  
 
     
     }
-    MainAPI.firebasedbtest();
     
+
     console.log("-------------------------backend start---------------------");
     console.log("islocalconnect : " + backGlobal.islocal +",farmscbeplatformversion : "+farmscubeplatformversion + " backGlobal.ncount : "+backGlobal.ncount);
     
