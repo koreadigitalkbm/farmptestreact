@@ -55,11 +55,24 @@ async function postapifordevice(req, rsp) {
   
 
   isresponse =false;
-  console.log("---------------------------------postapifordevice :  isresponse :"  + isresponse);
+  console.log("---------------------------------postapifordevice :  isresponse :"  + isresponse + ", backGlobal.islocal :"+backGlobal.islocal );
 
  
 let objJsonB64encode = Buffer.from(JSON.stringify(req.body)).toString("base64");
-backGlobal.fblocalrequst.set(objJsonB64encode);
+
+let reqkey ;
+if( backGlobal.islocal == true)
+{
+  reqkey =  backGlobal.fblocalrequst;
+  
+}
+else{
+  reqkey =  backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
+}
+
+reqkey.set(objJsonB64encode);
+
+
 
   
 
