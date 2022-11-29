@@ -57,8 +57,11 @@ async function postapifordevice(req, rsp) {
   isresponse =false;
   console.log("---------------------------------postapifordevice :  isresponse :"  + isresponse);
 
+ 
+let objJsonB64encode = Buffer.from(JSON.stringify(req.body)).toString("base64");
+backGlobal.fblocalrequst.set(objJsonB64encode);
+
   
-  backGlobal.fblocalrequst.set(req.body);
 
 
   for(var i=0;i<50;i++)
@@ -187,36 +190,66 @@ admin.initializeApp({
     backGlobal.fblocalrequst = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
     backGlobal.fblocalresponse = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
 
-    /*
+    
     
   backGlobal.fblocalresponse.on("value", (snapshot) => {
     const data = snapshot.val();
 
-    console.log("frebase fblocalresponse ...event... " );
+    console.log("frebase fblocalresponse ...event... data: "+data );
 
-        //let rspm = JSON.parse(JSON.stringify(data));
-    //    console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
+
+    try {
+        let decodedStr = Buffer.from(data, 'base64'); 
+            var rspm= JSON.parse( decodedStr );
+            console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
+            wait(1000);
+            isresponse=true;
+
+  } catch (e) {
+      return false;
+  }
+
         
-      //  wait(1000);
-
-      //  console.log("frebase fblocalresponse ...event... true: "+ rspm.datetime);
-
-        isresponse=true;
     
   });
 
-*/
+
 
 
     backGlobal.fblocalrequst.on("value", (snapshot) => {
         const data = snapshot.val();
 
-           let reqmsg = JSON.parse(JSON.stringify(data));
+
+        console.log("frebase frrequest ...event... data: "+ data);
+
+        try {
+          let decodedStr = Buffer.from(data, 'base64'); 
+                var reqmsg= JSON.parse( decodedStr );
+                let rspmsg = msgprocessing(reqmsg);
+                let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+              backGlobal.fblocalresponse.set(objJsonB64encode);
+
+      } catch (e) {
+          return false;
+      }
+
+        
+        
+/*
+
+
+           //let reqmsg = JSON.parse(JSON.stringify(data));
             console.log("frebase frrequest ...event... datar: "+ reqmsg.reqType);
             
             let rspmsg = msgprocessing(reqmsg);
-            backGlobal.fblocalresponse.set("dsafasfd");
 
+            
+            
+
+            let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+
+            backGlobal.fblocalresponse.set(objJsonB64encode);
+*/
             
             
             
