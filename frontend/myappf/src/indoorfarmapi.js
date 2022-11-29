@@ -19,7 +19,7 @@ export default class IndoorFarmAPI {
     console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:"+myAppGlobal.islogin);
 
     if (this.islocal === false) {
-      reqURL = url;
+      reqURL =LOCALAPI+ url;
     } else {
       
       reqURL=LOCALAPI+url;
