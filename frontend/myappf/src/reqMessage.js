@@ -6,7 +6,7 @@ export default class reqMessage {
     this.datetime=today.toLocaleString();//요청된 날자+시간
     this.puniqid=pid;//제품 구별 ID 필수
   }
-
+  reqType= undefined;
   loginID = undefined;
   loginPW = undefined;
 

@@ -5,7 +5,7 @@ const os = require("os");
 
 
 const responseMessage = require("../common/commonjs/responseMessage");
-
+var backGlobal = require("./backGlobal");
 
 
 
@@ -13,6 +13,7 @@ const responseMessage = require("../common/commonjs/responseMessage");
 var exec = require("child_process").exec;
 
 
+var isresponse=false;
 
 function postapi(req, rsp) {
   
@@ -22,7 +23,6 @@ function postapi(req, rsp) {
   //console.log(req.body);
 
   //console.log("---------------------------------postapi :  sensor :"  + reqmsg.getSensors+ " ,getOutputport:  " + reqmsg.getOutputport);
-
   let rspmsg = msgprocessing(reqmsg);
 
   rsp.send(JSON.stringify(rspmsg));
@@ -30,18 +30,95 @@ function postapi(req, rsp) {
 }
 
 
+function sleep(msec) {
+  return new Promise(resolve => setTimeout(resolve, msec ));
+} 
+
+async function Delaymsec(msec) {
+  console.log("----Delaymsec start");
+  await sleep(msec);
+  console.log("---- Delaymsec end"); 
+
+  
+}
+
+function wait(msec) {
+  let start = Date.now(), now = start;
+  while (now - start < msec) {
+      now = Date.now();
+  }
+}
+
+
+// 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
+async function postapifordevice(req, rsp) {
+  
+
+  isresponse =false;
+  console.log("---------------------------------postapifordevice :  isresponse :"  + isresponse);
+
+  
+  backGlobal.fblocalrequst.set(req.body);
+
+
+  for(var i=0;i<50;i++)
+  {
+    await sleep(100);
+    console.log("---------------------------------for i:"+i+ "  isresponse :"  + isresponse);
+  }
+
+
+
+
+  //console.log(req.body);
+
+  //console.log("---------------------------------postapi :  sensor :"  + reqmsg.getSensors+ " ,getOutputport:  " + reqmsg.getOutputport);
+  //let rspmsg = msgprocessing(reqmsg);
+  
+  console.log("---------------------------------fetchItems end : "  + isresponse);
+  
+  
+  let rspmsg = new responseMessage();
+
+  
+  rsp.send(JSON.stringify(rspmsg));        
+
+
+}
+
+
+
+
 function msgprocessing(reqmsg)
 {
 
   let rspmsg = new responseMessage();
 
-  if (reqmsg.loginPW)
+  if(reqmsg.reqType == "getlocaldeviceid")
+  {
+   
+    rspmsg.retMessage=backGlobal.mylocaldeviceid;
+    rspmsg.IsOK = true;
+  }
+  else if (reqmsg.loginPW)
   {
     console.log("setlogin   pw:  " + reqmsg.loginPW);
 
     if(reqmsg.loginPW === "8877")
     {
       rspmsg.retMessage="factory";
+/*
+      backGlobal.fblocalresponse.on("value", (snapshot) => {
+        const data = snapshot.val();
+
+            console.log("frebase 8877 ...event... data: "+ data);
+            
+        
+      });
+*/
+     // let frrequest = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
+      //frrequest.set("backedn fbtest");
+
     }
     else{
       rspmsg.retMessage="admin";
@@ -51,7 +128,7 @@ function msgprocessing(reqmsg)
 
   }
   
-
+  console.log("msgprocessing   return :  " + rspmsg.IsOK );
   return rspmsg;
 }
 
@@ -83,28 +160,12 @@ function postapi() {
   }
 */
 
-  
-const firebaseConfig = {
-    apiKey: "AIzaSyDscCzBnKTvU80sNVhsJl70XacS76LZW6Q",
-    authDomain: "farmcube-push.firebaseapp.com",
-    databaseURL: "https://farmcube-push.firebaseio.com",
-    projectId: "farmcube-push",
-    storageBucket: "farmcube-push.appspot.com",
-    messagingSenderId: "425829899473",
-    appId: "1:425829899473:web:4ec0495b00d2907eec39f0"
-  };
-  
+    
   
   async function firebasedbtest() {
   
-    console.log("firebasedbtest : ");
+   console.log("firebasedbtest : ");
 
-
-    
-
-    
-
-    
 
     
 var admin = require("firebase-admin");
@@ -117,32 +178,54 @@ admin.initializeApp({
 });
 
 
-    
-    console.log(admin);
+    backGlobal.fbdatabase = admin.database();
 
-    var database = admin.database();
-    console.log(database);
-
+    //console.log(admin);
+    //console.log(database);
 
 
-
-
-    let frrequest = database.ref("IFDevices/IF0001/request");
-    let frresponse = database.ref("IFDevices/IF0001/response");
+    backGlobal.fblocalrequst = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
+    backGlobal.fblocalresponse = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
 
     
-    frresponse.on("value", (snapshot) => {
+    backGlobal.fblocalrequst.on("value", (snapshot) => {
         const data = snapshot.val();
 
-            console.log("resposemsg ...event...");
-            console.log(data);
+           let reqmsg = JSON.parse(JSON.stringify(data));
+            console.log("frebase frrequest ...event... datar: "+ reqmsg.reqType);
+            
+            let rspmsg = msgprocessing(reqmsg);
+            backGlobal.fblocalresponse.set(rspmsg);
+
+            
+            
+            
+            
         
       });
 
 
+      
+      
+  backGlobal.fblocalresponse.on("value", (snapshot) => {
+    const data = snapshot.val();
+
+        let rspm = JSON.parse(JSON.stringify(data));
+        console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
+        
+        wait(1000);
+
+        console.log("frebase fblocalresponse ...event... true: "+ rspm.datetime);
+
+        isresponse=true;
     
-     frrequest.set("backedn req1");
-     frresponse.set("backend rep1");
+  });
+
+
+
+    
+   //   backGlobal.fblocalrequst.set("backedn req1");
+  //   frresponse.set("backend rep1");
 
 
   
@@ -150,5 +233,6 @@ admin.initializeApp({
 
 
 exports.postapi = postapi;
+exports.postapifordevice = postapifordevice;
 exports.firebasedbtest = firebasedbtest;
 

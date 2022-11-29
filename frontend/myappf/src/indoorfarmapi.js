@@ -17,12 +17,10 @@ export default class IndoorFarmAPI {
     let response;
     let reqURL;
     console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:"+myAppGlobal.islogin);
-
     if (this.islocal === false) {
       reqURL = url;
     } else {
-      
-      reqURL=LOCALAPI+url;
+      reqURL=url;
     }
 
     console.log(" postData reqURL : " + reqURL);
@@ -62,10 +60,29 @@ export default class IndoorFarmAPI {
   }
 
 
+    // 장비에 데이터 요청
+    async setRequestdevice(mReqmsg) {
+      let resdata ;
+  
+      try {
+         resdata = await this.postData(API + "devicerequest", mReqmsg);
+  
+        console.log(" setRequestdevice rsp : " + resdata.IsOK);
+        
+      } catch (error) {
+        console.log(" setRequestdevice error : " + error);
+      } finally {
+        console.log(" setRequestdevice finally  : " );
+        return resdata  ;
+        
+      }
+    }
+
 
   async setLogin(id, pw) {
-    const reqmsg = new reqMessage("IF9987");
+    const reqmsg = new reqMessage("IF0000");
 
+    reqmsg.reqType="login";
     reqmsg.loginID = id;
     reqmsg.loginPW = pw;
 
@@ -73,6 +90,30 @@ export default class IndoorFarmAPI {
   }
 
 
+  async getLocaldeviceid() {
+    const reqmsg = new reqMessage("IF0000");
+
+    console.log( " getLocaldeviceid : " +reqmsg.datetime);
+
+    reqmsg.reqType="getlocaldeviceid";
+    
+
+    return await this.setRequest(reqmsg);
+  }
+
+
+
+  async getLocaldeviceinfo() {
+    const reqmsg = new reqMessage("IF0001");
+
+    console.log( " getLocaldeviceinfo : " +reqmsg.datetime);
+
+    reqmsg.reqType="getlocaldeviceid";
+    
+
+    return await this.setRequestdevice(reqmsg);
+  }
+  
 
 
 }

@@ -14,6 +14,8 @@ const path = require("path");
 var app = express();
 
 
+var backGlobal = require("./backGlobal");
+
 
 app.use(express.json());
 app.use(cors());
@@ -34,24 +36,28 @@ var exec = require('child_process').exec, child;
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./backend/"));
 
-var islocalconnect=false;
+
 var myhostname=os.hostname();
 
 if (myhostname.indexOf("EC2-") != -1 ) {
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다.
-  islocalconnect= false;
+  backGlobal.islocal= false;
     
     } else {
       ///로컬로 접속하면 관리자 계정임
-      islocalconnect = true;
+    
+      backGlobal.islocal = true;
+      backGlobal.mylocaldeviceid="IF8877";
+      backGlobal.ncount++;
+ 
+      MainAPI.firebasedbtest();
+
     
     }
     console.log("-------------------------backend start---------------------");
-    console.log("islocalconnect : " + islocalconnect +",farmscubeplatformversion : "+farmscubeplatformversion);
-
+    console.log("islocalconnect : " + backGlobal.islocal +",farmscbeplatformversion : "+farmscubeplatformversion + " backGlobal.ncount : "+backGlobal.ncount);
     
     
-
  
 const hostname = "127.0.0.1";
 const port = 8877;
@@ -63,6 +69,12 @@ app.use("/api/farmrequest", function (req, res) {
   MainAPI.postapi(req,res);
   });
 
+  app.use("/api/devicerequest", function (req, res) {
+    console.log("api devicerequest ..");
+    MainAPI.postapifordevice(req,res);
+    });
+
+    
   
   /*
 
@@ -100,7 +112,7 @@ var server = app.listen(port, function () {
   console.log('Platform : ' + os.platform());
 
   
-      MainAPI.firebasedbtest();
+    //  MainAPI.firebasedbtest();
 
   });
 

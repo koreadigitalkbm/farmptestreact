@@ -24,14 +24,40 @@ const Loginpage=(props)=>{
           <div className="content">
             <label>ID:  </label>
             <input type="text" key="1235" name="inputloginid" onChange={inputonchangeHandler} />
+            <l></l>
             <label>암호:  </label>
             <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
             <button className=""  onClick={loginbuttonHandler }> 로그인 </button> 
+            <div id="statusText">kbm update test</div>
+            <canvas id="waves"></canvas>
+            <button className=""  onClick={updatebuttonHandler }> 업데이트1 </button> 
+            
 
           </div>
        
       );
     } else {
+
+
+      
+    myAppGlobal.farmapi.getLocaldeviceid().then((ret) => {
+        
+      if(ret)
+  {
+      if(ret.IsOK == true)
+      {
+          
+          console.log( " getLocaldeviceid ret : " +ret.retMessage);
+
+      }
+
+  }
+    });
+  
+
+
+
+
         logintype = (
         <div className="">
             <label>간편로그인(로컬):  </label>
@@ -46,7 +72,7 @@ const Loginpage=(props)=>{
             <div id="container">
       <div id="statusText">kbm update test</div>
       <canvas id="waves"></canvas>
-      <button className=""  onClick={updatebuttonHandler }> 업데이트 </button> 
+      <button className=""  onClick={updatebuttonHandler }> 업데이트1 </button> 
       </div>
 
           </div>
@@ -61,10 +87,10 @@ const Loginpage=(props)=>{
     console.log("updatebuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
 
 
-    //myGlobalvalues.farmapi.updatetest().then((ret) => {
-//      console.log( " login ret : " +ret.retMessage);
+    myAppGlobal.farmapi.getLocaldeviceinfo().then((ret) => {
+      console.log( " updatebuttonHandler ret : " +ret.retMessage);
         
-  //    });
+    });
     
 
 
