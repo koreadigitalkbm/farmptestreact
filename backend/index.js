@@ -39,6 +39,8 @@ app.use(express.static("./backend/"));
 
 var myhostname=os.hostname();
 
+MainAPI.firebasedbinit();
+
 if (myhostname.indexOf("EC2-") != -1 ) {
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다.
   backGlobal.islocal= false;

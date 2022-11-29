@@ -176,28 +176,31 @@ function postapi() {
   }
 */
 
-    
+async function firebasedbinit() {
   
-  async function firebasedbtest() {
-  
-   console.log("firebasedbtest : ");
+  console.log("firebasedbtest : ");
 
 
-    
+   
 var admin = require("firebase-admin");
 
 var serviceAccount = require("../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://farmcube-push.firebaseio.com"
+ credential: admin.credential.cert(serviceAccount),
+ databaseURL: "https://farmcube-push.firebaseio.com"
 });
 
 
-    backGlobal.fbdatabase = admin.database();
+   backGlobal.fbdatabase = admin.database();
 
-    //console.log(admin);
-    //console.log(database);
+
+}
+    
+  
+  async function firebasedbtest() {
+  
+   console.log("firebasedbtest : ");
 
 
     backGlobal.fblocalrequst = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
@@ -287,4 +290,5 @@ admin.initializeApp({
 exports.postapi = postapi;
 exports.postapifordevice = postapifordevice;
 exports.firebasedbtest = firebasedbtest;
+exports.firebasedbinit = firebasedbinit;
 
