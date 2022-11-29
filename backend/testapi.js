@@ -215,7 +215,7 @@ admin.initializeApp({
             console.log("frebase frrequest ...event... datar: "+ reqmsg.reqType);
             
             let rspmsg = msgprocessing(reqmsg);
-            backGlobal.fblocalresponse.set(rspmsg);
+            backGlobal.fblocalresponse.set("dsafasfd");
 
             
             
