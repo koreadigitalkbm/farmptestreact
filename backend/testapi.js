@@ -188,6 +188,26 @@ admin.initializeApp({
     backGlobal.fblocalresponse = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
 
     
+    
+  backGlobal.fblocalresponse.on("value", (snapshot) => {
+    const data = snapshot.val();
+
+    console.log("frebase fblocalresponse ...event... " );
+
+        //let rspm = JSON.parse(JSON.stringify(data));
+    //    console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
+        
+      //  wait(1000);
+
+      //  console.log("frebase fblocalresponse ...event... true: "+ rspm.datetime);
+
+        isresponse=true;
+    
+  });
+
+  
+
+
     backGlobal.fblocalrequst.on("value", (snapshot) => {
         const data = snapshot.val();
 
@@ -207,22 +227,6 @@ admin.initializeApp({
 
       
       
-  backGlobal.fblocalresponse.on("value", (snapshot) => {
-    const data = snapshot.val();
-
-    console.log("frebase fblocalresponse ...event... " );
-
-        //let rspm = JSON.parse(JSON.stringify(data));
-    //    console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
-        
-      //  wait(1000);
-
-      //  console.log("frebase fblocalresponse ...event... true: "+ rspm.datetime);
-
-        isresponse=true;
-    
-  });
-
 
 
     
