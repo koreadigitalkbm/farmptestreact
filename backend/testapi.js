@@ -4,7 +4,7 @@ const os = require("os");
 
 
 
-
+const responseMessage = require("../common/commonjs/responseMessage");
 
 
 
@@ -14,6 +14,49 @@ var exec = require("child_process").exec;
 
 
 
+function postapi(req, rsp) {
+  
+  let reqmsg = JSON.parse(JSON.stringify(req.body));
+
+  console.log("---------------------------------postapi :  puniqid :"  + reqmsg.puniqid);
+  //console.log(req.body);
+
+  //console.log("---------------------------------postapi :  sensor :"  + reqmsg.getSensors+ " ,getOutputport:  " + reqmsg.getOutputport);
+
+  let rspmsg = msgprocessing(reqmsg);
+
+  rsp.send(JSON.stringify(rspmsg));
+
+}
+
+
+function msgprocessing(reqmsg)
+{
+
+  let rspmsg = new responseMessage();
+
+  if (reqmsg.loginPW)
+  {
+    console.log("setlogin   pw:  " + reqmsg.loginPW);
+
+    if(reqmsg.loginPW === "8877")
+    {
+      rspmsg.retMessage="factory";
+    }
+    else{
+      rspmsg.retMessage="admin";
+    }
+    rspmsg.IsOK = true;
+
+
+  }
+  
+
+  return rspmsg;
+}
+
+
+/*
 function postapi() {
   
     
@@ -38,7 +81,7 @@ function postapi() {
 
   
   }
-
+*/
 
   
 const firebaseConfig = {

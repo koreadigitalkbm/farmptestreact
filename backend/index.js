@@ -1,11 +1,12 @@
 
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
-const farmscubeplatformversion= 1.3;
+const farmscubeplatformversion= 1.4;
 
 
 
 
 var express = require("express");
+var cors = require("cors");
 const os = require("os");
 var fileSystem = require("fs");
 const path = require("path");
@@ -15,6 +16,7 @@ var app = express();
 
 
 app.use(express.json());
+app.use(cors());
 
 
 
@@ -48,33 +50,46 @@ if (myhostname.indexOf("EC2-") != -1 ) {
     console.log("islocalconnect : " + islocalconnect +",farmscubeplatformversion : "+farmscubeplatformversion);
 
     
+    
 
  
 const hostname = "127.0.0.1";
 const port = 8877;
 
-app.get("/up", function (req, res) {
-  console.log("post 7");
-  console.log(req.url);
-  MainAPI.postapi();
+
+
+app.use("/api/farmrequest", function (req, res) {
+  console.log("api farmrequest ..");
+  MainAPI.postapi(req,res);
+  });
 
   
+  /*
 
-
-  //res.sendFile(path.join(__dirname, "/index1.html"));
-
-});
-
+  app.get("/up", function (req, res) {
+    console.log("post 7");
+    console.log(req.url);
+    MainAPI.postapi();
+  
+  
+    //res.sendFile(path.join(__dirname, "/index1.html"));
+  
+  });
+  
+  
+  
 
 app.use("/api/update", function (req, res) {
   console.log("post up...........................11");
-  console.log("post up...........................22");
+ 
   
   MainAPI.postapi();
 
   res.send('update..');
 });
 
+
+*/
 
 
 

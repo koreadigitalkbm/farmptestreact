@@ -1,11 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
+
+
+import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { actionSetlogin } from "./mainAction";
+import IndoorFarmAPI from "./indoorfarmapi";
+import Loginpage from "./pages/loginpage";
+import Mainpage from "./pages/mainpage";
 import myAppGlobal from "./myAppGlobal";
 
-function App() {
+
+
+function App(props) {
   console.log("-------------------------react APP start---------------------");
   console.log("Hostname : " +window.location.hostname + ",host : " + window.location.protocol);
   
+  myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
+
 
   if (window.location.hostname.indexOf("amazonaws.com") != -1  || window.location.hostname.indexOf("13.209.26.2") != -1 ) {
 //서버 IP이거나 도메인이 서버이면 서버접속임.
@@ -20,26 +32,42 @@ function App() {
     console.log("-------------------------connected local network---------------------");
   }
 
+  
+  useEffect(() => {
+  
 
+    let loginrole = window.sessionStorage.getItem("login");
+  
+      if(loginrole)
+      {
+      }
+      else{
+        loginrole ="logout";
+      }
+      props.onSetlogin(loginrole);
+    
+  
+      console.log("App  LoginRole : " +props.LoginRole);
+      
+    }, []);
+  
+  
+  
+    return (<div className="App">{props.LoginRole == "logout" ?  Loginpage(props) : Mainpage(props)}</div>);
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React kbm
-        </a>
-      </header>
-    </div>
-  );
+  
 }
 
-export default App;
+const mapStateToProps = function (state) {
+  return {
+    LoginRole: state.LoginRole,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSetlogin: (value) => dispatch(actionSetlogin(value)),
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
+
