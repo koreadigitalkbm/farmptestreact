@@ -18,7 +18,7 @@ const Loginpage=(props)=>{
     
     console.log("Loginpage islocal :" + myAppGlobal.islocal)  ;
     
-    if (myAppGlobal.islocal === true) {
+    if (myAppGlobal.islocal === false) {
         logintype = (
        
           <div className="content">
