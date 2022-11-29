@@ -68,6 +68,32 @@ if( backGlobal.islocal == true)
 }
 else{
   reqkey =  backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
+  let repskey = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
+  
+    
+  repskey.on("value", (snapshot) => {
+    const data = snapshot.val();
+
+    console.log("server fblocalresponse ...event... data: "+data );
+
+
+    try {
+        let decodedStr = Buffer.from(data, 'base64'); 
+            var rspm= JSON.parse( decodedStr );
+            console.log("server fblocalresponse ...event... datarr: "+ rspm.datetime);
+            wait(1000);
+            isresponse=true;
+
+  } catch (e) {
+      return false;
+  }
+
+        
+    
+  });
+
+
+
 }
 
 reqkey.set(objJsonB64encode);
