@@ -50,10 +50,12 @@ if (myhostname.indexOf("EC2-") != -1 ) {
       backGlobal.mylocaldeviceid="IF8877";
       backGlobal.ncount++;
  
-      MainAPI.firebasedbtest();
+      
 
     
     }
+    MainAPI.firebasedbtest();
+    
     console.log("-------------------------backend start---------------------");
     console.log("islocalconnect : " + backGlobal.islocal +",farmscbeplatformversion : "+farmscubeplatformversion + " backGlobal.ncount : "+backGlobal.ncount);
     
