@@ -213,7 +213,7 @@ admin.initializeApp({
         let rspm = JSON.parse(JSON.stringify(data));
         console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
         
-        wait(1000);
+      //  wait(1000);
 
         console.log("frebase fblocalresponse ...event... true: "+ rspm.datetime);
 
