@@ -187,7 +187,7 @@ admin.initializeApp({
     backGlobal.fblocalrequst = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
     backGlobal.fblocalresponse = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
 
-    
+    /*
     
   backGlobal.fblocalresponse.on("value", (snapshot) => {
     const data = snapshot.val();
@@ -205,7 +205,7 @@ admin.initializeApp({
     
   });
 
-  
+*/
 
 
     backGlobal.fblocalrequst.on("value", (snapshot) => {
