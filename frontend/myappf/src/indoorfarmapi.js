@@ -1,5 +1,5 @@
 
-
+import myAppGlobal from "./myAppGlobal";
 import reqMessage from "./reqMessage";
 
 
@@ -10,28 +10,34 @@ export default class IndoorFarmAPI {
   constructor(islocal) {
     this.islocal = islocal;
    
+
   }
 
   async postData(url = "", data = {}) {
     let response;
-
-    console.log(" postData islocal : " + this.islocal);
+    let reqURL;
+    console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:"+myAppGlobal.islogin);
 
     if (this.islocal === false) {
-     
+      reqURL = url;
     } else {
-      response = await fetch(LOCALAPI+url, {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify(data), //
-      });
+      
+      reqURL=LOCALAPI+url;
     }
+
+    console.log(" postData reqURL : " + reqURL);
+
+    response = await fetch(reqURL, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(data), //
+    });
 
     return response.json();
   }
