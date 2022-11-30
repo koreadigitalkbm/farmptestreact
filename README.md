@@ -9,9 +9,10 @@
 
 클라이언트  설치순서
  1. nodejs  설치
- 4. 소스 받기 ( git clone https://github.com/koreadigitalkbm/platformtestv1.git )
+ 4. 소스 받기 ( git clone https://github.com/koreadigitalkbm/farmptestreact.git)
  5. 패키지설치( backend, prontend 폴더 npm install)
- 6. 프론트앤드 실행 (prontend/np serve)
- 7. 백앤드 실행 (backend/node index.js )
+ 6. common/private 폴더 복사
+ 7. 프론트앤드 실행 (prontend/np serve)
+ 8. 백앤드 실행 (backend/node index.js )
 
 
