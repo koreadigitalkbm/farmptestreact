@@ -85,21 +85,6 @@ const Loginpage=(props)=>{
     
   function updatebuttonHandler(e) {
     console.log("updatebuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
-
-
-    myAppGlobal.farmapi.getLocaldeviceinfo().then((ret) => {
-      console.log( " updatebuttonHandler ret : " +ret.retMessage);
-        
-    });
-    
-
-
-    
-    
-    
-
-     //window.sessionStorage.setItem('login',"true");    
-
   }
 
 

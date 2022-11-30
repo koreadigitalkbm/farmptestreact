@@ -103,14 +103,20 @@ export default class IndoorFarmAPI {
 
 
 
-  async getLocaldeviceinfo() {
+  async getdeviceinfo(islocal) {
     const reqmsg = new reqMessage("IF0001");
 
     console.log( " getLocaldeviceinfo : " +reqmsg.datetime);
 
     reqmsg.reqType="getdeviceinfo";
+    if(islocal == true)
+    {
+      return await this.setRequestdevice(reqmsg);
+    }
+    else{
+      return await this.setRequest(reqmsg);
+    }
     
-    return await this.setRequestdevice(reqmsg);
   }
   
 

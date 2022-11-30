@@ -23,7 +23,7 @@ const About = (props) => {
     
 function updateTESTandler(e) {
   console.log("updateTESTandler : " + e.target.name );
-  myAppGlobal.farmapi.getLocaldeviceinfo().then((ret) => {
+  myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
     console.log( " updateTESTandler ret : " +ret.retMessage);
  
   });
