@@ -22,10 +22,10 @@ const About = (props) => {
 
   myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
     console.log( "getdevice version ret : " +ret.retMessage);
-    setServerversion(ret.retMessage);
+    setDevcieversion(ret.retMessage);
   });
 
-
+/*
   useEffect(() => {
     if(serverversion > devcieversion  && devcieversion >0 )
     {
@@ -35,7 +35,7 @@ const About = (props) => {
     console.log( "About useEffect : " +isupdate);
 
   });
-
+*/
 
 
 
