@@ -3,13 +3,14 @@ import myAppGlobal from "../myAppGlobal";
 
 
 const About = () => {
-  console.log("-------------------------about page ---------------------");
+  
 
   const [devcieversion, setDevcieversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
-  const [isupdate, setIsupdate] = useState(false);
+  let isupdate=false;
   
-  
+  console.log("-------------------------about page ---------------------devcieversion :" + devcieversion + ",serverversion :" + serverversion );
+
 
   useEffect(() => {
 
@@ -23,20 +24,23 @@ const About = () => {
     }
   
     myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
-      console.log( "getdevice version ret : " +ret.retMessage);
+      console.log( "getdevice version ret1 : " +ret.retMessage);
       setDevcieversion(ret.retMessage);
+  
     });
 
-    if(serverversion > devcieversion  && devcieversion >0 )
-    {
-      
-      setIsupdate(true);
-    }
+   
   
     console.log( "About useEffect : " +isupdate);
 
   },[]);
 
+
+  if(serverversion > devcieversion  && devcieversion >0 )
+  {
+    
+    isupdate =true;
+  }
 
 
 
@@ -54,9 +58,16 @@ const About = () => {
     return(
       <div>
           <h2>about Page </h2>
+          <div>
           장비버전 : {devcieversion}
-          최신버전 : {serverversion}
+          </div>
+          <div>
+          업데이트버전 : {serverversion}
+          </div>
+          <div>
           {isupdate? <button className=""  onClick={updateTESTandler }> 업데이트 테스트 </button>: "최신버전 입니다."}
+          </div>
+          
       </div>
   );
 
