@@ -7,7 +7,7 @@ const About = () => {
     return(
         <div>
             <h2>about Page </h2>
-            {myAppGlobal.islocal? "로컬":'<button className=""  onClick={updateTESTandler }> 업데이트 테스트 </button>'}
+            {myAppGlobal.islocal? "로컬":<button className=""  onClick={updateTESTandler }> 업데이트 테스트 </button>}
 
             
         </div>
