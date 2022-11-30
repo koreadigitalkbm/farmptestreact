@@ -24,9 +24,15 @@ const About = (props) => {
 function updateTESTandler(e) {
   console.log("updateTESTandler : " + e.target.name );
   myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
-    console.log( " updateTESTandler ret : " +ret.retMessage);
+    console.log( " updateTESTandler false ret : " +ret.retMessage);
  
   });
+
+  myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
+    console.log( " updateTESTandler true ret : " +ret.retMessage);
+ 
+  });
+
   
 }
 
