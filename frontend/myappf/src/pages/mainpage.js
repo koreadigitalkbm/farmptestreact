@@ -93,11 +93,7 @@ const Mainpage = (props) => {
                 <div className="out_button">
                 <button className="button_on"  onClick={logoutbuttonHandler }> 로그아웃 </button> 
                 </div>
-                <Routes>
-                <Route path="/" element={<About />} />
-                <Route path="/about" element={ About(props)} />
-                <Route path="/setup" element={<About />} />
-                </Routes>
+                
           
                 </div>
                 <div className="join">{myAppGlobal.islocal? "로컬":"원격"}</div>
@@ -105,7 +101,11 @@ const Mainpage = (props) => {
             </div>
 
             <div className="board">
-          
+            <Routes>
+                <Route path="/" element={<Sensorpage />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/setup" element={<About />} />
+                </Routes>
             </div>
           </div>
           

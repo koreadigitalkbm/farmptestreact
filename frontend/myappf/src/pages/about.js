@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import myAppGlobal from "../myAppGlobal";
 
 
-const About = (props) => {
+const About = () => {
   console.log("-------------------------about page ---------------------");
 
-  const [devcieversion, setDevcieversion] = useState([]);
-  const [serverversion, setServerversion] = useState([]);
-
+  const [devcieversion, setDevcieversion] = useState(0);
+  const [serverversion, setServerversion] = useState(0);
+  const [isupdate, setIsupdate] = useState(false);
   
-  let isupdate=false;
+  
 
   if(myAppGlobal.islocal ==false)
   {
@@ -25,17 +25,18 @@ const About = (props) => {
     setDevcieversion(ret.retMessage);
   });
 
-/*
+
   useEffect(() => {
     if(serverversion > devcieversion  && devcieversion >0 )
     {
-      isupdate=true;
+      
+      setIsupdate(true);
     }
   
     console.log( "About useEffect : " +isupdate);
 
   });
-*/
+
 
 
 
