@@ -11,22 +11,22 @@ const About = () => {
   
   
 
-  if(myAppGlobal.islocal ==false)
-  {
-    myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
-    console.log( " get server version ret : " +ret.retMessage);
-    setServerversion(ret.retMessage);
-    
-   });
-  }
-
-  myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
-    console.log( "getdevice version ret : " +ret.retMessage);
-    setDevcieversion(ret.retMessage);
-  });
-
-
   useEffect(() => {
+
+    if(myAppGlobal.islocal ==false)
+    {
+      myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
+      console.log( " get server version ret : " +ret.retMessage);
+      setServerversion(ret.retMessage);
+      
+     });
+    }
+  
+    myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
+      console.log( "getdevice version ret : " +ret.retMessage);
+      setDevcieversion(ret.retMessage);
+    });
+
     if(serverversion > devcieversion  && devcieversion >0 )
     {
       
@@ -35,7 +35,7 @@ const About = () => {
   
     console.log( "About useEffect : " +isupdate);
 
-  });
+  },[]);
 
 
 
