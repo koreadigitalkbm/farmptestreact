@@ -5,27 +5,39 @@ import myAppGlobal from "../myAppGlobal";
 const About = (props) => {
   console.log("-------------------------about page ---------------------");
 
-  let devcieversion=0;
-  let serverversion=0;
+  const [devcieversion, setDevcieversion] = useState([]);
+  const [serverversion, setServerversion] = useState([]);
+
+  
   let isupdate=false;
 
   if(myAppGlobal.islocal ==false)
   {
     myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
     console.log( " get server version ret : " +ret.retMessage);
-    serverversion = ret.retMessage;
+    setServerversion(ret.retMessage);
+    
    });
   }
 
   myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
     console.log( "getdevice version ret : " +ret.retMessage);
-     devcieversion = ret.retMessage;
+    setServerversion(ret.retMessage);
   });
 
-  if(serverversion > devcieversion  && devcieversion >0 )
-  {
-    isupdate=true;
-  }
+
+  useEffect(() => {
+    if(serverversion > devcieversion  && devcieversion >0 )
+    {
+      isupdate=true;
+    }
+  
+    console.log( "About useEffect : " +isupdate);
+
+  });
+
+
+
 
   if(myAppGlobal.islocal ==true)
   {
