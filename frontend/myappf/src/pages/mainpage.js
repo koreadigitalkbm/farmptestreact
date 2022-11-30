@@ -26,7 +26,9 @@ const Mainpage = (props) => {
     
 
 
-    window.sessionStorage.setItem('login',"logout"); 
+    window.sessionStorage.setItem("login","logout"); 
+    window.sessionStorage.setItem("deviceid","");
+
     props.onSetlogin("logout");
 
 
