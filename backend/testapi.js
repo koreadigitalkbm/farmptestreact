@@ -54,27 +54,72 @@ function wait(msec) {
 async function postapifordevice(req, rsp) {
   
 
+  let jsonstr=JSON.stringify(req.body);
+  let reqmsg ;
+  //기본 nak 메시지로 만듬.
+  let responsemsg = new responseMessage();
+  
+
   isresponse =false;
   console.log("---------------------------------postapifordevice :  isresponse :"  + isresponse + ", backGlobal.islocal :"+backGlobal.islocal );
 
  
-let objJsonB64encode = Buffer.from(JSON.stringify(req.body)).toString("base64");
 
-let reqkey ;
-let repskey;
 if( backGlobal.islocal == true)
 {
-  reqkey =  backGlobal.fblocalrequst;
+  
+  reqmsg = JSON.parse(jsonstr);
+  responsemsg = msgprocessing_deviceonly(reqmsg);
   
 }
 else{
+
+  
+
+  let reqkey ;
+  let repskey;
+  let repsdata;
+
   reqkey =  backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
   repskey = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
   
+  let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+  reqkey.set(objJsonB64encode);
   
+  
+  for(var i=0;i<10;i++)
+  {
+    await sleep(200);
+    repskey.get().then((snapshot) => {
+      if (snapshot.exists()) {
+        repsdata = snapshot.val();
+        console.log("farebase i:"+i+",get :" + repsdata);
 
+        try {
+          let decodedStr = Buffer.from(repsdata, 'base64'); 
+          responsemsg= JSON.parse( decodedStr );
+          
+          isresponse=true;
+            } catch (e) {
   
+              console.log("No data base64 decode error: "+e);
+          }
+          
+
+        
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   
+    console.log("---------------------------------for i:"+i+ "  isresponse :"  + isresponse);
+  }
+
+
+  console.log("---------------------------------fetchItems end : "  + responsemsg.datetime);
+
   
   /*repskey.on("value", (snapshot) => {
     const data = snapshot.val();
@@ -100,47 +145,30 @@ else{
 */
 
 }
+ 
 
-reqkey.set(objJsonB64encode);
-
-
-
+    
   
+  rsp.send(JSON.stringify(responsemsg));        
 
 
-  for(var i=0;i<10;i++)
-  {
-    await sleep(200);
-    repskey.get().then((snapshot) => {
-      if (snapshot.exists()) {
-        console.log("farebase get :" + snapshot.val());
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  
-    console.log("---------------------------------for i:"+i+ "  isresponse :"  + isresponse);
-  }
+}
 
 
+function msgprocessing_deviceonly(reqmsg)
+{
 
-
-  //console.log(req.body);
-
-  //console.log("---------------------------------postapi :  sensor :"  + reqmsg.getSensors+ " ,getOutputport:  " + reqmsg.getOutputport);
-  //let rspmsg = msgprocessing(reqmsg);
-  
-  console.log("---------------------------------fetchItems end : "  + isresponse);
-  
-  
   let rspmsg = new responseMessage();
 
+  if(reqmsg.reqType == "getlocaldeviceid")
+  {
+   
+    rspmsg.retMessage=backGlobal.mylocaldeviceid;
+    rspmsg.IsOK = true;
+  }
   
-  rsp.send(JSON.stringify(rspmsg));        
-
-
+  console.log("msgprocessing_deviceonly   return :  " + rspmsg.IsOK );
+  return rspmsg;
 }
 
 
