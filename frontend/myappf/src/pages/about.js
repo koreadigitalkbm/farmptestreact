@@ -48,7 +48,7 @@ const About = () => {
   {
     return(
       <div>
-          <h2>about Page </h2>
+          <h2>about Page..2 </h2>
            장비버전 : {devcieversion}
       </div>
   );
@@ -57,7 +57,7 @@ const About = () => {
   else{
     return(
       <div>
-          <h2>about Page.. </h2>
+          <h2>about Page..3 </h2>
           <div>
           장비버전 : {devcieversion}
           </div>
