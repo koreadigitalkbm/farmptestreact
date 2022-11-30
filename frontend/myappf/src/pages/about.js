@@ -8,9 +8,11 @@ const About = () => {
   const [devcieversion, setDevcieversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
   let isupdate=false;
+  let loginrole = window.sessionStorage.getItem("login");
+
   
   console.log("-------------------------about page ---------------------");
-  console.log("myAppGlobal.islocal:  " + myAppGlobal.islocal  +",devcieversion :"+ devcieversion + ",serverversion :" + serverversion  + " logindeviceid : "+myAppGlobal.logindeviceid);
+  console.log("myAppGlobal.islocal:  " + myAppGlobal.islocal  +",devcieversion :"+ devcieversion + ",serverversion :" + serverversion  + " logindeviceid : "+myAppGlobal.logindeviceid + ", loginrole :"+ loginrole);
 
 
   useEffect(() => {
@@ -56,6 +58,26 @@ const About = () => {
 
   }
   else{
+
+    if(loginrole === "admin")
+    {
+      return(
+        <div>
+            <h2>about Page..2 {myAppGlobal.logindeviceid} </h2>
+            <div>
+            서버버전 : {serverversion}
+            </div>
+            <div>
+             <button className=""  onClick={updateServercode }> 서버 업데이트  </button>
+            </div>
+            
+        </div>
+    );
+
+
+    }
+    else
+    {
     return(
       <div>
           <h2>about Page..3 {myAppGlobal.logindeviceid} </h2>
@@ -66,23 +88,34 @@ const About = () => {
           업데이트버전 : {serverversion}
           </div>
           <div>
-          {isupdate? <button className=""  onClick={updateTESTandler }> 업데이트 테스트 </button>: "최신버전 입니다."}
+          {isupdate? <button className=""  onClick={updateLocalDevice}> 업데이트 테스트 </button>: "최신버전 입니다."}
           </div>
           
       </div>
   );
-
+    }
   }
     
 }
 
-
-    
-function updateTESTandler(e) {
-  console.log("updateTESTandler : " + e.target.name );
+function updateServercode(e) {
+  console.log("updateServercode : " + e.target.name );
   
 
-  myAppGlobal.farmapi.setsoftwareupdate().then((ret) => {
+  myAppGlobal.farmapi.setsoftwareupdate(false).then((ret) => {
+    console.log( " setsoftwareupdate ret : " +ret.retMessage);
+ 
+  });
+
+  
+}
+
+    
+function updateLocalDevice(e) {
+  console.log("updateLocalDevice : " + e.target.name );
+  
+
+  myAppGlobal.farmapi.setsoftwareupdate(true).then((ret) => {
     console.log( " setsoftwareupdate ret : " +ret.retMessage);
  
   });

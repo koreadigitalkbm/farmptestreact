@@ -172,6 +172,14 @@ function msgprocessing_serveronly(reqmsg)
     }
     else{
 
+      // 서버 업데이트용 계정
+      if(reqmsg.loginID === "adminkd" && reqmsg.loginPW === "kd8883" )
+      {
+        rspmsg.retMessage="admin";
+        rspmsg.retParam = "IF0000";
+      }
+
+
       if(reqmsg.loginID === "kd1" && reqmsg.loginPW === "1234" )
       {
         rspmsg.retMessage="user";
@@ -187,6 +195,7 @@ function msgprocessing_serveronly(reqmsg)
         rspmsg.retMessage="user";
         rspmsg.retParam = "IF0003";
       }
+
 
     }
     

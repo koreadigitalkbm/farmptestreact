@@ -120,12 +120,19 @@ export default class IndoorFarmAPI {
   }
   
 
-  async setsoftwareupdate() {
+  async setsoftwareupdate(islocal) {
     const reqmsg = new reqMessage("IF0001");
     console.log( " setsoftwareupdate : " +reqmsg.datetime);
 
     reqmsg.reqType="setswupdate";
-     return await this.setRequestdevice(reqmsg);
+     
+    if(islocal == true)
+    {
+      return await this.setRequestdevice(reqmsg);
+    }
+    else{
+      return await this.setRequest(reqmsg);
+    }
 
   }
   
