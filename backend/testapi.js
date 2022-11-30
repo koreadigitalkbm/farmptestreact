@@ -119,7 +119,8 @@ function msgprocessing_deviceonly(reqmsg)
   if(reqmsg.reqType == "setswupdate")
   {
 
-    rspmsg.retMessage=softwareupdatefromgit();
+    softwareupdatefromgit();
+    rspmsg.retMessage="ok";
     rspmsg.IsOK = true;
   }
   else if(reqmsg.reqType == "getdeviceinfo")
@@ -186,16 +187,16 @@ function softwareupdatefromgit() {
     
   console.log("softwareupdatefromgit  up1:"  );
   
-  child = exec("dir ", function (error, stdout, stderr) {
+  child = exec("git pull ", function (error, stdout, stderr) {
       console.log('stdout pull: ' + stdout);
       console.log('stderr: ' + stderr);
       if (error !== null) {
           console.log('exec error: ' + error);
-          return "update fail";
+          
 
       }
 
-      return "update ok";
+      
   });
 
 
