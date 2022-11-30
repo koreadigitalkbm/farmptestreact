@@ -120,7 +120,7 @@ export default class IndoorFarmAPI {
   }
   
 
-  async setsoftwareupdate(islocal) {
+  async setsoftwareupdate() {
     const reqmsg = new reqMessage("IF0001");
     console.log( " setsoftwareupdate : " +reqmsg.datetime);
 
