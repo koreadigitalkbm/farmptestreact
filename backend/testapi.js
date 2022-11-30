@@ -143,7 +143,14 @@ function msgprocessing_serveronly(reqmsg)
 
   let rspmsg = new responseMessage();
 
-  if(reqmsg.reqType == "getdeviceinfo")
+  if(reqmsg.reqType == "setswupdate")
+  {
+
+    softwareupdatefromgit();
+    rspmsg.retMessage="ok";
+    rspmsg.IsOK = true;
+  }
+  else if(reqmsg.reqType == "getdeviceinfo")
   {
    
     rspmsg.retMessage=backGlobal.platformversion;
