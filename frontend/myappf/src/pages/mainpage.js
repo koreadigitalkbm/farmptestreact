@@ -61,9 +61,9 @@ const Mainpage = (props) => {
                     <img src="./image/s_dev.png" className="con_img" /> DEVICE
                   </div>
                 </Link>
-                <Link to="/autocontrol" className="linkmenu">
+                <Link to="/about" className="linkmenu">
                   <div className="content">
-                    <img src="./image/s_aut.png" className="con_img" /> AUTOCONTROL
+                    <img src="./image/s_aut.png" className="con_img" /> About
                   </div>
                 </Link>
                 <Link to="/setup" className="linkmenu">

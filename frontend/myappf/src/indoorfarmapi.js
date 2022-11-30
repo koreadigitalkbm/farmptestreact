@@ -91,14 +91,14 @@ export default class IndoorFarmAPI {
 
 
   async getLocaldeviceid() {
-    const reqmsg = new reqMessage("IF0000");
+    const reqmsg = new reqMessage("IF0001");
 
     console.log( " getLocaldeviceid : " +reqmsg.datetime);
 
     reqmsg.reqType="getlocaldeviceid";
     
 
-    return await this.setRequest(reqmsg);
+    return await this.setRequestdevice(reqmsg);
   }
 
 
