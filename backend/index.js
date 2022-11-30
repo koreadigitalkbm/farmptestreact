@@ -23,12 +23,6 @@ app.use(cors());
 
 
 
-
-const BackendVersion = "1.0.2";
-const FrontendVersion="1.2.1";
-
-
-
 const MainAPI = require("./testapi.js");
 var exec = require('child_process').exec, child;
 
@@ -40,6 +34,8 @@ app.use(express.static("./backend/"));
 var myhostname=os.hostname();
 
 MainAPI.firebasedbinit();
+
+backGlobal.platformversion = farmscubeplatformversion;
 
 if (myhostname.indexOf("EC2-") != -1 ) {
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다.
@@ -59,12 +55,9 @@ if (myhostname.indexOf("EC2-") != -1 ) {
     
 
     console.log("-------------------------backend start---------------------");
-    console.log("islocalconnect : " + backGlobal.islocal +",farmscbeplatformversion : "+farmscubeplatformversion + " backGlobal.ncount : "+backGlobal.ncount);
+    console.log("islocalconnect : " + backGlobal.islocal +",farmscbeplatformversion : "+backGlobal.platformversion + " backGlobal.ncount : "+backGlobal.ncount);
     
     
- 
-const hostname = "127.0.0.1";
-const port = 8877;
 
 
 
@@ -109,14 +102,11 @@ app.use("/api/update", function (req, res) {
 
 
 
-var server = app.listen(port, function () {
+var server = app.listen(8877, function () {
     console.log("Node server is running ver 77...");
     console.log('Hostname : ' + os.hostname());
-  console.log('OS Type : ' + os.type());
-  console.log('Platform : ' + os.platform());
-
-  
-    //  MainAPI.firebasedbtest();
+    console.log('OS Type : ' + os.type());
+    console.log('Platform : ' + os.platform());
 
   });
 

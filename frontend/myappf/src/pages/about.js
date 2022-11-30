@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import myAppGlobal from "../myAppGlobal";
 
 
-const About = () => {
+const About = (props) => {
   console.log("-------------------------about page ---------------------");
+
+
+  
+
+
     return(
         <div>
             <h2>about Page </h2>

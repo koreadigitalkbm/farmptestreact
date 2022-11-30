@@ -108,9 +108,8 @@ export default class IndoorFarmAPI {
 
     console.log( " getLocaldeviceinfo : " +reqmsg.datetime);
 
-    reqmsg.reqType="getlocaldeviceid";
+    reqmsg.reqType="getdeviceinfo";
     
-
     return await this.setRequestdevice(reqmsg);
   }
   

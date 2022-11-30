@@ -2,6 +2,7 @@
 
 
 var backGlobal = {
+    platformversion:0, //플랫폼 버전 
     fbdatabase :undefined, //파이어베이스 db
     fblocalresponse :undefined, //파이어베이스 응답
     fblocalrequst :undefined, //파이어베이스 응답

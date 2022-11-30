@@ -6,27 +6,19 @@ const os = require("os");
 
 const responseMessage = require("../common/commonjs/responseMessage");
 var backGlobal = require("./backGlobal");
-
-
-
-
 var exec = require("child_process").exec;
 
 
 var isresponse=false;
 
-function postapi(req, rsp) {
+
+function postapi(req, rsp) 
+{
   
   let reqmsg = JSON.parse(JSON.stringify(req.body));
-
   console.log("---------------------------------postapi :  puniqid :"  + reqmsg.puniqid);
-  //console.log(req.body);
-
-  //console.log("---------------------------------postapi :  sensor :"  + reqmsg.getSensors+ " ,getOutputport:  " + reqmsg.getOutputport);
-  let rspmsg = msgprocessing(reqmsg);
-
+  let rspmsg = msgprocessing_serveronly(reqmsg);
   rsp.send(JSON.stringify(rspmsg));
-
 }
 
 
@@ -34,20 +26,7 @@ function sleep(msec) {
   return new Promise(resolve => setTimeout(resolve, msec ));
 } 
 
-async function Delaymsec(msec) {
-  console.log("----Delaymsec start");
-  await sleep(msec);
-  console.log("---- Delaymsec end"); 
 
-  
-}
-
-function wait(msec) {
-  let start = Date.now(), now = start;
-  while (now - start < msec) {
-      now = Date.now();
-  }
-}
 
 
 // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
@@ -96,55 +75,29 @@ else{
         repsdata = snapshot.val();
         console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
 
-        
-        try {
-          let decodedStr = Buffer.from(repsdata, 'base64'); 
-          responsemsg= JSON.parse( decodedStr );
-          i=10000;//loop out
-          isresponse=true;
-            } catch (e) {
-  
-              console.log("No data base64 decode error: "+e);
+        if(repsdata.length >0)
+        {
+          try {
+            let decodedStr = Buffer.from(repsdata, 'base64'); 
+            responsemsg= JSON.parse( decodedStr );
+            i=10000;//loop out
+            isresponse=true;
+              } catch (e) {
+                  console.log("No data base64 decode error: "+e);
+            }
           }
-          
-
-        
       } else {
         console.log("No data available");
       }
     }).catch((error) => {
       console.error(error);
     });
-  
     console.log("---------------------------------for i:"+i+ "  isresponse :"  + isresponse);
+
   }
 
 
   console.log("---------------------------------fetchItems end : "  + responsemsg.datetime);
-
-  
-  /*repskey.on("value", (snapshot) => {
-    const data = snapshot.val();
-
-    console.log("server fblocalresponse ...event... data: "+data );
-
-
-    try {
-        let decodedStr = Buffer.from(data, 'base64'); 
-            var rspm= JSON.parse( decodedStr );
-            console.log("server fblocalresponse ...event... datarr: "+ rspm.datetime);
-            wait(1000);
-            isresponse=true;
-
-  } catch (e) {
-      return false;
-  }
-
-        
-    
-  });
-
-*/
 
 }
  
@@ -162,7 +115,13 @@ function msgprocessing_deviceonly(reqmsg)
 
   let rspmsg = new responseMessage();
 
-  if(reqmsg.reqType == "getlocaldeviceid")
+  if(reqmsg.reqType == "getdeviceinfo")
+  {
+   
+    rspmsg.retMessage=backGlobal.platformversion;
+    rspmsg.IsOK = true;
+  }
+  else if(reqmsg.reqType == "getlocaldeviceid")
   {
    
     rspmsg.retMessage=backGlobal.mylocaldeviceid;
@@ -173,15 +132,20 @@ function msgprocessing_deviceonly(reqmsg)
   return rspmsg;
 }
 
-
-
-
-function msgprocessing(reqmsg)
+//////////////////////
+function msgprocessing_serveronly(reqmsg)
 {
 
   let rspmsg = new responseMessage();
 
-  if(reqmsg.reqType == "getlocaldeviceid")
+  if(reqmsg.reqType == "getdeviceinfo")
+  {
+   
+    rspmsg.retMessage=backGlobal.platformversion;
+    rspmsg.IsOK = true;
+  }
+
+  else if(reqmsg.reqType == "getlocaldeviceid")
   {
    
     rspmsg.retMessage=backGlobal.mylocaldeviceid;
