@@ -70,8 +70,12 @@ else{
   reqkey =  backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
   let repskey = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
   
-    
-  repskey.on("value", (snapshot) => {
+  
+
+  
+  
+  
+  /*repskey.on("value", (snapshot) => {
     const data = snapshot.val();
 
     console.log("server fblocalresponse ...event... data: "+data );
@@ -92,7 +96,7 @@ else{
     
   });
 
-
+*/
 
 }
 
@@ -103,9 +107,19 @@ reqkey.set(objJsonB64encode);
   
 
 
-  for(var i=0;i<50;i++)
+  for(var i=0;i<10;i++)
   {
-    await sleep(100);
+    await sleep(200);
+    repskey.get().then((snapshot) => {
+      if (snapshot.exists()) {
+        console.log("farebase get :" + snapshot.val());
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  
     console.log("---------------------------------for i:"+i+ "  isresponse :"  + isresponse);
   }
 
