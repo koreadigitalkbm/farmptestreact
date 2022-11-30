@@ -11,11 +11,10 @@ const About = (props) => {
 
   if(myAppGlobal.islocal ==false)
   {
-  myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
+    myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
     console.log( " get server version ret : " +ret.retMessage);
     serverversion = ret.retMessage;
- 
-  });
+   });
   }
 
   myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
