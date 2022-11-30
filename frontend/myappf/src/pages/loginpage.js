@@ -17,18 +17,18 @@ const Loginpage = (props) => {
       <div className="content">
         <label>ID: </label>
         <input type="text" key="1235" name="inputloginid" onChange={inputonchangeHandler} />
-        <l></l>
-        <label>암호: </label>
-        <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
-        <button className="" onClick={loginbuttonHandler}>
-          {" "}
-          로그인{" "}
-        </button>
+        <div>
+          <label>암호: </label>
+          <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
+          <button className="" onClick={loginbuttonHandler}>
+            로그인
+          </button>
+        </div>
+
         <div id="statusText">kbm update test</div>
         <canvas id="waves"></canvas>
         <button className="" onClick={updatebuttonHandler}>
-          {" "}
-          업데이트1{" "}
+          업데이트1
         </button>
       </div>
     );
@@ -50,8 +50,7 @@ const Loginpage = (props) => {
           <label>암호: </label>
           <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
           <button className="" onClick={loginbuttonHandler}>
-            {" "}
-            로그인{" "}
+            로그인
           </button>
         </div>
 
@@ -59,8 +58,7 @@ const Loginpage = (props) => {
           <div id="statusText">kbm update test</div>
           <canvas id="waves"></canvas>
           <button className="" onClick={updatebuttonHandler}>
-            {" "}
-            업데이트1{" "}
+            업데이트1
           </button>
         </div>
       </div>
@@ -85,26 +83,20 @@ const Loginpage = (props) => {
     }
   }
 
-  
-
   function loginbuttonHandler(e) {
     console.log("loginbuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
 
     myAppGlobal.farmapi.setLogin(loginid, loginpw).then((ret) => {
       if (ret) {
         if (ret.IsOK == true) {
+          console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);
 
-          console.log(" login ret msg: " + ret.retMessage + " ,param:"+ ret.retParam) ;
-
-          if(ret.retMessage !=="not")
-          {
+          if (ret.retMessage !== "not") {
             window.sessionStorage.setItem("login", ret.retMessage);
             window.sessionStorage.setItem("deviceid", ret.retParam);
             myAppGlobal.logindeviceid = ret.retParam;
             props.onSetlogin(ret.retMessage);
           }
-
-          
         }
       }
     });

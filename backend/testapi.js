@@ -144,6 +144,7 @@ function msgprocessing(isserver, reqmsg) {
   } else {
     msgprocessing_deviceonly(reqmsg, rspmsg);
   }
+  return rspmsg;
 }
 
 function softwareupdatefromgit() {
