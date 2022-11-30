@@ -191,9 +191,11 @@ function softwareupdatefromgit() {
       console.log('stderr: ' + stderr);
       if (error !== null) {
           console.log('exec error: ' + error);
+          return "update fail";
+
       }
 
-      return stdout;
+      return "update ok";
   });
 
 
