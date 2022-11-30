@@ -40,9 +40,11 @@ function App(props) {
   
 
     let loginrole = window.sessionStorage.getItem("login");
+    
   
       if(loginrole)
       {
+        myAppGlobal.logindeviceid= window.sessionStorage.getItem("deviceid");
       }
       else{
         loginrole ="logout";

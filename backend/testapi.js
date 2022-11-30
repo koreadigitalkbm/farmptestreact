@@ -156,18 +156,43 @@ function msgprocessing_serveronly(reqmsg)
     rspmsg.retMessage=backGlobal.mylocaldeviceid;
     rspmsg.IsOK = true;
   }
-  else if (reqmsg.loginPW)
+  else if (reqmsg.reqType == "login")
   {
     console.log("setlogin   pw:  " + reqmsg.loginPW);
+    rspmsg.retMessage="not";
 
-    if(reqmsg.loginPW === "8877")
+    if( backGlobal.islocal == true)
     {
-      rspmsg.retMessage="factory";
+      if(reqmsg.loginPW === "1234")
+      {
+        rspmsg.retMessage="user";
+        rspmsg.retParam = backGlobal.mylocaldeviceid;
+      }
 
     }
     else{
-      rspmsg.retMessage="admin";
+
+      if(reqmsg.loginID === "kd1" && reqmsg.loginPW === "1234" )
+      {
+        rspmsg.retMessage="user";
+        rspmsg.retParam = "IF0001";
+      }
+      else if(reqmsg.loginID === "kd2" && reqmsg.loginPW === "1234" )
+      {
+        rspmsg.retMessage="user";
+        rspmsg.retParam = "IF0002";
+      }
+      else if(reqmsg.loginID === "kd3" && reqmsg.loginPW === "1234" )
+      {
+        rspmsg.retMessage="user";
+        rspmsg.retParam = "IF0003";
+      }
+
     }
+    
+    
+
+
     rspmsg.IsOK = true;
 
 

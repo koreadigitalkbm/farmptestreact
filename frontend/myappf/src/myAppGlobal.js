@@ -7,6 +7,7 @@ var myAppGlobal = {
     islocal: false,  // 로컬, 원격
     isuseradmin: false, // 사용자 관리자계정(장비설정가능) 나머지 그냥 뷰어
     farmapi: undefined,
+    logindeviceid: "",
     ncount:0
   }
   
