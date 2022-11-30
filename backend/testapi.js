@@ -9,7 +9,7 @@ var backGlobal = require("./backGlobal");
 var exec = require("child_process").exec;
 
 
-var isresponse=false;
+
 
 
 function postapi(req, rsp) 
@@ -39,8 +39,8 @@ async function postapifordevice(req, rsp) {
   let responsemsg = new responseMessage();
   
 
-  isresponse =false;
-  console.log("---------------------------------postapifordevice :  isresponse :"  + isresponse + ", backGlobal.islocal :"+backGlobal.islocal );
+  
+  console.log("---------------------------------postapifordevice :   backGlobal.islocal :"+backGlobal.islocal );
 
  
 
@@ -73,7 +73,7 @@ else{
     await repskey.get().then((snapshot) => {
       if (snapshot.exists()) {
         repsdata = snapshot.val();
-        console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
+//        console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
 
         if(repsdata.length >0)
         {
@@ -81,7 +81,6 @@ else{
             let decodedStr = Buffer.from(repsdata, 'base64'); 
             responsemsg= JSON.parse( decodedStr );
             i=10000;//loop out
-            isresponse=true;
               } catch (e) {
                   console.log("No data base64 decode error: "+e);
             }
@@ -92,12 +91,10 @@ else{
     }).catch((error) => {
       console.error(error);
     });
-    console.log("---------------------------------for i:"+i+ "  isresponse :"  + isresponse);
 
   }
 
-
-  console.log("---------------------------------fetchItems end : "  + responsemsg.datetime);
+  console.log("---------------------------------postapifordevice end : "  + responsemsg.datetime);
 
 }
  
@@ -205,6 +202,55 @@ function softwareupdatefromgit() {
 
 
 
+
+async function firebasedbinit() {
+  
+  console.log("firebasedbinit : ");
+   
+  var admin = require("firebase-admin");
+  var serviceAccount = require("../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
+  admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://farmcube-push.firebaseio.com"
+  });
+
+   backGlobal.fbdatabase = admin.database();
+}
+    
+
+  
+  async function firebasedbsetup(deviceidlocal) {
+  
+   console.log("firebasedbtest  deviceidlocal: "+deviceidlocal);
+
+   const reqkeystr = "IFDevices/"+deviceidlocal+"/request";
+   const reskeystr = "IFDevices/"+deviceidlocal+"/response";
+
+    backGlobal.fblocalrequst = backGlobal.fbdatabase.ref(reqkeystr);
+    backGlobal.fblocalresponse = backGlobal.fbdatabase.ref(reskeystr);
+
+    backGlobal.fblocalrequst.on("value", (snapshot) => {
+        const data = snapshot.val();
+        console.log("frebase frrequest local on event... data: "+ data);
+
+        try {
+                let decodedStr = Buffer.from(data, 'base64'); 
+                var reqmsg= JSON.parse( decodedStr );
+                let rspmsg = msgprocessing_deviceonly(reqmsg);
+                let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+              backGlobal.fblocalresponse.set(objJsonB64encode);
+
+      } catch (e) {
+          return false;
+      }
+      });
+
+
+
+  
+  }
+
+  
 /*
 function postapi() {
   
@@ -232,80 +278,9 @@ function postapi() {
   }
 */
 
-async function firebasedbinit() {
-  
-  console.log("firebasedbinit : ");
-   
-  var admin = require("firebase-admin");
-  var serviceAccount = require("../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
-  admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://farmcube-push.firebaseio.com"
-  });
-
-   backGlobal.fbdatabase = admin.database();
-}
-    
-
-  
-  async function firebasedbtest() {
-  
-   console.log("firebasedbtest : ");
-
-
-    backGlobal.fblocalrequst = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
-    backGlobal.fblocalresponse = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
-
-    /*
-    
-  backGlobal.fblocalresponse.on("value", (snapshot) => {
-    const data = snapshot.val();
-
-    console.log("frebase fblocalresponse ...event... data: "+data );
-
-
-    try {
-        let decodedStr = Buffer.from(data, 'base64'); 
-            var rspm= JSON.parse( decodedStr );
-            console.log("frebase fblocalresponse ...event... datarr: "+ rspm.datetime);
-            wait(1000);
-            isresponse=true;
-
-  } catch (e) {
-      return false;
-  }
-
-        
-    
-  });
-
-*/
-
-
-    backGlobal.fblocalrequst.on("value", (snapshot) => {
-        const data = snapshot.val();
-        console.log("frebase frrequest local on event... data: "+ data);
-
-        try {
-                let decodedStr = Buffer.from(data, 'base64'); 
-                var reqmsg= JSON.parse( decodedStr );
-                let rspmsg = msgprocessing_deviceonly(reqmsg);
-                let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
-              backGlobal.fblocalresponse.set(objJsonB64encode);
-
-      } catch (e) {
-          return false;
-      }
-      });
-
-
-
-  
-  }
-
 
 exports.postapi = postapi;
 exports.postapifordevice = postapifordevice;
-exports.firebasedbtest = firebasedbtest;
+exports.firebasedbsetup = firebasedbsetup;
 exports.firebasedbinit = firebasedbinit;
 
