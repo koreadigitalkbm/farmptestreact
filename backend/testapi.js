@@ -188,7 +188,7 @@ async function firebasedbsetup(deviceidlocal) {
     try {
       let decodedStr = Buffer.from(data, "base64");
       var reqmsg = JSON.parse(decodedStr);
-      let rspmsg = msgprocessing_deviceonly(reqmsg);
+      let rspmsg = msgprocessing(false,reqmsg);
       let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
       backGlobal.fblocalresponse.set(objJsonB64encode);
     } catch (e) {
