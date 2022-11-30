@@ -90,7 +90,7 @@ else{
   for(var i=0;i<10;i++)
   {
     await sleep(200);
-    repskey.get().then((snapshot) => {
+    await repskey.get().then((snapshot) => {
       if (snapshot.exists()) {
         repsdata = snapshot.val();
         console.log("farebase i:"+i+",get :" + repsdata);
