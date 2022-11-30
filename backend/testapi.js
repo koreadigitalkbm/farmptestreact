@@ -98,7 +98,7 @@ else{
         try {
           let decodedStr = Buffer.from(repsdata, 'base64'); 
           responsemsg= JSON.parse( decodedStr );
-          
+          i=10000;//loop out
           isresponse=true;
             } catch (e) {
   
@@ -192,17 +192,6 @@ function msgprocessing(reqmsg)
     if(reqmsg.loginPW === "8877")
     {
       rspmsg.retMessage="factory";
-/*
-      backGlobal.fblocalresponse.on("value", (snapshot) => {
-        const data = snapshot.val();
-
-            console.log("frebase 8877 ...event... data: "+ data);
-            
-        
-      });
-*/
-     // let frrequest = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
-      //frrequest.set("backedn fbtest");
 
     }
     else{
@@ -247,25 +236,19 @@ function postapi() {
 
 async function firebasedbinit() {
   
-  console.log("firebasedbtest : ");
-
-
+  console.log("firebasedbinit : ");
    
-var admin = require("firebase-admin");
-
-var serviceAccount = require("../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
-
-admin.initializeApp({
- credential: admin.credential.cert(serviceAccount),
- databaseURL: "https://farmcube-push.firebaseio.com"
-});
-
+  var admin = require("firebase-admin");
+  var serviceAccount = require("../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
+  admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://farmcube-push.firebaseio.com"
+  });
 
    backGlobal.fbdatabase = admin.database();
-
-
 }
     
+
   
   async function firebasedbtest() {
   
@@ -275,7 +258,7 @@ admin.initializeApp({
     backGlobal.fblocalrequst = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
     backGlobal.fblocalresponse = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
 
-    
+    /*
     
   backGlobal.fblocalresponse.on("value", (snapshot) => {
     const data = snapshot.val();
@@ -298,58 +281,25 @@ admin.initializeApp({
     
   });
 
-
+*/
 
 
     backGlobal.fblocalrequst.on("value", (snapshot) => {
         const data = snapshot.val();
-
-
-        console.log("frebase frrequest ...event... data: "+ data);
+        console.log("frebase frrequest local on event... data: "+ data);
 
         try {
-          let decodedStr = Buffer.from(data, 'base64'); 
+                let decodedStr = Buffer.from(data, 'base64'); 
                 var reqmsg= JSON.parse( decodedStr );
-                let rspmsg = msgprocessing(reqmsg);
+                let rspmsg = msgprocessing_deviceonly(reqmsg);
                 let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
               backGlobal.fblocalresponse.set(objJsonB64encode);
 
       } catch (e) {
           return false;
       }
-
-        
-        
-/*
-
-
-           //let reqmsg = JSON.parse(JSON.stringify(data));
-            console.log("frebase frrequest ...event... datar: "+ reqmsg.reqType);
-            
-            let rspmsg = msgprocessing(reqmsg);
-
-            
-            
-
-            let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
-
-            backGlobal.fblocalresponse.set(objJsonB64encode);
-*/
-            
-            
-            
-            
-        
       });
 
-
-      
-      
-
-
-    
-   //   backGlobal.fblocalrequst.set("backedn req1");
-  //   frresponse.set("backend rep1");
 
 
   
