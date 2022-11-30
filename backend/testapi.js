@@ -84,6 +84,7 @@ else{
   repskey = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
   
   let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+  repskey.set("");
   reqkey.set(objJsonB64encode);
   
   
@@ -93,8 +94,9 @@ else{
     await repskey.get().then((snapshot) => {
       if (snapshot.exists()) {
         repsdata = snapshot.val();
-        console.log("farebase i:"+i+",get :" + repsdata);
+        console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
 
+        
         try {
           let decodedStr = Buffer.from(repsdata, 'base64'); 
           responsemsg= JSON.parse( decodedStr );
