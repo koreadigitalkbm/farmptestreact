@@ -95,7 +95,7 @@ const Mainpage = (props) => {
                 </div>
                 <Routes>
           <Route path="/" element={<About />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={ About(props)} />
           <Route path="/setup" element={<About />} />
           </Routes>
           
