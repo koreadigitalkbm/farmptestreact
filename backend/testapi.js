@@ -115,7 +115,14 @@ function msgprocessing_deviceonly(reqmsg)
 
   let rspmsg = new responseMessage();
 
-  if(reqmsg.reqType == "getdeviceinfo")
+  
+  if(reqmsg.reqType == "setswupdate")
+  {
+
+    rspmsg.retMessage=softwareupdatefromgit();
+    rspmsg.IsOK = true;
+  }
+  else if(reqmsg.reqType == "getdeviceinfo")
   {
    
     rspmsg.retMessage=backGlobal.platformversion;
@@ -171,6 +178,28 @@ function msgprocessing_serveronly(reqmsg)
   console.log("msgprocessing   return :  " + rspmsg.IsOK );
   return rspmsg;
 }
+
+
+
+function softwareupdatefromgit() {
+  
+    
+  console.log("softwareupdatefromgit  up1:"  );
+  
+  child = exec("dir ", function (error, stdout, stderr) {
+      console.log('stdout pull: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+          console.log('exec error: ' + error);
+      }
+
+      return stdout;
+  });
+
+
+
+}
+
 
 
 /*
