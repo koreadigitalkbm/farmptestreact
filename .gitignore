@@ -126,3 +126,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 common/private/*.*
+common/local_files/*.*
+
