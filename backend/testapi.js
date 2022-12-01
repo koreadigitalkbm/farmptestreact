@@ -31,9 +31,10 @@ async function postapifordevice(req, rsp) {
     let reqkey;
     let repskey;
     let repsdata;
+    
 
-    reqkey = backGlobal.fbdatabase.ref("IFDevices/IF1001/request");
-    repskey = backGlobal.fbdatabase.ref("IFDevices/IF1001/response");
+    reqkey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/request");
+    repskey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/response");
 
     let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
     repskey.set("");
