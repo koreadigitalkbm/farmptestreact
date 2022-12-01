@@ -15,4 +15,7 @@
  7. 프론트앤드 실행 (prontend/np serve)
  8. 백앤드 실행 (backend/node index.js )
 
+주요폴더 설명
+
+
 
