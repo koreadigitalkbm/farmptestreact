@@ -9,7 +9,7 @@ var backGlobal = {
     islogin : false, // 
     islocal: false,  // 로컬, 원격
     connecteddeviceid: undefined, // 연결된 장비고유ID
-    mylocaldeviceid: undefined, // 로컬 장비 시제번호
+    mylocaldeviceid: "IF0000", // 로컬 장비 시제번호 6자리 문자열 고정
     ncount:0
   }
   

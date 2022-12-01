@@ -15,18 +15,22 @@ app.use(express.json());
 app.use(cors());
 
 const MainAPI = require("./testapi.js");
-
-
+const DeviceMain = require("./devicemain.js");
 
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./backend/"));
 
-var myhostname = os.hostname();
 
-MainAPI.firebasedbinit();
+
+console.log("-------------------------backend start---------------------");
+
 
 backGlobal.platformversion = farmscubeplatformversion;
 
+MainAPI.firebasedbinit();
+
+
+var myhostname = os.hostname();
 if (myhostname.indexOf("EC2-") != -1) {
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다. aws 서버에서 시작되면 무조건 서버용
   backGlobal.islocal = false;
@@ -34,14 +38,15 @@ if (myhostname.indexOf("EC2-") != -1) {
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
 
   backGlobal.islocal = true;
-  backGlobal.mylocaldeviceid = "IF0002";
+  backGlobal.mylocaldeviceid =DeviceMain.deviceInit();
   backGlobal.ncount++;
 
   MainAPI.firebasedbsetup(backGlobal.mylocaldeviceid);
+  //3초후 메인시작
+  setTimeout(DeviceMain.devicemaintask, 3000);
+
 }
 
-console.log("-------------------------backend start---------------------");
-console.log("islocalconnect : " + backGlobal.islocal + ",farmscbeplatformversion : " + backGlobal.platformversion + " backGlobal.ncount : " + backGlobal.ncount);
 
 
 app.use("/api/farmrequest", function (req, res) {
@@ -59,3 +64,6 @@ var server = app.listen(8877, function () {
   console.log("Hostname : " + os.hostname() + ",Platform : " + os.platform());
   
 });
+
+console.log("islocalconnect : " + backGlobal.islocal + ",farmscbeplatformversion : " + backGlobal.platformversion + " backGlobal.ncount : " + backGlobal.ncount);
+
