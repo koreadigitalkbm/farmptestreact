@@ -5,12 +5,9 @@ import myAppGlobal from "../myAppGlobal";
 const Loginpage = (props) => {
   let loginid;
   let loginpw;
-
   let logintype;
 
-  console.log("Loginpage  :" + props.Islogin);
-
-  console.log("Loginpage islocal :" + myAppGlobal.islocal);
+  console.log("Loginpage islocal :" + myAppGlobal.islocal + " props.Islogin :" + props.Islogin);
 
   if (myAppGlobal.islocal === false) {
     logintype = (
@@ -25,23 +22,10 @@ const Loginpage = (props) => {
           </button>
         </div>
 
-        <div id="statusText">kbm update test</div>
-        <canvas id="waves"></canvas>
-        <button className="" onClick={updatebuttonHandler}>
-          업데이트1
-        </button>
+        
       </div>
     );
   } else {
-    /*
-    myAppGlobal.farmapi.getLocaldeviceid().then((ret) => {
-      if (ret) {
-        if (ret.IsOK == true) {
-          console.log(" getLocaldeviceid ret : " + ret.retMessage);
-        }
-      }
-    });
-*/
     logintype = (
       <div className="">
         <label>간편로그인(로컬): </label>
@@ -54,23 +38,13 @@ const Loginpage = (props) => {
           </button>
         </div>
 
-        <div id="container">
-          <div id="statusText">kbm update test</div>
-          <canvas id="waves"></canvas>
-          <button className="" onClick={updatebuttonHandler}>
-            업데이트1
-          </button>
-        </div>
+        
       </div>
     );
   }
 
-  function updatebuttonHandler(e) {
-    console.log("updatebuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
-  }
-
+  
   function inputonchangeHandler(e) {
-    console.log("inputonchangeHandler : " + e.target.name);
     switch (e.target.name) {
       case "inputloginid":
         loginid = e.target.value;
@@ -101,7 +75,7 @@ const Loginpage = (props) => {
       }
     });
 
-    //window.sessionStorage.setItem('login',"true");
+    
   }
 
   return (
@@ -112,6 +86,6 @@ const Loginpage = (props) => {
   );
 };
 
-//export default connect(mapStateToProps,mapDispatchToProps)(Loginpage);
+
 
 export default Loginpage;
