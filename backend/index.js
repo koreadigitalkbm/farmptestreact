@@ -34,7 +34,7 @@ if (myhostname.indexOf("EC2-") != -1) {
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
 
   backGlobal.islocal = true;
-  backGlobal.mylocaldeviceid = "IF0001";
+  backGlobal.mylocaldeviceid = "IF0002";
   backGlobal.ncount++;
 
   MainAPI.firebasedbsetup(backGlobal.mylocaldeviceid);

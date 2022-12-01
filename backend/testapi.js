@@ -19,22 +19,21 @@ function sleep(msec) {
 // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
 async function postapifordevice(req, rsp) {
   let jsonstr = JSON.stringify(req.body);
-  let reqmsg;
+  let reqmsg= JSON.parse(jsonstr);
   //기본 nak 메시지로 만듬.
   let responsemsg = new responseMessage();
 
-  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal);
+  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid);
 
   if (backGlobal.islocal == true) {
-    reqmsg = JSON.parse(jsonstr);
     responsemsg = msgprocessing(false, reqmsg);
   } else {
     let reqkey;
     let repskey;
     let repsdata;
 
-    reqkey = backGlobal.fbdatabase.ref("IFDevices/IF0001/request");
-    repskey = backGlobal.fbdatabase.ref("IFDevices/IF0001/response");
+    reqkey = backGlobal.fbdatabase.ref("IFDevices/IF1001/request");
+    repskey = backGlobal.fbdatabase.ref("IFDevices/IF1001/response");
 
     let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
     repskey.set("");

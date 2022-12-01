@@ -80,7 +80,7 @@ export default class IndoorFarmAPI {
 
 
   async setLogin(id, pw) {
-    const reqmsg = new reqMessage("IF0000");
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
 
     reqmsg.reqType="login";
     reqmsg.loginID = id;
@@ -91,7 +91,7 @@ export default class IndoorFarmAPI {
 
 
   async getLocaldeviceid() {
-    const reqmsg = new reqMessage("IF0001");
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
 
     console.log( " getLocaldeviceid : " +reqmsg.datetime);
 
@@ -104,9 +104,9 @@ export default class IndoorFarmAPI {
 
 
   async getdeviceinfo(islocal) {
-    const reqmsg = new reqMessage("IF0001");
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
 
-    console.log( " getLocaldeviceinfo : " +reqmsg.datetime);
+    console.log( " getLocaldeviceinfo : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
 
     reqmsg.reqType="getdeviceinfo";
     if(islocal == true)
@@ -121,7 +121,7 @@ export default class IndoorFarmAPI {
   
 
   async setsoftwareupdate(islocal) {
-    const reqmsg = new reqMessage("IF0001");
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
     console.log( " setsoftwareupdate : " +reqmsg.datetime);
 
     reqmsg.reqType="setswupdate";
