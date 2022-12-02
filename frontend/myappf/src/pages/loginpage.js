@@ -3,11 +3,15 @@ import myAppGlobal from "../myAppGlobal";
 //const crypto = require('crypto');
 
 const Loginpage = (props) => {
+  //const [loginresults, setLoginresult] = useState("겔과");
+  let loginresult="겔과";//const [loginresult, setLoginresult] = useState("겔과");
   let loginid;
   let loginpw;
   let logintype;
 
   console.log("Loginpage islocal :" + myAppGlobal.islocal + " props.Islogin :" + props.Islogin);
+
+
 
   if (myAppGlobal.islocal === false) {
     logintype = (
@@ -65,7 +69,13 @@ const Loginpage = (props) => {
         if (ret.IsOK == true) {
           console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);
 
-          if (ret.retMessage !== "not") {
+          if (ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw")
+          {
+            //setLoginresult("장비에 접속할수 없습니다.");
+            //loginresult="장비에 접속할수 없습니다.";
+          //  props.onSetlogin("loginfail");
+          }
+          else {
             window.sessionStorage.setItem("login", ret.retMessage);
             window.sessionStorage.setItem("deviceid", ret.retParam);
             myAppGlobal.logindeviceid = ret.retParam;
@@ -82,6 +92,9 @@ const Loginpage = (props) => {
     <div>
       <h2>login Page</h2>
       <div key="sdaff">{logintype}</div>
+      <div>
+        {loginresult}
+      </div>
     </div>
   );
 };

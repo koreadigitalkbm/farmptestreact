@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import myAppGlobal from "../myAppGlobal";
 
 const AdminSetup = () => {
-  let loginrole = window.sessionStorage.getItem("login");
+  
   console.log("-------------------------admin setup page ---------------------");
   
+  let loginrole ="ㅁㅁ";// window.sessionStorage.getItem("login");
 
   useEffect(() => {
   

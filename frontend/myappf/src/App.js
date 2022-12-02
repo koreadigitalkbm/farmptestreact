@@ -24,6 +24,19 @@ function App(props) {
 
   myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
 
+  
+  function loginsetpage(props) {
+    if(props.LoginRole ==="logout" || props.LoginRole ==="loginfail")
+    {
+      return (Loginpage(props));
+    }
+    else{
+      return (    Mainpage(props)    );
+    }
+  }
+
+
+  
   useEffect(() => {
     let loginrole = window.sessionStorage.getItem("login");
 
@@ -37,7 +50,7 @@ function App(props) {
     console.log("App  LoginRole : " + props.LoginRole);
   }, []);
 
-  return <div className="App">{props.LoginRole == "logout" ? Loginpage(props) : Mainpage(props)}</div>;
+  return <div className="App">{ loginsetpage(props)}</div>;
 }
 
 const mapStateToProps = function (state) {

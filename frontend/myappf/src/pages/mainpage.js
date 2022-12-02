@@ -103,7 +103,7 @@ const Mainpage = (props) => {
               <Route path="/sensor" element={<Sensorpage />} />
               <Route path="/about" element={<About />} />
               <Route path="/setup" element={<About />} />
-              <Route path="/admin" element={<AdminSetup />} />
+              <Route exact path="/admin" element={<AdminSetup />} />
             </Routes>
           </div>
         </div>
