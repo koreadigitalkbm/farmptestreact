@@ -3,9 +3,8 @@ import myAppGlobal from "../myAppGlobal";
 
 const Dashboard = (props) => {
 
-  console.log("하하하"+props.Islogin)
    //const [loginresults, setLoginresult] = useState("겔과");
-  let loginresult="결과";//const [loginresult, setLoginresult] = useState("겔과");
+  const [loginresult, setLoginresult] = useState("겔과");
   let loginid;
   let loginpw;
   let logintype;
@@ -73,12 +72,11 @@ const Dashboard = (props) => {
           if (ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw")
           {
             console.log("실패");
-            loginresult="장비에 접속할수 없습니다.";
+            setLoginresult("장비에 접속할수 없습니다.")
           }
           else {
             console.log("성공");
-            loginresult="장비에 접속할수 없습니다.";
-
+            setLoginresult("로그인 성공")
 
             window.sessionStorage.setItem("login", ret.retMessage);
             window.sessionStorage.setItem("deviceid", ret.retParam);
