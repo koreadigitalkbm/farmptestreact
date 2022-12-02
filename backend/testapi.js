@@ -95,6 +95,10 @@ function msgprocessing_common(reqmsg) {
     rspmsg.retMessage = backGlobal.mylocaldeviceid;
     rspmsg.IsOK = true;
   }
+  else if (reqmsg.reqType == "getdevicelog") {
+    rspmsg.retMessage = backGlobal.systemlog;
+    rspmsg.IsOK = true;
+  }
 
   console.log("msgprocessing_common   return :  " + rspmsg.IsOK);
   return rspmsg;

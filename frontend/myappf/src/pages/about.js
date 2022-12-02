@@ -35,7 +35,15 @@ const About = () => {
       <div>
         <h2>about Page..1111 {myAppGlobal.logindeviceid} </h2>
         장비버전 : {devcieversion}
+        <div>
+            <button className="" onClick={readdevicelog}>
+              {" "}
+              장비로그 가져오기{" "}
+            </button>
+          </div>
+
       </div>
+      
     );
   } else {
     if (loginrole === "admin") {
@@ -72,6 +80,24 @@ const About = () => {
     }
   }
 };
+
+
+
+function readdevicelog(e) {
+  console.log("readdevicelog : " + e.target.name);
+  myAppGlobal.farmapi.getdevicelog(myAppGlobal.islocal).then((ret) => {
+    console.log(" getdevicelog ret : " + ret.retMessage.nindex);
+    let objlist = ret.retMessage.logarr;
+    //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
+    objlist.forEach((element) => {
+      console.log(element);
+   });
+   
+  });
+  
+  
+}
+
 
 function updateServercode(e) {
   console.log("updateServercode : " + e.target.name);

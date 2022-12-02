@@ -3,6 +3,8 @@ const ModbusComm = new ModbusRTU();
 
 const KDCommon = require("../common/commonjs/kdcommon");
 const Systemconfig = require("./devsystemconfig");
+const backGlobal = require("./backGlobal");
+
 const systemconfigfilename = "../common/local_files/systemconfig.json";
 
 //루프로 동작하는 함수에서 한개라도 에러가 발생하면 전체 함수를 재시작하기위해
@@ -24,6 +26,9 @@ function deviceInit() {
 async function devicemaintask() {
   istaskStopByerror = false;
   console.log("------------main start-------------------");
+
+  backGlobal.systemlog.memlog("devicemaintask start");
+
   try {
     const promisearray = [modbusTask(), controltask()];
     await Promise.all(promisearray);
@@ -63,6 +68,7 @@ async function modbusTask() {
     if (ModbusComm.isOpen == true) {
       await ModbusComm.setTimeout(300);
 
+
       while (true) {
         if (istaskStopByerror == true) {
           return "modbusTask";
@@ -71,6 +77,9 @@ async function modbusTask() {
           await KDCommon.delay(1000);
           modbusTask_count++;
           console.log("modbusTask run: " + modbusTask_count);
+
+          backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
+
         
       }
     }

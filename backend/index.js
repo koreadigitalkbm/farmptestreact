@@ -9,6 +9,7 @@ const path = require("path");
 
 var app = express();
 
+const devicesystemlog = require("../common/commonjs/devicesystemlog");
 var backGlobal = require("./backGlobal");
 
 app.use(express.json());
@@ -34,6 +35,7 @@ if (myhostname.indexOf("EC2-") != -1) {
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
 
   backGlobal.islocal = true;
+  backGlobal.systemlog = new devicesystemlog();
   backGlobal.mylocaldeviceid = DeviceMain.deviceInit();
   backGlobal.ncount++;
 
