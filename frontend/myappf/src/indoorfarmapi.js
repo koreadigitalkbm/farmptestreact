@@ -109,16 +109,9 @@ export default class IndoorFarmAPI {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
 
     console.log( "etdevicelog : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-
     reqmsg.reqType="getdevicelog";
-    if(islocal == true)
-    {
-      return await this.setRequestdevice(reqmsg);
-    }
-    else{
-      return await this.setRequest(reqmsg);
-    }
-    
+     return await this.setRequestdevice(reqmsg);
+     
   }
 
 
