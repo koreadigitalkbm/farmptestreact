@@ -20,15 +20,11 @@ const DeviceMain = require("./devicemain.js");
 //app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("./backend/"));
 
-
-
 console.log("-------------------------backend start---------------------");
-
 
 backGlobal.platformversion = farmscubeplatformversion;
 
 MainAPI.firebasedbinit();
-
 
 var myhostname = os.hostname();
 if (myhostname.indexOf("EC2-") != -1) {
@@ -38,15 +34,13 @@ if (myhostname.indexOf("EC2-") != -1) {
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
 
   backGlobal.islocal = true;
-  backGlobal.mylocaldeviceid =DeviceMain.deviceInit();
+  backGlobal.mylocaldeviceid = DeviceMain.deviceInit();
   backGlobal.ncount++;
 
   MainAPI.firebasedbsetup(backGlobal.mylocaldeviceid);
   //3초후 메인시작
   setTimeout(DeviceMain.devicemaintask, 3000);
-
 }
-
 
 //서버에 요청
 app.use("/api/farmrequest", function (req, res) {
@@ -56,17 +50,14 @@ app.use("/api/farmrequest", function (req, res) {
 app.use("/api/devicerequest", function (req, res) {
   MainAPI.postapifordevice(req, res);
 });
-// DB 관련 요청 서버, 장비 
+// DB 관련 요청 서버, 장비
 app.use("/api/dbrequest", function (req, res) {
   MainAPI.postapifordatabase(req, res);
 });
 
-
 var server = app.listen(8877, function () {
   console.log("Node server is running ...");
   console.log("Hostname : " + os.hostname() + ",Platform : " + os.platform());
-  
 });
 
 console.log("islocalconnect : " + backGlobal.islocal + ",farmscbeplatformversion : " + backGlobal.platformversion + " backGlobal.ncount : " + backGlobal.ncount);
-
