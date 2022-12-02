@@ -3,8 +3,8 @@ import { BrowserRouter, Link,  Routes, Route } from "react-router-dom";
 
 
 import About from "./about";
+import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
-
 
 import myAppGlobal from "../myAppGlobal";
 
@@ -16,9 +16,31 @@ const Mainpage = (props) => {
   function logoutbuttonHandler(e) {
     window.sessionStorage.setItem("login", "logout");
     window.sessionStorage.setItem("deviceid", "");
-
     props.onSetlogin("logout");
   }
+
+
+  function adminpage(props) {
+
+
+    if(props.LoginRole ==="user")
+    {
+
+      return ("");
+    }
+    else{
+    return (
+      <Link to="/admin" className="linkmenu">
+      <div className="content">
+        <img src="./image/s_set.png" className="con_img" /> 관리자:
+        {props.LoginRole}
+      </div>
+    </Link>
+    );
+    }
+  }
+
+
 
   return (
     <BrowserRouter>
@@ -54,13 +76,7 @@ const Mainpage = (props) => {
                   <img src="./image/s_set.png" className="con_img" /> SETTING
                 </div>
               </Link>
-
-              <Link to="/about" className="linkmenu">
-                <div className="content">
-                  <img src="./image/s_set.png" className="con_img" />
-                  {props.LoginRole}
-                </div>
-              </Link>
+              {adminpage(props)}
             </div>
           </nav>
         </div>
@@ -87,6 +103,7 @@ const Mainpage = (props) => {
               <Route path="/sensor" element={<Sensorpage />} />
               <Route path="/about" element={<About />} />
               <Route path="/setup" element={<About />} />
+              <Route path="/admin" element={<AdminSetup />} />
             </Routes>
           </div>
         </div>

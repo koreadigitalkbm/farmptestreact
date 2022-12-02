@@ -115,10 +115,17 @@ function msgprocessing_serveronly(reqmsg, rspmsg) {
     rspmsg.retMessage = "not";
 
     if (backGlobal.islocal == true) {
-      if (reqmsg.loginPW === "1234") {
+      //일반사용자
+      if (reqmsg.loginPW === backGlobal.localpassword ) {
         rspmsg.retMessage = "user";
         rspmsg.retParam = backGlobal.mylocaldeviceid;
       }
+      ///장비 관리자로그인 장비공장설정이 가능한 상태임
+      if (reqmsg.loginPW === "kd8883") {
+        rspmsg.retMessage = "factoryadmin";
+        rspmsg.retParam = backGlobal.mylocaldeviceid;
+      }
+
     } else {
       // 서버 업데이트용 계정
       if (reqmsg.loginID === "adminkd" && reqmsg.loginPW === "kd8883") {
@@ -218,17 +225,7 @@ function postapi() {
             console.log('exec error: ' + error);
         }
     });
-
-    child = exec("git pull ", function (error, stdout, stderr) {
-        console.log('stdout pull: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    });
-  
-
-  
+ 
   }
 */
 
