@@ -7,6 +7,7 @@ import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
 
 import myAppGlobal from "../myAppGlobal";
+import Dashboard from "./dashboard";
 
 const Mainpage = (props) => {
   let adminmenu;
@@ -99,6 +100,7 @@ const Mainpage = (props) => {
 
           <div className="board">
             <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/" element={<Sensorpage />} />
               <Route path="/sensor" element={<Sensorpage />} />
               <Route path="/about" element={<About />} />
