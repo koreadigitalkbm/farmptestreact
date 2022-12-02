@@ -56,7 +56,7 @@ async function modbusTask() {
 
       await KDCommon.delay(200);
       modbusTask_count++;
-      console.log("modbusTask run: " + modbusTask_count);
+    //  console.log("modbusTask run: " + modbusTask_count);
     }
   } catch (error) {
     console.log("modbusTask : catch...... ");
@@ -76,7 +76,7 @@ async function controltask() {
     while (true) {
       await KDCommon.delay(1000);
       sec_count++;
-      console.log("controltask run: " + sec_count);
+    //  console.log("controltask run: " + sec_count);
     }
   } catch (error) {
     console.log("controltask : catch...... ");
