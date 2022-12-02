@@ -80,7 +80,7 @@ const Mainpage = (props) => {
             </div>
           </nav>
         </div>
-
+ 
         <div className="right">
           <div className="top">
             <div className="top_name"> NO. 1 &nbsp;&nbsp; SENSOR NODE</div>
