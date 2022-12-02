@@ -33,7 +33,7 @@ const About = () => {
   if (myAppGlobal.islocal == true) {
     return (
       <div>
-        <h2>about Page..11 {myAppGlobal.logindeviceid} </h2>
+        <h2>about Page..1111 {myAppGlobal.logindeviceid} </h2>
         장비버전 : {devcieversion}
       </div>
     );
@@ -41,7 +41,7 @@ const About = () => {
     if (loginrole === "admin") {
       return (
         <div>
-          <h2>about Page..22 {myAppGlobal.logindeviceid} </h2>
+          <h2>about Page..2222 {myAppGlobal.logindeviceid} </h2>
           <div>서버버전 : {serverversion}</div>
           <div>
             <button className="" onClick={updateServercode}>
@@ -54,7 +54,7 @@ const About = () => {
     } else {
       return (
         <div>
-          <h2>about Page..33 {myAppGlobal.logindeviceid} </h2>
+          <h2>about Page..3333 {myAppGlobal.logindeviceid} </h2>
           <div>장비버전 : {devcieversion}</div>
           <div>업데이트버전 : {serverversion}</div>
           <div>
