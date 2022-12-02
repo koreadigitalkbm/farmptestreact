@@ -6,14 +6,13 @@ const systemconfigfilename = "../common/local_files/systemconfig.json";
 //루프로 동작하는 함수에서 한개라도 에러가 발생하면 전체 함수를 재시작하기위해
 var istaskStopByerror = false;
 
-
  function deviceInit() {
   console.log("------------deviceInit------------------- ");
-  let sconfig = Systemconfig.Readfile(systemconfigfilename);
+  let sconfig = KDCommon.Readfilejson(systemconfigfilename);
   if(sconfig ===null)
   {
     sconfig = new Systemconfig();
-    Systemconfig.Writefile(systemconfigfilename,sconfig);
+    KDCommon.Writefilejson(systemconfigfilename,sconfig);
   }
   
   console.log("deviceuniqid : ", sconfig.deviceuniqid + " comport : "+sconfig.comport );
