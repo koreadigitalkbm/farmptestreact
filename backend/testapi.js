@@ -1,9 +1,20 @@
 const fs = require("fs");
 const os = require("os");
+const KDCommon = require("../common/commonjs/kdcommon");
 
 const responseMessage = require("../common/commonjs/responseMessage");
 var backGlobal = require("./backGlobal");
 var exec = require("child_process").exec;
+
+
+function postapifordatabase(req, rsp) {
+  let reqmsg = JSON.parse(JSON.stringify(req.body));
+  console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
+
+  let responsemsg = new responseMessage();
+  rsp.send(JSON.stringify(responsemsg));
+}
+
 
 function postapi(req, rsp) {
   let reqmsg = JSON.parse(JSON.stringify(req.body));
@@ -12,9 +23,6 @@ function postapi(req, rsp) {
   rsp.send(JSON.stringify(rspmsg));
 }
 
-function sleep(msec) {
-  return new Promise((resolve) => setTimeout(resolve, msec));
-}
 
 // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
 async function postapifordevice(req, rsp) {
@@ -41,7 +49,7 @@ async function postapifordevice(req, rsp) {
     reqkey.set(objJsonB64encode);
 
     for (var i = 0; i < 10; i++) {
-      await sleep(200);
+      await KDCommon.delay(200);
       await repskey
         .get()
         .then((snapshot) => {
@@ -225,6 +233,7 @@ function postapi() {
 */
 
 exports.postapi = postapi;
+exports.postapifordatabase = postapifordatabase;
 exports.postapifordevice = postapifordevice;
 exports.firebasedbsetup = firebasedbsetup;
 exports.firebasedbinit = firebasedbinit;

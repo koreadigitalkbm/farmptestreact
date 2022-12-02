@@ -48,15 +48,18 @@ if (myhostname.indexOf("EC2-") != -1) {
 }
 
 
-
+//서버에 요청
 app.use("/api/farmrequest", function (req, res) {
   MainAPI.postapi(req, res);
 });
-
+// 장비로부터 데이터를 요청할때
 app.use("/api/devicerequest", function (req, res) {
   MainAPI.postapifordevice(req, res);
 });
-
+// DB 관련 요청 서버, 장비 
+app.use("/api/dbrequest", function (req, res) {
+  MainAPI.postapifordatabase(req, res);
+});
 
 
 var server = app.listen(8877, function () {
