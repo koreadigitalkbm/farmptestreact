@@ -57,6 +57,12 @@ const About = () => {
               서버 업데이트{" "}
             </button>
           </div>
+          <div>
+            <button className="" onClick={readdevicelog}>
+              {" "}
+              장비로그 가져오기{" "}
+            </button>
+          </div>
         </div>
       );
     } else {
@@ -75,6 +81,13 @@ const About = () => {
               "최신버전 입니다."
             )}
           </div>
+          <div>
+            <button className="" onClick={readdevicelog}>
+              {" "}
+              장비로그 가져오기{" "}
+            </button>
+          </div>
+          
         </div>
       );
     }
