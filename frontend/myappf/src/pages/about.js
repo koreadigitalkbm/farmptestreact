@@ -87,7 +87,7 @@ const About = () => {
               장비로그 가져오기{" "}
             </button>
           </div>
-          
+
         </div>
       );
     }
@@ -103,7 +103,10 @@ function readdevicelog(e) {
     let objlist = ret.retMessage.logarr;
     //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
     objlist.forEach((element) => {
-      console.log(element);
+      if(element!=null)
+      {
+        console.log(element);
+      }
    });
    
   });
