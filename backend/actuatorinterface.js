@@ -1,7 +1,7 @@
 
 class ActuatorInterface{
    
-  constructor(modbuscomm) {
+  constructor(sysconfig,modbuscomm) {
       this.modbusMaster = modbuscomm; //통신포트
       this.ActuatorNodes = [];  // 센서노드 리스트
       

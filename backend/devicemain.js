@@ -61,6 +61,8 @@ async function modbusTask() {
   console.log("------------modbusTask start-------------------");
   let sconfig = KDCommon.Readfilejson(systemconfigfilename);
 
+  
+
   try {
     if (ModbusComm.isOpen == false) {
       var mconn = ModbusComm.connectRTUBuffered(sconfig.comport, {
@@ -77,9 +79,8 @@ async function modbusTask() {
     if (ModbusComm.isOpen == true) {
       await ModbusComm.setTimeout(300);
 
-      mSensorintf =new SensorInterface(ModbusComm);
-      mActuatorintf=new ActuatorInterface(ModbusComm);
-
+      mSensorintf =new SensorInterface(sconfig,ModbusComm);
+      mActuatorintf=new ActuatorInterface(sconfig,ModbusComm);
       while (true) {
         if (istaskStopByerror == true) {
           return "modbusTask";

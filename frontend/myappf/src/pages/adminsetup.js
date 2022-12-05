@@ -5,8 +5,8 @@ const AdminSetup = () => {
   
   console.log("-------------------------admin setup page ---------------------");
   
-  let loginrole ="ㅁㅁ";// window.sessionStorage.getItem("login");
-
+  let loginrole = window.sessionStorage.getItem("login");
+  
   useEffect(() => {
   
     console.log("AdminSetup useEffect : " );
