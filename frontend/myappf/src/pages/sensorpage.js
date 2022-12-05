@@ -15,6 +15,12 @@ const Sensorpage = () => {
 
     useEffect(() => {
       let interval = null;
+
+      let readtimemsec=1000;
+      if(myAppGlobal.islocal == false)
+      {
+        readtimemsec=5000;
+      }
   
       console.log("-------------------------Sensorpage useEffect ---------------------");
 
@@ -27,7 +33,7 @@ const Sensorpage = () => {
          });
 
        
-      }, 5000);
+      }, readtimemsec);
   
       return () => clearInterval(interval);
     }, []);
