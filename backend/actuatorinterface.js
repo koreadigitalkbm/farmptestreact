@@ -1,8 +1,8 @@
 
 //구동기 노드에 대한 인터페이스 클래스
-
 const ActuatorNode = require("./actuatornode.js");
 const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
+
 
 class ActuatorInterface{
    
@@ -27,8 +27,7 @@ class ActuatorInterface{
        this.Actuators.push(new Actuatordevice(1,1,Actuatordevice.HardwareTypeEnum.HT_RELAY));
 
 
-  }
-
+  } 
   //상태 갱신
   stateupdate(actuatorlist) {
 
