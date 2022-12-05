@@ -1,6 +1,6 @@
 
 
-
+const ActuatorNode = require("./actuatornode.js");
 
 
 module.exports =  class Actuatordevice{
@@ -33,6 +33,7 @@ module.exports =  class Actuatordevice{
             this.channel=channel;
             this.hardwaretype=hwtype;
             this.Nodeid=nodeid;
+            this.Status=ActuatorNode.ONOFFOperationTypeEnum.OPT_Off;
             this.UniqID = "N"+nodeid.toString().padStart(2,'0') +"C"+channel.toString().padStart(2,'0') + "T"+hwtype.toString().padStart(2,'0') ; // 구둥기를 구별하는 고유ID  노드번호와 하드웨어 채널  타입정보로 생성한다. N11C1T23
 
             console.log("Actuatordevice  : " + this.UniqID );

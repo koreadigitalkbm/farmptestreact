@@ -126,14 +126,14 @@ module.exports = class ActuatorNode {
   }
 
 
-  async ControlOnTimed(channel, ontimesec) {
+  async ControlOnTimed(channel, ontimesec,opid) {
     try {
       
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
 
       regdatas[0] = ONOFFOperationTypeEnum.OPT_Timed_On;
-      regdatas[1] = ONOFFOperationTypeEnum.OPT_Timed_On + channel * 1000; //opid
+      regdatas[1] = opid; //opid
       regdatas[2] = ontimesec & 0xffff;
       regdatas[3] = (ontimesec >> 16) & 0xffff;
       let rv1 = await this.writeRS485Registers(regaddress, regdatas);
@@ -149,14 +149,14 @@ module.exports = class ActuatorNode {
   }
 
   
-  async ControlOff(channel) {
+  async ControlOff(channel,opid) {
     try {
       
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
 
       regdatas[0] = ONOFFOperationTypeEnum.OPT_Off;
-      regdatas[1] = ONOFFOperationTypeEnum.OPT_Off + channel * 1000; //opid
+      regdatas[1] = opid; //opid
       regdatas[2] = 0;
       regdatas[3] = 0;
       let rv1 = await this.writeRS485Registers(regaddress, regdatas);

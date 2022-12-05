@@ -46,7 +46,7 @@ class ActuatorInterface{
   }
 
 
-  //연결된 센서노드로 부터 센서값을 전부 읽어드림
+  //구동기 상태를 읽은후 구동기의 동작상태와 비교해서 작동시킴.
   async ControlAll() {
     console.log("-ActuatorInterface ControlAll------------------");
     for (const anode of this.ActuatorNodes) {
@@ -54,12 +54,7 @@ class ActuatorInterface{
       if (alist) {
         this.stateupdate(alist);
       }
-      //   await KDCommon.delay(300);
     }
-
-
-
-
   }
   
   
