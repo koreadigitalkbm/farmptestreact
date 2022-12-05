@@ -5,10 +5,19 @@ const KDCommon = require("../common/commonjs/kdcommon");
 const Systemconfig = require("./devsystemconfig");
 const backGlobal = require("./backGlobal");
 
+const SensorInterface = require("./sensorinterface.js");
+const ActuatorInterface = require("./actuatorinterface.js");
+const Sensordevice = require("../common/commonjs/sensordevice");
+
 const systemconfigfilename = "../common/local_files/systemconfig.json";
 
 //루프로 동작하는 함수에서 한개라도 에러가 발생하면 전체 함수를 재시작하기위해
 var istaskStopByerror = false;
+
+var mSensorintf;
+var mActuatorintf;
+
+
 
 function deviceInit() {
   console.log("------------deviceInit------------------- ");
@@ -68,17 +77,21 @@ async function modbusTask() {
     if (ModbusComm.isOpen == true) {
       await ModbusComm.setTimeout(300);
 
+      mSensorintf =new SensorInterface(ModbusComm);
+      mActuatorintf=new ActuatorInterface(ModbusComm);
 
       while (true) {
         if (istaskStopByerror == true) {
           return "modbusTask";
         }
-
           await KDCommon.delay(1000);
           modbusTask_count++;
           console.log("modbusTask run: " + modbusTask_count);
 
-          backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
+          await mSensorintf.ReadSensorAll();
+          await mActuatorintf.ControlAll();
+
+          //backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
 
         
       }

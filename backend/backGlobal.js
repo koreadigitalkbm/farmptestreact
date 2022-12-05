@@ -1,5 +1,4 @@
-
-
+//전역변수들 모음
 
 var backGlobal = {
     platformversion:0, //플랫폼 버전 

@@ -82,7 +82,7 @@ const KDSensorTypeEnum = Object.freeze(
             this.status =sensorstatus;// repdatas[2];
             this.Sensortype = sensortype;
             this.SensorCode = sensorcode;
-            this.UniqID = "S"+nodeid+"C"+sensorcode; // 센서를 구별하는 고유ID  센서노드와 채널 타입정보로 생성한다. S11C123
+            this.UniqID = "S"+nodeid+"C"+hwchannel + "T"+sensortype; // 센서를 구별하는 고유ID  센서노드번호와 하드웨어 채널  센서타입정보로 생성한다. S11C1T23
             this.errorcount=errorcount;
 
             switch (this.Sensortype) {
