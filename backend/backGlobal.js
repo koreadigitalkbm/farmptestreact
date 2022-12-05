@@ -11,6 +11,9 @@ var backGlobal = {
     mylocaldeviceid: "IF0000", // 로컬 장비 시제번호 6자리 문자열 고정
     localpassword: "1234", //장비 접속기본암호
     systemlog :undefined, //장비로그기록용
+    sensorinterface :undefined,
+    actuatorinterface :undefined,
+
     ncount:0
   }
   

@@ -1,6 +1,11 @@
 import React from "react";
+import Sensordevice from "./commonjs/sensordevice";
 
-function SensorBox(msensor) {
+function SensorBox(msensorcompact) {
+
+  let msensor = new Sensordevice(msensorcompact);
+
+  
   let cname = "sen_con";
   let svalue;
   let iconsrc = "./image/sensor_" + msensor.Sensortype + ".png";

@@ -1,8 +1,8 @@
 const fs = require("fs");
 const os = require("os");
-const KDCommon = require("../common/commonjs/kdcommon");
+const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
 
-const responseMessage = require("../common/commonjs/responseMessage");
+const responseMessage = require("../frontend/myappf/src/commonjs/responseMessage");
 var backGlobal = require("./backGlobal");
 var exec = require("child_process").exec;
 
@@ -98,6 +98,13 @@ function msgprocessing_common(reqmsg) {
   else if (reqmsg.reqType == "getdevicelog") {
     rspmsg.retMessage = backGlobal.systemlog;
     rspmsg.IsOK = true;
+  }
+  else if (reqmsg.reqType == "getsensors") {
+    if(backGlobal.sensorinterface !=null)
+    {
+    rspmsg.retMessage = backGlobal.sensorinterface.getsensorssimple();
+    rspmsg.IsOK = true;
+    }
   }
 
   console.log("msgprocessing_common   return :  " + rspmsg.IsOK);

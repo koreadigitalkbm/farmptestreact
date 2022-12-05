@@ -102,6 +102,15 @@ export default class IndoorFarmAPI {
   }
 
 
+  async getsensors(islocal) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+
+    console.log( "getsensors : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="getsensors";
+     return await this.setRequestdevice(reqmsg);
+     
+  }
+
 
   
 

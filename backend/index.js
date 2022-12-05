@@ -9,7 +9,7 @@ const path = require("path");
 
 var app = express();
 
-const devicesystemlog = require("../common/commonjs/devicesystemlog");
+const devicesystemlog = require("./devicesystemlog");
 var backGlobal = require("./backGlobal");
 
 app.use(express.json());

@@ -1,13 +1,13 @@
 const ModbusRTU = require("modbus-serial");
 const ModbusComm = new ModbusRTU();
 
-const KDCommon = require("../common/commonjs/kdcommon");
+const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
 const Systemconfig = require("./devsystemconfig");
 const backGlobal = require("./backGlobal");
 
 const SensorInterface = require("./sensorinterface.js");
 const ActuatorInterface = require("./actuatorinterface.js");
-const Sensordevice = require("../common/commonjs/sensordevice");
+const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice");
 
 const systemconfigfilename = "../common/local_files/systemconfig.json";
 
@@ -60,7 +60,7 @@ async function modbusTask() {
   console.log("------------modbusTask start-------------------");
   let sconfig = KDCommon.Readfilejson(systemconfigfilename);
 
-  
+   
 
   try {
     if (ModbusComm.isOpen == false) {
@@ -80,6 +80,12 @@ async function modbusTask() {
 
       mSensorintf =new SensorInterface(sconfig,ModbusComm);
       mActuatorintf=new ActuatorInterface(sconfig,ModbusComm);
+
+      backGlobal.sensorinterface = mSensorintf;
+      backGlobal.actuatorinterface = mActuatorintf;
+
+
+
       while (true) {
         if (istaskStopByerror == true) {
           return "modbusTask";

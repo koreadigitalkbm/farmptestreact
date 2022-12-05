@@ -1,6 +1,10 @@
 const SensorNode = require("./sensornode.js");
-const SensorCompact = require("../common/commonjs/sensorcompact.js");
-const Sensordevice = require("../common/commonjs/sensordevice.js");
+const SensorCompact = require("../frontend/myappf/src/commonjs/sensorcompact.js");
+const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice.js");
+
+
+
+
 
 
 class SensorInterface {
@@ -13,6 +17,10 @@ class SensorInterface {
     if (sysconfig.productmodel === "KPC480") {
       const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
       this.SensorNodes.push(mysnode_sid_1);
+    }
+    else{
+        const mysnode_sid_1 = new SensorNode(11, 40, modbuscomm);
+        this.SensorNodes.push(mysnode_sid_1);
     }
   } 
     
@@ -54,6 +62,20 @@ class SensorInterface {
       //   await KDCommon.delay(300);
     }
   }
+
+  getsensorssimple()
+  {
+    let mslist=[];
+    for (const ms of this.mSensors) {
+        let newcs= new SensorCompact(0,0,0);
+        newcs.Uid = ms.UniqID;
+        newcs.Val = ms.value;
+        mslist.push(newcs);
+      }
+      return mslist;
+  }
+
+
 }
 
 module.exports = SensorInterface;

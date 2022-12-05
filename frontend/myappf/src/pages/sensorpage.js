@@ -19,9 +19,14 @@ const Sensorpage = () => {
       console.log("-------------------------Sensorpage useEffect ---------------------");
 
       interval = setInterval(() => {
-        myAppGlobal.farmapi.getsensordatas().then((sensors) => {
+
+        myAppGlobal.farmapi.getsensors(myAppGlobal.islocal).then((ret) => {
+          
+          let sensors = ret.retMessage;
           setSensors(sensors);
-        });
+         });
+
+       
       }, 1000);
   
       return () => clearInterval(interval);
