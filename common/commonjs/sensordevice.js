@@ -60,20 +60,23 @@ const KDSensorTypeEnum = Object.freeze(
     });
 
 
-
  class Sensordevice{
         
     
         constructor(mcompactsensor, errorcount=0) {
     
-            this.nodeID = mcompactsensor.nodeID;
+            
             this.Name = "sensor";
             this.ValueUnit = " ";
             this.SignificantDigit = 3;
-            this.channel = mcompactsensor.channel;
-            this.value = mcompactsensor.value;//Buffer.from([(repdatas[0] >> 0) & 0xFF, (repdatas[0] >> 8) & 0xFF, (repdatas[1] >> 0) & 0xFF, (repdatas[1] >> 8) & 0xFF]).readFloatLE(0);
-            this.Sensortype = mcompactsensor.Sensortype;
-            this.UniqID = mcompactsensor.UniqID; // 센서를 구별하는 고유ID  센서노드번호와 하드웨어 채널  센서타입정보로 생성한다. S11C1T23
+
+            this.nodeID = Sensordevice.Getnodeid(mcompactsensor.Uid);
+            this.channel = Sensordevice.Getchannel(mcompactsensor.Uid);
+            this.Sensortype = Sensordevice.Getsensortype(mcompactsensor.Uid);
+
+
+            this.value = mcompactsensor.Val;
+            this.UniqID = mcompactsensor.Uid; // 센서를 구별하는 고유ID  센서노드번호와 하드웨어 채널  센서타입정보로 생성한다. S11C1T23
             this.status =0;// repdatas[2];
             this.errorcount=errorcount;
 
@@ -171,6 +174,23 @@ const KDSensorTypeEnum = Object.freeze(
         this.errorcount=0;
         this.valuestring = this.GetValuestring(false,false);
     }
+    static Getchannel(uniqid)
+    {
+        let ch=uniqid.substr(4,2);
+        return parseInt(ch);
+    }
+    static Getnodeid(uniqid)
+    {
+        let ch=uniqid.substr(1,2);
+        return parseInt(ch);
+    }
+
+    static Getsensortype(uniqid)
+    {
+        let ch=uniqid.substr(7,2);
+        return parseInt(ch);
+    }
+
 
 
 }

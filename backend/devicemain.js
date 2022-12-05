@@ -35,9 +35,8 @@ function deviceInit() {
 async function devicemaintask() {
   istaskStopByerror = false;
   console.log("------------main start-------------------");
-
   backGlobal.systemlog.memlog("devicemaintask start");
-
+ 
   try {
     const promisearray = [modbusTask(), controltask()];
     await Promise.all(promisearray);

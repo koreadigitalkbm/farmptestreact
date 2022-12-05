@@ -26,7 +26,7 @@ module.exports = class SensorNode {
 
   async ReadSensorAll() {
     try {
-      console.log("ReadSensorAll node_is_disconnect: " + this.node_is_disconnect + " , SlaveID : " + this.SlaveID + ",node_error_count : " + this.node_error_count);
+     // console.log("ReadSensorAll node_is_disconnect: " + this.node_is_disconnect + " , SlaveID : " + this.SlaveID + ",node_error_count : " + this.node_error_count);
       //초기화 상태거나 에러상태이면 product code  값만 확인해서 정상적인지 확인함.
       if (this.node_is_disconnect == true) {
         const rvp = await this.readRS485Registers(4, 1);
@@ -59,7 +59,7 @@ module.exports = class SensorNode {
       if (rv1 != undefined) {
 
         this.node_error_count = 0;
-        console.log("ReadSensor success : " + this.SlaveID);
+        
 
         for (let i = 0; i < sensorreadcount; i++) {
           let sv_float = Buffer.from([(rv1.data[i * 3 + 0] >> 0) & 0xff, (rv1.data[i * 3 + 0] >> 8) & 0xff, (rv1.data[i * 3 + 1] >> 0) & 0xff, (rv1.data[i * 3 + 1] >> 8) & 0xff]).readFloatLE(0);
