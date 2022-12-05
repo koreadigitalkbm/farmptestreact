@@ -92,6 +92,9 @@ async function modbusTask() {
           await mSensorintf.ReadSensorAll();
           await mActuatorintf.ControlAll();
 
+          for (const msensor of mSensorintf.mSensors) {
+            console.log("read sensor: " + msensor.GetValuestring(true,true));
+          }
           //backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
 
         

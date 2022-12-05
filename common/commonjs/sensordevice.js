@@ -62,27 +62,19 @@ const KDSensorTypeEnum = Object.freeze(
 
 
  class Sensordevice{
-        static Clonbyjsonobj(mobj)
-        {
-            return new Sensordevice(mobj.nodeID,mobj.SensorCode, mobj.value, mobj.status,mobj.errorcount);
-        }
+        
     
-        constructor(nodeid, sensorcode,sensorvalue,sensorstatus, errorcount=0) {
+        constructor(mcompactsensor, errorcount=0) {
     
-    
-            let hwchannel = (sensorcode >> 8) & 0xff;
-            let sensortype = sensorcode & 0xff;
-
-            this.nodeID = nodeid;
+            this.nodeID = mcompactsensor.nodeID;
             this.Name = "sensor";
             this.ValueUnit = " ";
             this.SignificantDigit = 3;
-            this.channel = hwchannel;
-            this.value = sensorvalue;//Buffer.from([(repdatas[0] >> 0) & 0xFF, (repdatas[0] >> 8) & 0xFF, (repdatas[1] >> 0) & 0xFF, (repdatas[1] >> 8) & 0xFF]).readFloatLE(0);
-            this.status =sensorstatus;// repdatas[2];
-            this.Sensortype = sensortype;
-            this.SensorCode = sensorcode;
-            this.UniqID = "S"+nodeid+"C"+hwchannel + "T"+sensortype; // 센서를 구별하는 고유ID  센서노드번호와 하드웨어 채널  센서타입정보로 생성한다. S11C1T23
+            this.channel = mcompactsensor.channel;
+            this.value = mcompactsensor.value;//Buffer.from([(repdatas[0] >> 0) & 0xFF, (repdatas[0] >> 8) & 0xFF, (repdatas[1] >> 0) & 0xFF, (repdatas[1] >> 8) & 0xFF]).readFloatLE(0);
+            this.Sensortype = mcompactsensor.Sensortype;
+            this.UniqID = mcompactsensor.UniqID; // 센서를 구별하는 고유ID  센서노드번호와 하드웨어 채널  센서타입정보로 생성한다. S11C1T23
+            this.status =0;// repdatas[2];
             this.errorcount=errorcount;
 
             switch (this.Sensortype) {
@@ -137,7 +129,9 @@ const KDSensorTypeEnum = Object.freeze(
                 case KDSensorTypeEnum.SUT_SOLARMJ: this.ValueUnit = "J/cm2"; this.Name = "누적일사량"; this.SignificantDigit = 3; break;
                 case KDSensorTypeEnum.SUT_DEWPOINT: this.ValueUnit = "℃"; this.Name = "이슬점"; this.SignificantDigit = 1; break;
                 default:
-                    this.ValueUnit = " "; this.Name = "신규센서"; this.SignificantDigit = 1; 
+                    this.ValueUnit = " "; 
+                    this.Name = "신규센서(" + this.Sensortype +")"; 
+                    this.SignificantDigit = 1; 
                     break;
     
             }
@@ -170,6 +164,13 @@ const KDSensorTypeEnum = Object.freeze(
 
     }
 
+    Setupdatevalue(newvalue)
+    {
+
+        this.value =newvalue;
+        this.errorcount=0;
+        this.valuestring = this.GetValuestring(false,false);
+    }
 
 
 }

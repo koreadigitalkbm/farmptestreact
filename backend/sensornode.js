@@ -1,5 +1,4 @@
-const Sensordevice = require("../common/commonjs/sensordevice.js");
-
+const SensorCompact = require("../common/commonjs/sensorcompact.js");
 const KDCommon = require("../common/commonjs/kdcommon");
 
 module.exports = class SensorNode {
@@ -67,9 +66,11 @@ module.exports = class SensorNode {
           let sensorcode = rv1.data[i * 3 + 2];
           let sensorstatus = 0;
           if (sensorcode != 0) {
-          //  let sv = new Sensordevice(this.SlaveID, sensorcode, sv_float, sensorstatus);
-          //  svlist.push(sv);
+          
+            let sv = new SensorCompact(this.SlaveID, sensorcode, sv_float);
+            svlist.push(sv);
             //센서가 읽히면 에러 카운트 0
+            //console.log("ReadSensor sucess : " + sv_float.toString());
             
           }
         }
