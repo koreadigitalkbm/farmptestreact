@@ -76,7 +76,7 @@ async function modbusTask() {
       console.info("connect comport : " + ModbusComm.isOpen);
     }
     if (ModbusComm.isOpen == true) {
-      await ModbusComm.setTimeout(300);
+      await ModbusComm.setTimeout(200);
 
       mSensorintf =new SensorInterface(sconfig,ModbusComm);
       mActuatorintf=new ActuatorInterface(sconfig,ModbusComm);
@@ -90,10 +90,11 @@ async function modbusTask() {
         if (istaskStopByerror == true) {
           return "modbusTask";
         }
-          await KDCommon.delay(1000);
+          
           modbusTask_count++;
           console.log("modbusTask run: " + modbusTask_count);
 
+          await KDCommon.delay(1000);
           await mSensorintf.ReadSensorAll();
           await mActuatorintf.ControlAll();
 

@@ -11,6 +11,7 @@ module.exports = class SensorNode {
     this.node_error_count = 0;
     this.node_is_disconnect = true;
     this.node_product_code = 0;
+    this.sensormaxcount = 20; //센서 최대연결갯수
   }
   
   readRS485Registers(Regaddress, Reglength) {
@@ -52,16 +53,16 @@ module.exports = class SensorNode {
 
       this.node_error_count++;
 
-      const sensorreadcount = 20;
+      
       let regaddress = this.KDDefaultRegAddr;
-      const rv1 = await this.readRS485Registers(regaddress, sensorreadcount * 3); //this.modbusMaster.readHoldingRegisters(regaddress, sensorreadcount * 3);
+      const rv1 = await this.readRS485Registers(regaddress, this.sensormaxcount * 3); 
       let svlist = [];
       if (rv1 != undefined) {
 
         this.node_error_count = 0;
         
 
-        for (let i = 0; i < sensorreadcount; i++) {
+        for (let i = 0; i <  this.sensormaxcount; i++) {
           let sv_float = Buffer.from([(rv1.data[i * 3 + 0] >> 0) & 0xff, (rv1.data[i * 3 + 0] >> 8) & 0xff, (rv1.data[i * 3 + 1] >> 0) & 0xff, (rv1.data[i * 3 + 1] >> 8) & 0xff]).readFloatLE(0);
           let sensorcode = rv1.data[i * 3 + 2];
           let sensorstatus = 0;
@@ -91,7 +92,7 @@ module.exports = class SensorNode {
 
   async ReadInfo() {
     try {
-      await this.CheckmySlaveID(this.DefaultTimeoutmsec);
+      
       return await this.modbusMaster.readHoldingRegisters(0, 8);
     } catch (error) {
       return null;

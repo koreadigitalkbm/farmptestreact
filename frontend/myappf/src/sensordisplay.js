@@ -2,10 +2,8 @@ import React from "react";
 import Sensordevice from "./commonjs/sensordevice";
 
 function SensorBox(msensorcompact) {
-
   let msensor = new Sensordevice(msensorcompact);
 
-  
   let cname = "sen_con";
   let svalue;
   let iconsrc = "./image/sensor_" + msensor.Sensortype + ".png";
@@ -29,17 +27,17 @@ function SensorBox(msensorcompact) {
 
   return (
     <div className={cname}>
-      <div className="sen_name"> <img src={iconsrc} className="icon" /> {msensor.Name}      </div>
+      <div className="sen_name">
+        {" "}
+        <img src={iconsrc} className="icon" /> {msensor.Name}{" "}
+      </div>
       {svalue}
     </div>
   );
 }
 
 function Sensordisplay(msensorsarray, isonlystatus) {
-  return( 
-  <div className="sensor">
-    {msensorsarray.map((localState, index) => SensorBox(localState))}
-    </div>);
+  return <div className="sensor">{msensorsarray.map((localState, index) => SensorBox(localState))}</div>;
 }
 
 export default Sensordisplay;

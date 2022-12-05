@@ -1,3 +1,5 @@
+//센서노드에 대한 인터페이스 클래스
+
 const SensorNode = require("./sensornode.js");
 const SensorCompact = require("../frontend/myappf/src/commonjs/sensorcompact.js");
 const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice.js");
@@ -43,7 +45,7 @@ class SensorInterface {
         }
       }
 
-      //새로운센서이면 
+      //새로운센서이면  
       if (isnew === true) {
         let sdev = new Sensordevice(newsensor);
         this.mSensors.push(sdev);

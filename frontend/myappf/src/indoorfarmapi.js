@@ -67,7 +67,7 @@ export default class IndoorFarmAPI {
       try {
          resdata = await this.postData(API + "devicerequest", mReqmsg);
   
-        console.log(" setRequestdevice rsp : " + resdata.IsOK);
+        console.log(" setRequestdevice isok : " + resdata.IsOK);
         
       } catch (error) {
         console.log(" setRequestdevice error : " + error);
