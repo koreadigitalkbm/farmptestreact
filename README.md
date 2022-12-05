@@ -18,6 +18,7 @@
 주요폴더 설명
 > 프로젝트명
 > > backend : 백엔드 
+> 
 > > frontend : react app 소스
 > > common : 백엔드, 프론트엔드 공통사용
 > > > private :  중요파일 암호
