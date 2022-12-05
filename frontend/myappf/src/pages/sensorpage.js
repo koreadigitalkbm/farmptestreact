@@ -27,7 +27,7 @@ const Sensorpage = () => {
          });
 
        
-      }, 1000);
+      }, 5000);
   
       return () => clearInterval(interval);
     }, []);
