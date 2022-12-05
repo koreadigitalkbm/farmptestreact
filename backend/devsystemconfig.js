@@ -7,7 +7,9 @@ module.exports = class DeviceSystemconfig {
       this.deviceuniqid = "IFINIT";
       this.comport="COM26";
       this.password="1234";
-      
+      this.productname=""; // 시스템을 구별하는 명칭 :  foodjukebox,indoorfarm
+      this.productmodel="KPC480"; //장비규별
+
     }
     
   };
