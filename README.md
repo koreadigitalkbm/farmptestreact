@@ -20,6 +20,8 @@
 > > backend : 백엔드 
 > 
 > > frontend : react app 소스
+>
+> > > > myapp/src/commonjs: 백엔드, 프론트엔드 공통사용소스 ( react js 파일은 /src 폴더에 있어야함. 때문에 공통으로 사용되는 부분 src 아래로 )
 > 
 > > common : 백엔드, 프론트엔드 공통사용
 > 
@@ -27,7 +29,7 @@
 > 
 > > > local_files: 백엔드 저장되어지는 파일
 > 
-> > > commonjs: 백엔드, 프론트엔드 공통사용소스
+
 
 
 
