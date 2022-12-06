@@ -43,8 +43,17 @@ class ActuatorInterface{
           actd.AStatus.Rmt = readactdev.Rmt;
           console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.channel);
 
+          //현장수동모드이면 
+          if(readactdev.Sat === 299)
+          {
+            actd.AStatus.Opm ="LM";
+          }
+          else{
+            actd.AStatus.Opm =actd.AOperation.Opmode;
+          }
+
           //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
-          if( actd.AOperation.Opid !== actd.AStatus.Opid)
+          if( actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !=="LM" )
           {
             await  curactnode.ControlNormal(actd.AOperation); 
           }
@@ -74,7 +83,7 @@ class ActuatorInterface{
     for (const actd of this.Actuators) {
       if(actd.channel === opchannel)
       {
-        actd.AOperation.setoperation(mcmd,mtimesec,0);
+        actd.AOperation.setoperation(mcmd,mtimesec,0,"MA");
       }
     }
   }

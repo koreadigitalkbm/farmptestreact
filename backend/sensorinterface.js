@@ -71,7 +71,7 @@ class SensorInterface {
       }
     }
   }
-
+//센서 값을 컴팩트하게 만들어서 전송한다. 
   getsensorssimple() {
     let mslist = [];
     for (const ms of this.mSensors) {

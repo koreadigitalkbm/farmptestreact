@@ -5,15 +5,17 @@ module.exports = class ActuatorOperation{
             this.Timesec = 0;
             this.Param = 0;
             this.Opid = 0;
+            this.Opmode = "MA";//기본수동
             this.Channel=channel; 
               
         }
         //구동기 동작시  opid를 갱신 
-        setoperation(mcmd,mtime,mparam)
+        setoperation(mcmd,mtime,mparam, opmode)
         {
             this.Opcmd=mcmd;
             this.Timesec=mtime; 
             this.Param = mparam;
+            this.Opmode = opmode;
             this.Opid =((this.Opid +1)&0xFFFF);
 
         }
