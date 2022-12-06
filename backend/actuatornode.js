@@ -1,5 +1,6 @@
 //구동기 노드  기본 시간(초)으로 on , off  기능만으로 작동하자.
-const ActuatorCompact = require("../frontend/myappf/src/commonjs/actuatorcompact.js");
+const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
+const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
 
 module.exports = class ActuatorNode {
 
@@ -21,7 +22,7 @@ module.exports = class ActuatorNode {
     this.SlaveID = slaveid;
     this.modbusMaster = mmaster;
     this.maxchannelnumber = maxchannel;
-    this.hwtype= 0;
+    this.hwtype= Actuatordevice.HardwareTypeEnum.HT_RELAY;
 
     this.node_error_count=0;
     this.node_is_disconnect=true;
@@ -29,7 +30,7 @@ module.exports = class ActuatorNode {
     this.actlist=[];
     for(let i=0;i<this.maxchannelnumber;i++ )
     {
-      let sv = new ActuatorCompact(this.SlaveID, i,this.hwtype, 0);
+      let sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i,this.hwtype));
       this.actlist.push(sv);
     }
 
@@ -106,8 +107,9 @@ module.exports = class ActuatorNode {
           for(let i=0;i<this.maxchannelnumber;i++ )
           {
             let msat = rv1.data[i * 4 + 0];
+            let mopid = rv1.data[i * 4 + 1];
             let mremain = ((rv1.data[i * 4 + 2]<<16 )&0xFFFF0000)  | (rv1.data[i * 4 + 3] &0xFFFF );
-            this.actlist[i].updatestatus(msat,mremain);
+            this.actlist[i].updatestatus(msat,mopid,mremain);
           }
 
           console.log("-ActuatorNode ReadStatusAll------------------");

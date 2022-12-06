@@ -1,6 +1,6 @@
 
 
-
+const ActuatorStatus = require("./actuatorstatus.js");
 
 module.exports =  class Actuatordevice{
     
@@ -32,8 +32,8 @@ module.exports =  class Actuatordevice{
             this.channel=channel;
             this.hardwaretype=hwtype;
             this.Nodeid=nodeid;
-            this.Status=0;
-            this.UniqID = "N"+nodeid.toString().padStart(2,'0') +"C"+channel.toString().padStart(2,'0') + "T"+hwtype.toString().padStart(2,'0') ; // 구둥기를 구별하는 고유ID  노드번호와 하드웨어 채널  타입정보로 생성한다. N11C1T23
+            this.UniqID = ActuatorStatus.makeactuatoruniqid(nodeid,channel ,hwtype);
+            this.AStatus= new ActuatorStatus(this.UniqID);
 
             console.log("Actuatordevice  : " + this.UniqID );
     
