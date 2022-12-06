@@ -112,6 +112,16 @@ export default class IndoorFarmAPI {
   }
 
 
+  async setacutuatoroperation(onoff) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+    reqmsg.OutputManual = onoff;
+    console.log( "setactuator : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="setactuator";
+     return await this.setRequestdevice(reqmsg);
+     
+  }
+
+
   
 
   async getdevicelog(islocal) {

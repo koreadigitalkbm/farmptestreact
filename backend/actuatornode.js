@@ -103,8 +103,8 @@ module.exports = class ActuatorNode {
           //console.log("ReadStatus : " + rv1.data.toString() + " wopid : " + wopid);
           for(let i=0;i<this.maxchannelnumber;i++ )
           {
-            let msat = rv1.data[i * 4 + 0];
-            let mopid = rv1.data[i * 4 + 1];
+            let msat = rv1.data[i * 4 + 1];
+            let mopid = rv1.data[i * 4 + 0];
             let mremain = ((rv1.data[i * 4 + 2]<<16 )&0xFFFF0000)  | (rv1.data[i * 4 + 3] &0xFFFF );
             this.actlist[i].updatestatus(msat,mopid,mremain);
           }
@@ -153,9 +153,9 @@ module.exports = class ActuatorNode {
   async ControlNormal(moperation) {
     try {
       
-      console.log("-ControlNormal------------------cmd : " + moperation.Opcmd);
+     // console.log("-ControlNormal------------------cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", ch : "+moperation.Channel);
 
-      let regaddress = this.OnOffoperationregstartaddress + channel * 4;
+      let regaddress = this.OnOffoperationregstartaddress + moperation.Channel * 4;
       let regdatas = Array();
      
       regdatas[0] = moperation.Opcmd;
@@ -166,11 +166,13 @@ module.exports = class ActuatorNode {
 
       if (rv1 != undefined) {
        
+       // console.log("-ControlNorma---lok");
         return rv1;
       }
 
       
     } catch (e) {
+      console.log("-ControlNormal error:"+e.toString());
       return null;
     }
     return null;

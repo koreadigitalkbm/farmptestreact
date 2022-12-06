@@ -5,6 +5,7 @@ import { BrowserRouter, Link,  Routes, Route } from "react-router-dom";
 import About from "./about";
 import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
+import Devicepage from "./devicepage";
 
 import myAppGlobal from "../myAppGlobal";
 import Dashboard from "./dashboard";
@@ -102,6 +103,7 @@ const Mainpage = (props) => {
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/" element={<Sensorpage />} />
+              <Route path="/devices" element={<Devicepage />} />
               <Route path="/sensor" element={<Sensorpage />} />
               <Route path="/about" element={<About />} />
               <Route path="/setup" element={<About />} />

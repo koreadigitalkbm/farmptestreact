@@ -25,6 +25,8 @@ class ActuatorInterface{
     //임시로 너음, 나중에 파일에서 가져오자
        this.Actuators.push(new Actuatordevice(1,0,Actuatordevice.HardwareTypeEnum.HT_RELAY));
        this.Actuators.push(new Actuatordevice(1,1,Actuatordevice.HardwareTypeEnum.HT_RELAY));
+       this.Actuators.push(new Actuatordevice(1,2,Actuatordevice.HardwareTypeEnum.HT_RELAY));
+       this.Actuators.push(new Actuatordevice(1,3,Actuatordevice.HardwareTypeEnum.HT_RELAY));
 
 
   } 
@@ -38,7 +40,7 @@ class ActuatorInterface{
           actd.AStatus.Sat = readactdev.Sat;
           actd.AStatus.Opid = readactdev.Opid;
           actd.AStatus.Rmt = readactdev.Rmt;
-          console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid );
+          console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.channel);
 
           if( actd.AOperation.Opid !== actd.AStatus.Opid)
           {

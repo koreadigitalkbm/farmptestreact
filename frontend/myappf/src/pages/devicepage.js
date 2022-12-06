@@ -1,23 +1,42 @@
 import React, { useState, useEffect } from "react";
-import Outputdevicedisplay from "../outputdevicedisplay";
-import IndoorFarmAPI from "../indoorfarmapi";
-import myGlobalvalues from "../myGlobal";
+import myAppGlobal from "../myAppGlobal";
 
 const Devicepage = () => {
-  const [moutdevarray, setUpdate] = useState([]);
-  useEffect(() => {
-    let interval = null;
+  //const [moutdevarray, setUpdate] = useState([]);
+  
+  return (
+    <div>
+      <h2>device Page.. </h2>
+      <div></div>
+      <div>
+        <button className="" name="on" onClick={actoperation}>
+          {" "}
+          구동기 on {" "}
+        </button>
+      </div>
+      <div>
+        <button className="" name="off" onClick={actoperation}>
+          {" "}
+          구동기 off {" "}
+        </button>
+      </div>
+      
+    </div>
+  );
+  
 
-    interval = setInterval(() => {
-      myGlobalvalues.farmapi.getoutputstatus().then((devices) => {
-        setUpdate(devices);
-      });
-    }, 1000);
+  
+function actoperation(e) {
+  console.log("actoperation : " + e.target.name);
+  myAppGlobal.farmapi.setacutuatoroperation(e.target.name).then((ret) => {
+    
+   
+  });
+  
+  
+}
 
-    return () => clearInterval(interval);
-  }, []);
 
-  return( <div>{Outputdevicedisplay(moutdevarray, false)}</div>);
 };
 
 export default Devicepage;
