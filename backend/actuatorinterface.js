@@ -9,7 +9,6 @@ class ActuatorInterface{
   constructor(sysconfig,modbuscomm) {
       this.modbusMaster = modbuscomm; //통신포트
       this.ActuatorNodes = [];  // 구동기노드 리스트
-
       this.Actuators = [];  // 구동기목록
    
        ///모델별로 구별해서 센서노드를  설정하자.
@@ -44,6 +43,7 @@ class ActuatorInterface{
           actd.AStatus.Rmt = readactdev.Rmt;
           console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.channel);
 
+          //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
           if( actd.AOperation.Opid !== actd.AStatus.Opid)
           {
             await  curactnode.ControlNormal(actd.AOperation); 
@@ -56,15 +56,7 @@ class ActuatorInterface{
 
   }
 
-  async operationcontrolcheck()
-  {
-    for (const actd of this.Actuators) {
-      
-
-    }
-
-  }
-
+  
   //구동기 상태를 읽은후 구동기의 동작상태와 비교해서 작동시킴.
   async ControlAll() {
     console.log("-ActuatorInterface ControlAll------------------");

@@ -108,6 +108,7 @@ function msgprocessing_common(reqmsg) {
   }
   else if (reqmsg.reqType == "setactuator") {
 
+    
     console.log("msgprocessing_common   setactuator :  " + reqmsg.OutputManual);
     if(reqmsg.OutputManual =="on")
     {

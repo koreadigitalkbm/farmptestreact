@@ -4,11 +4,6 @@ const SensorNode = require("./sensornode.js");
 const SensorCompact = require("../frontend/myappf/src/commonjs/sensorcompact.js");
 const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice.js");
 
-
-
-
-
-
 class SensorInterface {
   constructor(sysconfig, modbuscomm) {
     this.modbusMaster = modbuscomm; //통신포트
@@ -19,20 +14,14 @@ class SensorInterface {
     if (sysconfig.productmodel === "KPC480") {
       const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
       this.SensorNodes.push(mysnode_sid_1);
+    } else {
+      const mysnode_sid_1 = new SensorNode(11, 40, modbuscomm);
+      this.SensorNodes.push(mysnode_sid_1);
     }
-    else{
-        const mysnode_sid_1 = new SensorNode(11, 40, modbuscomm);
-        this.SensorNodes.push(mysnode_sid_1);
-    }
-  } 
-    
+  }
+
   //센서 갱신
   sensorupdate(newsensorlist) {
-    //업데이트 할때마다 에러카운트 증가
-    for (const ms of this.mSensors) {
-      ms.errorcount++;
-    }
-
     //
     for (const newsensor of newsensorlist) {
       let isnew = true;
@@ -45,7 +34,7 @@ class SensorInterface {
         }
       }
 
-      //새로운센서이면  
+      //새로운센서이면
       if (isnew === true) {
         let sdev = new Sensordevice(newsensor);
         this.mSensors.push(sdev);
@@ -55,29 +44,44 @@ class SensorInterface {
 
   //연결된 센서노드로 부터 센서값을 전부 읽어드림
   async ReadSensorAll() {
- //   console.log("-SensorInterface ReadSensorAll------------------");
+    //   console.log("-SensorInterface ReadSensorAll------------------");
+
+
+    //센서 상태를 읽을때마다 에러카운트 증가
+    let deleteindex = -1;
+    for (let i = 0; i < this.mSensors.length; i++) {
+      let ms = this.mSensors[i];
+      ms.errorcount++;
+      // 에러 카운트가 20이상 된다면 센서 끊김상태임 추후 처리
+      // 에러 카운트가 1000(10분)이상 된다면 센서 삭제, 삭제해도 되나..
+      if (ms.errorcount > 1000) {
+        deleteindex = i;
+      }
+    }
+    if (deleteindex >= 0) {
+      this.mSensors.splice(deleteindex, 1);
+    }
+
+
     for (const snode of this.SensorNodes) {
       let sensorlist = await snode.ReadSensorAll();
+
       if (sensorlist) {
         this.sensorupdate(sensorlist);
       }
-      //   await KDCommon.delay(300);
     }
   }
 
-  getsensorssimple()
-  {
-    let mslist=[];
+  getsensorssimple() {
+    let mslist = [];
     for (const ms of this.mSensors) {
-        let newcs= new SensorCompact(0,0,0);
-        newcs.Uid = ms.UniqID;
-        newcs.Val = ms.value;
-        mslist.push(newcs);
-      }
-      return mslist;
+      let newcs = new SensorCompact(0, 0, 0);
+      newcs.Uid = ms.UniqID;
+      newcs.Val = ms.value;
+      mslist.push(newcs);
+    }
+    return mslist;
   }
-
-
 }
 
 module.exports = SensorInterface;
