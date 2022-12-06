@@ -112,6 +112,15 @@ export default class IndoorFarmAPI {
   }
 
 
+  async getActuatorState() {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+
+    console.log( "getActuatorState : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="getactuatorstatus";
+     return await this.setRequestdevice(reqmsg);
+  }
+  
+
   async setacutuatoroperation(onoff) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
     reqmsg.OutputManual = onoff;

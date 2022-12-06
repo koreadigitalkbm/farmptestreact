@@ -64,7 +64,6 @@ module.exports = class ActuatorNode {
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
         }
-
         console.log("-ActuatorNode ReadStatusAll------------------");
 
         return this.actlist;
@@ -77,11 +76,11 @@ module.exports = class ActuatorNode {
     }
   }
 
-  async ControlNormal(moperation) {
+  async ControlNormal(moperation, channel) {
     try {
       // console.log("-ControlNormal------------------cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", ch : "+moperation.Channel);
 
-      let regaddress = this.OnOffoperationregstartaddress + moperation.Channel * 4;
+      let regaddress = this.OnOffoperationregstartaddress + channel* 4;
       let regdatas = Array();
 
       regdatas[0] = moperation.Opcmd;

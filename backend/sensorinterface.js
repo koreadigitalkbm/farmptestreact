@@ -82,6 +82,7 @@ class SensorInterface {
     }
     return mslist;
   }
+  
 }
 
 module.exports = SensorInterface;

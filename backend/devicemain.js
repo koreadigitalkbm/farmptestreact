@@ -94,10 +94,13 @@ async function modbusTask() {
           modbusTask_count++;
           console.log("modbusTask run: " + modbusTask_count);
 
-          await KDCommon.delay(1000);
-          await mSensorintf.ReadSensorAll();
-          await KDCommon.delay(1000);
           await mActuatorintf.ControlAll();
+          await KDCommon.delay(500);
+          await mSensorintf.ReadSensorAll();
+          await KDCommon.delay(500);
+          
+          
+          
 
           for (const msensor of mSensorintf.mSensors) {
             console.log("read sensor: " + msensor.GetValuestring(true,true));

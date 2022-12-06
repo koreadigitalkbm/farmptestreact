@@ -4,7 +4,7 @@ const ActuatorNode = require("./actuatornode.js");
 const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
 
 
-class ActuatorInterface{
+module.exports =  class ActuatorInterface{
    
   constructor(sysconfig,modbuscomm) {
       this.modbusMaster = modbuscomm; //통신포트
@@ -55,7 +55,7 @@ class ActuatorInterface{
           //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
           if( actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !=="LM" )
           {
-            await  curactnode.ControlNormal(actd.AOperation); 
+            await  curactnode.ControlNormal(actd.AOperation, actd.channel); 
           }
 
           break;
@@ -88,9 +88,31 @@ class ActuatorInterface{
     }
   }
   
+  setoperationmanual(manualoperation)
+  {
+    for (const actd of this.Actuators) {
+      if(actd.UniqID === manualoperation.Uid)
+      {
+        actd.AOperation.setoperation(manualoperation.Opcmd,manualoperation.Timesec,manualoperation.Param,"MA");
+      }
+    }
+ 
+  }
+
+
+  //구동기상태 값을 전송한다. 
+  getactuatorstatus() {
+    let malist = [];
+    for (const actd of this.Actuators) {
+      malist.push(actd.AStatus);
+    }
+    return malist;
+  }
+
+
+
   
 }
 
 
-module.exports = ActuatorInterface;
 

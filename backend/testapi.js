@@ -106,9 +106,16 @@ function msgprocessing_common(reqmsg) {
     rspmsg.IsOK = true;
     }
   }
+  else if (reqmsg.reqType == "getactuatorstatus") {
+    if(backGlobal.actuatorinterface !=null)
+    {
+    rspmsg.retMessage = backGlobal.actuatorinterface.getactuatorstatus();
+    rspmsg.IsOK = true;
+    }
+  }
   else if (reqmsg.reqType == "setactuator") {
 
-    
+
     console.log("msgprocessing_common   setactuator :  " + reqmsg.OutputManual);
     if(reqmsg.OutputManual =="on")
     {

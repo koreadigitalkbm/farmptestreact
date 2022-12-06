@@ -1,9 +1,30 @@
 import React, { useState, useEffect } from "react";
 import myAppGlobal from "../myAppGlobal";
+import Outputdevicedisplay from "../outputdevicedisplay";
+
 
 const Devicepage = () => {
-  //const [moutdevarray, setUpdate] = useState([]);
+  const [moutdevarray, setUpdate] = useState([]);
   
+  useEffect(() => {
+    let interval = null;
+
+    //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
+    let readtimemsec = 1000;
+    if (myAppGlobal.islocal == false) {
+      readtimemsec = 5000;
+    }
+    interval = setInterval(() => {
+      myAppGlobal.farmapi.getActuatorState(myAppGlobal.islocal).then((ret) => {
+        let actuators = ret.retMessage;
+        setUpdate(actuators);
+      });
+    }, readtimemsec);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   return (
     <div>
       <h2>device Page.. </h2>
@@ -21,6 +42,8 @@ const Devicepage = () => {
         </button>
       </div>
       
+      <div>{Outputdevicedisplay(moutdevarray, false)}</div>
+
     </div>
   );
   
