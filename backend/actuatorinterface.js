@@ -29,7 +29,7 @@ class ActuatorInterface{
 
   } 
   //상태 갱신
-  stateupdate(actuatorlist) {
+  async stateupdate(actuatorlist, curactnode) {
 
     for (const actd of this.Actuators) {
       for (const readactdev of actuatorlist) {
@@ -38,8 +38,13 @@ class ActuatorInterface{
           actd.AStatus.Sat = readactdev.Sat;
           actd.AStatus.Opid = readactdev.Opid;
           actd.AStatus.Rmt = readactdev.Rmt;
+          console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid );
 
-          console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat );
+          if( actd.AOperation.Opid !== actd.AStatus.Opid)
+          {
+            await  curactnode.ControlNormal(actd.AOperation); 
+          }
+
           break;
         }
       }
@@ -47,14 +52,33 @@ class ActuatorInterface{
 
   }
 
+  async operationcontrolcheck()
+  {
+    for (const actd of this.Actuators) {
+      
+
+    }
+
+  }
 
   //구동기 상태를 읽은후 구동기의 동작상태와 비교해서 작동시킴.
   async ControlAll() {
     console.log("-ActuatorInterface ControlAll------------------");
     for (const anode of this.ActuatorNodes) {
       let alist = await anode.ReadStatusAll();
+
       if (alist) {
-        this.stateupdate(alist);
+        await  this.stateupdate(alist,anode);
+      }
+    }
+  }
+
+  setcontrolbychannel(opchannel, mcmd, mtimesec)
+  {
+    for (const actd of this.Actuators) {
+      if(actd.channel === opchannel)
+      {
+        actd.AOperation.setoperation(mcmd,mtimesec,0);
       }
     }
   }

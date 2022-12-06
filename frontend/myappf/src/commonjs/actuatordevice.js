@@ -1,6 +1,7 @@
 
 
 const ActuatorStatus = require("./actuatorstatus.js");
+const ActuatorOperation = require("../../../../backend/actuatoroperation");
 
 module.exports =  class Actuatordevice{
     
@@ -33,7 +34,8 @@ module.exports =  class Actuatordevice{
             this.hardwaretype=hwtype;
             this.Nodeid=nodeid;
             this.UniqID = ActuatorStatus.makeactuatoruniqid(nodeid,channel ,hwtype);
-            this.AStatus= new ActuatorStatus(this.UniqID);
+            this.AStatus= new ActuatorStatus(this.UniqID); // 구동기 상태 컨트롤러부터 읽어옴
+            this.AOperation= new ActuatorOperation(); // 구동기 상태 컨트롤러부터 읽어옴
 
             console.log("Actuatordevice  : " + this.UniqID );
     

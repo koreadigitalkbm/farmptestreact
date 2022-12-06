@@ -98,12 +98,9 @@ module.exports = class ActuatorNode {
      
 
         let regaddress = this.OnOffstatusregstartaddress  ;
-
         let rv1 = await this.readRS485Registers(regaddress, this.maxchannelnumber*4);
         if (rv1 != undefined) {
           //console.log("ReadStatus : " + rv1.data.toString() + " wopid : " + wopid);
-
-
           for(let i=0;i<this.maxchannelnumber;i++ )
           {
             let msat = rv1.data[i * 4 + 0];
@@ -151,27 +148,34 @@ module.exports = class ActuatorNode {
   }
 
   
-  async ControlOff(channel,opid) {
+
+  
+  async ControlNormal(moperation) {
     try {
       
+      console.log("-ControlNormal------------------cmd : " + moperation.Opcmd);
+
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
-
-      regdatas[0] = ONOFFOperationTypeEnum.OPT_Off;
-      regdatas[1] = opid; //opid
-      regdatas[2] = 0;
-      regdatas[3] = 0;
+     
+      regdatas[0] = moperation.Opcmd;
+      regdatas[1] = moperation.Opid; //opid
+      regdatas[2] = moperation.Timesec & 0xffff;
+      regdatas[3] = (moperation.Timesec >> 16) & 0xffff;
       let rv1 = await this.writeRS485Registers(regaddress, regdatas);
 
       if (rv1 != undefined) {
-        let rstatus = await this.ReadStatus(channel, regdatas[1]);
-
-        return rstatus;
+       
+        return rv1;
       }
 
+      
+    } catch (e) {
       return null;
-    } catch (e) {}
+    }
+    return null;
   }
+
 
 
 

@@ -96,6 +96,7 @@ async function modbusTask() {
 
           await KDCommon.delay(1000);
           await mSensorintf.ReadSensorAll();
+          await KDCommon.delay(1000);
           await mActuatorintf.ControlAll();
 
           for (const msensor of mSensorintf.mSensors) {
@@ -122,7 +123,7 @@ async function controltask() {
     while (true) {
       await KDCommon.delay(1000);
       sec_count++;
-      //  console.log("controltask run: " + sec_count);
+        console.log("controltask run: " + sec_count);
     }
   } catch (error) {
     console.log("controltask : catch...... ");
