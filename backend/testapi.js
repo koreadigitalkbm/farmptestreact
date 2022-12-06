@@ -111,12 +111,12 @@ function msgprocessing_common(reqmsg) {
     console.log("msgprocessing_common   setactuator :  " + reqmsg.OutputManual);
     if(reqmsg.OutputManual =="on")
     {
-      backGlobal.actuatorinterface.setcontrolbychannel(1,202,80000);
+      backGlobal.actuatorinterface.setcontrolbychannel(16,202,80000);
 
     }
   if(reqmsg.OutputManual =="off")
     {
-      backGlobal.actuatorinterface.setcontrolbychannel(1,0,0);
+      backGlobal.actuatorinterface.setcontrolbychannel(16,0,0);
     }
     rspmsg.retMessage ="ok";
     rspmsg.IsOK = true;

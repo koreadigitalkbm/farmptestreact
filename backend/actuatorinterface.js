@@ -27,6 +27,8 @@ class ActuatorInterface{
        this.Actuators.push(new Actuatordevice(1,1,Actuatordevice.HardwareTypeEnum.HT_RELAY));
        this.Actuators.push(new Actuatordevice(1,2,Actuatordevice.HardwareTypeEnum.HT_RELAY));
        this.Actuators.push(new Actuatordevice(1,3,Actuatordevice.HardwareTypeEnum.HT_RELAY));
+       this.Actuators.push(new Actuatordevice(1,16,Actuatordevice.HardwareTypeEnum.HT_RELAY));
+       this.Actuators.push(new Actuatordevice(1,17,Actuatordevice.HardwareTypeEnum.HT_RELAY));
 
 
   } 
