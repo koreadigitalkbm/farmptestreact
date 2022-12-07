@@ -31,6 +31,7 @@ var myhostname = os.hostname();
 if (myhostname.indexOf("EC2-") != -1) {
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다. aws 서버에서 시작되면 무조건 서버용
   backGlobal.islocal = false;
+  backGlobal.sessionmap = new Map();
 } else {
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
 
