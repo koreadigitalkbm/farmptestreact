@@ -13,7 +13,7 @@ const Loginpage = (props) => {
 
 
 
-  if (myAppGlobal.islocal === false) {
+  if (myAppGlobal.islocal == false) {
     logintype = (
       <div className="content">
         <label>ID: </label>
