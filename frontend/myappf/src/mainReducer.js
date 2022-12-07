@@ -2,7 +2,7 @@
 import { SETVALUE, SETLOGIN } from './mainAction';
 
 const initState = {
-    LoginRole : "logout",
+    LoginRole : "none",
     value: 0
     
 }

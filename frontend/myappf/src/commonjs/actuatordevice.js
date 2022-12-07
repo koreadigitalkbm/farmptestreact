@@ -2,16 +2,13 @@
 
 const ActuatorStatus = require("./actuatorstatus.js");
 const ActuatorOperation = require("./actuatoroperation");
+const ActuatorBasic = require("./actuatorbasic");
 
 module.exports =  class Actuatordevice{
     
-    static HardwareTypeEnum = Object.freeze({
-        HT_RELAY: 0, // 단순 on,off 제어 
-        HT_SWITCH: 1, // 열기, 닫기 계페기
-        HT_ETC: 2,   // 기타
-      });
+  
 
-    
+     
     static OutDeviceTypeEnum = Object.freeze({
         ODT_RELAY: 0,
         ODT_PUMP: 1, //
@@ -26,17 +23,11 @@ module.exports =  class Actuatordevice{
         ODT_DELETE: 9999, //장치삭제
       });
       
-        constructor(nodeid,channel, hwtype) {
-    
-            
-            this.Name = "actuator";
-            this.channel=channel;
-            this.hardwaretype=hwtype;
-            this.Nodeid=nodeid;
-            this.UniqID = ActuatorStatus.makeactuatoruniqid(nodeid,channel ,hwtype);
+        constructor(mBasicinfo) {
+            this.Basicinfo =ActuatorBasic.Clonbyjsonobj(mBasicinfo);
+            this.UniqID =this.Basicinfo.UniqID;
             this.AStatus= new ActuatorStatus(this.UniqID); // 구동기 상태 컨트롤러부터 읽어옴
-            this.AOperation= new ActuatorOperation(this.UniqID); // 구동기 상태 컨트롤러부터 읽어옴
-
+            this.AOperation= new ActuatorOperation(this.UniqID); // 구동기 명령어 이변수를 통해 해당구동기 작동하자
             console.log("Actuatordevice  : " + this.UniqID );
     
         }

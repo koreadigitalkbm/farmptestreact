@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Link,  Routes, Route } from "react-router-dom";
 
 
@@ -11,9 +11,16 @@ import myAppGlobal from "../myAppGlobal";
 import Dashboard from "./dashboard";
 
 const Mainpage = (props) => {
-  let adminmenu;
+  
 
-  console.log("-------------------------main page ---------------------");
+
+
+
+
+
+  console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole );
+
+
 
   function logoutbuttonHandler(e) {
     window.sessionStorage.setItem("login", "logout");

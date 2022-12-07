@@ -9,6 +9,7 @@ module.exports = class ActuatorOperation{
             this.Uid=mniqid; 
               
         }
+        
         //구동기 동작시  opid를 갱신 
         setoperation(mcmd,mtime,mparam, opmode)
         {
@@ -17,7 +18,6 @@ module.exports = class ActuatorOperation{
             this.Param = mparam;
             this.Opmode = opmode;
             this.Opid =((this.Opid +1)&0xFFFF);
-
         }
 
 }

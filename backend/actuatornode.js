@@ -1,6 +1,5 @@
 //구동기 노드  기본 시간(초)으로 on , off  기능만으로 작동하자.
 const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
-const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
 
 module.exports = class ActuatorNode {
   static ONOFFOperationTypeEnum = Object.freeze({
@@ -18,7 +17,7 @@ module.exports = class ActuatorNode {
     this.SlaveID = slaveid;
     this.modbusMaster = mmaster;
     this.maxchannelnumber = maxchannel;
-    this.hwtype = Actuatordevice.HardwareTypeEnum.HT_RELAY;
+    this.hwtype = ActuatorStatus.HardwareTypeEnum.HT_RELAY;
 
     this.node_error_count = 0;
     this.node_is_disconnect = true;

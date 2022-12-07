@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { connect } from "react-redux";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { actionSetlogin } from "./mainAction";
 import IndoorFarmAPI from "./indoorfarmapi";
 import Loginpage from "./pages/loginpage";
@@ -9,48 +9,48 @@ import Mainpage from "./pages/mainpage";
 import myAppGlobal from "./myAppGlobal";
 
 function App(props) {
-  console.log("-------------------------react APP start---------------------");
-  console.log("Hostname : " + window.location.hostname + ",host : " + window.location.protocol);
+  console.log("-------------------------react APP start--------------------- LoginRole:" + props.LoginRole);
 
-  if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("13.209.26.2") != -1) {
-    //서버 IP이거나 도메인이 서버이면 서버접속임.
-    myAppGlobal.islocal = false;
-    console.log("-------------------------connected aws server---------------------");
-  } else {
-    ///로컬로 접속하면 
-    myAppGlobal.islocal = true;
-    console.log("-------------------------connected local network---------------------");
-  }
+  let islocal = window.sessionStorage.getItem("islocal");
+  if (islocal == null) {
+    // 첫접속이면  로컬로인지 온라인인지 확인해서 세션에 저장
+    console.log("Hostname : " + window.location.hostname + ",host : " + window.location.protocol);
+    if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("13.209.26.2") != -1) {
+      //서버 IP이거나 도메인이 서버이면 서버접속임.
+      window.sessionStorage.setItem("islocal", false);
 
-  myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
-
-  
-  function loginsetpage(props) {
-    if(props.LoginRole ==="logout" || props.LoginRole ==="loginfail")
-    {
-      return (Loginpage(props));
-    }
-    else{
-      return (    Mainpage(props)    );
-    }
-  }
-
-
-  
-  useEffect(() => {
-    let loginrole = window.sessionStorage.getItem("login");
-
-    if (loginrole) {
-      myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
+      console.log("-------------------------connected aws server---------------------");
     } else {
-      loginrole = "logout";
+      ///로컬로 접속하면
+
+      window.sessionStorage.setItem("islocal", true);
+      console.log("-------------------------connected local network---------------------");
     }
-    props.onSetlogin(loginrole);
+    //첫무조건 로그인페이지로
+    let loginrol = "logout";
+    window.sessionStorage.setItem("login", loginrol);
+    window.sessionStorage.setItem("deviceid", "");
+    props.onSetlogin(loginrol);
+  } else {
+    myAppGlobal.islocal = islocal;
+    myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
+    let loginrol = window.sessionStorage.getItem("login");
+    if (loginrol != null) {
+      myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
+      console.log("-------------------------sessionStorage---------------------loginrol : " + loginrol);
+      props.onSetlogin(loginrol);
+    }
+  }
 
-    console.log("App  LoginRole : " + props.LoginRole);
-  }, []);
+  function loginsetpage(props) {
+    if (props.LoginRole === "logout" || props.LoginRole === "loginfail") {
+      return Loginpage(props);
+    } else {
+      return Mainpage(props);
+    }
+  }
 
-  return <div className="App">{ loginsetpage(props)}</div>;
+  return <div className="App">{loginsetpage(props)}</div>;
 }
 
 const mapStateToProps = function (state) {
