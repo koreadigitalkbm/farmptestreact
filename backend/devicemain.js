@@ -60,7 +60,6 @@ async function modbusTask() {
   let modbusTask_count = 0;
 
   console.log("------------modbusTask start-------------------");
-  //let sconfig = KDCommon.Readfilejson(systemconfigfilename);
 
    
 
@@ -94,7 +93,7 @@ async function modbusTask() {
         }
           
           modbusTask_count++;
-          console.log("modbusTask run: " + modbusTask_count);
+      
 
           await mActuatorintf.ControlAll();
           await KDCommon.delay(500);
@@ -104,10 +103,11 @@ async function modbusTask() {
           
           
 
-          for (const msensor of mSensorintf.mSensors) {
-            console.log("read sensor: " + msensor.GetValuestring(true,true));
-          }
+//          for (const msensor of mSensorintf.mSensors) {
+  //          console.log("read sensor: " + msensor.GetValuestring(true,true));
+    //      }
           //backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
+          //console.log("modbusTask run: " + modbusTask_count);
 
         
       }
@@ -128,7 +128,7 @@ async function controltask() {
     while (true) {
       await KDCommon.delay(1000);
       sec_count++;
-        console.log("controltask run: " + sec_count);
+        //console.log("controltask run: " + sec_count);
     }
   } catch (error) {
     console.log("controltask : catch...... ");
@@ -137,6 +137,12 @@ async function controltask() {
   }
 
   return "controltask";
+}
+
+function getdevicestatusall(reponsemsg)
+{
+
+  
 }
 
 exports.deviceInit = deviceInit;

@@ -15,8 +15,8 @@ const Devicepage = () => {
       readtimemsec = 2000;
     }
     interval = setInterval(() => {
-      myAppGlobal.farmapi.getActuatorState(myAppGlobal.islocal).then((ret) => {
-        let actuators = ret.retMessage;
+      myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
+        let actuators = ret.Outputs;
         if(actuators !=null)
         {
           console.log("actuators : " + actuators.length);

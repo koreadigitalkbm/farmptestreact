@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Sensordisplay from "../sensordisplay";
-import IndoorFarmAPI from "../indoorfarmapi";
 import myAppGlobal from "../myAppGlobal";
 
 const Sensorpage = () => {
@@ -17,8 +16,8 @@ const Sensorpage = () => {
       readtimemsec = 2000;
     }
     interval = setInterval(() => {
-      myAppGlobal.farmapi.getsensors(myAppGlobal.islocal).then((ret) => {
-        let sensors = ret.retMessage;
+      myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
+        let sensors = ret.Sensors;
         setSensors(sensors);
       });
     }, readtimemsec);

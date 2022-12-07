@@ -67,7 +67,7 @@ module.exports =  class ActuatorInterface{
           actd.AStatus.Sat = readactdev.Sat;
           actd.AStatus.Opid = readactdev.Opid;
           actd.AStatus.Rmt = readactdev.Rmt;
-          console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.Basicinfo.Channel);
+          //console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.Basicinfo.Channel);
 
           //현장수동모드이면 
           if(readactdev.Sat === 299)
@@ -94,7 +94,7 @@ module.exports =  class ActuatorInterface{
   
   //구동기 상태를 읽은후 구동기의 동작상태와 비교해서 작동시킴.
   async ControlAll() {
-    console.log("-ActuatorInterface ControlAll------------------");
+    //console.log("-ActuatorInterface ControlAll------------------");
     for (const anode of this.ActuatorNodes) {
       let alist = await anode.ReadStatusAll();
 

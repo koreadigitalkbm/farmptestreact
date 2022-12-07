@@ -1,9 +1,8 @@
 //구동기 노드  기본 시간(초)으로 on , off  기능만으로 작동하자.
 const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
+const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
 
 module.exports = class ActuatorNode {
-  
-
   constructor(slaveid, maxchannel, mmaster) {
     this.OnOffoperationregstartaddress = 601;
     this.OnOffstatusregstartaddress = 301;
@@ -12,7 +11,7 @@ module.exports = class ActuatorNode {
     this.SlaveID = slaveid;
     this.modbusMaster = mmaster;
     this.maxchannelnumber = maxchannel;
-    this.hwtype = ActuatorStatus.HardwareTypeEnum.HT_RELAY;
+    this.hwtype = KDDefine.HardwareTypeEnum.HT_RELAY;
 
     this.node_error_count = 0;
     this.node_is_disconnect = true;
@@ -58,7 +57,7 @@ module.exports = class ActuatorNode {
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
         }
-        console.log("-ActuatorNode ReadStatusAll------------------");
+      //  console.log("-ActuatorNode ReadStatusAll------------------");
 
         return this.actlist;
       }
@@ -74,7 +73,7 @@ module.exports = class ActuatorNode {
     try {
       // console.log("-ControlNormal------------------cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", ch : "+moperation.Channel);
 
-      let regaddress = this.OnOffoperationregstartaddress + channel* 4;
+      let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
 
       regdatas[0] = moperation.Opcmd;

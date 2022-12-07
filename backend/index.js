@@ -24,6 +24,8 @@ app.use(express.static("./backend/"));
 console.log("-------------------------backend start---------------------");
 
 backGlobal.platformversion = farmscubeplatformversion;
+backGlobal.backmain = DeviceMain;
+
 
 MainAPI.firebasedbinit();
 
@@ -37,12 +39,12 @@ if (myhostname.indexOf("EC2-") != -1) {
 
   backGlobal.islocal = true;
   backGlobal.systemlog = new devicesystemlog();
-  backGlobal.mylocaldeviceid = DeviceMain.deviceInit();
+  backGlobal.mylocaldeviceid = backGlobal.backmain.deviceInit();
   backGlobal.ncount++;
 
   MainAPI.firebasedbsetup(backGlobal.mylocaldeviceid);
   //3초후 메인시작
-  setTimeout(DeviceMain.devicemaintask, 3000);
+  setTimeout(backGlobal.backmain.devicemaintask, 3000);
 }
 
 //서버에 요청

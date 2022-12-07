@@ -114,6 +114,15 @@ export default class IndoorFarmAPI {
      
   }
 
+  //장비에 대한 전체 상태를 읽어온다. 센서, 구동기, 자동제어, 기타 등등
+  async getDeviceStatus() {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+
+    console.log( "getsystemstatus : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="getsystemstatus";
+     return await this.setRequestdevice(reqmsg);
+     
+  }
 
   async getActuatorState() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);

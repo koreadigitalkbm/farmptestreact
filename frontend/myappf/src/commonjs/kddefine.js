@@ -29,5 +29,11 @@ module.exports = class KDDefine {
     ODT_ETC: 99,
     ODT_DELETE: 9999, //장치삭제
   });
+  static HardwareTypeEnum = Object.freeze({
+    HT_RELAY: 0, // 단순 on,off 제어 
+    HT_SWITCH: 1, // 열기, 닫기 계페기
+    HT_ETC: 2,   // 기타
+  });
+  
 
 };

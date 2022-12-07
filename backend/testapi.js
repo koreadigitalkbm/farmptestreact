@@ -119,6 +119,20 @@ function msgprocessing_common(reqmsg) {
     rspmsg.retMessage = backGlobal.systemlog;
     rspmsg.IsOK = true;
   }
+  
+  else if (reqmsg.reqType == "getsystemstatus") {
+    if(backGlobal.sensorinterface !=null)
+    {
+      rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
+    }
+    if(backGlobal.actuatorinterface !=null)
+    {
+    rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
+    }
+    
+    rspmsg.IsOK = true;
+  }
+  
   else if (reqmsg.reqType == "getsensors") {
     if(backGlobal.sensorinterface !=null)
     {
