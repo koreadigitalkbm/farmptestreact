@@ -2,12 +2,7 @@
 const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
 
 module.exports = class ActuatorNode {
-  static ONOFFOperationTypeEnum = Object.freeze({
-    OPT_On: 201, // 작동시작
-    OPT_Off: 0, // 작동 멈춤
-    OPT_Timed_On: 202, // 정해진 시간동안 작동
-    OPT_Driectional_On: 203, // 정해긴 방향으로 정해진 시간동안 동작
-  });
+  
 
   constructor(slaveid, maxchannel, mmaster) {
     this.OnOffoperationregstartaddress = 601;

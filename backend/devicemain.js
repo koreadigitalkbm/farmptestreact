@@ -8,6 +8,7 @@ const backGlobal = require("./backGlobal");
 const SensorInterface = require("./sensorinterface.js");
 const ActuatorInterface = require("./actuatorinterface.js");
 const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice");
+const SystemInformations = require("../frontend/myappf/src/commonjs/systeminformations");
 
 const systemconfigfilename = "../common/local_files/systemconfig.json";
 
@@ -18,7 +19,6 @@ var mSensorintf;
 var mActuatorintf;
 
 
-
 function deviceInit() {
   console.log("------------deviceInit------------------- ");
   let sconfig = KDCommon.Readfilejson(systemconfigfilename);
@@ -26,10 +26,12 @@ function deviceInit() {
     sconfig = new Systemconfig();
     KDCommon.Writefilejson(systemconfigfilename, sconfig);
   }
+  backGlobal.localsysteminformations = new SystemInformations();
+  backGlobal.localsysteminformations.Systemconfg=sconfig;
 
-  console.log("deviceuniqid : ", sconfig.deviceuniqid + " comport : " + sconfig.comport);
+  console.log("deviceuniqid : ", backGlobal.localsysteminformations.Systemconfg.deviceuniqid + " comport : " + backGlobal.localsysteminformations.Systemconfg.comport);
 
-  return sconfig.deviceuniqid;
+  return backGlobal.localsysteminformations.Systemconfg.deviceuniqid;
 }
 
 async function devicemaintask() {
@@ -58,13 +60,13 @@ async function modbusTask() {
   let modbusTask_count = 0;
 
   console.log("------------modbusTask start-------------------");
-  let sconfig = KDCommon.Readfilejson(systemconfigfilename);
+  //let sconfig = KDCommon.Readfilejson(systemconfigfilename);
 
    
 
   try {
     if (ModbusComm.isOpen == false) {
-      var mconn = ModbusComm.connectRTUBuffered(sconfig.comport, {
+      var mconn = ModbusComm.connectRTUBuffered(backGlobal.localsysteminformations.Systemconfg.comport, {
         baudRate: 115200,
         stopBits: 1,
         dataBits: 8,
@@ -78,8 +80,8 @@ async function modbusTask() {
     if (ModbusComm.isOpen == true) {
       await ModbusComm.setTimeout(200);
 
-      mSensorintf =new SensorInterface(sconfig,ModbusComm);
-      mActuatorintf=new ActuatorInterface(sconfig,ModbusComm);
+      mSensorintf =new SensorInterface(backGlobal.localsysteminformations,ModbusComm);
+      mActuatorintf=new ActuatorInterface(backGlobal.localsysteminformations,ModbusComm);
 
       backGlobal.sensorinterface = mSensorintf;
       backGlobal.actuatorinterface = mActuatorintf;

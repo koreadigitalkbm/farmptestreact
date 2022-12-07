@@ -8,6 +8,7 @@ var myAppGlobal = {
     isuseradmin: false, // 사용자 관리자계정(장비설정가능) 나머지 그냥 뷰어
     farmapi: undefined,
     logindeviceid: "",
+    systeminformations:undefined,
     ncount:0
   }
   

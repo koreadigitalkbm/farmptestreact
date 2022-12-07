@@ -12,7 +12,7 @@ const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
 
 module.exports =  class ActuatorInterface{
    
-  constructor(sysconfig,modbuscomm) {
+  constructor(sysinfo,modbuscomm) {
       this.modbusMaster = modbuscomm; //통신포트
       this.ActuatorNodes = [];  // 구동기노드 리스트
       this.Actuators = [];  // 구동기목록
@@ -21,7 +21,7 @@ module.exports =  class ActuatorInterface{
       let actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
 
        ///모델별로 구별해서 센서노드를  설정하자.
-    if (sysconfig.productmodel === "KPC480") {
+    if (sysinfo.Systemconfg.productmodel === "KPC480") {
       const myactnode_1 = new ActuatorNode(1, 28, modbuscomm);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
@@ -34,7 +34,7 @@ module.exports =  class ActuatorInterface{
     }
 
 
-    
+
 
     let actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     //임시생성 추후 삭제
@@ -48,6 +48,10 @@ module.exports =  class ActuatorInterface{
       actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     } 
        
+
+    sysinfo.Actuators = actinfolist;
+
+
     for (const minfo of actinfolist) {
       this.Actuators.push(new Actuatordevice(minfo));
     }

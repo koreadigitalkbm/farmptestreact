@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import { BrowserRouter, Link,  Routes, Route } from "react-router-dom";
-
+import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 
 import About from "./about";
 import AdminSetup from "./adminsetup";
@@ -11,16 +9,7 @@ import myAppGlobal from "../myAppGlobal";
 import Dashboard from "./dashboard";
 
 const Mainpage = (props) => {
-  
-
-
-
-
-
-
-  console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole );
-
-
+  console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole);
 
   function logoutbuttonHandler(e) {
     window.sessionStorage.setItem("login", "logout");
@@ -28,28 +17,20 @@ const Mainpage = (props) => {
     props.onSetlogin("logout");
   }
 
-
   function adminpage(props) {
-
-
-    if(props.LoginRole ==="user")
-    {
-
-      return ("");
-    }
-    else{
-    return (
-      <Link to="/admin" className="linkmenu">
-      <div className="content">
-        <img src="./image/s_set.png" className="con_img" /> 관리자:
-        {props.LoginRole}
-      </div>
-    </Link>
-    );
+    if (props.LoginRole === "user") {
+      return "";
+    } else {
+      return (
+        <Link to="/admin" className="linkmenu">
+          <div className="content">
+            <img src="./image/s_set.png" className="con_img" /> 관리자:
+            {props.LoginRole}
+          </div>
+        </Link>
+      );
     }
   }
-
-
 
   return (
     <BrowserRouter>
@@ -89,7 +70,7 @@ const Mainpage = (props) => {
             </div>
           </nav>
         </div>
- 
+
         <div className="right">
           <div className="top">
             <div className="top_name"> NO. 1 &nbsp;&nbsp; SENSOR NODE</div>

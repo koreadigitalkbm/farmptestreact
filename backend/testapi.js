@@ -113,6 +113,22 @@ function msgprocessing_common(reqmsg) {
     rspmsg.IsOK = true;
     }
   }
+  else if (reqmsg.reqType == "getsysteminfo") {
+    if(backGlobal.localsysteminformations !=null)
+    {
+    rspmsg.retMessage = backGlobal.localsysteminformations;
+    rspmsg.IsOK = true;
+    }
+  }
+  else if (reqmsg.reqType == "setactuatoroperation") {
+    console.log("msgprocessing_common   setactuatoroperation :  " + reqmsg.OutputManual);
+    if(reqmsg.OutputManual !=null)
+    {
+      backGlobal.actuatorinterface.setoperationmanual(reqmsg.OutputManual);
+    }
+    rspmsg.retMessage ="ok";
+    rspmsg.IsOK = true;
+  }
   else if (reqmsg.reqType == "setactuator") {
 
 
@@ -153,7 +169,7 @@ function msgprocessing_serveronly(reqmsg, rspmsg) {
 
     if (backGlobal.islocal == true) {
       //일반사용자
-      if (reqmsg.loginPW === backGlobal.localpassword ) {
+      if (reqmsg.loginPW === backGlobal.localsysteminformations.Systemconfg.password ) {
         rspmsg.retMessage = "user";
         rspmsg.retParam = backGlobal.mylocaldeviceid;
       }

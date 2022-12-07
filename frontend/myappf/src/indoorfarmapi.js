@@ -119,7 +119,16 @@ export default class IndoorFarmAPI {
     reqmsg.reqType="getactuatorstatus";
      return await this.setRequestdevice(reqmsg);
   }
+  async getSysteminformations() {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+
+    console.log( "getsysteminfo : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="getsysteminfo";
+     return await this.setRequestdevice(reqmsg);
+  }
+
   
+
 
   async setacutuatoroperation(onoff) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
@@ -132,6 +141,15 @@ export default class IndoorFarmAPI {
 
 
   
+  async setActuatorOperation(actopcmd) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+    reqmsg.OutputManual = actopcmd;
+    console.log( "setactuatoroperation : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="setactuatoroperation";
+     return await this.setRequestdevice(reqmsg);
+     
+  }
+
 
   async getdevicelog(islocal) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);

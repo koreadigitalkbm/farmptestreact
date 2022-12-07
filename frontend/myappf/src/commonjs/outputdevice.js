@@ -1,26 +1,7 @@
 const fs = require("fs");
 
 class Outputdevice {
-  static OPStatus = Object.freeze({
-    OPS_Off: "off", //꺼짐
-    OPS_On: "on", //켜짐
-    OPS_Local: "local", //현장수동제어
-    OPS_Idle: "idle",
-  });
-
-  static OutDeviceTypeEnum = Object.freeze({
-    ODT_RELAY: 0,
-    ODT_PUMP: 1, //
-    ODT_FAN: 2,
-    ODT_VALVE: 3,
-    ODT_LED: 4,
-    ODT_COOLER: 5,
-    ODT_HEATER: 6,
-    ODT_POWER: 7,
-    ODT_NOZZLE: 8,
-    ODT_ETC: 99,
-    ODT_DELETE: 9999, //장치삭제
-  });
+ 
 
   static Writefile(filename, mlist) {
     let data = JSON.stringify(mlist);

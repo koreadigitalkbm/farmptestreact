@@ -17,11 +17,9 @@ function App(props) {
     if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("13.209.26.2") != -1) {
       //서버 IP이거나 도메인이 서버이면 서버접속임.
       window.sessionStorage.setItem("islocal", false);
-
       console.log("-------------------------connected aws server---------------------");
     } else {
       ///로컬로 접속하면
-
       window.sessionStorage.setItem("islocal", true);
       console.log("-------------------------connected local network---------------------");
     }
@@ -43,7 +41,22 @@ function App(props) {
     if (loginrol != null) {
       myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
       console.log("-------------------------sessionStorage---------------------loginrol : " + loginrol);
+      
+      ///로그인 상태이면 장비 정보를 요청한다. 
+      if(loginrol !="logout")
+      {
+        myAppGlobal.farmapi.getSysteminformations().then((ret) => {
+          myAppGlobal.systeminformations= ret.retMessage;
+          console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations.Systemconfg.name);
+        });
+      }
+      else{
+        //로그아웃이면 삭제
+        myAppGlobal.systeminformations=null;
+      }
+      
 
+      
       props.onSetlogin(loginrol);
     }
   }

@@ -5,13 +5,13 @@ const SensorCompact = require("../frontend/myappf/src/commonjs/sensorcompact.js"
 const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice.js");
 
 class SensorInterface {
-  constructor(sysconfig, modbuscomm) {
+  constructor(sysinfo, modbuscomm) {
     this.modbusMaster = modbuscomm; //통신포트
     this.SensorNodes = []; // 센서노드 리스트
     this.mSensors = []; //읽은센서전체 리시트
-
+    
     ///모델별로 구별해서 센서노드를  설정하자.
-    if (sysconfig.productmodel === "KPC480") {
+    if (sysinfo.Systemconfg.productmodel === "KPC480") {
       const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
       this.SensorNodes.push(mysnode_sid_1);
     } else {
