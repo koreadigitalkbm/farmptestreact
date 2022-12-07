@@ -29,7 +29,7 @@ async function postapifordevice(req, rsp) {
   //기본 nak 메시지로 만듬.
   let responsemsg = new responseMessage();
 
-  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", ip:"+req.header("X-FORWARDED-FOR"));
+  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", SID:"+req.header("Session-ID"));
 
   if (backGlobal.islocal == true) {
     responsemsg = msgprocessing(false, reqmsg);
@@ -37,6 +37,12 @@ async function postapifordevice(req, rsp) {
     let reqkey;
     let repskey;
     let repsdata;
+    
+
+    for (let key of backGlobal.sessionmap.keys()) { 
+      console.log(key + " => " + backGlobal.sessionmap.get(key) ) 
+    } 
+
     
 
     reqkey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/request");
@@ -164,7 +170,7 @@ function msgprocessing_deviceonly(reqmsg, rspmsg) {
 //////////////////////
 function msgprocessing_serveronly(reqmsg, rspmsg) {
   if (reqmsg.reqType == "login") {
-    console.log("setlogin   pw:  " + reqmsg.loginPW);
+    console.log("setlogin   pw:  " + reqmsg.loginPW +  ", SID:"+reqmsg.SessionID );
     rspmsg.retMessage = "not";
 
     if (backGlobal.islocal == true) {
@@ -196,6 +202,17 @@ function msgprocessing_serveronly(reqmsg, rspmsg) {
         rspmsg.retMessage = "user";
         rspmsg.retParam = "IF0003";
       }
+      else if (reqmsg.loginID === "kd4" && reqmsg.loginPW === "1234") {
+        rspmsg.retMessage = "user";
+        rspmsg.retParam = "IF0004";
+      }
+
+      backGlobal.sessionmap.set(rspmsg.retParam ,reqmsg.SessionID);
+
+      
+
+
+
     }
 
     rspmsg.IsOK = true;

@@ -9,6 +9,7 @@ export default class reqMessage {
   reqType= undefined;
   loginID = undefined;
   loginPW = undefined;
+  SessionID = 0;
 
 
   getSensors = undefined;

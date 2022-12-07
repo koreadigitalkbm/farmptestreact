@@ -25,6 +25,8 @@ function App(props) {
     }
     //첫무조건 로그인페이지로
     let loginrol = "logout";
+    let ssid=Math.floor(Math.random() * 100000 + 100);
+    window.sessionStorage.setItem("msessionid", ssid);
     window.sessionStorage.setItem("login", loginrol);
     window.sessionStorage.setItem("deviceid", "");
     props.onSetlogin(loginrol);
@@ -37,10 +39,11 @@ function App(props) {
       myAppGlobal.islocal = false;
     }
     myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
+    myAppGlobal.sessionid = window.sessionStorage.getItem("msessionid");
     let loginrol = window.sessionStorage.getItem("login");
     if (loginrol != null) {
       myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
-      console.log("-------------------------sessionStorage---------------------loginrol : " + loginrol);
+      console.log("-------------------------sessionStorage---------------------loginrol : " + loginrol + ",sessionid :" +myAppGlobal.sessionid);
       
       ///로그인 상태이면 장비 정보를 요청한다. 
       if(loginrol !="logout")
@@ -56,7 +59,7 @@ function App(props) {
       }
       
 
-      
+
       props.onSetlogin(loginrol);
     }
   }

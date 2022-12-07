@@ -32,6 +32,7 @@ export default class IndoorFarmAPI {
 
       headers: {
         "Content-Type": "application/json",
+        "Session-ID": myAppGlobal.sessionid,
       },
 
       body: JSON.stringify(data), //
@@ -85,6 +86,8 @@ export default class IndoorFarmAPI {
     reqmsg.reqType="login";
     reqmsg.loginID = id;
     reqmsg.loginPW = pw;
+    reqmsg.SessionID=myAppGlobal.sessionid;
+
 
     return await this.setRequest(reqmsg);
   }
