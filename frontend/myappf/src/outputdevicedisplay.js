@@ -34,14 +34,13 @@ function outputdevbox(mydata, isonlystatus) {
   else{
     ismanual = (
       <div className="out_result">자동제어중
-        
       </div>
     );
   }
 
   return (
     <div className="out_con">
-      <div className="out_name"> <img src={devicon} className="icon" />   {mydata.Name}    </div>
+      <div className="out_name"> <img src={devicon} className="icon" />   {mydata.Uid}    </div>
       <div className="out_value"> <img src={onofficon} className="onoff" />   </div>
       {ismanual}
     </div>

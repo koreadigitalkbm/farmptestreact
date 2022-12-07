@@ -1,7 +1,7 @@
 
 
 const ActuatorStatus = require("./actuatorstatus.js");
-const ActuatorOperation = require("../../../../backend/actuatoroperation");
+const ActuatorOperation = require("./actuatoroperation");
 
 module.exports =  class Actuatordevice{
     

@@ -76,6 +76,7 @@ const Loginpage = (props) => {
           //  props.onSetlogin("loginfail");
           }
           else {
+            // 로그인인 되면 가장 중요한 연결된 장치ID를 받아서 저장해놈. 이ID를 통해  통신
             window.sessionStorage.setItem("login", ret.retMessage);
             window.sessionStorage.setItem("deviceid", ret.retParam);
             myAppGlobal.logindeviceid = ret.retParam;
