@@ -43,7 +43,11 @@ async function postapifordevice(req, rsp) {
       console.log("map key:"+ key + ", vlaue :" +value);
     }
 
+    let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
+    let msgisd = req.header("Session-ID");
+    console.log("---------------------------------sever sid :" + sid +  ", msgisd:"+msgisd);
     
+
 
 
     reqkey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/request");
