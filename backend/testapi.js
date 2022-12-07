@@ -39,11 +39,12 @@ async function postapifordevice(req, rsp) {
     let repsdata;
     
 
-    for (let key of backGlobal.sessionmap.keys()) { 
-      console.log(key + " => " + backGlobal.sessionmap.get(key) ) 
-    } 
+    for (const [key, value] of backGlobal.sessionmap) {
+      console.log("map key:"+ key + ", vlaue :" +value);
+    }
 
     
+
 
     reqkey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/request");
     repskey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/response");
