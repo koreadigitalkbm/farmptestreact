@@ -1,7 +1,6 @@
 import "./App.css";
 
 import { connect } from "react-redux";
-import { useState, useEffect } from "react";
 import { actionSetlogin } from "./mainAction";
 import IndoorFarmAPI from "./indoorfarmapi";
 import Loginpage from "./pages/loginpage";
@@ -32,13 +31,19 @@ function App(props) {
     window.sessionStorage.setItem("deviceid", "");
     props.onSetlogin(loginrol);
   } else {
-    myAppGlobal.islocal = islocal;
+    if(islocal == "true" || islocal ==true)
+    {
+    myAppGlobal.islocal = true;
+    }
+    else{
+      myAppGlobal.islocal = false;
+    }
     myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
     let loginrol = window.sessionStorage.getItem("login");
     if (loginrol != null) {
       myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
       console.log("-------------------------sessionStorage---------------------loginrol : " + loginrol);
-      
+
       props.onSetlogin(loginrol);
     }
   }
