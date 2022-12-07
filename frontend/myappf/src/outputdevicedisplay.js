@@ -28,11 +28,17 @@ function manualonoff(actuid, onoff) {
   
 }
 
-function outputdevbox(mydata, isonlystatus) {
+function outputdevbox(mydata, isonlystatus,index) {
   let ismanual  ;
+
+  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
+  
+
   let actinfo= KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators,mydata.Uid);
-  let devicon = "./image/devicon_" + mydata.DevType + ".png";
+  let devicon = "./image/devicon_" + actinfo.HWType + ".png";
   let onofficon = "./image/opstatus_" + mydata.Sat + ".png";
+
+  
 
   if (mydata.Opm === "LM") {
     
@@ -60,8 +66,10 @@ function outputdevbox(mydata, isonlystatus) {
     );
   }
 
+ 
+
   return (
-    <div className="out_con">
+    <div className="out_con" key={index}>
       <div className="out_name"> <img src={devicon} className="icon" />   {actinfo.Name}    </div>
       <div className="out_value"> <img src={onofficon} className="onoff" />   </div>
       {ismanual}
@@ -73,7 +81,7 @@ function Outputdevicedisplay(moutdevarray, isonlystatus) {
   return (
         
        <div className="output">
-        {moutdevarray.map((localState, index) => outputdevbox(localState, isonlystatus))}
+        {moutdevarray.map((localState, index) => outputdevbox(localState, isonlystatus,index))}
        </div>
     
   );
