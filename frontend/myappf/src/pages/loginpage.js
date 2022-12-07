@@ -9,7 +9,7 @@ const Loginpage = (props) => {
   let loginpw;
   let logintype;
 
-  console.log("------------------Loginpage----------------- ncount :" + myAppGlobal.ncount + " props.LoginRole :" + props.LoginRole);
+  console.log("------------------Loginpage----------------- islocal :" + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
 
 
 
