@@ -1,7 +1,7 @@
 const ModbusRTU = require("modbus-serial");
 const ModbusComm = new ModbusRTU();
 
-const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
+const KDCommon = require("./kdcommon");
 const Systemconfig = require("./devsystemconfig");
 const backGlobal = require("./backGlobal");
 

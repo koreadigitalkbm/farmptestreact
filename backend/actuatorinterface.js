@@ -4,7 +4,7 @@ const ActuatorNode = require("./actuatornode.js");
 const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
 const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
 const ActuatorBasic = require("../frontend/myappf/src/commonjs/actuatorbasic.js");
-const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
+const KDCommon = require("./kdcommon");
 
 
 

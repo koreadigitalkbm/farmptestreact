@@ -1,11 +1,9 @@
 const fs = require("fs");
 const os = require("os");
-const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
-
+const KDCommon = require("./kdcommon");
 const responseMessage = require("../frontend/myappf/src/commonjs/responseMessage");
 var backGlobal = require("./backGlobal");
 var exec = require("child_process").exec;
-
 
 function postapifordatabase(req, rsp) {
   let reqmsg = JSON.parse(JSON.stringify(req.body));

@@ -1,5 +1,5 @@
 const SensorCompact = require("../frontend/myappf/src/commonjs/sensorcompact.js");
-const KDCommon = require("../frontend/myappf/src/commonjs/kdcommon");
+const KDCommon = require("./kdcommon");
 
 module.exports = class SensorNode {
   constructor(slaveid,regStartaddrss, mmaster) {
