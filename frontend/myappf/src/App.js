@@ -38,6 +38,7 @@ function App(props) {
     if (loginrol != null) {
       myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
       console.log("-------------------------sessionStorage---------------------loginrol : " + loginrol);
+      
       props.onSetlogin(loginrol);
     }
   }

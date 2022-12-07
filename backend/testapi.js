@@ -18,7 +18,7 @@ function postapifordatabase(req, rsp) {
 
 function postapi(req, rsp) {
   let reqmsg = JSON.parse(JSON.stringify(req.body));
-  console.log("----------------------postapi :  puniqid :" + reqmsg.puniqid + ", type: " +reqmsg.reqType);
+  console.log("----------------------postapi :  puniqid :" + reqmsg.puniqid + ", type: " +reqmsg.reqType + ", did : "+backGlobal.mylocaldeviceid);
   let rspmsg = msgprocessing(true, reqmsg);
   rsp.send(JSON.stringify(rspmsg));
 }
