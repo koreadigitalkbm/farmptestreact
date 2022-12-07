@@ -31,7 +31,7 @@ function manualonoff(actuid, onoff) {
 function outputdevbox(mydata, isonlystatus,index) {
   let ismanual  ;
 
-  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
+  //console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
   
 
   let actinfo= KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators,mydata.Uid);

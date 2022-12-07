@@ -29,7 +29,7 @@ async function postapifordevice(req, rsp) {
   //기본 nak 메시지로 만듬.
   let responsemsg = new responseMessage();
 
-  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid);
+  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", ip:"+req.header("X-FORWARDED-FOR"));
 
   if (backGlobal.islocal == true) {
     responsemsg = msgprocessing(false, reqmsg);
@@ -43,9 +43,11 @@ async function postapifordevice(req, rsp) {
     repskey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/response");
 
     let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+    //응답메시지를 먼저지우고 
     repskey.set("");
     reqkey.set(objJsonB64encode);
 
+    //2초간 기다림
     for (var i = 0; i < 10; i++) {
       await KDCommon.delay(200);
       await repskey

@@ -17,7 +17,16 @@ const Devicepage = () => {
     interval = setInterval(() => {
       myAppGlobal.farmapi.getActuatorState(myAppGlobal.islocal).then((ret) => {
         let actuators = ret.retMessage;
-        setUpdate(actuators);
+        if(actuators !=null)
+        {
+          console.log("actuators : " + actuators.length);
+          if(actuators.length >0)
+          {
+            setUpdate(actuators);
+          }
+        }
+        
+        
       });
     }, readtimemsec);
 
