@@ -46,8 +46,16 @@ async function postapifordevice(req, rsp) {
     let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
     let msgisd = req.header("Session-ID");
     console.log("---------------------------------sever sid :" + sid +  ", msgisd:"+msgisd);
-    
 
+
+    if(sid != msgisd)
+    {
+      console.log("session not same ....");
+
+    }
+    else{
+
+    
 
 
     reqkey = backGlobal.fbdatabase.ref("IFDevices/"+reqmsg.puniqid+"/request");
@@ -84,6 +92,7 @@ async function postapifordevice(req, rsp) {
         .catch((error) => {
           console.error(error);
         });
+      }
     }
 
     console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
