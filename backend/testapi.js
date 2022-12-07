@@ -39,9 +39,9 @@ async function postapifordevice(req, rsp) {
     let repsdata;
     
 
-    for (const [key, value] of backGlobal.sessionmap) {
-      console.log("map key:"+ key + ", vlaue :" +value);
-    }
+//    for (const [key, value] of backGlobal.sessionmap) {
+//      console.log("map key:"+ key + ", vlaue :" +value);
+//    }
 
     let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
     let msgisd = req.header("Session-ID");
@@ -221,7 +221,11 @@ function msgprocessing_serveronly(reqmsg, rspmsg) {
         rspmsg.retParam = "IF0004";
       }
 
-      backGlobal.sessionmap.set(rspmsg.retParam ,reqmsg.SessionID);
+      //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
+      if(rspmsg.retMessage !="not")
+      {
+        backGlobal.sessionmap.set(rspmsg.retParam ,reqmsg.SessionID);
+      }
 
       
 
