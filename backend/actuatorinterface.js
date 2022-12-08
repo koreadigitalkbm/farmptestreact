@@ -109,7 +109,7 @@ module.exports =  class ActuatorInterface{
       }
     }
   }
-  // 이함수로만 제어하자
+  // 수동제어 
   setoperationmanual(manualoperation)
   {
     for (const actd of this.Actuators) {

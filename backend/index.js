@@ -26,7 +26,6 @@ console.log("-------------------------backend start---------------------");
 backGlobal.platformversion = farmscubeplatformversion;
 backGlobal.backmain = DeviceMain;
 
-
 MainAPI.firebasedbinit();
 
 var myhostname = os.hostname();
