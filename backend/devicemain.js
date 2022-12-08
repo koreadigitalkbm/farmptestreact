@@ -46,7 +46,7 @@ async function devicemaintask() {
         parity: "none",
         flowControl: false,
       });
-      var mmm = await mconn;
+      await mconn;
       console.info("connect comport : " + ModbusComm.isOpen);
     }
     if (ModbusComm.isOpen == true) {
