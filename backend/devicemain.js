@@ -7,10 +7,9 @@ const backGlobal = require("./backGlobal");
 
 const SensorInterface = require("./sensorinterface.js");
 const ActuatorInterface = require("./actuatorinterface.js");
-const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice");
 const SystemInformations = require("../frontend/myappf/src/commonjs/systeminformations");
 
-const systemconfigfilename = "../common/local_files/systemconfig.json";
+
 
 //루프로 동작하는 함수에서 한개라도 에러가 발생하면 전체 함수를 재시작하기위해
 var istaskStopByerror = false;
@@ -21,10 +20,10 @@ var mActuatorintf;
 
 function deviceInit() {
   console.log("------------deviceInit------------------- ");
-  let sconfig = KDCommon.Readfilejson(systemconfigfilename);
+  let sconfig = KDCommon.Readfilejson(KDCommon.systemconfigfilename);
   if (sconfig === null) {
     sconfig = new Systemconfig();
-    KDCommon.Writefilejson(systemconfigfilename, sconfig);
+    KDCommon.Writefilejson(KDCommon.systemconfigfilename, sconfig);
   }
   backGlobal.localsysteminformations = new SystemInformations();
   backGlobal.localsysteminformations.Systemconfg=sconfig;

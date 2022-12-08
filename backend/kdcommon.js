@@ -1,6 +1,10 @@
 const fs = require('fs');
 
+//백엔드에서 공통으로 사용되는 함수들
 module.exports = class KDCommon {
+
+  static systemconfigfilename = "../common/local_files/systemconfig.json";
+
 //json 형태로 저장함
   static Writefilejson(filename, mconfig)
     {

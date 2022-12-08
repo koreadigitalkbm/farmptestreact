@@ -8,8 +8,6 @@ const KDCommon = require("./kdcommon");
 
 
 
-
-
 module.exports =  class ActuatorInterface{
    
   constructor(sysinfo,modbuscomm) {
@@ -20,7 +18,7 @@ module.exports =  class ActuatorInterface{
       //
       let actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
 
-       ///모델별로 구별해서 센서노드를  설정하자.
+       ///모델별로 구별해서 구동기노드를  설정하자.
     if (sysinfo.Systemconfg.productmodel === "KPC480") {
       const myactnode_1 = new ActuatorNode(1, 28, modbuscomm);
       this.ActuatorNodes.push(myactnode_1);
@@ -37,7 +35,7 @@ module.exports =  class ActuatorInterface{
 
 
     let actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
-    //임시생성 추후 삭제
+    ////{{임시생성 추후 삭제
     if (actinfolist === null) {
       actinfolist=[];
       let act1 = new ActuatorBasic("구동기1",0);
@@ -47,11 +45,9 @@ module.exports =  class ActuatorInterface{
       KDCommon.Writefilejson(actuatorconfigfilename, actinfolist);
       actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     } 
-       
+     ////}} 임시생성  
 
     sysinfo.Actuators = actinfolist;
-
-
     for (const minfo of actinfolist) {
       this.Actuators.push(new Actuatordevice(minfo));
     }
@@ -74,7 +70,7 @@ module.exports =  class ActuatorInterface{
           {
             actd.AStatus.Opm ="LM";
           }
-          else{
+          else{// 기존값 자동 수동 변경
             actd.AStatus.Opm =actd.AOperation.Opmode;
           }
 
@@ -103,7 +99,7 @@ module.exports =  class ActuatorInterface{
       }
     }
   }
-
+  // 그냥테스트 함수
   setcontrolbychannel(opchannel, mcmd, mtimesec)
   {
     for (const actd of this.Actuators) {
@@ -113,7 +109,7 @@ module.exports =  class ActuatorInterface{
       }
     }
   }
-  
+  // 이함수로만 제어하자
   setoperationmanual(manualoperation)
   {
     for (const actd of this.Actuators) {

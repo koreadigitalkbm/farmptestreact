@@ -11,11 +11,8 @@ export default class IndoorFarmAPI {
   }
 
   async postData(reqURL = "", data = {}) {
-    let response;
-    console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:" + myAppGlobal.islogin);
-    
-
-    response = await fetch(reqURL, {
+//    console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:" + myAppGlobal.islogin);
+    let response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -25,7 +22,6 @@ export default class IndoorFarmAPI {
       },
       body: JSON.stringify(data), //
     });
-
     return response.json();
   }
 
