@@ -17,7 +17,7 @@ function postapifordatabase(req, rsp) {
 function postapi(req, rsp) {
   let reqmsg = JSON.parse(JSON.stringify(req.body));
   console.log("----------------------postapi :  puniqid :" + reqmsg.puniqid + ", type: " +reqmsg.reqType + ", did : "+backGlobal.mylocaldeviceid);
-  let rspmsg = msgprocessing(true, reqmsg);
+  let rspmsg = messageprocessing(true, reqmsg);
   rsp.send(JSON.stringify(rspmsg));
 }
 
@@ -32,7 +32,7 @@ async function postapifordevice(req, rsp) {
   console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", SID:"+req.header("Session-ID"));
 
   if (backGlobal.islocal == true) {
-    responsemsg = msgprocessing(false, reqmsg);
+    responsemsg = messageprocessing(false, reqmsg);
   } else {
     let reqkey;
     let repskey;
@@ -108,7 +108,7 @@ function msgprocessing_common(reqmsg) {
     softwareupdatefromgit();
     rspmsg.retMessage = "ok";
     rspmsg.IsOK = true;
-  } else if (reqmsg.reqType == "getdeviceinfo") {
+  } else if (reqmsg.reqType == "getdeviceversion") {
     rspmsg.retMessage = backGlobal.platformversion;
     rspmsg.IsOK = true;
   } else if (reqmsg.reqType == "getlocaldeviceid") {
@@ -253,7 +253,7 @@ function msgprocessing_serveronly(reqmsg, rspmsg) {
   console.log("msgprocessing_serveronly   return :  " + rspmsg.IsOK);
 }
 
-function msgprocessing(isserver, reqmsg) {
+function messageprocessing(isserver, reqmsg) {
   //공통처리부분
   let rspmsg = msgprocessing_common(reqmsg);
   if (isserver === true) {
@@ -305,7 +305,7 @@ async function firebasedbsetup(deviceidlocal) {
     try {
       let decodedStr = Buffer.from(data, "base64");
       var reqmsg = JSON.parse(decodedStr);
-      let rspmsg = msgprocessing(false,reqmsg);
+      let rspmsg = messageprocessing(false,reqmsg);
       let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
       backGlobal.fblocalresponse.set(objJsonB64encode);
     } catch (e) {

@@ -12,13 +12,13 @@ const About = () => {
 
   useEffect(() => {
     if (myAppGlobal.islocal == false) {
-      myAppGlobal.farmapi.getdeviceinfo(false).then((ret) => {
+      myAppGlobal.farmapi.getdeviceversion(true).then((ret) => {
         console.log(" get server version ret : " + ret.retMessage);
         setServerversion(ret.retMessage);
       });
     }
 
-    myAppGlobal.farmapi.getdeviceinfo(true).then((ret) => {
+    myAppGlobal.farmapi.getdeviceversion(false).then((ret) => {
       console.log("getdevice version ret1 : " + ret.retMessage);
       setDevcieversion(ret.retMessage);
     });
@@ -98,7 +98,7 @@ const About = () => {
 
 function readdevicelog(e) {
   console.log("readdevicelog : " + e.target.name);
-  myAppGlobal.farmapi.getdevicelog(myAppGlobal.islocal).then((ret) => {
+  myAppGlobal.farmapi.getdevicelog().then((ret) => {
     console.log(" getdevicelog ret : " + ret.retMessage.nindex);
     let objlist = ret.retMessage.logarr;
     //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자

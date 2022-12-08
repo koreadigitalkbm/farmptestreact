@@ -105,7 +105,7 @@ export default class IndoorFarmAPI {
   }
 
 
-  async getsensors(islocal) {
+  async getsensors() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
 
     console.log( "getsensors : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
@@ -163,28 +163,25 @@ export default class IndoorFarmAPI {
   }
 
 
-  async getdevicelog(islocal) {
+  async getdevicelog() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-
-    console.log( "etdevicelog : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    console.log( "getdevicelog : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
     reqmsg.reqType="getdevicelog";
      return await this.setRequestdevice(reqmsg);
      
   }
 
 
-  async getdeviceinfo(islocal) {
+  async getdeviceversion(isserver) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-
-    console.log( " getLocaldeviceinfo : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-
-    reqmsg.reqType="getdeviceinfo";
-    if(islocal == true)
+    console.log( "getLocaldeviceinfo : " +reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
+    reqmsg.reqType="getdeviceversion";
+    if(isserver)
     {
-      return await this.setRequestdevice(reqmsg);
+      return await this.setRequest(reqmsg);
     }
     else{
-      return await this.setRequest(reqmsg);
+      return await this.setRequestdevice(reqmsg);  
     }
     
   }
@@ -192,15 +189,15 @@ export default class IndoorFarmAPI {
 
   async setsoftwareupdate(islocal) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    console.log( " setsoftwareupdate : " +reqmsg.datetime);
-
+    console.log( "setsoftwareupdate : " +reqmsg.datetime);
     reqmsg.reqType="setswupdate";
-     
     if(islocal == true)
     {
+      //장비 업데이트
       return await this.setRequestdevice(reqmsg);
     }
     else{
+      //서버에 코드 업데이트
       return await this.setRequest(reqmsg);
     }
 
