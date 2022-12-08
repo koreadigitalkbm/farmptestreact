@@ -59,6 +59,8 @@ async function devicemaintask() {
       //장비 초기화 잘 되었으면 자동제어 목록을 가져옴.
       Autocontrolload(null);
 
+      backGlobal.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mAutoControllist.length);
+
       while (true) {
         await mSensorintf.ReadSensorAll();
         await KDCommon.delay(500);
