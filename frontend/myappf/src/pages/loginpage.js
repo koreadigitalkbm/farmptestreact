@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import myAppGlobal from "../myAppGlobal";
 //const crypto = require('crypto');
 
 const Loginpage = (props) => {
-  //const [loginresults, setLoginresult] = useState("겔과");
-  let loginresult="겔과";//const [loginresult, setLoginresult] = useState("겔과");
+  const [loginresults, setLoginresult] = useState("겔과");
   let loginid;
   let loginpw;
   let logintype;
 
   console.log("------------------Loginpage----------------- islocal :" + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
-
-
-
   if (myAppGlobal.islocal == false) {
     logintype = (
       <div className="content">
@@ -71,7 +67,7 @@ const Loginpage = (props) => {
 
           if (ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw")
           {
-            //setLoginresult("장비에 접속할수 없습니다.");
+            setLoginresult("장비에 접속할수 없습니다.");
             //loginresult="장비에 접속할수 없습니다.";
           //  props.onSetlogin("loginfail");
           }
@@ -94,7 +90,7 @@ const Loginpage = (props) => {
       <h2>login Page</h2>
       <div key="sdaff">{logintype}</div>
       <div>
-        {loginresult}
+        {loginresults}
       </div>
     </div>
   );
