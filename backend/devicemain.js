@@ -3,20 +3,17 @@ const ModbusComm = new ModbusRTU();
 
 const KDCommon = require("./kdcommon");
 const Systemconfig = require("../frontend/myappf/src/commonjs/devsystemconfig");
+const AutoControlconfig = require("../frontend/myappf/src/commonjs/autocontrolconfig");
+const AutoControl = require("./autocontrol");
 const backGlobal = require("./backGlobal");
 
 const SensorInterface = require("./sensorinterface.js");
 const ActuatorInterface = require("./actuatorinterface.js");
 const SystemInformations = require("../frontend/myappf/src/commonjs/systeminformations");
 
-
-
-//루프로 동작하는 함수에서 한개라도 에러가 발생하면 전체 함수를 재시작하기위해
-var istaskStopByerror = false;
-
 var mSensorintf;
 var mActuatorintf;
-
+var mAutoControllist = []; //자동제어
 
 function deviceInit() {
   console.log("------------deviceInit------------------- ");
@@ -26,43 +23,21 @@ function deviceInit() {
     KDCommon.Writefilejson(KDCommon.systemconfigfilename, sconfig);
   }
   backGlobal.localsysteminformations = new SystemInformations();
-  backGlobal.localsysteminformations.Systemconfg=sconfig;
+  backGlobal.localsysteminformations.Systemconfg = sconfig;
 
   console.log("deviceuniqid : ", backGlobal.localsysteminformations.Systemconfg.deviceuniqid + " comport : " + backGlobal.localsysteminformations.Systemconfg.comport);
 
   return backGlobal.localsysteminformations.Systemconfg.deviceuniqid;
 }
 
-async function devicemaintask() {
-  istaskStopByerror = false;
-  console.log("------------main start-------------------");
-  backGlobal.systemlog.memlog("devicemaintask start");
- 
-  try {
-    const promisearray = [modbusTask(), controltask()];
-    await Promise.all(promisearray);
-
-    console.log("------------main stop -------------------");
-  } catch (error) {
-    istaskStopByerror = true;
-    console.error("maintask error : " + error.toString());
-  } finally {
-    console.log("------------main stop by error-------------------");
-
-    //에러발생시 다시시작
-    setTimeout(devicemaintask, 1000);
-  }
-}
-
+// 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
-async function modbusTask() {
-  let modbusTask_count = 0;
-
-  console.log("------------modbusTask start-------------------");
-
-   
+async function devicemaintask() {
+  console.log("------------main start-------------------");
 
   try {
+    backGlobal.systemlog.memlog("devicemaintask start");
+
     if (ModbusComm.isOpen == false) {
       var mconn = ModbusComm.connectRTUBuffered(backGlobal.localsysteminformations.Systemconfg.comport, {
         baudRate: 115200,
@@ -71,78 +46,86 @@ async function modbusTask() {
         parity: "none",
         flowControl: false,
       });
-
       var mmm = await mconn;
       console.info("connect comport : " + ModbusComm.isOpen);
     }
     if (ModbusComm.isOpen == true) {
       await ModbusComm.setTimeout(200);
-
-      mSensorintf =new SensorInterface(backGlobal.localsysteminformations,ModbusComm);
-      mActuatorintf=new ActuatorInterface(backGlobal.localsysteminformations,ModbusComm);
-
+      mSensorintf = new SensorInterface(backGlobal.localsysteminformations, ModbusComm);
+      mActuatorintf = new ActuatorInterface(backGlobal.localsysteminformations, ModbusComm);
       backGlobal.sensorinterface = mSensorintf;
       backGlobal.actuatorinterface = mActuatorintf;
 
-
+      //장비 초기화 잘 되었으면 자동제어 목록을 가져옴.
+      Autocontrolload(null);
 
       while (true) {
-        if (istaskStopByerror == true) {
-          return "modbusTask";
+        await mSensorintf.ReadSensorAll();
+        await KDCommon.delay(500);
+
+        await mActuatorintf.ControlAll();
+        await KDCommon.delay(500);
+
+        const clocknow = new Date();
+        const totalsec = clocknow.getHours() * 3600 + clocknow.getMinutes() * 60 + clocknow.getSeconds();
+        for (const ma of mAutoControllist) {
+          if (ma.ischangebycontrol(mSensorintf.mSensors, totalsec) === true) {
+          }
         }
-          
-          modbusTask_count++;
-      
 
-          await mActuatorintf.ControlAll();
-          await KDCommon.delay(500);
-          await mSensorintf.ReadSensorAll();
-          await KDCommon.delay(500);
-          
-          
-          
-
-//          for (const msensor of mSensorintf.mSensors) {
-  //          console.log("read sensor: " + msensor.GetValuestring(true,true));
-    //      }
-          //backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
-          //console.log("modbusTask run: " + modbusTask_count);
-
-        
+        //          for (const msensor of mSensorintf.mSensors) {
+        //          console.log("read sensor: " + msensor.GetValuestring(true,true));
+        //      }
+        //backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
+        //console.log("modbusTask run: " + modbusTask_count);
       }
     }
   } catch (error) {
-    console.log("modbusTask : catch...... error:" + error.toString());
-    istaskStopByerror = true;
-    throw error;
+    console.error("maintask  catch error : " + error.toString());
+  } finally {
+    console.log("------------main stop by error finally-------------------");
+    //에러발생시 다시시작
+    setTimeout(devicemaintask, 1000);
   }
-
-  return "modbusTask";
 }
 
-async function controltask() {
-  let sec_count = 0;
+function Autocontrolload(isonlyoneitem) {
+  let mcfglist = KDCommon.Readfilejson(KDCommon.autocontrolconfigfilename);
 
-  try {
-    while (true) {
-      await KDCommon.delay(1000);
-      sec_count++;
-        //console.log("controltask run: " + sec_count);
+  ////{{ 자동제어 테스트로 임시로 생성 나중에 지움
+  if (mcfglist === null) {
+    let m1 = new AutoControlconfig();
+    let m2 = new AutoControlconfig();
+    mcfglist = [];
+    mcfglist.push(m1);
+    mcfglist.push(m2);
+    KDCommon.Writefilejson(KDCommon.autocontrolconfigfilename, mcfglist);
+  }
+  /////}}}} 
+
+  ///전체 다시 로드
+  if (isonlyoneitem === null) {
+    mAutoControllist = [];
+    for (const mcfg of mcfglist) {
+      mAutoControllist.push(new AutoControl(mcfg));
+      console.log("Autocontrolload load: " + mcfg.Uid + ",name : " + mcfg.Name);
     }
-  } catch (error) {
-    console.log("controltask : catch...... ");
-    istaskStopByerror = true;
-    throw error;
+  } else {
+    //특정 한개만 다시로드  설정이 변경되었을경우 
+
+    for (let i = 0; i < mAutoControllist.length; i++) {
+      let ma = mAutoControllist[i];
+      if (ma.mConfig.Uid === isonlyoneitem.Uid) {
+        mAutoControllist[i] = new AutoControl(isonlyoneitem);
+        console.log("Autocontrolload reload: " + isonlyoneitem.Uid + ",name : " + ma.mConfig.Name);
+      }
+    }
+    //목록에 없으면 새로 만든거임
+    mAutoControllist.push(new AutoControl(isonlyoneitem));
   }
-
-  return "controltask";
 }
 
-function getdevicestatusall(reponsemsg)
-{
-
-  
-}
+function getdevicestatusall(reponsemsg) {}
 
 exports.deviceInit = deviceInit;
 exports.devicemaintask = devicemaintask;

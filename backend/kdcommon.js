@@ -4,6 +4,7 @@ const fs = require('fs');
 module.exports = class KDCommon {
 
   static systemconfigfilename = "../common/local_files/systemconfig.json";
+  static autocontrolconfigfilename = "../common/local_files/autocontrolconfig.json";
 
 //json 형태로 저장함
   static Writefilejson(filename, mconfig)

@@ -19,7 +19,11 @@ module.exports = class SensorNode {
       this.modbusMaster.writeFC3(this.SlaveID, Regaddress, Reglength, function (err, data) {
         resolve(data);
         if (err) {
+          if(this.node_error_count >10)
+          {
+          console.log("SensorNode read error:" + this.node_error_count );
           console.log(err);
+          }
         }
       });
     });
@@ -60,8 +64,6 @@ module.exports = class SensorNode {
       if (rv1 != undefined) {
 
         this.node_error_count = 0;
-        
-
         for (let i = 0; i <  this.sensormaxcount; i++) {
           let sv_float = Buffer.from([(rv1.data[i * 3 + 0] >> 0) & 0xff, (rv1.data[i * 3 + 0] >> 8) & 0xff, (rv1.data[i * 3 + 1] >> 0) & 0xff, (rv1.data[i * 3 + 1] >> 8) & 0xff]).readFloatLE(0);
           let sensorcode = rv1.data[i * 3 + 2];
@@ -76,16 +78,13 @@ module.exports = class SensorNode {
           }
         }
 
-        await KDCommon.delay(100);
+        //await KDCommon.delay(100);
 
         return svlist;
-      } else {
-        console.log("ReadSensor fail : " + this.SlaveID);
-      }
-
+      } 
       return null;
     } catch (Err) {
-      console.log(Err);
+     // console.log("ReadSensor fail :"+Err);
       return null;
     }
   }

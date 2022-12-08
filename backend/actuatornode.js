@@ -28,7 +28,10 @@ module.exports = class ActuatorNode {
       this.modbusMaster.writeFC3(this.SlaveID, Regaddress, Reglength, function (err, data) {
         resolve(data);
         if (err) {
-          console.log(err);
+          if (this.node_error_count > 10) {
+            console.log("ActuatorNode read error:" + this.node_error_count);
+            console.log(err);
+          }
         }
       });
     });
@@ -57,7 +60,7 @@ module.exports = class ActuatorNode {
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
         }
-      //  console.log("-ActuatorNode ReadStatusAll------------------");
+        //  console.log("-ActuatorNode ReadStatusAll------------------");
 
         return this.actlist;
       }
