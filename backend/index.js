@@ -1,5 +1,5 @@
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
-const farmscubeplatformversion = 1.578;
+const farmscubeplatformversion = 1.678;
 
 var express = require("express");
 var cors = require("cors");
