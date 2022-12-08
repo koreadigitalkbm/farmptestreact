@@ -188,7 +188,6 @@ function msgprocessing_serveronly(reqmsg, rspmsg) {
 
       //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
       if (rspmsg.retMessage != "not") {
-        console.log("ssession save devid:  " +rspmsg.retParam + ", SID:" + reqmsg.SessionID);
         backGlobal.sessionmap.set(rspmsg.retParam, reqmsg.SessionID);
       }
     }
