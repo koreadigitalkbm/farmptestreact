@@ -1,102 +1,100 @@
-import React, { useState, useEffect } from "react";
-import myAppGlobal from "../myAppGlobal";
+import React, { useState, useEffect } from "react"
+import DeviceSystemconfig from "../commonjs/devsystemconfig"
+import myAppGlobal from "../myAppGlobal"
 
 
 
 const Dashboard = (props) => {
-  const [loginresult, setLoginresult] = useState("결과")
-  const [currentDeviceName, setCurrentDeviceName] = useState("현재이름")
-  const [currentDeviceID, setCurrentDeviceID] = useState(myAppGlobal.logindeviceid)
-  let loginid;
-  let loginpw;
-  let logintype;
-  let newDeviceName;
-  let newDeviceID;
-  let newDevicePW;
+  const [changeMyInfoResult, setChangeMyInfoResult] = useState("결과")
+  const [currentDeviceName, setCurrentDeviceName] = useState(myAppGlobal.systeminformations.Systemconfg.name)
+  const [currentDeviceID, setCurrentDeviceID] = useState(myAppGlobal.systeminformations.Systemconfg.deviceuniqid)
+  const [currentComport, setCurrentComport] = useState(myAppGlobal.systeminformations.Systemconfg.comport)
+  const [currentPassword, setCurrentPassword] = useState('******')
+  const currentProductName = '패밀리 이름'
+  const currentProductModel = '모델 이름'
 
-  console.log("------------------Loginpage----------------- islocal :" + myAppGlobal.islocal + " props.Islogin :" + props.Islogin);
+  let myCurrentInfo
+  let myNewInfo
+  let newDeviceName
+  let newDeviceID
+  let newComport
+  let newPassword
 
 
+  myCurrentInfo = (
+    <div className="currentMyInfo">
+      <h3>나의 정보</h3>
 
-  if (myAppGlobal.islocal === false) {
-    logintype = (
-      <div className="content">
-        <label>ID: </label>
-        <input type="text" key="1235" name="inputloginid" onChange={inputonchangeHandler} />
-        <div>
-          <label>암호: </label>
-          <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
-          <button className="" onClick={loginbuttonHandler}>
-            로그인
-          </button>
-
-        </div>
+      <div>
+        <table>
+          <tr>
+            <th>기기닉네임</th>
+            <td>{currentDeviceName}</td>
+          </tr>
+          <tr>
+            <th>comport</th>
+            <td>{currentComport}</td>
+          </tr>
+          <tr>
+            <th>기기ID</th>
+            <td>{currentDeviceID}</td>
+          </tr>
+          <tr>
+            <th>패스워드</th>
+            <td>{currentPassword}</td>
+          </tr>
+          <tr>
+            <th>브랜드명</th>
+            <td>{currentProductName}</td>
+          </tr>
+          <tr>
+            <th>기기모델명</th>
+            <td>{currentProductModel}</td>
+          </tr>
+        </table>
       </div>
-    );
-  } else {
-    logintype = (
-      <div className="">
-        <label>간편로그인(로컬): </label>
+    </div>
+  );
 
-        <div>
-          <label>암호: </label>
-          <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
-          <button className="" onClick={loginbuttonHandler}>
-            로그인
-          </button>
-        </div>
-
-        <div>
-          <label>현재 기기이름: </label>
-          {currentDeviceName}
-          <br></br>
-          <label>현재 기기ID: </label>
-          {currentDeviceID}
-          <br></br>
-        </div>
-        
-
-        <div>
-          <label>새 기기이름: </label>
-          <input type="text" name='inputNewDeviceName' onChange={inputonchangeHandler} />
-          <br></br>
-          <label>새 디바이스ID: </label>
-          <input type="text" name='inputNewDeviceID' onChange={inputonchangeHandler} />
-          <br></br>
-          <label>새 패스워드: </label>
-          <input type="text" name='inputNewDevicePW' onChange={inputonchangeHandler} />
-          <br></br>
-          <button classname="" onClick={setMyInfoHandler}>
-            로그인정보 변경
-          </button>
-          <br></br>
-
-        </div>
-
-      </div>
-    );
-  }
-
-  function initMyInfo() {
-    setCurrentDeviceID(myAppGlobal.logindeviceid)
-  }
-
-  function checkIDRule() {
-
-  }
+  myNewInfo = (
+    <div className="newMyInfo">
+      <h3>정보 수정</h3>
+      <table>
+        <tr>
+          <th>새 기기닉네임</th>
+          <td><input type="text" name='inputNewDeviceName' value={currentDeviceName} onChange={inputonchangeHandler} /></td>
+        </tr>
+        <tr>
+          <th>comport</th>
+          <td><input type="text" name='inputNewComport' value={currentComport} onChange={inputonchangeHandler} /></td>
+        </tr>
+        <tr>
+          <th>새 디바이스ID:</th>
+          <td><input type="text" name='inputNewDeviceID' value={currentDeviceID} onChange={inputonchangeHandler} /></td>
+        </tr>
+        <tr>
+          <th>새 패스워드:</th>
+          <td><input type="text" name='inputNewDevicePW' onChange={inputonchangeHandler} /></td>
+        </tr>
+        <tr>
+          <td colSpan={'2'} align={'center'}>
+            <button classname="" onClick={setMyInfoHandler}>
+              <h4>변경하기</h4>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  );
 
   function inputonchangeHandler(e) {
     switch (e.target.name) {
-      case "inputloginid":
-        loginid = e.target.value;
-        break;
-
-      case "inputloginpw":
-        loginpw = e.target.value;
-        break;
-
       case 'inputNewDeviceName':
         newDeviceName = e.target.value;
+        break;
+
+      case 'inputNewComport':
+        newComport = e.target.value;
         break;
 
       case 'inputNewDeviceID':
@@ -104,52 +102,39 @@ const Dashboard = (props) => {
         break;
 
       case 'inputNewDevicePW':
-        newDevicePW = e.target.value;
+        newPassword = e.target.value;
         break;
+
       default:
         console.log('입력오류 발생');
     }
   }
 
-  function loginbuttonHandler(e) {
-    console.log("loginbuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
-
-    myAppGlobal.farmapi.setLogin(loginid, loginpw).then((ret) => {
-      if (ret) {
-        if (ret.IsOK === true) {
-          console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);
-
-          if (ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw") {
-            console.log("실패");
-            setLoginresult("장비에 접속할수 없습니다.")
-          }
-          else {
-            console.log("성공");
-            setLoginresult("로그인 성공")
-            window.sessionStorage.setItem("login", ret.retMessage);
-            window.sessionStorage.setItem("deviceid", ret.retParam);
-            myAppGlobal.logindeviceid = ret.retParam;
-          }
-        }
-      }
-    });
-  }
-
   function setMyInfoHandler(e) {
-    myAppGlobal.farmapi.setMyInfo(newDeviceName, newDeviceID, newDevicePW).then((ret) => {
+    let newconf = new DeviceSystemconfig();
+
+    newconf.name="ghfh";
+    newconf.deviceuniqid=myAppGlobal.systeminformations.Systemconfg.deviceuniqid;
+    newconf.comport=myAppGlobal.systeminformations.Systemconfg.comport;
+    newconf.password=myAppGlobal.systeminformations.Systemconfg.password;
+    newconf.productname=myAppGlobal.systeminformations.Systemconfg.productname;
+    newconf.productmodel=myAppGlobal.systeminformations.Systemconfg.productmodel;
+
+    myAppGlobal.farmapi.setMyInfo(newconf).then((ret) => {
       if (ret) {
         if (ret.IsOK === true) {
           if (ret.retMessage === 'ok') {
-           
-           console.log('변경완료!');
-            setLoginresult('변경완료!');
+            setChangeMyInfoResult('변경완료!');
+            setCurrentDeviceName(newDeviceName);
+            setCurrentDeviceID(newDeviceID);
+            setCurrentComport(newComport);
           }
           else {
-            console.log('error Code: 3920');
+            setChangeMyInfoResult('에러발생! code: 3920');
           }
         }
         else {
-          console.log('error Code: 3921');
+          setChangeMyInfoResult('에러발생! code: 3921');
         }
       }
     })
@@ -158,10 +143,14 @@ const Dashboard = (props) => {
   return (
     <div>
       <h2>Dash Board</h2>
-      <div key="sdaff">{logintype}</div>
+      <div className="content">
+        {myCurrentInfo}
+        <br></br>
+        {myNewInfo}
+      </div>
       <div>
         <p></p>
-        {loginresult}
+        {changeMyInfoResult}
       </div>
 
     </div>

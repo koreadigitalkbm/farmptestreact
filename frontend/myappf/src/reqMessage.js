@@ -11,6 +11,7 @@ export default class reqMessage {
   loginPW = undefined;
   SessionID = 0;
 
+  reqParam = undefined;
 
   getSensors = undefined;
   getOutputport = undefined;

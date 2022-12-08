@@ -11,7 +11,7 @@ export default class IndoorFarmAPI {
   }
 
   async postData(reqURL = "", data = {}) {
-//    console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:" + myAppGlobal.islogin);
+    //    console.log(" postData islocal : " + this.islocal + ",myAppGlobal :" + myAppGlobal.islocal + "myAppGlobal islogin:" + myAppGlobal.islogin);
     let response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
@@ -94,7 +94,7 @@ export default class IndoorFarmAPI {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
     console.log("setsoftwareupdate : " + reqmsg.datetime);
     reqmsg.reqType = KDDefine.REQType.RT_SWUPDATE;
-    if (islocal == true) {
+    if (islocal === true) {
       //장비 업데이트
       return await this.setRequestdevice(reqmsg);
     } else {
@@ -133,5 +133,13 @@ export default class IndoorFarmAPI {
     console.log("getsensors : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
     reqmsg.reqType = KDDefine.REQType.RT_SENSORSTATUS;
     return await this.setRequestdevice(reqmsg);
+  }
+
+  async setMyInfo(newconf) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid)
+    reqmsg.reqType = KDDefine.REQType.RT_SETMYINFO;
+    reqmsg.reqParam = newconf;
+
+    return await this.setRequest(reqmsg);
   }
 }

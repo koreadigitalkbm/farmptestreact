@@ -50,6 +50,7 @@ module.exports = class KDDefine {
 
     RT_SENSORSTATUS: "getsensors", // 센서상태
 
+    RT_SETMYINFO: 'setmyinfo' //사용자 정보 수정
     
   });
 

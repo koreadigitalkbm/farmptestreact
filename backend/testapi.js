@@ -142,6 +142,12 @@ function msgprocessing_common(reqmsg) {
 
       rspmsg.IsOK = true;
       break;
+
+    case KDDefine.REQType.RT_SETMYINFO:
+      KDCommon.Writefilejson(KDCommon.systemconfigfilename, reqmsg.reqParam);
+      rspmsg.retMessage = "ok";
+      rspmsg.IsOK = true;
+      break;
   }
 
   //console.log("msgprocessing_common   return :  " + rspmsg.IsOK);
@@ -217,6 +223,20 @@ function softwareupdatefromgit() {
       console.log("exec error: " + error);
     }
   });
+}
+
+function setMyInfo(reqmsg) {
+  const newInfo = {
+    name: reqmsg.deviceName,
+    deviceuniqid: reqmsg.deviceID,
+    comport: reqmsg.comport,
+    password: reqmsg.password,
+    productname: reqmsg.productname,
+    productmodel: reqmsg.productmodel
+  }
+
+  const newInfoJSON = JSON.stringify(newInfo)
+  fs.writeFileSync('./../common/local_files/systemconfig.json', reqmsg.reqParam)
 }
 
 async function firebasedbinit() {
