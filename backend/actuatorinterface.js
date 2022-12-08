@@ -89,7 +89,7 @@ module.exports =  class ActuatorInterface{
 
   
   //구동기 상태를 읽은후 구동기의 동작상태와 비교해서 작동시킴.
-  async ControlAll() {
+  async ReadStatus() {
     //console.log("-ActuatorInterface ControlAll------------------");
     for (const anode of this.ActuatorNodes) {
       let alist = await anode.ReadStatusAll();
@@ -109,18 +109,30 @@ module.exports =  class ActuatorInterface{
       }
     }
   }
+  setoperation(mloperation, opmode)
+  {
+    for (const actd of this.Actuators) {
+      if(actd.UniqID === mloperation.Uid)
+      {
+        actd.AOperation.setoperation(mloperation.Opcmd,mloperation.Timesec,mloperation.Param,opmode);
+      }
+    }
+ }
+
   // 수동제어 
   setoperationmanual(manualoperation)
   {
-    for (const actd of this.Actuators) {
-      if(actd.UniqID === manualoperation.Uid)
-      {
-        actd.AOperation.setoperation(manualoperation.Opcmd,manualoperation.Timesec,manualoperation.Param,"MA");
-      }
-    }
- 
-  }
+    this.setoperation (manualoperation,"MA");
+    
+ }
 
+
+  setoperationAuto(autooperationlist)
+  {
+    for (const mopcmd of autooperationlist) {
+      this.setoperation (mopcmd,"AT");
+    }
+  }
 
   //구동기상태 값을 전송한다. 
   getactuatorstatus() {
