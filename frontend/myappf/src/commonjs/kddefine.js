@@ -35,5 +35,23 @@ module.exports = class KDDefine {
     HT_ETC: 2,   // 기타
   });
   
+  //요청타입을 여기에 정의한다.
+  static REQType = Object.freeze({
+    RT_LOGIN: "login", //로그인
+    RT_SYSTEMINIFO: "getsysteminfo", //장비 정보읽어옴
+    RT_DEVICELOG: "getdevicelog", //장비 중요 로그를 읽어옴
+
+    RT_GETVERSION: "getdeviceversion", //소프트웨어 버전 읽어옴
+    RT_SWUPDATE: "setswupdate", // 장비 소프트웨어 업데이트
+
+    RT_SYSTEMSTATUS: "getsystemstatus", // 장비 전체 상태
+    RT_ACTUATOROP: "setactuatoroperation", // 구동기 동작
+    RT_ACTUATORSTATUS: "getactuatorstatus", // 구동기상태
+
+    RT_SENSORSTATUS: "getsensors", // 센서상태
+
+    
+  });
+
 
 };

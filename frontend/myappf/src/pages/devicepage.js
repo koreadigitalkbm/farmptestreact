@@ -60,11 +60,7 @@ const Devicepage = () => {
   
 function actoperation(e) {
   console.log("actoperation : " + e.target.name);
-  myAppGlobal.farmapi.setacutuatoroperation(e.target.name).then((ret) => {
-    
-   
-  });
-  
+ 
   
 }
 
