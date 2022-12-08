@@ -4,8 +4,8 @@ import myAppGlobal from "../myAppGlobal";
 
 const Loginpage = (props) => {
   const [loginresults, setLoginresult] = useState("겔과");
-  let loginid;
-  let loginpw;
+  let loginid="";
+  let loginpw="";
   let logintype;
 
   console.log("------------------Loginpage----------------- islocal :" + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
@@ -13,10 +13,10 @@ const Loginpage = (props) => {
     logintype = (
       <div className="content">
         <label>ID: </label>
-        <input type="text" key="1235" name="inputloginid" onChange={inputonchangeHandler} />
+        <input type="text" key="1235" name="inputloginid"   onChange={inputonchangeHandler} />
         <div>
           <label>암호: </label>
-          <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
+          <input type="text" key="1234" name="inputloginpw"  onChange={inputonchangeHandler} />
           <button className="" onClick={loginbuttonHandler}>
             로그인
           </button>
@@ -32,7 +32,7 @@ const Loginpage = (props) => {
 
         <div>
           <label>암호: </label>
-          <input type="text" key="1234" name="inputloginpw" onChange={inputonchangeHandler} />
+          <input type="text" key="1234" name="inputloginpw"    onChange={inputonchangeHandler} />
           <button className="" onClick={loginbuttonHandler}>
             로그인
           </button>
