@@ -76,12 +76,13 @@ async function devicemaintask() {
           }
         }
         mActuatorintf.setoperationAuto(opcmdlist);
+        await KDCommon.delay(500);
+        
 
         //          for (const msensor of mSensorintf.mSensors) {
         //          console.log("read sensor: " + msensor.GetValuestring(true,true));
         //      }
-        //backGlobal.systemlog.memlog("modbusTask run: " + modbusTask_count);
-        //console.log("modbusTask run: " + modbusTask_count);
+       
       }
     }
   } catch (error) {
