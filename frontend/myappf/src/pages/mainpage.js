@@ -4,6 +4,7 @@ import About from "./about";
 import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
 import Devicepage from "./devicepage";
+import Autocontrolpage from "./autocontrolpage";
 
 import myAppGlobal from "../myAppGlobal";
 import Dashboard from "./dashboard";
@@ -56,6 +57,11 @@ const Mainpage = (props) => {
                   <img src="./image/s_dev.png" className="con_img" /> DEVICE
                 </div>
               </Link>
+              <Link to="/autocontrol" className="linkmenu">
+                <div className="content">
+                  <img src="./image/s_dev.png" className="con_img" /> 자동제어
+                </div>
+              </Link>
               <Link to="/about" className="linkmenu">
                 <div className="content">
                   <img src="./image/s_aut.png" className="con_img" /> About
@@ -93,6 +99,7 @@ const Mainpage = (props) => {
               <Route path="/" element={<Sensorpage />} />
               <Route path="/devices" element={<Devicepage />} />
               <Route path="/sensor" element={<Sensorpage />} />
+              <Route path="/autocontrol" element={<Autocontrolpage />} />
               <Route path="/about" element={<About />} />
               <Route path="/setup" element={<About />} />
               <Route exact path="/admin" element={<AdminSetup />} />
