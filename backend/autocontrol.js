@@ -1,10 +1,10 @@
 //자동제어
-
 const AutoControlStatus = require("../frontend/myappf/src/commonjs/autocontrolstatus");
+const AutoControlconfig = require("../frontend/myappf/src/commonjs/autocontrolconfig");
 
 module.exports = class AutoControl {
   constructor(mconfig) {
-    this.mConfig = mconfig;
+    this.mConfig = AutoControlconfig.deepcopy(mconfig); // 자동제어 설정을 복사해서 넣음
     this.mState = new AutoControlStatus(mconfig.UniqID);
     this.mLog = [];
   }
