@@ -18,7 +18,7 @@ module.exports = class AutoControlconfig {
 
       this.Cat=KDDefine.AUTOCategory.ATC_USER;  //  자동제어 분류
       this.Actlist=[]; // 구동기 UID  목록 최소 1개
-      this.Senlist=[]; // 센서 UID  목록  센서제어시필요  추후에 여러개가 필요할지 모르는 우선 리스트로 만듬.
+      this.Senlist=[]; // 센서 UID  목록  센서제어시필요  추후에 여러개가 필요할지 모르니 우선 리스트로 만듬.
 
 
       this.STime=0;//시작시간 초단위 number 

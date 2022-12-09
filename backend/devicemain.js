@@ -72,12 +72,13 @@ async function devicemaintask() {
         const totalsec = KDCommon.getCurrentTotalsec();
         let opcmdlist=[];
         for (const mactl of mAutoControllist) {
-          if (mactl.ischangebycontrol(mSensorintf.mSensors, totalsec) === true) {
-          }
+          let mlist= mactl.getOperationsByControl(mSensorintf.mSensors);
+          opcmdlist.push(...mlist);
+       
         }
+        
         mActuatorintf.setoperationAuto(opcmdlist);
         await KDCommon.delay(500);
-
 
         //          for (const msensor of mSensorintf.mSensors) {
         //          console.log("read sensor: " + msensor.GetValuestring(true,true));
@@ -93,6 +94,10 @@ async function devicemaintask() {
     setTimeout(devicemaintask, 1000);
   }
 }
+
+
+
+
 
 function Autocontrolload(isonlyoneitem) {
   let mcfglist = KDCommon.Readfilejson(KDCommon.autocontrolconfigfilename);

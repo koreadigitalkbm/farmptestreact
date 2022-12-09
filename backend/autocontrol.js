@@ -70,20 +70,38 @@ module.exports = class AutoControl {
 
   //자동제어로 동작한후 상태가 변경되면  true  리턴
   ischangebycontrol(msensors, timesecnow) {
-    let mstatus = false;
 
+    return false;
+
+  }
+
+  getOperationsByControl(msensors)
+  {
+    let oplist=[];
+    let mstatus = false;
+    let timesecnow = KDCommon.getCurrentTotalsec();
     if (this.isBasiccondition(timesecnow) == true) {
       if (this.mConfig.TEnb == true) {
         //타이머
         mstatus = this.isTimercondition();
       } else {
         //센서
-
-        mstatus = this.isSensorcondtion();
+        mstatus = this.isSensorcondtion(msensors);
       }
-
-      return this.mState.ischangestatecheck(mstatus);
     }
-    return false;
+    
+    if(this.mState.ischangestatecheck(mstatus) ==true)
+    {
+
+    }
+
+
+
+
+    return oplist;
+
   }
+
+
+
 };
