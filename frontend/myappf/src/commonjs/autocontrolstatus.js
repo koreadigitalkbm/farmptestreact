@@ -1,8 +1,10 @@
 //자동제어시 변경되는 상태나 변수를 저장함.
+const KDDefine = require("./kddefine");
 module.exports = class AutoControlStatus {
   constructor(uniqid) {
-    this.autouniqid=uniqid;
+    this.Uid=uniqid;
     //처음초기화상태
+    this.State=0;
     this.onoffstate = "init";
   }
   ischangestatecheck(newstate) {

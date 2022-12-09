@@ -68,8 +68,8 @@ async function devicemaintask() {
         await mActuatorintf.ReadStatus();
         await KDCommon.delay(500);
 
-        const clocknow = new Date();
-        const totalsec = clocknow.getHours() * 3600 + clocknow.getMinutes() * 60 + clocknow.getSeconds();
+        
+        const totalsec = KDCommon.getCurrentTotalsec();
         let opcmdlist=[];
         for (const mactl of mAutoControllist) {
           if (mactl.ischangebycontrol(mSensorintf.mSensors, totalsec) === true) {
@@ -77,7 +77,7 @@ async function devicemaintask() {
         }
         mActuatorintf.setoperationAuto(opcmdlist);
         await KDCommon.delay(500);
-        
+
 
         //          for (const msensor of mSensorintf.mSensors) {
         //          console.log("read sensor: " + msensor.GetValuestring(true,true));

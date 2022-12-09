@@ -35,5 +35,12 @@ module.exports = class KDCommon {
   static delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+//현재시간 초단위로
+  static getCurrentTotalsec()
+  {
+    const clocknow = new Date();
+    const totalsec = clocknow.getHours() * 3600 + clocknow.getMinutes() * 60 + clocknow.getSeconds();
+    return totalsec;
+  }
 
 };
