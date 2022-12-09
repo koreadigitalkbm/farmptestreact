@@ -107,9 +107,7 @@ module.exports = class AutoControl {
     if( ischangeevent ==true)
     {
       for (const mactid of this.mConfig.Actlist) {
-
         let opcmd = new ActuatorOperation(mactid, currentonoffstate, this.mConfig.OnTime);
-        
         oplist.push(opcmd);
         console.log("-getOperationsByControl new---------------mactid : " + mactid + " cmd:"+opcmd.Opcmd);
 

@@ -6,8 +6,7 @@ import KDDefine from "./commonjs/kddefine";
 import ActuatorOperation from "./commonjs/actuatoroperation";
 
 function manualonoff(actuid, onoff) {
-  let opcmd = new ActuatorOperation(actuid, onoff,30);
-
+ let opcmd = new ActuatorOperation(actuid, onoff,30);
   
 
   myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {});
