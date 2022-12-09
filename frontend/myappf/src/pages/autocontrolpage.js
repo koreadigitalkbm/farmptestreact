@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import myAppGlobal from "../myAppGlobal";
+import AutoControlconfig from "../commonjs/autocontrolconfig";
 
 
 const Autocontrolpage = () => {
@@ -10,7 +11,9 @@ const Autocontrolpage = () => {
 
   console.log("Autocontrolpage: ");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
+  }, []);
 
 
   function Autocontroleditbox(myeditcfg, msensorlist, mdevlist) {
@@ -18,9 +21,31 @@ const Autocontrolpage = () => {
     //console.log("Autocontroleditbox  misTimershow: " + misTimershow);
 
   }
+  
   function autocontrolbox(mydata) {
- 
+    let autostate = <label className="auto_result"> 정지됨</label>;
+
+    if (mydata.Enb=== true) {
+      let onofficon = "./image/" + (mydata.Enb ? "on" : "off") + ".png";
+
+      ///<img src={onofficon} className="onoff" />
+      autostate = <label className="auto_result"> 작동중</label>;
+    }
+
+    return (
+      <div className="auto_seln">
+        <label className="auto_inname">{mydata.Name}</label>
+
+        {autostate}
+        <div className="auto_change">
+          <button className="change_but" onClick={() => setupselected(AutoControlconfig.deepcopy(mydata))} id="editcheck">
+            설정변경
+          </button>
+        </div>
+      </div>
+    );
   }
+
 
   function onAdd() {
   

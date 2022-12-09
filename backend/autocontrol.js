@@ -56,12 +56,15 @@ module.exports = class AutoControl {
           this.PWMLasttoltalsec = totalsec;
           this.PWMonoffstate = true;
           //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
+          console.log("-isTimercondition on : " + totalsec);
+
           return true;
         }
       } else {
         if (totalsec > this.PWMLasttoltalsec + this.mConfig.OnTime) {
           this.PWMLasttoltalsec = totalsec;
           this.PWMonoffstate = false;
+          console.log("-isTimercondition off : " + totalsec);
         } 
       }
     }
