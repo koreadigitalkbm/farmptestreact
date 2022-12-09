@@ -6,14 +6,9 @@ import KDDefine from "./commonjs/kddefine";
 import ActuatorOperation from "./commonjs/actuatoroperation";
 
 function manualonoff(actuid, onoff) {
-  let opcmd = new ActuatorOperation(actuid);
+  let opcmd = new ActuatorOperation(actuid, onoff,30);
 
-  if (onoff == true) {
-    opcmd.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On;
-    opcmd.Timesec = 30;
-  } else {
-    opcmd.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Off;
-  }
+  
 
   myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {});
 }

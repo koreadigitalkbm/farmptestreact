@@ -1,6 +1,9 @@
 //자동제어
 const AutoControlStatus = require("../frontend/myappf/src/commonjs/autocontrolstatus");
 const AutoControlconfig = require("../frontend/myappf/src/commonjs/autocontrolconfig");
+const ActuatorOperation = require("../frontend/myappf/src/commonjs/actuatoroperation");
+const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
+
 const KDCommon = require("./kdcommon");
 
 module.exports = class AutoControl {
@@ -18,7 +21,6 @@ module.exports = class AutoControl {
   isBasiccondition(timesecnow) {
     if (this.mConfig.Enb == true) {
       //시작시간과 종료시간 안에 들어와함.
-
       //시작시간이 더크면 자정포함임.
       if (this.mConfig.STime > this.mConfig.ETime) {
         if (timesecnow >= this.mConfig.STime || timesecnow <= this.mConfig.ETime) {
@@ -36,7 +38,11 @@ module.exports = class AutoControl {
   //타이머방식 채크
   isTimercondition() {
     if (this.mConfig.OffTime == 0) {
-      return true;
+      if (this.PWMonoffstate == false)
+      {
+        this.PWMonoffstate =true;
+        return true;
+      }
     } else {
       //PWM 제어
       const totalsec = KDCommon.getCurrentTotalsec();
@@ -49,16 +55,14 @@ module.exports = class AutoControl {
         if (totalsec > this.PWMLasttoltalsec + this.mConfig.OffTime) {
           this.PWMLasttoltalsec = totalsec;
           this.PWMonoffstate = true;
+          //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
           return true;
         }
       } else {
         if (totalsec > this.PWMLasttoltalsec + this.mConfig.OnTime) {
           this.PWMLasttoltalsec = totalsec;
-          this.PWMonoffstate = fasle;
-          return false;
-        } else {
-          return true;
-        }
+          this.PWMonoffstate = false;
+        } 
       }
     }
     return false;
@@ -75,28 +79,57 @@ module.exports = class AutoControl {
 
   }
 
-  getOperationsByControl(msensors)
+  getOperationsByControl(msensors, mactuators)
   {
     let oplist=[];
-    let mstatus = false;
+    let curstate = false;
+    
+    let ischangeevent=false; // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
+    let currentonoffstate=false;
+
     let timesecnow = KDCommon.getCurrentTotalsec();
     if (this.isBasiccondition(timesecnow) == true) {
       if (this.mConfig.TEnb == true) {
         //타이머
-        mstatus = this.isTimercondition();
+        currentonoffstate = ischangeevent = this.isTimercondition();
       } else {
         //센서
-        mstatus = this.isSensorcondtion(msensors);
+        curstate = this.isSensorcondtion(msensors);
+        ischangeevent = this.mState.ischangestatecheck(curstate);
       }
     }
+    else{
+      //기본조건 안맞음 모두  off
+      currentonoffstate=false;
+      ischangeevent=this.mState.ischangestatecheck(currentonoffstate);
+    }
     
-    if(this.mState.ischangestatecheck(mstatus) ==true)
+    if( ischangeevent ==true)
     {
+      for (const mactid of this.mConfig.Actlist) {
+
+        let opcmd = new ActuatorOperation(mactid, currentonoffstate, this.mConfig.OnTime);
+        
+        oplist.push(opcmd);
+        console.log("-getOperationsByControl new---------------mactid : " + mactid + " cmd:"+opcmd.Opcmd);
+
+/*
+        for (const actd of mactuators) 
+          {
+            if(mactid ==actd.UniqID )
+            {
+
+
+              break;
+            }
+
+          }
+          */
+        
+        
+      }
 
     }
-
-
-
 
     return oplist;
 

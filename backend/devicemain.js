@@ -87,14 +87,15 @@ async function devicemaintask() {
       }
     }
   } catch (error) {
-    console.error("maintask  catch error : " + error.toString());
+    backGlobal.systemlog.memlog(" maintask  catch error : " + error.toString());
+
   } finally {
     console.log("------------main stop by error finally-------------------");
+    
     //에러발생시 다시시작
     setTimeout(devicemaintask, 1000);
   }
 }
-
 
 
 
@@ -107,11 +108,14 @@ function Autocontrolload(isonlyoneitem) {
     let m1 = new AutoControlconfig();
     let m2 = new AutoControlconfig();
     mcfglist = [];
+    m1.Actlist.push("N01C00T00");
+    m2.Actlist.push("N01C01T00");
     mcfglist.push(m1);
     mcfglist.push(m2);
     KDCommon.Writefilejson(KDCommon.autocontrolconfigfilename, mcfglist);
   }
   /////}}}} 
+
 
   ///전체 다시 로드
   if (isonlyoneitem === null) {
@@ -122,7 +126,6 @@ function Autocontrolload(isonlyoneitem) {
     }
   } else {
     //특정 한개만 다시로드  설정이 변경되었을경우 
-
     for (let i = 0; i < mAutoControllist.length; i++) {
       let ma = mAutoControllist[i];
       if (ma.mConfig.Uid === isonlyoneitem.Uid) {

@@ -5,7 +5,7 @@ module.exports = class AutoControlStatus {
     this.Uid=uniqid;
     //처음초기화상태
     this.State=0;
-    this.onoffstate = "init";
+    this.onoffstate = false;
   }
   ischangestatecheck(newstate) {
       //초기화상태이면 on이던 off 상태를 바로 변경함.
