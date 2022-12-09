@@ -54,5 +54,21 @@ module.exports = class KDDefine {
     
   });
 
+  //자동제어 분류
+  static AUTOCategory = Object.freeze({
+    ACT_HEATING: 0, // 난방
+    ATC_COOLING: 1, // 냉방
+    ATC_LED: 2, // 광량
+    ATC_WATER: 3, // 관수
+    ATC_AIR: 4, // 환기
+    
+    ACT_HEAT_COOL: 100, // 냉난방  식물재배기
+    ACT_LED_MULTI: 101, // 3색LED  식물재배기
+    ACT_AIR_CO2: 102, // Co2 공급  식물재배기
+    
+    ATC_USER: 999,// 사용자지정 
+    
+  });
+
 
 };
