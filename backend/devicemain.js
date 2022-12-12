@@ -32,7 +32,6 @@ function deviceInit() {
   return backGlobal.localsysteminformations.Systemconfg.deviceuniqid;
 }
 
-
 // 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
 async function devicemaintask() {
@@ -78,7 +77,7 @@ async function devicemaintask() {
         await KDCommon.delay(500);
 
                   for (const msensor of mSensorintf.mSensors) {
-                  console.log("read sensor ID: " + msensor.UniqID + ", value:"+ msensor.GetValuestring(true,true));
+              //    console.log("read sensor ID: " + msensor.UniqID + ", value:"+ msensor.GetValuestring(true,true));
               }
        
       }

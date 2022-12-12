@@ -47,6 +47,7 @@ module.exports =  class ActuatorInterface{
     } 
      ////}} 임시생성  
 
+     
     sysinfo.Actuators = actinfolist;
     for (const minfo of actinfolist) {
       this.Actuators.push(new Actuatordevice(minfo));

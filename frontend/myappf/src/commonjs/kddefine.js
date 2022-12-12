@@ -17,7 +17,7 @@ module.exports = class KDDefine {
   });
 
   static OutDeviceTypeEnum = Object.freeze({
-    ODT_RELAY: 0,
+    ODT_RELAY: 0, // 단순접점
     ODT_PUMP: 1, //
     ODT_FAN: 2,
     ODT_VALVE: 3,
@@ -54,6 +54,28 @@ module.exports = class KDDefine {
     
   });
 
+  //자동제어 타입
+  static AUTOType = Object.freeze({
+    ACM_TIMER_ONLY_DAY: 0, // 주간시간만 타이머모드
+    ACM_TIMER_DAY_NIGHT: 1,//주간야간모드
+    
+    ACM_SENSOR_ONLY_DAY: 10, // 주간시간만  센서모드
+    ACM_SENSOR_DAY_NIGHT: 11,//주간야간모드
+  
+        
+  });
+
+
+    //자동제어 우선순위
+    static AUTOPriority = Object.freeze({
+      AP_LOW: 0, // 낮음
+      AP_NORMAL: 1, //보통  
+      AP_HIGH: 2,   //높음  
+      AP_HIGHEST: 3, //최우선
+      
+    });
+
+    
   //자동제어 분류
   static AUTOCategory = Object.freeze({
     ACT_HEATING: 0, // 난방
@@ -62,9 +84,9 @@ module.exports = class KDDefine {
     ATC_WATER: 3, // 관수
     ATC_AIR: 4, // 환기
     
-    ACT_HEAT_COOL: 100, // 냉난방  식물재배기
-    ACT_LED_MULTI: 101, // 3색LED  식물재배기
-    ACT_AIR_CO2: 102, // Co2 공급  식물재배기
+    ACT_HEAT_COOL_FOR_FJBOX: 100, // 냉난방  식물재배기
+    ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED  식물재배기
+    ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급  식물재배기
     
     ATC_USER: 999,// 사용자지정 
     
@@ -76,6 +98,7 @@ module.exports = class KDDefine {
     AST_On: 1, // 켬
     AST_IDLE: 2, // 상태유지, 
     AST_ERROR: 3, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
+    AST_Off_finish: 10, // 제어종료 장비를 off 하고 끝냄
         
   });
 

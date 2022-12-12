@@ -16,7 +16,6 @@ module.exports =  class AutoControlInterface{
     this.Autocontrolload(null);
           
 
-
   } 
   
   
@@ -25,7 +24,7 @@ getOpsByControls()
   let opcmdlist=[];
   const totalsec = KDCommon.getCurrentTotalsec();
   for (const mactl of this.mAutoControllist) {
-    let mlist= mactl.getOperationsByControl(backGlobal.sensorinterface.mSensors);
+    let mlist= mactl.getOperationsByControl(backGlobal.sensorinterface.mSensors,backGlobal.actuatorinterface.Actuators);
     opcmdlist.push(...mlist);
    }
 
