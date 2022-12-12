@@ -2,9 +2,13 @@ const KDDefine = require("./kddefine");
 
 module.exports = class AutoControlconfig {
 
+  static OnTimesecMAX = 1000000;
+
     static deepcopy(mobj) {
         return Object.assign(new AutoControlconfig(), mobj);
       }
+
+
 
 
     constructor() {
@@ -29,9 +33,9 @@ module.exports = class AutoControlconfig {
       this.OnTime=60; // On 시간초  
       this.OffTime=60; // Off 시간초 0:이면  1회성 그외는 PWM 주기적제어  
 
-      this.TValue= 1.0; //목표 센서값  float
-      this.BValue= 0.5; //범위 센서값  +- 
-      this.Cdir= "up"; // 센서 조건 "up" : 설정값보다 크면(>=) 켜짐 "down"  설정값보다작으면(<=) 켜짐
+      this.TValue= 10.0; //목표 센서값  float
+      this.BValue= 1; //범위 센서값  +- 
+      this.Cdir= KDDefine.SensorConditionType.SCT_UP; // 센서 조건 "up" : 설정값보다 크면(>=) 켜짐 "down"  설정값보다작으면(<=) 켜짐
 
 
       

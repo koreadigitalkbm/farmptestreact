@@ -13,6 +13,8 @@ class SensorInterface {
     ///모델별로 구별해서 센서노드를  설정하자.
     if (sysinfo.Systemconfg.productmodel === "KPC480") {
       const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
+
+      //시뮬레이션용 const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
       this.SensorNodes.push(mysnode_sid_1);
     } else {
       const mysnode_sid_1 = new SensorNode(11, 40, modbuscomm);
@@ -42,10 +44,10 @@ class SensorInterface {
     }
   }
 
+
   //연결된 센서노드로 부터 센서값을 전부 읽어드림
   async ReadSensorAll() {
     //   console.log("-SensorInterface ReadSensorAll------------------");
-
 
     //센서 상태를 읽을때마다 에러카운트 증가
     let deleteindex = -1;

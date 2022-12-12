@@ -17,7 +17,7 @@ var mAutocontrolintf;
 
 var mAutoControllist = []; //자동제어
 
-function deviceInit() {
+function deviceInit() { 
   console.log("------------deviceInit------------------- ");
   let sconfig = KDCommon.Readfilejson(KDCommon.systemconfigfilename);
   if (sconfig === null) {
@@ -77,9 +77,9 @@ async function devicemaintask() {
         mActuatorintf.setoperationAuto(opcmdlist);
         await KDCommon.delay(500);
 
-        //          for (const msensor of mSensorintf.mSensors) {
-        //          console.log("read sensor: " + msensor.GetValuestring(true,true));
-        //      }
+                  for (const msensor of mSensorintf.mSensors) {
+                  console.log("read sensor ID: " + msensor.UniqID + ", value:"+ msensor.GetValuestring(true,true));
+              }
        
       }
     }

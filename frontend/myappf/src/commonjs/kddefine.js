@@ -70,5 +70,23 @@ module.exports = class KDDefine {
     
   });
 
+  //자동제어 상태
+  static AUTOStateType = Object.freeze({
+    AST_Off: 0, // off
+    AST_On: 1, // 켬
+    AST_IDLE: 2, // 상태유지, 
+    AST_ERROR: 3, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
+        
+  });
+
+  //센서조건
+  static  SensorConditionType= Object.freeze({
+    SCT_UP: "up", // >= 크면  on
+    SCT_DOWN: "down", // <= 작으면  on
+        
+  });
+
+
+
 
 };

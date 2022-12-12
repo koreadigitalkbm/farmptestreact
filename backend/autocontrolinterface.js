@@ -3,6 +3,7 @@
 
 const KDCommon = require("./kdcommon");
 const AutoControlconfig = require("../frontend/myappf/src/commonjs/autocontrolconfig");
+const AutoControlUtil = require("../frontend/myappf/src/commonjs/autocontrolutil");
 const AutoControl = require("./autocontrol");
 const backGlobal = require("./backGlobal");
 
@@ -36,17 +37,16 @@ getOpsByControls()
  Autocontrolload(isonlyoneitem) {
   let mcfglist = KDCommon.Readfilejson(KDCommon.autocontrolconfigfilename);
 
-  ////{{ 자동제어 테스트로 임시로 생성 나중에 지움
+
   if (mcfglist === null) {
-    let m1 = new AutoControlconfig();
-    let m2 = new AutoControlconfig();
-    mcfglist = [];
-    m1.Actlist.push("N01C00T00");
-    m2.Actlist.push("N01C01T00");
-    mcfglist.push(m1);
-    mcfglist.push(m2);
+    mcfglist = AutoControlUtil.CreateDefaultConfig(backGlobal.localsysteminformations.Systemconfg.productmodel)
     KDCommon.Writefilejson(KDCommon.autocontrolconfigfilename, mcfglist);
   }
+
+  
+    ////{{ 자동제어 테스트로 임시로 생성 나중에 지움
+    let t1=AutoControlUtil.getTestconfig();
+    mcfglist.push(t1);
   /////}}}} 
 
 
