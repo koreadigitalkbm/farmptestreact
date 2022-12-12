@@ -26,13 +26,25 @@ module.exports = class KDDefine {
     ODT_HEATER: 6,
     ODT_POWER: 7,
     ODT_NOZZLE: 8,
+    
+    ODT_LED_WHITE: 30,
+    ODT_LED_RED: 31,
+    ODT_LED_BLUE: 32,
+    ODT_LED_GREEN: 33,
+    ODT_LED_IR: 34,
+    ODT_LED_UVA: 35,
+    ODT_LED_UVB: 36,
+    
+
+
     ODT_ETC: 99,
     ODT_DELETE: 9999, //장치삭제
   });
   static HardwareTypeEnum = Object.freeze({
     HT_RELAY: 0, // 단순 on,off 제어 
     HT_SWITCH: 1, // 열기, 닫기 계페기
-    HT_ETC: 2,   // 기타
+    HT_PWM: 2,   // PWM 제어 like LED
+    HT_ETC: 10,   // 기타
   });
   
   //요청타입을 여기에 정의한다.

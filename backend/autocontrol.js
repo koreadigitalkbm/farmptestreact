@@ -13,7 +13,7 @@ module.exports = class AutoControl {
     this.mLog = [];
     this.PWMonoffstate = false;
     this.PWMLasttoltalsec = 0; // 마지막 명령어 전송시점.
-    this.OnSecTime=0;//켜짐시간(초), 모드에 따라 변경됨으로 
+    this.OnSecTime = 0; //켜짐시간(초), 모드에 따라 변경됨으로
   }
   static Clonbyjsonobj(mobj) {
     return new AutoControl(mobj.mConfig);
@@ -21,37 +21,30 @@ module.exports = class AutoControl {
   //기본적인 사항을 확인함. enable, 시간
   isBasiccondition(timesecnow) {
     if (this.mConfig.Enb == true) {
-      
       //주 야간 모드 이면 시간확인필요없음
-      if(this.mConfig.AType ==KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT ||   this.mConfig.AType ==KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT)
-      {
+      if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT) {
         return true;
       }
 
       //시작시간과 종료시간 안에 들어와함.
-      return AutoControlUtil.IsIncludeTime( this.mConfig.STime , this.mConfig.ETime,timesecnow);
+      return AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, timesecnow);
     }
     return false;
   }
   //타이머방식 채크 , 두가지 PWM 방식. 1회
   getStateByTimercondition() {
-
     let offsectime;
     let onsectime;
     const daytotalsec = KDCommon.getCurrentTotalsec();
-    if( this.mConfig.AType ==KDDefine.AUTOType.ACM_TIMER_ONLY_DAY || AutoControlUtil.IsIncludeTime( this.mConfig.STime , this.mConfig.ETime, daytotalsec)== true)
-    {
-      offsectime=this.mConfig.DOffTime;
+    if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
+      offsectime = this.mConfig.DOffTime;
       onsectime = this.mConfig.DOnTime;
-    }
-    else{
-          offsectime=this.mConfig.NOffTime;
-          onsectime = this.mConfig.NOnTime;
+    } else {
+      offsectime = this.mConfig.NOffTime;
+      onsectime = this.mConfig.NOnTime;
     }
 
     this.OnSecTime = onsectime;
-
-
 
     if (offsectime == 0) {
       if (this.PWMonoffstate == false) {
@@ -61,7 +54,7 @@ module.exports = class AutoControl {
       }
     } else {
       //PWM 제어
-      
+
       //자정이 넘어가면
       if (this.PWMLasttoltalsec > daytotalsec) {
         this.PWMLasttoltalsec = this.PWMLasttoltalsec - 24 * 3600;
@@ -103,18 +96,15 @@ module.exports = class AutoControl {
 
       return KDDefine.AUTOStateType.AST_ERROR;
     } else {
-
       const daytotalsec = KDCommon.getCurrentTotalsec();
       let upvalue;
       let downvalue;
-      if( this.mConfig.AType ==KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY || AutoControlUtil.IsIncludeTime( this.mConfig.STime , this.mConfig.ETime, daytotalsec)== true)
-      {
-        upvalue=this.mConfig.DTValue + this.mConfig.BValue;
-        downvalue=this.mConfig.DTValue - this.mConfig.BValue;
-      }
-      else{
-        upvalue=this.mConfig.NTValue + this.mConfig.BValue;
-        downvalue=this.mConfig.NTValue - this.mConfig.BValue;
+      if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
+        upvalue = this.mConfig.DTValue + this.mConfig.BValue;
+        downvalue = this.mConfig.DTValue - this.mConfig.BValue;
+      } else {
+        upvalue = this.mConfig.NTValue + this.mConfig.BValue;
+        downvalue = this.mConfig.NTValue - this.mConfig.BValue;
       }
 
       console.log("getStateBySensorcondition  upvalue : " + upvalue + " ,downvalue: " + downvalue);
@@ -162,7 +152,6 @@ module.exports = class AutoControl {
             }
           }
         }
-        
 
         if (coollerdev != null && heaterdev != null) {
           let heaterstate = null;
@@ -175,11 +164,11 @@ module.exports = class AutoControl {
             coollerstate = true;
           } else if (currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             heaterstate = false;
-            coollerstate= false;
+            coollerstate = false;
           }
 
           if (heaterstate != null && coollerstate != null) {
-            console.log("-getOperationsBySpecify  nheaterdev : " + heaterdev.UniqID + " coollerdev:" + coollerdev.UniqID + ",currentstate : "+ currentstate);
+            console.log("-getOperationsBySpecify  nheaterdev : " + heaterdev.UniqID + " coollerdev:" + coollerdev.UniqID + ",currentstate : " + currentstate);
 
             let opcmdheater = new ActuatorOperation(heaterdev.UniqID, heaterstate, this.mConfig.OnTime);
             let opcmdcooler = new ActuatorOperation(coollerdev.UniqID, coollerstate, this.mConfig.OnTime);
@@ -213,23 +202,20 @@ module.exports = class AutoControl {
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
     }
 
-
-
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
     if (this.mState.ischangestatecheck(currentstate) == true) {
       oplist = this.getOperationsBySpecify(mactuators, currentstate);
-      
 
       if (oplist.length > 0) {
         ///
       } else {
-        //일반적인 처리 
+        //일반적인 처리
         for (const mactid of this.mConfig.Actlist) {
           let onoffstate = null;
 
           if (currentstate == KDDefine.AUTOStateType.AST_On) {
             onoffstate = true;
-          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish  || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             //에러발생시 모두 off
             onoffstate = false;
           }
@@ -242,8 +228,6 @@ module.exports = class AutoControl {
         }
       }
     }
-
-    
 
     return oplist;
   }

@@ -7,7 +7,6 @@ const ActuatorBasic = require("../frontend/myappf/src/commonjs/actuatorbasic.js"
 const KDCommon = require("./kdcommon");
 
 
-
 module.exports =  class ActuatorInterface{
    
   constructor(sysinfo,modbuscomm) {
@@ -16,36 +15,31 @@ module.exports =  class ActuatorInterface{
       this.Actuators = [];  // 구동기목록
 
       //
-      let actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
+      let actuatorconfigfilename = KDCommon.actuatorconfigfilename;
 
        ///모델별로 구별해서 구동기노드를  설정하자.
     if (sysinfo.Systemconfg.productmodel === "KPC480") {
-      const myactnode_1 = new ActuatorNode(1, 28, modbuscomm);
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC480, modbuscomm);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
-      actuatorconfigfilename = "../common/local_files/actuatorconfig_kpc480.json";
+      actuatorconfigfilename =KDCommon.actuatorconfigfilename_kpc480;
     }
     else{
-        const myactnode_1 = new ActuatorNode(1,24, modbuscomm);
+        const myactnode_1 = new ActuatorNode(1,ActuatorNode.ACTNODEType.ANT_VFC24M, modbuscomm);
         this.ActuatorNodes.push(myactnode_1);
-        actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
     }
 
 
 
 
     let actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
-    ////{{임시생성 추후 삭제
+    ////설정파일이 없으면 디폴트로 생성
     if (actinfolist === null) {
-      actinfolist=[];
-      let act1 = new ActuatorBasic("구동기1",0);
-      let act2 = new ActuatorBasic("구동기2",1);
-      actinfolist.push(act1);
-      actinfolist.push(act2);
+      actinfolist=ActuatorBasic.CreateDefaultConfig(sysinfo.Systemconfg.productmodel);
       KDCommon.Writefilejson(actuatorconfigfilename, actinfolist);
       actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     } 
-     ////}} 임시생성  
+     ///
 
      
     sysinfo.Actuators = actinfolist;
