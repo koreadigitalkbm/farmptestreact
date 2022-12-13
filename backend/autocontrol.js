@@ -32,14 +32,15 @@ module.exports = class AutoControl {
     return false;
   }
   //타이머방식 채크 , 두가지 PWM 방식. 1회
-  getStateByTimercondition() {
+  getStateByTimercondition(daytotalsec) {
     let offsectime;
     let onsectime;
-    const daytotalsec = KDCommon.getCurrentTotalsec();
+    
     if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
+      //주간
       offsectime = this.mConfig.DOffTime;
       onsectime = this.mConfig.DOnTime;
-    } else {
+    } else {// 야간
       offsectime = this.mConfig.NOffTime;
       onsectime = this.mConfig.NOnTime;
     }
@@ -109,7 +110,7 @@ module.exports = class AutoControl {
         downvalue = this.mConfig.NTValue - this.mConfig.BValue;
       }
 
-      console.log("getStateBySensorcondition  upvalue : " + upvalue + " ,downvalue: " + downvalue);
+      //console.log("getStateBySensorcondition  upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
       if (KDDefine.SensorConditionType.SCT_UP == this.mConfig.Cdir) {
         if (currsensor.value >= upvalue) {
@@ -256,7 +257,7 @@ module.exports = class AutoControl {
     if (this.isBasiccondition(timesecnow) == true) {
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY) {
         //타이머
-        currentstate = this.getStateByTimercondition();
+        currentstate = this.getStateByTimercondition(timesecnow);
       } else {
         //센서
         currentstate = this.getStateBySensorcondition(msensors);
@@ -264,6 +265,8 @@ module.exports = class AutoControl {
     } else {
       //기본조건 안맞음 모두  off
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
+      //console.log("-getOperationsByControl ---------------AST_Off_finish  " );
+
     }
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
