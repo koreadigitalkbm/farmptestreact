@@ -53,7 +53,7 @@ async function postapifordevice(req, rsp) {
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
-      repskey.set("clear");
+      repskey.set("");
       reqkey.set(objJsonB64encode);
 
       //2초간 기다림
@@ -65,13 +65,13 @@ async function postapifordevice(req, rsp) {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-              console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
+//              console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
 
               if (repsdata.length > 10) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
-                  console.log("farebase rep i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
+            //      console.log("farebase rep i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
 
                   i = 10000; //loop out
                 } catch (e) {
@@ -143,7 +143,7 @@ function msgprocessing_common(reqmsg) {
       if (backGlobal.actuatorinterface != null) {
         rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
       }
-      console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
+      //console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
 
 
       rspmsg.IsOK = true;
@@ -269,7 +269,7 @@ async function firebasedbsetup(deviceidlocal) {
 
   backGlobal.fblocalrequst.on("value", (snapshot) => {
     const data = snapshot.val();
-    console.log("frebase frrequest local on event... data: " + data);
+    //console.log("frebase frrequest local on event... data: " + data);
 
     try {
       let decodedStr = Buffer.from(data, "base64");
@@ -277,7 +277,7 @@ async function firebasedbsetup(deviceidlocal) {
       let rspmsg = messageprocessing(false, reqmsg);
       let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
       backGlobal.fblocalresponse.set(objJsonB64encode);
-      console.log("frebase response set: " +objJsonB64encode);
+      //console.log("frebase response set: " +objJsonB64encode);
 
     } catch (e) {
       console.log("firebasedbsetup error: " + e);
