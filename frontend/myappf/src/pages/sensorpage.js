@@ -17,6 +17,8 @@ const Sensorpage = () => {
     interval = setInterval(() => {
       myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
         let sensors = ret.Sensors;
+        console.log("sensors length:" + sensors.length);
+
         setSensors(sensors);
       });
     }, readtimemsec);
