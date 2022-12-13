@@ -69,7 +69,7 @@ async function postapifordevice(req, rsp) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
-                  console.log("farebase i:"+i+",responsemsg :" + responsemsg + " repsdatalenght :"+ repsdata.length  );
+                  console.log("farebase i:"+i+",responsemsg :" + responsemsg.IsOK + " repsdatalenght :"+ repsdata.length  );
 
                   i = 10000; //loop out
                 } catch (e) {
