@@ -43,7 +43,7 @@ async function postapifordevice(req, rsp) {
 
     let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
     let msgisd = req.header("Session-ID");
-    console.log("---------------------------------sever sid :" + sid + ", msgisd:" + msgisd);
+    console.log("---------------------------------sever sid :" + sid + ", msgisd:" + msgisd + ", reqtype: "+ reqmsg.reqType);
 
     if (sid != msgisd) {
       console.log("session not same ....");
@@ -94,7 +94,6 @@ async function postapifordevice(req, rsp) {
 function msgprocessing_common(reqmsg) {
   let rspmsg = new responseMessage();
 
-  console.log("msgprocessing_common  reqType: " + reqmsg.reqType);
   
   switch (reqmsg.reqType) {
     case KDDefine.REQType.RT_SWUPDATE:
