@@ -65,11 +65,11 @@ async function postapifordevice(req, rsp) {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
               
-              if (repsdata.length > 0) {
+              if (repsdata.length > 10) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
-                  console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
+                  console.log("farebase i:"+i+",responsemsg :" + responsemsg + " repsdatalenght :"+ repsdata.length  );
 
                   i = 10000; //loop out
                 } catch (e) {
