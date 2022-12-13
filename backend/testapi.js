@@ -137,7 +137,7 @@ function msgprocessing_common(reqmsg) {
         rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
       }
       if (backGlobal.actuatorinterface != null) {
-        rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
+        rspmsg.Outputs =[];// backGlobal.actuatorinterface.getactuatorstatus();
       }
 
       rspmsg.IsOK = true;
@@ -271,7 +271,11 @@ async function firebasedbsetup(deviceidlocal) {
       let rspmsg = messageprocessing(false, reqmsg);
       let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
       backGlobal.fblocalresponse.set(objJsonB64encode);
+      console.log("frebase response set: " +objJsonB64encode);
+
     } catch (e) {
+      console.log("firebasedbsetup error: " + e);
+
       return false;
     }
   });

@@ -46,7 +46,7 @@ export default class IndoorFarmAPI {
 
     try {
       resdata = await this.postData(API + "devicerequest", mReqmsg);
-      //     console.log(" setRequestdevice isok : " + resdata.IsOK);
+         console.log(" setRequestdevice isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {
@@ -139,7 +139,6 @@ export default class IndoorFarmAPI {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid)
     reqmsg.reqType = KDDefine.REQType.RT_SETMYINFO;
     reqmsg.reqParam = newconf;
-
     return await this.setRequest(reqmsg);
   }
 }
