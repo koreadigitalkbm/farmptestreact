@@ -53,7 +53,7 @@ async function postapifordevice(req, rsp) {
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
-      repskey.set("");
+      repskey.set("clear");
       reqkey.set(objJsonB64encode);
 
       //2초간 기다림
@@ -64,12 +64,14 @@ async function postapifordevice(req, rsp) {
           .then((snapshot) => {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
-              
+
+              console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
+
               if (repsdata.length > 10) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
-                  console.log("farebase i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
+                  console.log("farebase rep i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
 
                   i = 10000; //loop out
                 } catch (e) {
