@@ -34,7 +34,7 @@ module.exports = class KDDefine {
     ODT_LED_IR: 34,
     ODT_LED_UVA: 35,
     ODT_LED_UVB: 36,
-    
+
 
 
     ODT_ETC: 99,
@@ -96,9 +96,11 @@ module.exports = class KDDefine {
     ATC_WATER: 3, // 관수
     ATC_AIR: 4, // 환기
     
-    ACT_HEAT_COOL_FOR_FJBOX: 100, // 냉난방  식물재배기
-    ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED  식물재배기
-    ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급  식물재배기
+    //식물재배기 고정
+    ACT_HEAT_COOL_FOR_FJBOX: 100, // 냉난방  
+    ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED  
+    ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급  
+    
     
     ATC_USER: 999,// 사용자지정 
     
