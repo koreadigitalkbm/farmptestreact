@@ -119,7 +119,7 @@ module.exports = class AutoControlUtil {
     
 
     m1.STime = 8 * 3600;
-    m1.ETime = 14 * 3600+1200;
+    m1.ETime = 15 * 3600+1200;
     
     m1.DTValue = 0;
     m1.BValue = 0;
