@@ -35,12 +35,13 @@ module.exports = class AutoControl {
   getStateByTimercondition(daytotalsec) {
     let offsectime;
     let onsectime;
-    
+
     if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
       //주간
       offsectime = this.mConfig.DOffTime;
       onsectime = this.mConfig.DOnTime;
-    } else {// 야간
+    } else {
+      // 야간
       offsectime = this.mConfig.NOffTime;
       onsectime = this.mConfig.NOnTime;
     }
@@ -66,7 +67,7 @@ module.exports = class AutoControl {
           this.PWMLasttoltalsec = daytotalsec;
           this.PWMonoffstate = true;
           //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
-          console.log("-isTimercondition on : " + daytotalsec + " ,OSecTime : "+ this.OnSecTime );
+          console.log("-isTimercondition on : " + daytotalsec + " ,OSecTime : " + this.OnSecTime);
           return KDDefine.AUTOStateType.AST_On;
         }
       } else {
@@ -140,7 +141,6 @@ module.exports = class AutoControl {
     let opcmdlist = [];
 
     switch (this.mConfig.Cat) {
-
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
         let whiteleddev = null;
         let redleddev = null;
@@ -160,48 +160,38 @@ module.exports = class AutoControl {
             }
           }
         }
-        if (whiteleddev != null && redleddev != null && blueleddev !=null) {
+        if (whiteleddev != null && redleddev != null && blueleddev != null) {
           let ledstate = null;
-          let whitedemming=0;
-          let reddemming=0;
-          let bluedemming=0;
-          
+          let whitedemming = 0;
+          let reddemming = 0;
+          let bluedemming = 0;
+
           if (currentstate == KDDefine.AUTOStateType.AST_On) {
             ledstate = true;
             //console.log("-getOperationsBySpecify  ateType.AST_On : " + whiteleddev.UniqID + " Params:" + this.mConfig.Params[0]);
-            // 디밍값을 켜짐시간에 합쳐서 전달 
-            whitedemming =  this.OnSecTime + this.mConfig.Params[0]*10000000;
-            reddemming =  this.OnSecTime + this.mConfig.Params[1]*10000000;
-            bluedemming =  this.OnSecTime + this.mConfig.Params[2]*10000000;
-            
-          } else if (currentstate == KDDefine.AUTOStateType.AST_Off  || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR ) {
+            // 디밍값을 켜짐시간에 합쳐서 전달
+            whitedemming = this.OnSecTime + this.mConfig.Params[0] * 10000000;
+            reddemming = this.OnSecTime + this.mConfig.Params[1] * 10000000;
+            bluedemming = this.OnSecTime + this.mConfig.Params[2] * 10000000;
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             ledstate = false;
-            
           }
 
-          if (ledstate !=null) {
-          
+          if (ledstate != null) {
             console.log("-getOperationsBySpecify  whiteleddev : " + whiteleddev.UniqID + " whitedemming:" + whitedemming);
             console.log("-getOperationsBySpecify  redleddev : " + redleddev.UniqID + " whitedemming:" + reddemming);
             console.log("-getOperationsBySpecify  blueleddev : " + blueleddev.UniqID + " whitedemming:" + bluedemming);
 
-
             let opcmdwhite = new ActuatorOperation(whiteleddev.UniqID, ledstate, whitedemming);
             let opcmdred = new ActuatorOperation(redleddev.UniqID, ledstate, reddemming);
-            let opcmdblue = new ActuatorOperation(blueleddev.UniqID, ledstate, bluedemming );
+            let opcmdblue = new ActuatorOperation(blueleddev.UniqID, ledstate, bluedemming);
             opcmdlist.push(opcmdwhite);
             opcmdlist.push(opcmdred);
             opcmdlist.push(opcmdblue);
           }
-
         }
 
-
-
-
-
-
-      break;
+        break;
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
         let heaterdev = null;
         let coollerdev = null;
@@ -266,7 +256,6 @@ module.exports = class AutoControl {
       //기본조건 안맞음 모두  off
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
       //console.log("-getOperationsByControl ---------------AST_Off_finish  " );
-
     }
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.

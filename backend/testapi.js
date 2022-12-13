@@ -43,7 +43,7 @@ async function postapifordevice(req, rsp) {
 
     let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
     let msgisd = req.header("Session-ID");
-    console.log("---------------------------------sever sid :" + sid + ", msgisd:" + msgisd + ", reqtype: "+ reqmsg.reqType);
+    console.log("---------------------------------sever sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType);
 
     if (sid != msgisd) {
       console.log("session not same ....");
@@ -65,13 +65,13 @@ async function postapifordevice(req, rsp) {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-//              console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
+              //              console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
 
               if (repsdata.length > 10) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
-            //      console.log("farebase rep i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
+                  //      console.log("farebase rep i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
 
                   i = 10000; //loop out
                 } catch (e) {
@@ -97,7 +97,6 @@ async function postapifordevice(req, rsp) {
 function msgprocessing_common(reqmsg) {
   let rspmsg = new responseMessage();
 
-  
   switch (reqmsg.reqType) {
     case KDDefine.REQType.RT_SWUPDATE:
       softwareupdatefromgit();
@@ -144,7 +143,6 @@ function msgprocessing_common(reqmsg) {
         rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
       }
       //console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
-
 
       rspmsg.IsOK = true;
       break;
@@ -238,11 +236,11 @@ function setMyInfo(reqmsg) {
     comport: reqmsg.comport,
     password: reqmsg.password,
     productname: reqmsg.productname,
-    productmodel: reqmsg.productmodel
-  }
+    productmodel: reqmsg.productmodel,
+  };
 
-  const newInfoJSON = JSON.stringify(newInfo)
-  fs.writeFileSync('./../common/local_files/systemconfig.json', reqmsg.reqParam)
+  const newInfoJSON = JSON.stringify(newInfo);
+  fs.writeFileSync("./../common/local_files/systemconfig.json", reqmsg.reqParam);
 }
 
 async function firebasedbinit() {
@@ -278,7 +276,6 @@ async function firebasedbsetup(deviceidlocal) {
       let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
       backGlobal.fblocalresponse.set(objJsonB64encode);
       //console.log("frebase response set: " +objJsonB64encode);
-
     } catch (e) {
       console.log("firebasedbsetup error: " + e);
 
@@ -286,7 +283,6 @@ async function firebasedbsetup(deviceidlocal) {
     }
   });
 }
-
 
 exports.postapi = postapi;
 exports.postapifordatabase = postapifordatabase;

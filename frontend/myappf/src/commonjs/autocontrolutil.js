@@ -92,6 +92,8 @@ module.exports = class AutoControlUtil {
       m1.Params.push(65);
       m1.Params.push(14);
       m1.Params.push(99);
+      mcfglist.push(m1);
+      
 
     } else {
       let m1 = new AutoControlconfig();
@@ -108,16 +110,14 @@ module.exports = class AutoControlUtil {
   static getTestconfig() {
     let m1 = new AutoControlconfig();
 
-    m1.Name = "광량제어(3LED)";
+    m1.Name = "사용자제어(테스트)";
     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
     m1.Enb = true;
     m1.AType = KDDefine.AUTOType.ACM_TIMER_ONLY_DAY;
 
-    m1.Cat = KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX; //  자동제어 분류
-    m1.Actlist.push("N01C24T02"); ///
-    m1.Actlist.push("N01C25T02"); ///
-    m1.Actlist.push("N01C26T02"); ///
-
+    m1.Cat = KDDefine.AUTOCategory.ATC_USER; //  자동제어 분류
+    m1.Actlist.push("N01C00T00"); ///
+    
     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
     m1.DOffTime = 0;
     m1.NOnTime = 0;
@@ -129,10 +129,7 @@ module.exports = class AutoControlUtil {
     m1.BValue = 0;
     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
 
-    m1.Params.push(65);
-    m1.Params.push(14);
-    m1.Params.push(99);
-
+    
     return m1;
   }
 };
