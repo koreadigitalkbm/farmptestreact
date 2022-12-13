@@ -64,12 +64,13 @@ async function postapifordevice(req, rsp) {
           .then((snapshot) => {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
-              //        console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
-
+              
               if (repsdata.length > 0) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
+                  console.log("farebase i:"+i+",get :" + repsdata + " repsdatalenght :"+ repsdata.length);
+
                   i = 10000; //loop out
                 } catch (e) {
                   console.log("No data base64 decode error: " + e);
