@@ -94,6 +94,8 @@ async function postapifordevice(req, rsp) {
 function msgprocessing_common(reqmsg) {
   let rspmsg = new responseMessage();
 
+  console.log("msgprocessing_common  reqType: " + reqmsg.reqType);
+  
   switch (reqmsg.reqType) {
     case KDDefine.REQType.RT_SWUPDATE:
       softwareupdatefromgit();
@@ -137,8 +139,10 @@ function msgprocessing_common(reqmsg) {
         rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
       }
       if (backGlobal.actuatorinterface != null) {
-        rspmsg.Outputs =[];// backGlobal.actuatorinterface.getactuatorstatus();
+        rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
       }
+      console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
+
 
       rspmsg.IsOK = true;
       break;
