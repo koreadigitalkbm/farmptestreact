@@ -2,7 +2,7 @@ const KDDefine = require("./kddefine");
 
 module.exports = class AutoControlconfig {
 
-  static OnTimesecMAX = 1000000;
+  static OnTimesecMAX = 1000000; //해당값이면 무한히 켜는상태임 
   static DayTimesecMAX = 24*3600; 
 
     static deepcopy(mobj) {
@@ -49,6 +49,8 @@ module.exports = class AutoControlconfig {
       this.NTValue= 10.0; //목표 센서값  float  야간
       this.BValue= 1; //범위 센서값  +- 
       this.Cdir= KDDefine.SensorConditionType.SCT_UP; // 센서 조건 "up" : 설정값보다 크면(>=) 켜짐 "down"  설정값보다작으면(<=) 켜짐
+
+      this.Params=[]; // 구동기 제어시 필요한 파라메터 LED 디밍 
 
 
       

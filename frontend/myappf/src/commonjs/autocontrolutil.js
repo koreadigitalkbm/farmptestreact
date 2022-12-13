@@ -43,8 +43,8 @@ module.exports = class AutoControlUtil {
       m1.Actlist.push("N01C18T00"); ///히터 릴레이 장비
       m1.Actlist.push("N01C19T00"); ///쿨러 릴레이 장비
 
-      m1.OnTime = AutoControlconfig.OnTimesecMAX;
-      m1.OffTime = 0;
+      m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+      m1.DOffTime = 0;
 
       m1.STime = 8 * 3600;
       m1.ETime = 18 * 3600;
@@ -102,17 +102,20 @@ module.exports = class AutoControlUtil {
     m1.Name = "광량제어(3LED)";
     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
     m1.Enb = true;
-    m1.AType =KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
+    m1.AType =KDDefine.AUTOType.ACM_TIMER_ONLY_DAY;
 
     m1.Cat = KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX; //  자동제어 분류
-    m1.Actlist.push("N01C16T00"); ///히터 릴레이 장비
+    m1.Actlist.push("N01C24T02"); ///
+    m1.Actlist.push("N01C25T02"); ///
+    m1.Actlist.push("N01C26T02"); ///
+
     
-    m1.DOnTime = 5;
-    m1.DOffTime = 20;
+    m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+    m1.DOffTime = 0;
 
 
-    m1.NOnTime = 20;
-    m1.NOffTime = 5;
+    m1.NOnTime = 0;
+    m1.NOffTime =0;
     
 
     m1.STime = 8 * 3600;
@@ -121,6 +124,11 @@ module.exports = class AutoControlUtil {
     m1.DTValue = 0;
     m1.BValue = 0;
     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+
+    m1.Params.push(65);
+    m1.Params.push(14);
+    m1.Params.push(99);
+
 
     return m1;
   }

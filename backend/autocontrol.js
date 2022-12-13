@@ -65,7 +65,7 @@ module.exports = class AutoControl {
           this.PWMLasttoltalsec = daytotalsec;
           this.PWMonoffstate = true;
           //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
-          console.log("-isTimercondition on : " + daytotalsec);
+          console.log("-isTimercondition on : " + daytotalsec + " ,OSecTime : "+ this.OnSecTime );
           return KDDefine.AUTOStateType.AST_On;
         }
       } else {
@@ -81,8 +81,10 @@ module.exports = class AutoControl {
 
   getStateBySensorcondition(msensors) {
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
-
     let currsensor = null;
+
+    //센서에 의해서 작동함으로 켜짐시간 고정
+    this.OnSecTime = this.mConfig.DOnTime;
     for (const ms of msensors) {
       //우선 센서 1개만 처리
       if (ms.UniqID == this.mConfig.Senlist[0]) {
@@ -137,6 +139,68 @@ module.exports = class AutoControl {
     let opcmdlist = [];
 
     switch (this.mConfig.Cat) {
+
+      case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
+        let whiteleddev = null;
+        let redleddev = null;
+        let blueleddev = null;
+
+        for (const mactid of this.mConfig.Actlist) {
+          let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+          if (actd != null) {
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE) {
+              whiteleddev = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_LED_RED) {
+              redleddev = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE) {
+              blueleddev = actd;
+            }
+          }
+        }
+        if (whiteleddev != null && redleddev != null && blueleddev !=null) {
+          let ledstate = null;
+          let whitedemming=0;
+          let reddemming=0;
+          let bluedemming=0;
+          
+          if (currentstate == KDDefine.AUTOStateType.AST_On) {
+            ledstate = true;
+            //console.log("-getOperationsBySpecify  ateType.AST_On : " + whiteleddev.UniqID + " Params:" + this.mConfig.Params[0]);
+            // 디밍값을 켜짐시간에 합쳐서 전달 
+            whitedemming =  this.OnSecTime + this.mConfig.Params[0]*10000000;
+            reddemming =  this.OnSecTime + this.mConfig.Params[1]*10000000;
+            bluedemming =  this.OnSecTime + this.mConfig.Params[2]*10000000;
+            
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off  || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR ) {
+            ledstate = false;
+            
+          }
+
+          if (ledstate !=null) {
+          
+            console.log("-getOperationsBySpecify  whiteleddev : " + whiteleddev.UniqID + " whitedemming:" + whitedemming);
+            console.log("-getOperationsBySpecify  redleddev : " + redleddev.UniqID + " whitedemming:" + reddemming);
+            console.log("-getOperationsBySpecify  blueleddev : " + blueleddev.UniqID + " whitedemming:" + bluedemming);
+
+
+            let opcmdwhite = new ActuatorOperation(whiteleddev.UniqID, ledstate, whitedemming);
+            let opcmdred = new ActuatorOperation(redleddev.UniqID, ledstate, reddemming);
+            let opcmdblue = new ActuatorOperation(blueleddev.UniqID, ledstate, bluedemming );
+            opcmdlist.push(opcmdwhite);
+            opcmdlist.push(opcmdred);
+            opcmdlist.push(opcmdblue);
+          }
+
+        }
+
+
+
+
+
+
+      break;
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
         let heaterdev = null;
         let coollerdev = null;
@@ -168,10 +232,10 @@ module.exports = class AutoControl {
           }
 
           if (heaterstate != null && coollerstate != null) {
-            console.log("-getOperationsBySpecify  nheaterdev : " + heaterdev.UniqID + " coollerdev:" + coollerdev.UniqID + ",currentstate : " + currentstate);
+            console.log("-getOperationsBySpecify  heaterdev : " + heaterdev.UniqID + " coollerdev:" + coollerdev.UniqID + ",currentstate : " + currentstate + " , OTime : " + this.OnSecTime);
 
-            let opcmdheater = new ActuatorOperation(heaterdev.UniqID, heaterstate, this.mConfig.OnTime);
-            let opcmdcooler = new ActuatorOperation(coollerdev.UniqID, coollerstate, this.mConfig.OnTime);
+            let opcmdheater = new ActuatorOperation(heaterdev.UniqID, heaterstate, this.OnSecTime);
+            let opcmdcooler = new ActuatorOperation(coollerdev.UniqID, coollerstate, this.OnSecTime);
             opcmdlist.push(opcmdheater);
             opcmdlist.push(opcmdcooler);
           }
