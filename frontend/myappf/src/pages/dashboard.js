@@ -27,6 +27,8 @@ const Dashboard = (props) => {
 
       <div>
         <table>asdfsadfggfasdfasdf
+      <div>kbmmm
+        <table>asdfsadf
           <tr>
             <th>기기닉네임</th>
             <td>{currentDeviceName}</td>
