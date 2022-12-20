@@ -25,7 +25,7 @@ const Dashboard = (props) => {
     <div className="currentMyInfo">
       <h3>나의 정보</h3>
 
-      <div>
+      <div>kbmmm
         <table>asdfsadf
           <tr>
             <th>기기닉네임</th>
