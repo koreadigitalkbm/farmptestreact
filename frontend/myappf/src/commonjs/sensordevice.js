@@ -158,7 +158,10 @@ const KDSensorTypeEnum = Object.freeze(
             strvalue += this.Name + " ";
         }
 
+        if(this.value !=null)
+        {
         strvalue += this.value.toFixed(this.SignificantDigit);
+        }
         if (isWithunit === true) {
             strvalue += " " + this.ValueUnit;
         }
