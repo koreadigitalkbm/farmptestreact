@@ -1,161 +1,55 @@
-import React, { useState, useEffect } from "react"
 import DeviceSystemconfig from "../commonjs/devsystemconfig"
 import myAppGlobal from "../myAppGlobal"
+import { BrowserRouter as Router, Link as RouterLink, Routes, Route } from "react-router-dom";
+
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 
 
-const Dashboard = (props) => {
-  const [changeMyInfoResult, setChangeMyInfoResult] = useState("결과")
-  const [currentDeviceName, setCurrentDeviceName] = useState(myAppGlobal.systeminformations.Systemconfg.name)
-  const [currentDeviceID, setCurrentDeviceID] = useState(myAppGlobal.systeminformations.Systemconfg.deviceuniqid)
-  const [currentComport, setCurrentComport] = useState(myAppGlobal.systeminformations.Systemconfg.comport)
-  const [currentPassword, setCurrentPassword] = useState('******')
-  const currentProductName = '패밀리 이름'
-  const currentProductModel = '모델 이름'
 
-  let myCurrentInfo
-  let myNewInfo
-  let newDeviceName
-  let newDeviceID
-  let newComport
-  let newPassword
-
-
-  myCurrentInfo = (
-    <div className="currentMyInfo">
-      <h3>나의 정보</h3>
-
-      <div>
-        <table>asdfsadfggfasdfasdf
-      <div>kbmmm
-        <table>asdfsadf
-          <tr>
-            <th>기기닉네임</th>
-            <td>{currentDeviceName}</td>
-          </tr>
-          <tr>
-            <th>comport</th>
-            <td>{currentComport}</td>
-          </tr>
-          <tr>
-            <th>기기ID</th>
-            <td>{currentDeviceID}</td>
-          </tr>
-          <tr>
-            <th>패스워드</th>
-            <td>{currentPassword}</td>
-          </tr>
-          <tr>
-            <th>브랜드명</th>
-            <td>{currentProductName}</td>
-          </tr>
-          <tr>
-            <th>기기모델명</th>
-            <td>{currentProductModel}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  );
-
-  myNewInfo = (
-    <div className="newMyInfo">
-      <h3>정보 수정</h3>
-      <table>
-        <tr>
-          <th>새 기기닉네임</th>
-          <td><input type="text" name='inputNewDeviceName' value={currentDeviceName} onChange={inputonchangeHandler} /></td>
-        </tr>
-        <tr>
-          <th>comport</th>
-          <td><input type="text" name='inputNewComport' value={currentComport} onChange={inputonchangeHandler} /></td>
-        </tr>
-        <tr>
-          <th>새 디바이스ID:</th>
-          <td><input type="text" name='inputNewDeviceID' value={currentDeviceID} onChange={inputonchangeHandler} /></td>
-        </tr>
-        <tr>
-          <th>새 패스워드:</th>
-          <td><input type="text" name='inputNewDevicePW' onChange={inputonchangeHandler} /></td>
-        </tr>
-        <tr>
-          <td colSpan={'2'} align={'center'}>
-            <button classname="" onClick={setMyInfoHandler}>
-              <h4>변경하기</h4>
-            </button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  );
-
-  function inputonchangeHandler(e) {
-    switch (e.target.name) {
-      case 'inputNewDeviceName':
-        newDeviceName = e.target.value;
-        break;
-
-      case 'inputNewComport':
-        newComport = e.target.value;
-        break;
-
-      case 'inputNewDeviceID':
-        newDeviceID = e.target.value;
-        break;
-
-      case 'inputNewDevicePW':
-        newPassword = e.target.value;
-        break;
-
-      default:
-        console.log('입력오류 발생');
-    }
-  }
-
-  function setMyInfoHandler(e) {
-    let newconf = new DeviceSystemconfig();
-
-    newconf.name="ghfh";
-    newconf.deviceuniqid=myAppGlobal.systeminformations.Systemconfg.deviceuniqid;
-    newconf.comport=myAppGlobal.systeminformations.Systemconfg.comport;
-    newconf.password=myAppGlobal.systeminformations.Systemconfg.password;
-    newconf.productname=myAppGlobal.systeminformations.Systemconfg.productname;
-    newconf.productmodel=myAppGlobal.systeminformations.Systemconfg.productmodel;
-
-    myAppGlobal.farmapi.setMyInfo(newconf).then((ret) => {
-      if (ret) {
-        if (ret.IsOK === true) {
-          if (ret.retMessage === 'ok') {
-            setChangeMyInfoResult('변경완료!');
-            setCurrentDeviceName(newDeviceName);
-            setCurrentDeviceID(newDeviceID);
-            setCurrentComport(newComport);
-          }
-          else {
-            setChangeMyInfoResult('에러발생! code: 3920');
-          }
-        }
-        else {
-          setChangeMyInfoResult('에러발생! code: 3921');
-        }
-      }
-    })
-  }
+function Dashboard() {
 
   return (
-    <div>
-      <h2>Dash Board</h2>
-      <div className="content">
-        {myCurrentInfo}
-        <br></br>
-        {myNewInfo}
-      </div>
-      <div>
-        <p></p>
-        {changeMyInfoResult}
-      </div>
+    <Box>
+        <Typography>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique unde
+          fugit veniam eius, perspiciatis sunt? Corporis qui ducimus quibusdam,
+          aliquam dolore excepturi quae. Distinctio enim at eligendi perferendis in
+          cum quibusdam sed quae, accusantium et aperiam? Quod itaque exercitationem,
+          at ab sequi qui modi delectus quia corrupti alias distinctio nostrum.
+          Minima ex dolor modi inventore sapiente necessitatibus aliquam fuga et. Sed
+          numquam quibusdam at officia sapiente porro maxime corrupti perspiciatis
+          asperiores, exercitationem eius nostrum consequuntur iure aliquam itaque,
+          assumenda et! Quibusdam temporibus beatae doloremque voluptatum doloribus
+          soluta accusamus porro reprehenderit eos inventore facere, fugit, molestiae
+          ab officiis illo voluptates recusandae. Vel dolor nobis eius, ratione atque
+          soluta, aliquam fugit qui iste architecto perspiciatis. Nobis, voluptatem!
+          Cumque, eligendi unde aliquid minus quis sit debitis obcaecati error,
+          delectus quo eius exercitationem tempore. Delectus sapiente, provident
+          corporis dolorum quibusdam aut beatae repellendus est labore quisquam
+          praesentium repudiandae non vel laboriosam quo ab perferendis velit ipsa
+          deleniti modi! Ipsam, illo quod. Nesciunt commodi nihil corrupti cum non
+          fugiat praesentium doloremque architecto laborum aliquid. Quae, maxime
+          recusandae? Eveniet dolore molestiae dicta blanditiis est expedita eius
+          debitis cupiditate porro sed aspernatur quidem, repellat nihil quasi
+          praesentium quia eos, quibusdam provident. Incidunt tempore vel placeat
+          voluptate iure labore, repellendus beatae quia unde est aliquid dolor
+          molestias libero. Reiciendis similique exercitationem consequatur, nobis
+          placeat illo laudantium! Enim perferendis nulla soluta magni error,
+          provident repellat similique cupiditate ipsam, et tempore cumque quod! Qui,
+          iure suscipit tempora unde rerum autem saepe nisi vel cupiditate iusto.
+          Illum, corrupti? Fugiat quidem accusantium nulla. Aliquid inventore commodi
+          reprehenderit rerum reiciendis! Quidem alias repudiandae eaque eveniet
+          cumque nihil aliquam in expedita, impedit quas ipsum nesciunt ipsa ullam
+          consequuntur dignissimos numquam at nisi porro a, quaerat rem repellendus.
+          Voluptates perspiciatis, in pariatur impedit, nam facilis libero dolorem
+          dolores sunt inventore perferendis, aut sapiente modi nesciunt.
+        </Typography>
+    </Box>
 
-    </div>
   );
 }
+
 export default Dashboard;
