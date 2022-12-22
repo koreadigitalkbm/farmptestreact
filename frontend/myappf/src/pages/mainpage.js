@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter, Link as RouterLink, Routes, Route } from "react-router-dom";
-import Link from "@material-ui/core/Link";
+import Link from "@mui/material/Link";
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -154,7 +154,7 @@ export default function Mainpage(props) {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/Home" element={<Dashboard />} />
-              <Route path="/Control" element={<ControlPage />} />
+              <Route path="/Control" element={<Sensorpage />} />
               <Route path="/Data" element={<DataPage />} />
               <Route path="/Setting" element={<SettingPage />} />
 
