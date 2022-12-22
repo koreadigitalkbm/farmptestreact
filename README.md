@@ -7,13 +7,18 @@
 1. express 설치(npm install express --saved)
 2. firebase 설치( npm install firebase-admin --saved)
 
+프론트엔드
+1. React 설치
+2. mui 설치
+
+
 클라이언트  설치순서
  1. nodejs  설치
- 4. 소스 받기 ( git clone https://github.com/koreadigitalkbm/farmptestreact.git)
- 5. 패키지설치( backend, prontend 폴더 npm install)
- 6. common/private 폴더 복사
- 7. 프론트앤드 실행 (prontend/np serve)
- 8. 백앤드 실행 (backend/node index.js )
+ 2. 소스 받기 ( git clone https://github.com/koreadigitalkbm/farmptestreact.git)
+ 3. 패키지설치( backend, prontend 폴더 npm install)
+ 4. common/private 폴더 복사
+ 5. 프론트앤드 실행 (prontend/np serve)
+ 6. 백앤드 실행 (backend/node index.js )
 
 주요폴더 설명
 > 프로젝트명
@@ -34,6 +39,8 @@
 npm install @mui/material @emotion/react @emotion/styled
 npm install @fontsource/roboto
 npm install @mui/icons-material
+
+
 
 브렌치테스트2
 
