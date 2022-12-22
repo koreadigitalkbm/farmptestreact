@@ -30,6 +30,10 @@
 > > > local_files: 백엔드 저장되어지는 파일
 > 
 
+MUI용 npm 라이브러리 설치
+npm install @mui/material @emotion/react @emotion/styled
+npm install @fontsource/roboto
+npm install @mui/icons-material
 
 브렌치테스트2
 
