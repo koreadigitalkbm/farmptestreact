@@ -39,7 +39,7 @@ const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting'];
 export default function Mainpage(props) {
   console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole);
 
-  const { window } = props;
+  const { window } = props; 
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const theme = muiTheme

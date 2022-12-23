@@ -2,6 +2,7 @@
 
 
 var myAppGlobal = {
+    isinitalizeApp:false, // 초기화 되면  true  변경
     islogin : false, // 
     issupervisor:false, //공장설정 가능 슈퍼바이저 
     islocal: false,  // 로컬, 원격

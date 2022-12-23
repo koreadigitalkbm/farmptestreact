@@ -8,6 +8,7 @@ const Loginpage = (props) => {
   let loginpw="";
   let logintype;
 
+
   console.log("------------------Loginpage----------------- islocal :" + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
   if (myAppGlobal.islocal == false) {
     logintype = (

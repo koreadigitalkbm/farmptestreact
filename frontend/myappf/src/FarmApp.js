@@ -8,40 +8,108 @@ import FarmMainpage from "./pages/farmmainpage";
 import myAppGlobal from "./myAppGlobal";
 
 function FarmApp(props) {
-  console.log("-------------------------FarmAPP start--------------------- LoginRole:" + props.LoginRole);
+  console.log("-------------------------FarmAPP start--------------------- LoginRole:" + props.LoginRole + " , init: "+ myAppGlobal.isinitalizeApp);
+
+
+  
+  let islocal = window.sessionStorage.getItem("islocal");
+  let loginrol = window.sessionStorage.getItem("login");
+  
+
+  if (islocal == null) {
+    // 첫접속이면  로컬로인지 온라인인지 확인해서 세션에 저장
+    console.log("Hostname : " + window.location.hostname + ",host : " + window.location.protocol);
+
+    myAppGlobal.isinitalizeApp=true;
+    if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("13.209.26.2") != -1) {
+      //서버 IP이거나 도메인이 서버이면 서버접속임.
+      myAppGlobal.islocal = false;
+      window.sessionStorage.setItem("islocal", false);
+      console.log("-------------------------connected aws server---------------------");
+    } else {
+      ///로컬로 접속하면
+      myAppGlobal.islocal = true;
+      window.sessionStorage.setItem("islocal", true);
+      console.log("-------------------------connected local network---------------------");
+    }
+    //첫무조건 로그인페이지로
+    loginrol = "logout";
+    let ssid = Math.floor(Math.random() * 100000 + 100);
+    window.sessionStorage.setItem("msessionid", ssid);
+    window.sessionStorage.setItem("login", loginrol);
+    window.sessionStorage.setItem("deviceid", "");
+
+    
+    props.onSetlogin(loginrol);
+    
+  }
+  else{
+    
+    console.log("---------------refresh FarmApp :" + props.LoginRole + " islocal:" + islocal);
+
+    
+    if(myAppGlobal.isinitalizeApp == false )
+    {
+      myAppGlobal.islocal = islocal;
+      myAppGlobal.isinitalizeApp=true;
+      /// 새로고침이면 세션에서 로그인정보를 다시가져오도록  pros 상태를 갱신하고 재 시작
+      props.onSetlogin(loginrol);
+      
+    }
+    else{
+      myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
+       myAppGlobal.sessionid = window.sessionStorage.getItem("msessionid");
+       if (loginrol != "logout" ) {
+          
+        myAppGlobal.farmapi.getSysteminformations().then((ret) => {
+        myAppGlobal.systeminformations = ret.retMessage;
+        props.onSetSysteminfo("set info");
+        
+        console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations.Systemconfg.name);
+        //console.log("----------------------------systeminformations auto length: " + myAppGlobal.systeminformations.Autocontrolcfg);
+      });
+
+      
+    } else {
+      //로그아웃이면 삭제 시스템정보를 다시가져오도록 onSetSysteminfo 초기화
+      myAppGlobal.systeminformations = null;
+      props.onSetSysteminfo(null);
+    }
+
+    }
+
+
+      
+
+  }
+
+  /*
 
   useEffect(() => {
     
-
     let islocal = window.sessionStorage.getItem("islocal");
     let loginrol = window.sessionStorage.getItem("login");
+    
     console.log("FarmApp useEffect :" + props.LoginRole + " islocal:" + islocal);
+    {
+      console.log("------------not local--------------------- globalislocal : " + myAppGlobal.islocal + " sessionlocal : " + islocal);
 
-    if (islocal == null) {
-      // 첫접속이면  로컬로인지 온라인인지 확인해서 세션에 저장
-      console.log("Hostname : " + window.location.hostname + ",host : " + window.location.protocol);
-      if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("13.209.26.2") != -1) {
-        //서버 IP이거나 도메인이 서버이면 서버접속임.
-        window.sessionStorage.setItem("islocal", false);
-        console.log("-------------------------connected aws server---------------------");
-      } else {
-        ///로컬로 접속하면
-        window.sessionStorage.setItem("islocal", true);
-        console.log("-------------------------connected local network---------------------");
-      }
-      //첫무조건 로그인페이지로
-      loginrol = "logout";
-      let ssid = Math.floor(Math.random() * 100000 + 100);
-      window.sessionStorage.setItem("msessionid", ssid);
-      window.sessionStorage.setItem("login", loginrol);
-      window.sessionStorage.setItem("deviceid", "");
-      
-      
-    } else {
+
       if (islocal == "true" || islocal == true) {
-        myAppGlobal.islocal = true;
+
+        if(myAppGlobal.islocal != true)
+        {
+          myAppGlobal.islocal = true;
+          props.onSetlogin(loginrol);
+        }
+        
       } else {
-        myAppGlobal.islocal = false;
+        if(myAppGlobal.islocal != false)
+        {
+          myAppGlobal.islocal = false;
+          props.onSetlogin(loginrol);
+        }
+        
       }
       myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
       myAppGlobal.sessionid = window.sessionStorage.getItem("msessionid");
@@ -52,7 +120,7 @@ function FarmApp(props) {
 
         ///로그인 상태이면 장비 정보를 요청한다.
         if (loginrol != "logout" && props.LoginRole !== "none") {
-          /*
+          
             myAppGlobal.farmapi.getSysteminformations().then((ret) => {
             myAppGlobal.systeminformations = ret.retMessage;
             props.onSetlogin(loginrol);
@@ -61,7 +129,7 @@ function FarmApp(props) {
             //console.log("----------------------------systeminformations auto length: " + myAppGlobal.systeminformations.Autocontrolcfg);
           });
 
-          */
+          
         } else {
           //로그아웃이면 삭제
           myAppGlobal.systeminformations = null;
@@ -70,16 +138,27 @@ function FarmApp(props) {
       
 
     }
-    props.onSetlogin(loginrol);
+    
 
   }, [props.LoginRole]);
 
-  function loginsetpage(props) {
-    console.log("----------------------------loginsetpage : " + props.LoginRole);
+*/
+  
 
-    if (props.LoginRole=="none" || props.LoginRole === "logout" || props.LoginRole === "loginfail") {
+
+
+  function loginsetpage(props) {
+    console.log("----------------------------loginsetuppage : " + props.LoginRole);
+
+     if( props.LoginRole === "logout" || props.LoginRole === "loginfail") {
+      console.log("----------------------------loginsetuppage logout: " + props.LoginRole);
       return Loginpage(props);
-    } else {
+    } else if (props.LoginRole=="none")
+    {
+      return ;
+    }
+    else
+    {
       return FarmMainpage(props);
     }
   }

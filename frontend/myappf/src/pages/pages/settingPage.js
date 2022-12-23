@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 
 import myAppGlobal from "../../myAppGlobal"
 import DeviceSystemconfig from "../../commonjs/devsystemconfig"
@@ -6,14 +6,32 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 const SettingPage = (props) => {
+
+  console.log("-------------------------SettingPage---------------------Systeminfo : " + props.Systeminfo);
+
+  const [systestinfo, setTestinfo] = useState(null)
   const [changeMyInfoResult, setChangeMyInfoResult] = useState("결과")
-  console.log(myAppGlobal.systeminformations);
-  const [currentDeviceName, setCurrentDeviceName] = useState(myAppGlobal.systeminformations.Systemconfg.name)
-  const [currentDeviceID, setCurrentDeviceID] = useState(myAppGlobal.systeminformations.Systemconfg.deviceuniqid)
-  const [currentComport, setCurrentComport] = useState(myAppGlobal.systeminformations.Systemconfg.comport)
+  const [currentDeviceName, setCurrentDeviceName] = useState("")
+  const [currentDeviceID, setCurrentDeviceID] = useState("")
+  const [currentComport, setCurrentComport] = useState("")
   const currentPassword = '******'
   const currentProductName = '패밀리 이름'
   const currentProductModel = '모델 이름'
+
+  useEffect(() => {
+  
+    console.log("SettingPage useEffect : "+props.Systeminfo );
+
+    if(props.Systeminfo !=null)
+    {
+      setTestinfo(props.Systeminfo);
+      setCurrentDeviceName(myAppGlobal.systeminformations.Systemconfg.productname);
+      setCurrentComport(myAppGlobal.systeminformations.Systemconfg.comport);
+    }
+  }, [props.Systeminfo]);
+
+
+
 
   let myCurrentInfo
   let myNewInfo
@@ -24,7 +42,7 @@ const SettingPage = (props) => {
 
   myCurrentInfo = (
     <div className="currentMyInfo">
-      <Typography variant="h3">나의 정보</Typography>
+      <Typography variant="h3">나의 정보{systestinfo}</Typography>
 
       <div>
         <table>
@@ -79,7 +97,7 @@ const SettingPage = (props) => {
         </tr>
         <tr>
           <td colSpan={'2'} align={'center'}>
-            <button classname="" onClick={setMyInfoHandler}>
+            <button className="ddff" onClick={setMyInfoHandler}>
               <h4>변경하기</h4>
             </button>
           </td>
@@ -141,12 +159,30 @@ const SettingPage = (props) => {
     })
   }
 
+  function setupss() {
+    console.log("-------------------------setupss---------------------systestinfo : " + props.Systeminfo);
+    if(props.Systeminfo ==null)
+    {
+      return <div> nodata... </div>
+
+    }
+    else
+{
   return (
+
     <Box>
-        {myCurrentInfo}
-        {myNewInfo}
-        {changeMyInfoResult}
+          {myCurrentInfo}
+          {myNewInfo}
+          {changeMyInfoResult}
     </Box>
-  )
+  );
+}
+
+}
+    
+
+  
+  return (   <div>{setupss()}</div>
+  );
 }
 export default SettingPage;

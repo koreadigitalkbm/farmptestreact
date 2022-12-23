@@ -1,109 +1,169 @@
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Link as RouterLink, Routes, Route } from "react-router-dom";
+import Link from "@mui/material/Link";
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
+import About from "./about";
+import HomePage from "./HomePage";
+import ControlPage from "./pages/controlPage";
+import DataPage from "./pages/dataPage";
+import SettingPage from "./pages/settingPage";
+
+import AdminSetup from "./adminsetup";
+import Sensorpage from "./sensorpage";
+import Devicepage from "./devicepage";
+import Autocontrolpage from "./autocontrolpage";
+
 import myAppGlobal from "../myAppGlobal";
-//const crypto = require('crypto');
 
-const FarmMainpage = (props) => {
-  const [loginresults, setLoginresult] = useState("겔과");
-  let loginid="";
-  let loginpw="";
-  let logintype;
+const drawerWidth = 240;
+const navItems = ['Home', 'Control', 'Data', 'Setting'];
 
-  useEffect(() => {
-    console.log("-------------------------FarmMainpage -------- useEffect");
-    
+export default function FarmMainpage(props) {
+  console.log("-------------------------FarmMainpage ---------------------LoginRole : " + props.LoginRole + " , window: "+window);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  }, []);
-
-
-
-  console.log("------------------FarmMainpage----------------- islocal :" + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
-  if (myAppGlobal.islocal == false) {
-    logintype = (
-      <div className="content">
-        <label>ID: </label>
-        <input type="text" key="1235" name="inputloginid"   onChange={inputonchangeHandler} />
-        <div>
-          <label>암호: </label>
-          <input type="text" key="1234" name="inputloginpw"  onChange={inputonchangeHandler} />
-          <button className="" onClick={loginbuttonHandler}>
-            로그인
-          </button>
-        </div>
-
-        
-      </div>
-    );
-  } else {
-    logintype = (
-      <div className="">
-        <label>간편로그인(로컬): </label>
-
-        <div>
-          <label>암호: </label>
-          <input type="text" key="1234" name="inputloginpw"    onChange={inputonchangeHandler} />
-          <button className="" onClick={loginbuttonHandler}>
-            로그인
-          </button>
-        </div>
-
-        
-      </div>
-    );
-  }
 
   
-  function inputonchangeHandler(e) {
-    switch (e.target.name) {
-      case "inputloginid":
-        loginid = e.target.value;
-        break;
 
-      case "inputloginpw":
-        loginpw = e.target.value;
 
-        break;
+  const handleDrawerToggle = () => {
+   // setMobileOpen((prevState) => !prevState);
+
+  };
+
+
+    
+
+
+
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        MUI
+      </Typography>
+      <Divider />
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }}>
+              <ListItemText primary={item} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+  //const container = window !== undefined ? () => window().document.body : undefined;
+
+  function logoutbuttonHandler( e) {
+    window.sessionStorage.setItem("login", "logout");
+    window.sessionStorage.setItem("deviceid", "");
+    props.onSetlogin("logout");
+  }
+
+  function adminpage(props) {
+    if (props.LoginRole === "user") {
+      return "";
+    } else {
+      return (
+        <Link to="/admin" className="linkmenu">
+          <div className="content">
+            <img src="./image/s_set.png" className="con_img" alt="관리자 이미지"/> 관리자:
+            {props.LoginRole}
+          </div>
+        </Link>
+      );
     }
   }
 
-  function loginbuttonHandler(e) {
-    console.log("loginbuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
-
-    myAppGlobal.farmapi.setLogin(loginid, loginpw).then((ret) => {
-      if (ret) {
-        if (ret.IsOK == true) {
-          console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);
-
-          if (ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw")
-          {
-            setLoginresult("장비에 접속할수 없습니다.");
-            //loginresult="장비에 접속할수 없습니다.";
-          //  props.onSetlogin("loginfail");
-          }
-          else {
-            // 로그인인 되면 가장 중요한 연결된 장치ID를 받아서 저장해놈. 이ID를 통해  통신
-            window.sessionStorage.setItem("login", ret.retMessage);
-            window.sessionStorage.setItem("deviceid", ret.retParam);
-            myAppGlobal.logindeviceid = ret.retParam;
-            props.onSetlogin(ret.retMessage);
-          }
-        }
-      }
-    });
-
-    
-  }
+  
 
   return (
-    <div>
-      <h2>login sdfadfPage</h2>
-      <div key="sdaff"></div>
-      <div>
-        
-      </div>
-    </div>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+        <BrowserRouter>
+          <AppBar component="nav">
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: 'none' } }}
+              >
+                <MenuIcon />
+              </IconButton>
+
+              
+          
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+              >
+                MUI
+              </Typography>
+
+              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                {navItems.map((item) => (
+                  <Button
+                    component={RouterLink}
+                    key={item}
+                    sx={{ color: '#fff' }}
+                    to={item}
+                    >
+                      {item}
+                  </Button>
+                ))}
+              </Box>
+              <button className="" onClick={logoutbuttonHandler}> 로그아웃</button>
+              
+            </Toolbar>
+          </AppBar>
+         
+          <Box component="main" sx={{ p: 3 }}>
+            <Toolbar />
+            <Typography variant='h1'>
+              메인페이지 {props.Systeminfo}
+              
+
+            </Typography>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/Home" element={<HomePage />} />
+              <Route path="/Control" element={<ControlPage />} />
+              <Route path="/Data" element={<DataPage />} />
+              <Route path="/Setting" element={<SettingPage {...props} />} />
+
+              <Route path="/devices" element={<Devicepage />} />
+              <Route path="/sensor" element={<Sensorpage />} />
+              <Route path="/autocontrol" element={<Autocontrolpage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/setup" element={<About />} />
+              <Route exact path="/admin" element={<AdminSetup />} />
+            </Routes>
+          </Box>
+        </BrowserRouter>
+      
+    </Box>
   );
 };
 
-
-
-export default FarmMainpage;
