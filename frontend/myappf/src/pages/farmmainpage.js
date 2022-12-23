@@ -142,9 +142,7 @@ export default function FarmMainpage(props) {
           <Box component="main" sx={{ p: 3 }}>
             <Toolbar />
             <Typography variant='h1'>
-              메인페이지 {props.Systeminfo}
-              
-
+              메인페이지 
             </Typography>
             <Routes>
               <Route path="/" element={<HomePage />} />
