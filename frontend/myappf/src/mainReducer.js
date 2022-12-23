@@ -1,9 +1,10 @@
 
-import { SETVALUE, SETLOGIN } from './mainAction';
+import { SETVALUE, SETLOGIN,SETSYSINFO } from './mainAction';
 
 const initState = {
     LoginRole : "none",
-    value: 0
+    Systeminfo: null,
+    intvalue: 0
     
 }
  
@@ -13,12 +14,17 @@ function mainReducer(state = initState, actions)
         case SETVALUE:
             return state = {
                 ...state,
-                value  : actions.intvalue
+                intvalue  : actions.intvalue
             };
         case SETLOGIN:
             return state = {
                 ...state,
                 LoginRole : actions.LoginRole
+            };
+        case SETSYSINFO:
+            return state = {
+                ...state,
+                Systeminfo : actions.Systeminfo
             };
         default:
             return state;

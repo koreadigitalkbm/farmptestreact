@@ -1,5 +1,6 @@
 export const SETVALUE = 'SETVALUE';
 export const SETLOGIN = 'SETLOGIN';
+export const SETSYSINFO = 'SETSYSINFO';
 
 export const actionSetvalue= (intvalue) => {
     return {
@@ -14,5 +15,12 @@ export const actionSetlogin = (LoginRole) => {
     return {
         LoginRole,
         type: 'SETLOGIN'
+    }
+}
+export const actionSetSysteminfo = (Systeminfo) => {
+    console.log(" actionSetSysteminfo Systeminfo :  " + Systeminfo);
+    return {
+        Systeminfo,
+        type: 'SETSYSINFO'
     }
 }
