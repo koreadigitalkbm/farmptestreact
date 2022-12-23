@@ -3,6 +3,8 @@ import myAppGlobal from "../myAppGlobal";
 import Outputdevicedisplay from "../outputdevicedisplay";
 
 
+
+
 const Devicepage = () => {
   const [moutdevarray, setUpdate] = useState([]);
   
