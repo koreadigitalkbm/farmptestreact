@@ -158,7 +158,7 @@ export default function HomePage() {
           title={sensor.Name}
           subheader={sensor.Sensortype}
         />
-        <Typography variant="h2" align='center'>{sensor.value} {sensor.ValueUnit}</Typography>
+        <Typography variant="h4" align='center'>{sensor.GetValuestring(false,true)}</Typography>
       </Card>
     )
   }

@@ -15,7 +15,7 @@ const muiTheme = createTheme({
         color: ''
       },
       h4: {
-        color: ''
+        color: '#ff6090'
       },
       h5: {
         color: '#ae52d4'
