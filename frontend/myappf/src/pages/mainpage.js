@@ -31,7 +31,7 @@ import Autocontrolpage from "./autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Control', 'Data', 'Setting'];
+const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting'];
 
 export default function Mainpage(props) {
   console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole);
@@ -76,7 +76,7 @@ export default function Mainpage(props) {
       return (
         <Link to="/admin" className="linkmenu">
           <div className="content">
-            <img src="./image/s_set.png" className="con_img" alt="관리자 이미지"/> 관리자:
+            <img src="./image/s_set.png" className="con_img" alt="관리자 이미지" /> 관리자:
             {props.LoginRole}
           </div>
         </Link>
@@ -84,90 +84,112 @@ export default function Mainpage(props) {
     }
   }
 
-  function appbarDraw() {
-    return (
-      <Box>
-        
-      </Box>
-    )
+  function appbarAlias(name) {
+    let aliasName;
+    
+    switch (name) {
+      case 'Home':
+        aliasName = '홈'
+        break;
+
+      case 'Control':
+        aliasName = '제어'
+        break;
+
+      case 'Data':
+        aliasName = '데이터'
+        break;
+
+      case 'Setting':
+        aliasName = '설정'
+        break;
+
+      case 'Sensor':
+        aliasName = '센서'
+        break;
+
+    }
+
+    return aliasName;
   }
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-        <BrowserRouter>
-          <AppBar component="nav">
-            <Toolbar>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="start"
-                onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' } }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-              >
-                MUI
-              </Typography>
-
-              <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                {navItems.map((item) => (
-                  <Button
-                    component={RouterLink}
-                    key={item}
-                    sx={{ color: '#fff' }}
-                    to={item}
-                    >
-                      {item}
-                  </Button>
-                ))}
-              </Box>
-            </Toolbar>
-          </AppBar>
-          <Box component="nav">
-            <Drawer
-              container={container}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-              sx={{
-                display: { xs: 'block', sm: 'none' },
-                '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-              }}
+      <BrowserRouter>
+        <AppBar component="nav">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
             >
-              {drawer}
-            </Drawer>
-          </Box>
-          <Box component="main" sx={{ p: 3 }}>
-            <Toolbar />
-            <Typography variant='h1'>
-              메인페이지
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              MUI
             </Typography>
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/Home" element={<Dashboard />} />
-              <Route path="/Control" element={<Sensorpage />} />
-              <Route path="/Data" element={<DataPage />} />
-              <Route path="/Setting" element={<SettingPage />} />
 
-              <Route path="/devices" element={<Devicepage />} />
-              <Route path="/sensor" element={<Sensorpage />} />
-              <Route path="/autocontrol" element={<Autocontrolpage />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/setup" element={<About />} />
-              <Route exact path="/admin" element={<AdminSetup />} />
-            </Routes>
-          </Box>
-        </BrowserRouter>
-      {appbarDraw}
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              {navItems.map((item) => (
+                <Button
+                  component={RouterLink}
+                  key={item}
+                  sx={{ color: '#fff' }}
+                  to={item}
+                >
+                  {appbarAlias(item)}
+                </Button>
+              ))}
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Box component="nav">
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box component="main" sx={{ p: 3 }}>
+          <Toolbar />
+          <Typography variant='h1'>
+            메인페이지
+          </Typography>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/Home" element={<Dashboard />} />
+            <Route path="/Control" element={<Sensorpage />} />
+            <Route path="/Data" element={<DataPage />} />
+            <Route path="/Setting" element={<SettingPage />} />
+            <Route path="/Sensor" element={<Sensorpage />} />
+
+
+            <Route path="/devices" element={<Devicepage />} />
+            <Route path="/sensor" element={<Sensorpage />} />
+            <Route path="/autocontrol" element={<Autocontrolpage />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/setup" element={<About />} />
+            <Route exact path="/admin" element={<AdminSetup />} />
+          </Routes>
+        </Box>
+      </BrowserRouter>
     </Box>
   );
 };
