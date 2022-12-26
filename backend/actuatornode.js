@@ -105,7 +105,7 @@ module.exports = class ActuatorNode {
   /// 제어명령어 이함수 하나로만 작동하자
   async ControlNormal(moperation, channel) {
     try {
-      // console.log("-ControlNormal------------------cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", ch : "+moperation.Channel);
+       console.log("-ControlNormal------------------cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec);
 
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
