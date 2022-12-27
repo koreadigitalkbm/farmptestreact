@@ -17,7 +17,10 @@ const Autocontrolpage =  (props) => {
     if(props.Systeminfo !=null)
     {
       setTestinfo(props.Systeminfo);
-      setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
+      if(myAppGlobal.systeminformations.Autocontrolcfg !=null)
+      {
+        setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
+      }
     }
   }, [props.Systeminfo]);
 
