@@ -28,7 +28,7 @@ async function postapifordevice(req, rsp) {
   //기본 nak 메시지로 만듬.
   let responsemsg = new responseMessage();
 
-  //console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", SID:" + req.header("Session-ID"));
+  console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", SID:" + req.header("Session-ID"));
 
   if (backGlobal.islocal == true) {
     responsemsg = messageprocessing(false, reqmsg);
@@ -37,9 +37,9 @@ async function postapifordevice(req, rsp) {
     let repskey;
     let repsdata;
 
-    //    for (const [key, value] of backGlobal.sessionmap) {
-    //      console.log("map key:"+ key + ", vlaue :" +value);
-    //    }
+        for (const [key, value] of backGlobal.sessionmap) {
+          console.log("map key:"+ key + ", vlaue :" +value);
+        }
 
     let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
     let msgisd = req.header("Session-ID");
