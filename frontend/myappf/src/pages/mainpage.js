@@ -34,12 +34,12 @@ import Autocontrolpage from "./autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting'];
+const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting', 'setup'];
 
 export default function Mainpage(props) {
   console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole);
 
-  const { window } = props; 
+  const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const theme = muiTheme
@@ -114,6 +114,10 @@ export default function Mainpage(props) {
 
       case 'Sensor':
         aliasName = '센서'
+        break;
+
+      case 'setup':
+        aliasName = '업데이트'
         break;
 
       default:

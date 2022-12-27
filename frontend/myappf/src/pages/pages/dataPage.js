@@ -1,6 +1,8 @@
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 
 const DataPage = (props) => {

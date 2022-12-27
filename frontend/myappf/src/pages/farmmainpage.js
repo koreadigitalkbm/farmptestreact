@@ -32,7 +32,7 @@ import Autocontrolpage from "./autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Control', 'Data', 'Setting'];
+const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting', 'setup'];
 
 export default function FarmMainpage(props) {
   console.log("-------------------------FarmMainpage ---------------------LoginRole : " + props.LoginRole + " , window: "+window);
@@ -111,8 +111,6 @@ export default function FarmMainpage(props) {
               >
                 <MenuIcon />
               </IconButton>
-
-              
           
               <Typography
                 variant="h6"
@@ -139,11 +137,9 @@ export default function FarmMainpage(props) {
             </Toolbar>
           </AppBar>
          
-          <Box component="main" sx={{ p: 3 }}>
+          <Box component="main" sx={{ mx: 'auto', p: 6 }}>
             <Toolbar />
-            <Typography variant='h1'>
-              메인페이지 
-            </Typography>
+            
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/Home" element={<HomePage />} />
