@@ -16,7 +16,7 @@ function loginmode()
   console.log("------------------loginmode----------------- islocal: " + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
 
   let logintype;
-  if (myAppGlobal.islocal == false) {
+  if (myAppGlobal.islocal == false ||  myAppGlobal.islocal == "false") {
     console.log("------------------loginmode-server");
     logintype = (
       <div className="content">
