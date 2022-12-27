@@ -14,7 +14,7 @@ function FarmApp(props) {
   
   let islocal = window.sessionStorage.getItem("islocal");
   let loginrol = window.sessionStorage.getItem("login");
-  let lastssid=window.sessionStorage.getItem("msessionid");
+  
   
 
   if (islocal == null) {
@@ -46,7 +46,7 @@ function FarmApp(props) {
   }
   else{
     
-    console.log("---------------refresh FarmApp :" + props.LoginRole + " islocal:" + islocal + " lastssid:" + lastssid);
+    
 
     
     if(myAppGlobal.isinitalizeApp == false )
@@ -58,8 +58,10 @@ function FarmApp(props) {
       
     }
     else{
-      myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
+       myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
        myAppGlobal.sessionid = window.sessionStorage.getItem("msessionid");
+       myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
+
        if (loginrol != "logout" ) {
           
         myAppGlobal.farmapi.getSysteminformations().then((ret) => {
