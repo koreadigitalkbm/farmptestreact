@@ -139,14 +139,14 @@ export default class IndoorFarmAPI {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid)
     reqmsg.reqType = KDDefine.REQType.RT_SETMYINFO;
     reqmsg.reqParam = newconf;
-    return await this.setRequest(reqmsg);
+    return await this.setRequestdevice(reqmsg);
   }
 
   async saveAutocontrolconfig(autoccfg) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid)
     reqmsg.reqType = KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG;
     reqmsg.reqParam = autoccfg;
-    return await this.setRequest(reqmsg);
+    return await this.setRequestdevice(reqmsg);
   }
 
 
