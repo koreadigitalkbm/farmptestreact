@@ -17,6 +17,7 @@ function loginmode()
 
   let logintype;
   if (myAppGlobal.islocal == false) {
+    console.log("------------------loginmode-server");
     logintype = (
       <div className="content">
         <label>ID: </label>
@@ -33,6 +34,7 @@ function loginmode()
       </div>
     );
   } else {
+    console.log("------------------loginmode-local");
      logintype = (
       <div className="">
         <label>간편로그인(로컬): </label>
