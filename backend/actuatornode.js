@@ -72,7 +72,7 @@ module.exports = class ActuatorNode {
       this.modbusMaster.writeFC16(this.SlaveID, Regaddress, RegDatas, function (err, data) {
         resolve(data);
         if (err) {
-          console.log(err);
+         // console.log(err);
         }
       });
     });

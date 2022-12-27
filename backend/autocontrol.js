@@ -257,6 +257,7 @@ module.exports = class AutoControl {
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
       //console.log("-getOperationsByControl ---------------AST_Off_finish  " );
     }
+    //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
     if (this.mState.ischangestatecheck(currentstate) == true) {

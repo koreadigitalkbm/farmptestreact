@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from "react";
-import myAppGlobal from "../myAppGlobal";
-import AutoControlconfig from "../commonjs/autocontrolconfig";
+import myAppGlobal from "../../myAppGlobal";
+import AutoControlconfig from "../../commonjs/autocontrolconfig";
+import Autocontroleditbox from  "./autocontroleditbox";
 
-
-const Autocontrolpage = () => {
-  const [mSensors, setUpdatesensor] = useState([]);
+const Autocontrolpage =  (props) => {
+  const [systestinfo, setTestinfo] = useState(null)
   const [mAutolist, setUpdateauto] = useState([]);
-  const [mDevices, setUpdatedevice] = useState([]);
   const [mSelecteditem, setupselected] = useState(null);
 
   console.log("Autocontrolpage: ");
 
   useEffect(() => {
-    setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
-  }, []);
+
+    console.log("Autocontrolpage useEffect : "+props.Systeminfo );
+
+    if(props.Systeminfo !=null)
+    {
+      setTestinfo(props.Systeminfo);
+      setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
+    }
+  }, [props.Systeminfo]);
 
 
-  function Autocontroleditbox(myeditcfg, msensorlist, mdevlist) {
-    //const [misTimershow, selectcontrol] = useState(myeditcfg !=null && myeditcfg.istimer);
-    //console.log("Autocontroleditbox  misTimershow: " + misTimershow);
 
-  }
   
-  function autocontrolbox(mydata) {
+  function autocontrolbox(mydata, mseldata) {
     let autostate = <label className="auto_result"> 정지됨</label>;
 
     if (mydata.Enb=== true) {
@@ -32,7 +34,11 @@ const Autocontrolpage = () => {
       autostate = <label className="auto_result"> 작동중</label>;
     }
 
+    
+
     return (
+      <div>
+     
       <div className="auto_seln">
         <label className="auto_inname">{mydata.Name}</label>
 
@@ -42,7 +48,18 @@ const Autocontrolpage = () => {
             설정변경
           </button>
         </div>
+      
+        
       </div>
+       
+      <div>
+       {(mseldata !=null && mseldata.Uid == mydata.Uid )? Autocontroleditbox(mseldata):"" }
+       </div>
+
+
+      </div>
+       
+
     );
   }
 
@@ -53,28 +70,22 @@ const Autocontrolpage = () => {
 
   return (
     <div>
+      <div className="autocontroltable">
+        
+
+        {mAutolist.map((localState, index) => autocontrolbox(localState,mSelecteditem))}
+        
+
+      </div>
       <div className="auto">
-        <div className="select">
-          <div className="select_name">정렬 :</div>
-          <div className="select_sort">
-            <select name="sort">
-              <option value="1">시간순서</option>
-              <option value="2">이름순서</option>
-              <option value="3">카테고리</option>
-            </select>
-          </div>
           <div className="select_add">
             <button className="add_button" onClick={() => onAdd()}>
-              + 추가
+              + 자동제어 추가
             </button>
           </div>
-        </div>
+        
       </div>
-      <div className="autocontroltable">
-        {Autocontroleditbox(mSelecteditem, mSensors, mDevices)}
 
-        {mAutolist.map((localState, index) => autocontrolbox(localState))}
-      </div>
     </div>
   );
 };
