@@ -6,13 +6,15 @@ const Loginpage = (props) => {
   const [loginresults, setLoginresult] = useState("겔과");
   let loginid="";
   let loginpw="";
-  
-
 
   console.log("------------------Loginpage----------------- islocal: " + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
 
+ 
+
 function loginmode()
 {
+  console.log("------------------loginmode----------------- islocal: " + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
+
   let logintype;
   if (myAppGlobal.islocal == false) {
     logintype = (
