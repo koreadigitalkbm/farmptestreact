@@ -6,10 +6,14 @@ const Loginpage = (props) => {
   const [loginresults, setLoginresult] = useState("겔과");
   let loginid="";
   let loginpw="";
+  
+
+
+  console.log("------------------Loginpage----------------- islocal: " + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
+
+function loginmode()
+{
   let logintype;
-
-
-  console.log("------------------Loginpage----------------- islocal :" + myAppGlobal.islocal + " props.LoginRole :" + props.LoginRole);
   if (myAppGlobal.islocal == false) {
     logintype = (
       <div className="content">
@@ -27,7 +31,7 @@ const Loginpage = (props) => {
       </div>
     );
   } else {
-    logintype = (
+     logintype = (
       <div className="">
         <label>간편로그인(로컬): </label>
 
@@ -43,7 +47,8 @@ const Loginpage = (props) => {
       </div>
     );
   }
-
+  return  logintype;
+}
   
   function inputonchangeHandler(e) {
     switch (e.target.name) {
@@ -89,7 +94,7 @@ const Loginpage = (props) => {
   return (
     <div>
       <h2>login Page</h2>
-      <div key="sdaff">{logintype}</div>
+      <div key="sdaff">{loginmode()}</div>
       <div>
         {loginresults}
       </div>
