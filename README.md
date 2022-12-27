@@ -27,7 +27,9 @@
 > > frontend : react app 소스
 >
 > > > > myapp/src/commonjs: 백엔드, 프론트엔드 공통사용소스 ( react js 파일은 /src 폴더에 있어야함. 때문에 공통으로 사용되는 부분 src 아래로 )
+> 
 > > > > myapp/src/page: 화면구성에 따라 페이지로구분
+> 
 > > > > > myapp/src/page/control: 자동제어관련 부분 복잡함으로 따로 폴더로 구분 
 
 > 
