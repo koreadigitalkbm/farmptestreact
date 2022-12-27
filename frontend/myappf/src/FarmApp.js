@@ -14,6 +14,7 @@ function FarmApp(props) {
   
   let islocal = window.sessionStorage.getItem("islocal");
   let loginrol = window.sessionStorage.getItem("login");
+  let lastssid=window.sessionStorage.getItem("msessionid");
   
 
   if (islocal == null) {
@@ -45,7 +46,7 @@ function FarmApp(props) {
   }
   else{
     
-    console.log("---------------refresh FarmApp :" + props.LoginRole + " islocal:" + islocal);
+    console.log("---------------refresh FarmApp :" + props.LoginRole + " islocal:" + islocal + " lastssid:" + lastssid);
 
     
     if(myAppGlobal.isinitalizeApp == false )
