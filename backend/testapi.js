@@ -152,6 +152,12 @@ function msgprocessing_common(reqmsg) {
       rspmsg.retMessage = "ok";
       rspmsg.IsOK = true;
       break;
+    case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
+      backGlobal.autocontrolinterface.AutocontrolUpdate(reqmsg.reqParam);
+      rspmsg.retMessage = "ok";
+      rspmsg.IsOK = true;
+      break;
+
   }
 
   //console.log("msgprocessing_common   return :  " + rspmsg.IsOK);

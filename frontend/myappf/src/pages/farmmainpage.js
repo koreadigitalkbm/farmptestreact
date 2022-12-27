@@ -27,7 +27,7 @@ import SettingPage from "./pages/settingPage";
 import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
 import Devicepage from "./devicepage";
-import Autocontrolpage from "./autocontrolpage";
+import Autocontrolpage from "./control/autocontrolpage";
 
 import myAppGlobal from "../myAppGlobal";
 
@@ -143,7 +143,7 @@ export default function FarmMainpage(props) {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/Home" element={<HomePage />} />
-              <Route path="/Control" element={<ControlPage />} />
+              <Route path="/Control" element={<Autocontrolpage {...props} />} />
               <Route path="/Data" element={<DataPage />} />
               <Route path="/Setting" element={<SettingPage {...props} />} />
 

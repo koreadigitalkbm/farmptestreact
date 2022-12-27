@@ -29,7 +29,7 @@ import SettingPage from "./pages/settingPage";
 import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
 import Devicepage from "./devicepage";
-import Autocontrolpage from "./autocontrolpage";
+
 
 import myAppGlobal from "../myAppGlobal";
 
@@ -196,7 +196,7 @@ export default function Mainpage(props) {
 
               <Route path="/devices" element={<Devicepage />} />
               <Route path="/sensor" element={<Sensorpage />} />
-              <Route path="/autocontrol" element={<Autocontrolpage />} />
+              
               <Route path="/about" element={<About />} />
               <Route path="/setup" element={<About />} />
               <Route exact path="/admin" element={<AdminSetup />} />

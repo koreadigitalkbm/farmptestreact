@@ -14,4 +14,10 @@ module.exports = class KDUtil {
     return null;
   }
 
+  static GetOPIDRandom()
+  {
+    const rand_1_9999 = Math.floor(Math.random() * 10000) +1 + Math.floor(Math.random() * 100);
+    return rand_1_9999;
+  }
+
 };

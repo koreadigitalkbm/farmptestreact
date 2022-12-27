@@ -4,7 +4,7 @@ module.exports = class AutoControlStatus {
   constructor(uniqid) {
     this.Uid=uniqid;
     //처음초기화상태
-    this.State = KDDefine.AUTOStateType.AST_Off_finish;
+    this.State = KDDefine.AUTOStateType.AST_Init;
   }
   ischangestatecheck(newstate) {
       //초기화상태이면 on이던 off 상태를 바로 변경함.

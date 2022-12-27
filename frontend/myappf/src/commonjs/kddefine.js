@@ -62,7 +62,8 @@ module.exports = class KDDefine {
 
     RT_SENSORSTATUS: "getsensors", // 센서상태
 
-    RT_SETMYINFO: 'setmyinfo' //사용자 정보 수정
+    RT_SETMYINFO: 'setmyinfo', //사용자 정보 수정
+    RT_SAVEAUTOCONTROLCONFIG: 'saveautocontrol' //자동제어 설정을 저장한다
     
   });
 
@@ -113,6 +114,7 @@ module.exports = class KDDefine {
     AST_IDLE: 2, // 상태유지, 
     AST_ERROR: 3, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
     AST_Off_finish: 10, // 제어종료 장비를 off 하고 끝냄
+    AST_Init: 20, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
         
   });
 
