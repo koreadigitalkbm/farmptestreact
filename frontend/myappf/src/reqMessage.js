@@ -1,25 +1,12 @@
 
+//데이터요청 post message  리얼타임디비를 사용하니 요금발생함으로  간단한 구조로 변경하자.
 export default class reqMessage {
 
-  constructor(pid) {
-    let today = new Date(); 
-    this.datetime=today.toLocaleString();//요청된 날자+시간
-    this.puniqid=pid;//제품 구별 ID 필수 IF0000  장비ID는 무조건 6자리 문자열로 지정 
+  constructor(pid, reqtype) {
+    this.uqid=pid;//제품 구별 ID 필수 IF0000  장비ID는 무조건 6자리 문자열로 지정 
+    this.reqType= reqtype; // 필수
+    this.reqParam = undefined;
+    //console.log("reqMessage  reqType: " + this.reqType + ", uqid: " + this.uqid);
   }
-  reqType= undefined;
-  loginID = undefined;
-  loginPW = undefined;
-  SessionID = 0;
-
-  reqParam = undefined;
-
-  getSensors = undefined;
-  getOutputport = undefined;
-  getAutoControl = undefined;
-  getAutoControlstate = undefined;
-
   
-  OutputManual = undefined;
-  Autoconfigitem = undefined;
-  Deviceconfigitem = undefined;
 }
