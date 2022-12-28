@@ -51,7 +51,14 @@ function FarmApp(props) {
     
     if(myAppGlobal.isinitalizeApp == false )
     {
-      myAppGlobal.islocal = islocal;
+      if(islocal == true || islocal == "true")
+      {
+        myAppGlobal.islocal = true;
+      }
+      else{
+        myAppGlobal.islocal = false;
+      }
+      
       myAppGlobal.isinitalizeApp=true;
       /// 새로고침이면 세션에서 로그인정보를 다시가져오도록  pros 상태를 갱신하고 재 시작
       props.onSetlogin(loginrol);
@@ -67,7 +74,7 @@ function FarmApp(props) {
         myAppGlobal.farmapi.getSysteminformations().then((ret) => {
         myAppGlobal.systeminformations = ret.retMessage;
         console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations.Systemconfg.name);
-        
+
         props.onSetSysteminfo("set info");
         
 
