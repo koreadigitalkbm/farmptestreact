@@ -65,7 +65,7 @@ async function postapifordevice(req, rsp) {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-              //              console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
+                           // console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
 
               if (repsdata.length > 10) {
                 try {
@@ -115,6 +115,8 @@ function msgprocessing_common(reqmsg) {
       break;
 
     case KDDefine.REQType.RT_SYSTEMINIFO:
+      console.log("---------------------------------RT_SYSTEMINIFO localsysteminformations : " + backGlobal.localsysteminformations);
+
       if (backGlobal.localsysteminformations != null) {
         rspmsg.retMessage = backGlobal.localsysteminformations;
         rspmsg.IsOK = true;

@@ -12,12 +12,12 @@ const Autocontrolpage =  (props) => {
 
   useEffect(() => {
 
-    console.log("Autocontrolpage useEffect : "+props.Systeminfo );
+    console.log("Autocontrolpage useEffect : "+props.Systeminfo + " myAppGlobal.systeminformations : "  + myAppGlobal.systeminformations);
 
     if(props.Systeminfo !=null)
     {
       setTestinfo(props.Systeminfo);
-      if(myAppGlobal.systeminformations.Autocontrolcfg !=null)
+      if(myAppGlobal.systeminformations != null)
       {
         setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
       }

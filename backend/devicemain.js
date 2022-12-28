@@ -9,11 +9,14 @@ const backGlobal = require("./backGlobal");
 const SensorInterface = require("./sensorinterface.js");
 const ActuatorInterface = require("./actuatorinterface.js");
 const AutoControlInterface= require("./autocontrolinterface");
+const DailyCurrentDatas= require("./dailydatas");
 const SystemInformations = require("../frontend/myappf/src/commonjs/systeminformations");
+
 
 var mSensorintf;
 var mActuatorintf;
 var mAutocontrolintf;
+var mDailyData;
 
 var mAutoControllist = []; //자동제어
 
@@ -36,6 +39,7 @@ function deviceInit() {
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
 async function devicemaintask() {
   console.log("------------main start-------------------");
+  let last_minute=0;
 
   try {
     backGlobal.systemlog.memlog("devicemaintask start");
@@ -56,6 +60,7 @@ async function devicemaintask() {
       mSensorintf = new SensorInterface(backGlobal.localsysteminformations, ModbusComm);
       mActuatorintf = new ActuatorInterface(backGlobal.localsysteminformations, ModbusComm);
       mAutocontrolintf= new AutoControlInterface();
+      mDailyData = new DailyCurrentDatas();
 
       backGlobal.sensorinterface = mSensorintf;
       backGlobal.actuatorinterface = mActuatorintf;
@@ -79,6 +84,18 @@ async function devicemaintask() {
                   for (const msensor of mSensorintf.mSensors) {
               //    console.log("read sensor ID: " + msensor.UniqID + ", value:"+ msensor.GetValuestring(true,true));
               }
+
+            //
+            {
+              const date = new Date();
+              const curminute=date.getMinutes();
+              if(last_minute != curminute)
+              {
+                last_minute=curminute;
+                mDailyData.updateSensor(mSensorintf.getsensorssimple());
+              }
+            }
+              
        
       }
     }
