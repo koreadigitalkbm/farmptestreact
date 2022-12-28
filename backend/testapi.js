@@ -16,7 +16,7 @@ function postapifordatabase(req, rsp) {
 
 function postapi(req, rsp) {
   let reqmsg = JSON.parse(JSON.stringify(req.body));
-  console.log("----------------------postapi :  puniqid :" + reqmsg.puniqid + ", type: " + reqmsg.reqType + ", did : " + backGlobal.mylocaldeviceid);
+  console.log("----------------------postapi :  uqid :" + reqmsg.uqid + ", type: " + reqmsg.reqType + ", did : " + backGlobal.mylocaldeviceid);
   let rspmsg = messageprocessing(true, reqmsg);
   rsp.send(JSON.stringify(rspmsg));
 }
@@ -28,7 +28,7 @@ async function postapifordevice(req, rsp) {
   //기본 nak 메시지로 만듬.
   let responsemsg = new responseMessage();
 
-  //console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.puniqid + ", SID:" + req.header("Session-ID"));
+  //console.log("---------------------------------postapifordevice :   backGlobal.islocal :" + backGlobal.islocal + ", did: " + reqmsg.uqid + ", SID:" + req.header("Session-ID"));
 
   if (backGlobal.islocal == true) {
     responsemsg = messageprocessing(false, reqmsg);
@@ -41,15 +41,15 @@ async function postapifordevice(req, rsp) {
      //     console.log("map key:"+ key + ", vlaue :" +value);
      //  }
 
-    let sid = backGlobal.sessionmap.get(reqmsg.puniqid);
+    let sid = backGlobal.sessionmap.get(reqmsg.uqid);
     let msgisd = req.header("Session-ID");
     console.log("---------------------------------sever sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType);
 
     if (sid != msgisd) {
       console.log("session not same ....");
     } else {
-      reqkey = backGlobal.fbdatabase.ref("IFDevices/" + reqmsg.puniqid + "/request");
-      repskey = backGlobal.fbdatabase.ref("IFDevices/" + reqmsg.puniqid + "/response");
+      reqkey = backGlobal.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
+      repskey = backGlobal.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response");
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
@@ -71,7 +71,7 @@ async function postapifordevice(req, rsp) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
-                  //      console.log("farebase rep i:"+i+",responsemsg datetime:" + responsemsg.datetime + " repsdatalenght :"+ repsdata.length  );
+                  
 
                   i = 10000; //loop out
                 } catch (e) {
@@ -128,8 +128,8 @@ function msgprocessing_common(reqmsg) {
       }
       break;
     case KDDefine.REQType.RT_ACTUATOROP:
-      if (reqmsg.OutputManual != null) {
-        backGlobal.actuatorinterface.setoperationmanual(reqmsg.OutputManual);
+      if (reqmsg.reqParam != null) {
+        backGlobal.actuatorinterface.setoperationmanual(reqmsg.reqParam);
       }
       rspmsg.retMessage = "ok";
       rspmsg.IsOK = true;
@@ -167,44 +167,44 @@ function msgprocessing_common(reqmsg) {
 //////////////////////
 function msgprocessing_serveronly(reqmsg, rspmsg) {
   if (reqmsg.reqType == KDDefine.REQType.RT_LOGIN) {
-    console.log("setlogin   pw:  " + reqmsg.loginPW + ", SID:" + reqmsg.SessionID);
+    console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
     rspmsg.retMessage = "not";
 
     if (backGlobal.islocal == true) {
       //일반사용자
-      if (reqmsg.loginPW === backGlobal.localsysteminformations.Systemconfg.password) {
+      if (reqmsg.reqParam.loginPW === backGlobal.localsysteminformations.Systemconfg.password) {
         rspmsg.retMessage = "user";
         rspmsg.retParam = backGlobal.mylocaldeviceid;
       }
       ///장비 관리자로그인 장비공장설정이 가능한 상태임
-      if (reqmsg.loginPW === "kd8883") {
+      if (reqmsg.reqParam.loginPW === "kd8883") {
         rspmsg.retMessage = "factoryadmin";
         rspmsg.retParam = backGlobal.mylocaldeviceid;
       }
     } else {
       // 서버 업데이트용 계정
-      if (reqmsg.loginID === "adminkd" && reqmsg.loginPW === "kd8883") {
+      if (reqmsg.reqParam.loginID === "adminkd" && reqmsg.reqParam.loginPW === "kd8883") {
         rspmsg.retMessage = "admin";
         rspmsg.retParam = "IF0000";
       }
 
-      if (reqmsg.loginID === "kd1" && reqmsg.loginPW === "1234") {
+      if (reqmsg.reqParam.loginID === "kd1" && reqmsg.reqParam.loginPW === "1234") {
         rspmsg.retMessage = "user";
         rspmsg.retParam = "IF0001";
-      } else if (reqmsg.loginID === "kd2" && reqmsg.loginPW === "1234") {
+      } else if (reqmsg.reqParam.loginID === "kd2" && reqmsg.reqParam.loginPW === "1234") {
         rspmsg.retMessage = "user";
         rspmsg.retParam = "IF0002";
-      } else if (reqmsg.loginID === "kd3" && reqmsg.loginPW === "1234") {
+      } else if (reqmsg.reqParam.loginID === "kd3" && reqmsg.reqParam.loginPW === "1234") {
         rspmsg.retMessage = "user";
         rspmsg.retParam = "IF0003";
-      } else if (reqmsg.loginID === "kd4" && reqmsg.loginPW === "1234") {
+      } else if (reqmsg.reqParam.loginID === "kd4" && reqmsg.reqParam.loginPW === "1234") {
         rspmsg.retMessage = "user";
         rspmsg.retParam = "IF0004";
       }
 
       //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
       if (rspmsg.retMessage != "not") {
-        backGlobal.sessionmap.set(rspmsg.retParam, reqmsg.SessionID);
+        backGlobal.sessionmap.set(rspmsg.retParam, reqmsg.reqParam.SessionID);
       }
     }
 
@@ -235,19 +235,7 @@ function softwareupdatefromgit() {
   });
 }
 
-function setMyInfo(reqmsg) {
-  const newInfo = {
-    name: reqmsg.deviceName,
-    deviceuniqid: reqmsg.deviceID,
-    comport: reqmsg.comport,
-    password: reqmsg.password,
-    productname: reqmsg.productname,
-    productmodel: reqmsg.productmodel,
-  };
 
-  const newInfoJSON = JSON.stringify(newInfo);
-  fs.writeFileSync("./../common/local_files/systemconfig.json", reqmsg.reqParam);
-}
 
 async function firebasedbinit() {
   console.log("firebasedbinit : ");

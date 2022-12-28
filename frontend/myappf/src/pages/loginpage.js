@@ -70,7 +70,7 @@ function loginmode()
   function loginbuttonHandler(e) {
     console.log("loginbuttonHandler : " + e.target.name + " id : " + loginid + " , pw : " + loginpw);
 
-    myAppGlobal.farmapi.setLogin(loginid, loginpw).then((ret) => {
+    myAppGlobal.farmapi.setLoginDevice(loginid, loginpw, myAppGlobal.sessionid).then((ret) => {
       if (ret) {
         if (ret.IsOK == true) {
           console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);

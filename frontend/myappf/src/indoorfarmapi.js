@@ -46,7 +46,7 @@ export default class IndoorFarmAPI {
 
     try {
       resdata = await this.postData(API + "devicerequest", mReqmsg);
-         console.log(" setRequestdevice isok : " + resdata.IsOK);
+      console.log(" setRequestdevice isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {
@@ -55,34 +55,35 @@ export default class IndoorFarmAPI {
     }
   }
 
-  async setLogin(id, pw) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    reqmsg.reqType = KDDefine.REQType.RT_LOGIN;
-    reqmsg.loginID = id;
-    reqmsg.loginPW = pw;
-    reqmsg.SessionID = myAppGlobal.sessionid;
+  async setLoginDevice(lid, lpw, lssid) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_LOGIN);
+
+    reqmsg.reqParam ={
+      loginID:lid,
+      loginPW:lpw,
+      SessionID:lssid,
+    };
+    //reqmsg.loginID = id;
+    //reqmsg.loginPW = pw;
+    //reqmsg.SessionID = myAppGlobal.sessionid;
     return await this.setRequest(reqmsg);
   }
 
   async getSysteminformations() {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMINIFO);
 
-    console.log("getsysteminfo : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_SYSTEMINIFO;
     return await this.setRequestdevice(reqmsg);
   }
 
   async getdevicelog() {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    console.log("getdevicelog : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_DEVICELOG;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_DEVICELOG);
+
     return await this.setRequestdevice(reqmsg);
   }
 
   async getdeviceversion(isserver) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    console.log("getLocaldeviceinfo : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_GETVERSION;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETVERSION);
+
     if (isserver) {
       return await this.setRequest(reqmsg);
     } else {
@@ -91,9 +92,8 @@ export default class IndoorFarmAPI {
   }
 
   async setsoftwareupdate(islocal) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    console.log("setsoftwareupdate : " + reqmsg.datetime);
-    reqmsg.reqType = KDDefine.REQType.RT_SWUPDATE;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SWUPDATE);
+
     if (islocal === true) {
       //장비 업데이트
       return await this.setRequestdevice(reqmsg);
@@ -105,52 +105,37 @@ export default class IndoorFarmAPI {
 
   //장비에 대한 전체 상태를 읽어온다. 센서, 구동기, 자동제어, 기타 등등
   async getDeviceStatus() {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMSTATUS);
 
-    console.log("getsystemstatus : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_SYSTEMSTATUS;
     return await this.setRequestdevice(reqmsg);
   }
 
   async setActuatorOperation(actopcmd) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    reqmsg.OutputManual = actopcmd;
-    console.log("setactuatoroperation : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_ACTUATOROP;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_ACTUATOROP);
+    reqmsg.reqParam = actopcmd;
     return await this.setRequestdevice(reqmsg);
   }
 
   async getActuatorState() {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
-    console.log("getActuatorState : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_ACTUATORSTATUS;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_ACTUATORSTATUS);
     return await this.setRequestdevice(reqmsg);
   }
 
   async getsensors() {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid);
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SENSORSTATUS);
 
-    console.log("getsensors : " + reqmsg.datetime + ", devicdid: " + reqmsg.puniqid);
-    reqmsg.reqType = KDDefine.REQType.RT_SENSORSTATUS;
     return await this.setRequestdevice(reqmsg);
   }
 
   async setMyInfo(newconf) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid)
-    reqmsg.reqType = KDDefine.REQType.RT_SETMYINFO;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SETMYINFO);
     reqmsg.reqParam = newconf;
     return await this.setRequestdevice(reqmsg);
   }
 
   async saveAutocontrolconfig(autoccfg) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid)
-    reqmsg.reqType = KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG;
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG);
     reqmsg.reqParam = autoccfg;
     return await this.setRequestdevice(reqmsg);
   }
-
-
-
-  
-
 }
