@@ -115,6 +115,8 @@ function msgprocessing_common(reqmsg) {
       break;
 
     case KDDefine.REQType.RT_SYSTEMINIFO:
+      console.log("---------------------------------RT_SYSTEMINIFO localsysteminformations : " + backGlobal.localsysteminformations);
+
       if (backGlobal.localsysteminformations != null) {
         rspmsg.retMessage = backGlobal.localsysteminformations;
         rspmsg.IsOK = true;
