@@ -123,6 +123,14 @@ function msgprocessing_common(reqmsg) {
       }
       break;
 
+      case KDDefine.REQType.RT_GETAUTOCONTROLCONFIG:
+        if (backGlobal.Autocontrolcfg != null) {
+          rspmsg.retMessage = backGlobal.Autocontrolcfg;
+          rspmsg.IsOK = true;
+        }
+        break;
+
+
     case KDDefine.REQType.RT_SENSORSTATUS:
       if (backGlobal.actuatorinterface != null) {
         rspmsg.retMessage = backGlobal.actuatorinterface.getactuatorstatus();
