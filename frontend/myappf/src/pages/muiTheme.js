@@ -12,7 +12,7 @@ const muiTheme = createTheme({
         color: 'blue'
       },
       h3: {
-        color: ''
+        color: '#4fc3f7'
       },
       h4: {
         color: '#ff6090'

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react"
 
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack'
+import Divider from "@mui/material/Divider";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
@@ -19,11 +22,9 @@ import DeviceSystemconfig from "../../commonjs/devsystemconfig"
 const theme = muiTheme
 
 export default function SettingPage(props) {
-  console.log("-------------------------SettingPage---------------------Systeminfo : " + props.Systeminfo);
-
   const [myInfo, setMyInfo] = useState([]);
   const [myNewInfoFrame, setMyNewInfoFrame] = useState([]);
-  const [devcieversion, setDevcieversion] = useState(0);
+  const [deviceversion, setDeviceversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
 
   const [configureResult, setConfigureResult] = useState(false);
@@ -31,6 +32,9 @@ export default function SettingPage(props) {
   const [modalDescription, setModalDescription] = useState('모달설명 입니다.');
   const handleOpen = () => setConfigureResult(true);
   const handleClose = () => setConfigureResult(false);
+
+  let isupdate = false;
+  let loginrole = window.sessionStorage.getItem("login");
 
   let newDeviceName
   let newPort
@@ -50,7 +54,17 @@ export default function SettingPage(props) {
 
   useEffect(() => {
 
-    console.log("SettingPage useEffect : " + props.Systeminfo);
+    if (myAppGlobal.islocal === false) {
+      myAppGlobal.farmapi.getdeviceversion(true).then((ret) => {
+        console.log(" get server version ret : " + ret.retMessage);
+        setServerversion(ret.retMessage);
+      });
+    }
+
+    myAppGlobal.farmapi.getdeviceversion(false).then((ret) => {
+      console.log("getdevice version ret1 : " + ret.retMessage);
+      setDeviceversion(ret.retMessage);
+    });
 
     if (props.Systeminfo != null) {
       setMyInfo([
@@ -100,6 +114,10 @@ export default function SettingPage(props) {
       ])
     }
   }, [props.Systeminfo]);
+
+  if (serverversion > deviceversion && deviceversion > 0) {
+    isupdate = true;
+  }
 
   const getMyNewInfoFrame = (myNewI) => {
     switch (myNewI.id) {
@@ -215,7 +233,7 @@ export default function SettingPage(props) {
       component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '25ch', },
-        
+
       }}
 
       onSubmit={onSubmit}
@@ -234,7 +252,7 @@ export default function SettingPage(props) {
         spacing={5}
         direction="row"
         justifyContent="center"
-        sx={{mt: 5}}>
+        sx={{ mt: 5 }}>
         <Button type="reset" variant="outlined" endIcon={<DeleteIcon />}>취소</Button>
         <Button type="submit" variant="contained" endIcon={<SendIcon />}>수정하기</Button>
       </Stack>
@@ -261,40 +279,155 @@ export default function SettingPage(props) {
     }
   }
 
+  function readdevicelog(e) {
+    console.log("readdevicelog : " + e.target.name);
+    myAppGlobal.farmapi.getdevicelog().then((ret) => {
+      console.log(" getdevicelog ret : " + ret.retMessage.nindex);
+      let objlist = ret.retMessage.logarr;
+      //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
+      objlist.forEach((element) => {
+        if (element != null) {
+          console.log(element);
+        }
+      });
+    });
+  }
+
+  function updateServercode(e) {
+    console.log("updateServercode : " + e.target.name);
+
+    myAppGlobal.farmapi.setsoftwareupdate(false).then((ret) => {
+      console.log(" setsoftwareupdate ret : " + ret.retMessage);
+    });
+  }
+
+  function updateLocalDevice(e) {
+    console.log("updateLocalDevice : " + e.target.name);
+
+    myAppGlobal.farmapi.setsoftwareupdate(true).then((ret) => {
+      console.log(" setsoftwareupdate ret : " + ret.retMessage);
+    });
+  }
+
+  function boardUpdate() {
+    console.log("테스트")
+    console.log(myAppGlobal.islocal)
+    if (myAppGlobal.islocal === 'true') {
+      console.log("테스트123")
+      return (
+        <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
+          <CardHeader
+            title={'소프트웨어 업데이트'}
+          />
+          <Stack
+            spacing={1}
+            direction="column"
+            divider={<Divider orientation="horizontal" flexItem />}
+            justifyContent="center"
+            sx={{ mt: 5 }}>
+          <Typography variant="h6" align='left'>장비버전: {deviceversion}</Typography>
+          <Typography variant="h6" align='left'>장비버전: {deviceversion}</Typography>
+          </Stack>
+        </Card>
+        /*
+        <Box>
+          <Typography>about Page..1111 {myAppGlobal.logindeviceid} </Typography>
+          장비버전 : {devcieversion}
+          <Box>
+            <Button className="" onClick={readdevicelog}>
+              {" "}
+              장비로그 가져오기{" "}
+            </Button>
+          </Box>
+        </Box>
+      );
+    } else {
+      if (loginrole === "admin") {
+        return (
+          <Box>
+            <Typography
+              variant="h2">
+              about Page..2222 {myAppGlobal.logindeviceid}
+            </Typography>
+            <div>서버버전 : {serverversion}</div>
+            <div>
+              <button className="" onClick={updateServercode}>
+                {" "}
+                서버 업데이트{" "}
+              </button>
+            </div>
+            <div>
+              <button className="" onClick={readdevicelog}>
+                {" "}
+                장비로그 가져오기{" "}
+              </button>
+            </div>
+          </Box>
+        );
+      } else {
+        return (
+          <Box>
+            <div>장비버전 : {devcieversion}</div>
+            <div>업데이트버전 : {serverversion}</div>
+            <div>
+              {isupdate ? (
+                <button className="" onClick={updateLocalDevice}>
+                  {" "}
+                  업데이트 테스트{" "}
+                </button>
+              ) : (
+                "최신버전 입니다."
+              )}
+            </div>
+            <div>
+              <button className="" onClick={readdevicelog}>
+                {" "}
+                장비로그 가져오기{" "}
+              </button>
+            </div>
+
+          </Box>
+          */
+      );
+    }
+  }
+
   function initPage() {
-    console.log("-------------------------setupss---------------------systestinfo : " + props.Systeminfo);
     if (props.Systeminfo == null) {
       return <Box> nodata... </Box>
     }
     else {
       return (
         <Box align="center">
-          <ThemeProvider theme={theme}>
-            <Typography variant="h1">설정페이지</Typography>
-            {myCurrentInfo}
-            {myNewInfo}
-            <Modal
-              open={configureResult}
-              onClose={handleClose}
-              aria-labelledby="modal-configure-title"
-              aria-describedby="modal-configure-description"
-            >
-              <Box sx={style}>
-                <Typography id="modal-configure-title" variant="h6" component="h2">
-                  {modalTitle}
-                </Typography>
-                <Typography id="modal-configure-description" sx={{ mt: 2 }}>
-                  {modalDescription}
-                </Typography>
-              </Box>
-            </Modal>
-          </ThemeProvider>
-        </Box>
+          <Typography variant="h1">설정페이지</Typography>
+          {myCurrentInfo}
+          {myNewInfo}
+          <Modal
+            open={configureResult}
+            onClose={handleClose}
+            aria-labelledby="modal-configure-title"
+            aria-describedby="modal-configure-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-configure-title" variant="h6" component="h2">
+                {modalTitle}
+              </Typography>
+              <Typography id="modal-configure-description" sx={{ mt: 2 }}>
+                {modalDescription}
+              </Typography>
+            </Box>
+          </Modal>
+        </Box >
       );
     }
   }
 
   return (
-    initPage()
+    <Box>
+      <ThemeProvider theme={theme}>
+        {boardUpdate()}
+        {initPage()}
+      </ThemeProvider>
+    </Box>
   );
 }
