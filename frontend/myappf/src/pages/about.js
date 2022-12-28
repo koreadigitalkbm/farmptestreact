@@ -30,7 +30,7 @@ const About = () => {
     isupdate = true;
   }
 
-  if (myAppGlobal.islocal == true) {
+  if (myAppGlobal.islocal == true || myAppGlobal.islocal == "true") {
     return (
       <div>
         <h2>about Page..1111 {myAppGlobal.logindeviceid} </h2>
