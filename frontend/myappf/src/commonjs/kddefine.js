@@ -63,6 +63,7 @@ module.exports = class KDDefine {
     RT_SENSORSTATUS: "getsensors", // 센서상태
 
     RT_SETMYINFO: 'setmyinfo', //사용자 정보 수정
+    RT_SETMYLOCALPW: 'setmypw',  // 로컬 접속 PW변경
     RT_SAVEAUTOCONTROLCONFIG: 'saveautocontrol' //자동제어 설정을 저장한다
     
   });
