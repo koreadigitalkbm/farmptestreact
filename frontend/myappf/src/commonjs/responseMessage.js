@@ -5,6 +5,7 @@
     
     constructor()
     {
+        this.Time=Date.now().toLocaleTimeString();
         this.Sensors=[];    /// 센서상태값
         this.Outputs=[];    /// 구동기 상태값
         this.AutoStatus=[]; //자동제어 상태값

@@ -65,7 +65,7 @@ async function postapifordevice(req, rsp) {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-                            console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
+                           // console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
 
               if (repsdata.length > 10) {
                 try {

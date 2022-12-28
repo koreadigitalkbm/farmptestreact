@@ -3,6 +3,7 @@
 export default class reqMessage {
 
   constructor(pid, reqtype) {
+    this.Time=Date.now().toLocaleTimeString();
     this.uqid=pid;//제품 구별 ID 필수 IF0000  장비ID는 무조건 6자리 문자열로 지정 
     this.reqType= reqtype; // 필수
     this.reqParam = undefined;
