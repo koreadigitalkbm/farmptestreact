@@ -71,10 +71,7 @@ module.exports = class ActuatorInterface {
               {
                 actd.LastCompleteOPID = actd.AOperation.Opid;
 
-                let eparam={
-                  uid: actd.UniqID,
-                  state: actd.AStatus.Sat
-                };
+                let eparam=  '['+actd.Basicinfo.Name+']' +" 장치상태가 " +actd.AStatus.statetonomalstring() + " 로 변경되었습니다.";
                 let newevt=new SystemEvent(KDDefine.EVENTType.EVT_ACTUATOR,eparam);
                 backGlobal.dailydatas.updateEvent(newevt);
                 console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", LastCompleteOPID: " + actd.LastCompleteOPID);

@@ -17,7 +17,7 @@ module.exports = class SystemEvent {
     let strevent;
 
     const today = new Date(this.EDate);
-    strevent = today.toLocaleString();
+    strevent = today.toLocaleString() +": ";
     switch(this.EType)
     {
       default:

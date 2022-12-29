@@ -16,7 +16,7 @@ function eventmsgbox(mydata,index) {
 
   
   return (
-    <div className="out_con" key={index}>
+    <div className="eventbox_dip" key={index}>
       {evetinfo.eventtostring()}
     </div>
   );

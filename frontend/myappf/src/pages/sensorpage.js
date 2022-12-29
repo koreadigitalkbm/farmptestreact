@@ -4,6 +4,7 @@ import myAppGlobal from "../myAppGlobal";
 import Outputdevicedisplay from "../outputdevicedisplay";
 import systemeventdisplay from "../systemeventdisplay";
 
+let lasevttime=0;
 const Sensorpage = () => {
   const [msensorsarray, setSensors] = useState([]);
   const [moutdevarray, setUpdate] = useState([]);
@@ -38,6 +39,10 @@ const Sensorpage = () => {
           console.log("sysevents : " + sysevents.length);
           if(sysevents.length >0)
           {
+            console.log("sysevents lasevttime 11: " + lasevttime);
+            lasevttime=sysevents[sysevents.length-1].EDate;
+            
+
             setEvents(sysevents);
           }
         }

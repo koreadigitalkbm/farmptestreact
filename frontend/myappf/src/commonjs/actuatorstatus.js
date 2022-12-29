@@ -1,4 +1,5 @@
 //구동기노드로 부터 상태값을 읽어 간략히 저장
+const KDDefine = require("./kddefine");
 module.exports = class ActuatorStatus{
         constructor(muid) {
             this.Sat = 0;
@@ -22,6 +23,26 @@ module.exports = class ActuatorStatus{
 
         }
 
+        statetonomalstring()
+        {
+            let strmsg;
+            switch(this.Sat)
+            {
+                case KDDefine.ONOFFOperationTypeEnum.OPT_Off:
+                    strmsg="꺼짐(Off)";
+                break;
+                case KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On:
+                case KDDefine.ONOFFOperationTypeEnum.OPT_On:
+                    strmsg="켜짐(On)";
+                break;
+
+                default:
+                    strmsg=this.Sat;
+                    break;
+            }
+
+            return strmsg;
+        }
       
 
 
