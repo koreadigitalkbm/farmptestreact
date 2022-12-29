@@ -67,7 +67,7 @@ module.exports = class ActuatorInterface {
             if (actd.AOperation.Opid === actd.AStatus.Opid)
             {
               //명령어가 정상적으로 수행되었으면 기록남김
-              if(actd.AOperation.Opid !=actd.LastCompleteOPID)
+              if(actd.AOperation.Opid !=actd.LastCompleteOPID  || ((actd.AOperation.Opcmd==KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On) && actd.AStatus.Sat == KDDefine.ONOFFOperationTypeEnum.OPT_Timed_Off ))
               {
                 actd.LastCompleteOPID = actd.AOperation.Opid;
 
