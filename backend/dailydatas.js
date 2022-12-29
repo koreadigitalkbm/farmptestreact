@@ -2,6 +2,7 @@
 
 const KDCommon = require("./kdcommon");
 const backGlobal = require("./backGlobal");
+const SystemEvent = require("../frontend/myappf/src/commonjs/systemevent");
 
 module.exports = class DailyCurrentDatas {
   constructor() {
@@ -9,13 +10,12 @@ module.exports = class DailyCurrentDatas {
     this.DEvents = []; //자동제어, 구동기변경, 기타 로그
   }
 
-  updateEvent(curdata) {
+  updateEvent(mevent) {
     //배열 1000개 넘어가면 앞부분 100개 삭제
     if (this.DEvents.length >= 1000) {
       this.DEvents.splice(0, 100);
     }
-    let newitem = new DailyEvent(curdata);
-    this.DEvents.push(newitem);
+    this.DEvents.push(mevent);
   }
 
   updateSensor(curdata) {
@@ -31,12 +31,7 @@ module.exports = class DailyCurrentDatas {
   //  }
   }
 };
-class DailyEvent {
-  constructor(emsg) {
-    this.DT = new Date();
-    this.EMSG = emsg; //
-  }
-}
+
 class DailySensor {
   constructor(dsensors) {
     this.DT = new Date();

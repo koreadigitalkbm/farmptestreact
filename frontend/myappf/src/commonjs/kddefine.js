@@ -127,7 +127,14 @@ module.exports = class KDDefine {
         
   });
 
-
+//자동제어 상태
+static EVENTType = Object.freeze({
+  EVT_None: 0, //
+  EVT_SYSTEM: 1,// 시스템 이벤트, 기동, 에러.
+  EVT_ACTUATOR: 2, //  구동기 상태변화
+  EVT_AUTOCONTROL: 3, // 자동제어 변경
+      
+});
 
 
 };

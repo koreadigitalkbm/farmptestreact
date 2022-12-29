@@ -3,7 +3,11 @@ const ActuatorNode = require("./actuatornode.js");
 const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
 const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
 const ActuatorBasic = require("../frontend/myappf/src/commonjs/actuatorbasic.js");
+const SystemEvent = require("../frontend/myappf/src/commonjs/systemevent");
+const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("./kdcommon");
+const backGlobal = require("./backGlobal");
+
 
 module.exports = class ActuatorInterface {
   constructor(sysinfo, modbuscomm) {
@@ -57,6 +61,29 @@ module.exports = class ActuatorInterface {
           //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
           if (actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !== "LM") {
             await curactnode.ControlNormal(actd.AOperation, actd.Basicinfo.Channel);
+          }
+          else{
+
+            if (actd.AOperation.Opid === actd.AStatus.Opid)
+            {
+              //명령어가 정상적으로 수행되었으면 기록남김
+              if(actd.AOperation.Opid !=actd.LastCompleteOPID)
+              {
+                actd.LastCompleteOPID = actd.AOperation.Opid;
+
+                let eparam={
+                  uid: actd.UniqID,
+                  state: actd.AStatus.Sat
+                };
+                let newevt=new SystemEvent(KDDefine.EVENTType.EVT_ACTUATOR,eparam);
+                backGlobal.dailydatas.updateEvent(newevt);
+                console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", LastCompleteOPID: " + actd.LastCompleteOPID);
+              }
+              
+
+            }
+
+            
           }
 
           break;

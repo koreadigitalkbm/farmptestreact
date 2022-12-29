@@ -13,7 +13,7 @@ module.exports = class KDUtil {
     }
     return null;
   }
-
+//제어용 OPID를 램덤하게 생성 0이면안됨
   static GetOPIDRandom()
   {
     const rand_1_9999 = Math.floor(Math.random() * 10000) +1 + Math.floor(Math.random() * 100);

@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import Sensordisplay from "../sensordisplay";
 import myAppGlobal from "../myAppGlobal";
+import Outputdevicedisplay from "../outputdevicedisplay";
+import systemeventdisplay from "../systemeventdisplay";
 
 const Sensorpage = () => {
   const [msensorsarray, setSensors] = useState([]);
-
+  const [moutdevarray, setUpdate] = useState([]);
+  const [mevnetarray, setEvents] = useState([]);
   //console.log("-------------------------Sensorpage  ---------------------");
 
   useEffect(() => {
@@ -17,16 +20,45 @@ const Sensorpage = () => {
     interval = setInterval(() => {
       myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
         let sensors = ret.Sensors;
+        let actuators = ret.Outputs;
+        let sysevents = ret.retParam.DEvents;
         console.log("sensors length:" + sensors.length);
 
         setSensors(sensors);
+        if(actuators !=null)
+        {
+          console.log("actuators : " + actuators.length);
+          if(actuators.length >0)
+          {
+            setUpdate(actuators);
+          }
+        }
+        if(sysevents !=null)
+        {
+          console.log("sysevents : " + sysevents.length);
+          if(sysevents.length >0)
+          {
+            setEvents(sysevents);
+          }
+        }
+
+
+
       });
     }, readtimemsec);
 
     return () => clearInterval(interval);
   }, []);
 
-  return <div>{Sensordisplay(msensorsarray, true)}</div>;
+  return (
+  <div>
+  <div>{Sensordisplay(msensorsarray, true)}</div>
+  <div>{Outputdevicedisplay(moutdevarray, false)}</div> 
+  <div>{systemeventdisplay(mevnetarray, false)}</div> 
+
+  </div>
+  );
+
 };
 
 export default Sensorpage;

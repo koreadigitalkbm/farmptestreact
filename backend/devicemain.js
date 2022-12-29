@@ -62,6 +62,7 @@ async function devicemaintask() {
       mAutocontrolintf= new AutoControlInterface();
       mDailyData = new DailyCurrentDatas();
 
+      backGlobal.dailydatas = mDailyData;
       backGlobal.sensorinterface = mSensorintf;
       backGlobal.actuatorinterface = mActuatorintf;
       backGlobal.autocontrolinterface = mAutocontrolintf;
@@ -92,7 +93,7 @@ async function devicemaintask() {
               if(last_minute != curminute)
               {
                 last_minute=curminute;
-                mDailyData.updateSensor(mSensorintf.getsensorssimple());
+                backGlobal.dailydatas.updateSensor(mSensorintf.getsensorssimple());
               }
             }
               

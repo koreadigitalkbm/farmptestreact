@@ -153,6 +153,9 @@ function msgprocessing_common(reqmsg) {
       if (backGlobal.actuatorinterface != null) {
         rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
       }
+      if (backGlobal.dailydatas != null) {
+        rspmsg.retParam = backGlobal.dailydatas;
+      }
       //console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
 
       rspmsg.IsOK = true;
