@@ -99,8 +99,8 @@ const About = () => {
 function readdevicelog(e) {
   console.log("readdevicelog : " + e.target.name);
   myAppGlobal.farmapi.getdevicelog().then((ret) => {
-    console.log(" getdevicelog ret : " + ret.retMessage.nindex);
-    let objlist = ret.retMessage.logarr;
+    console.log(" getdevicelog ret : " + ret.retMessage);
+    let objlist =  ret.retParam.loglist;
     //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
     objlist.forEach((element) => {
       if(element!=null)

@@ -84,22 +84,23 @@ module.exports = class ActuatorInterface {
       }
     }
   }
-  setoperation(mloperation, opmode) {
+  setACToperation(mloperation, opmode) {
     for (const actd of this.Actuators) {
       if (actd.UniqID === mloperation.Uid) {
         actd.AOperation.setoperation(mloperation.Opcmd, mloperation.Timesec, mloperation.Param, opmode);
+
       }
     }
   }
 
   // 수동제어
   setoperationmanual(manualoperation) {
-    this.setoperation(manualoperation, "MA");
+    this.setACToperation(manualoperation, "MA");
   }
 //자동제어
   setoperationAuto(autooperationlist) {
     for (const mopcmd of autooperationlist) {
-      this.setoperation(mopcmd, "AT");
+      this.setACToperation(mopcmd, "AT");
     }
   }
 

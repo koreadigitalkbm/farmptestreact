@@ -57,7 +57,7 @@ module.exports = class KDDefine {
     RT_SWUPDATE: "setswupdate", // 장비 소프트웨어 업데이트
 
     RT_SYSTEMSTATUS: "getsystemstatus", // 장비 전체 상태
-    RT_ACTUATOROP: "setactuatoroperation", // 구동기 동작
+    RT_ACTUATOROPERATION: "setactuatoroperation", // 구동기 동작
     RT_ACTUATORSTATUS: "getactuatorstatus", // 구동기상태
 
     RT_SENSORSTATUS: "getsensors", // 센서상태

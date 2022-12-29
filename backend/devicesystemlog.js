@@ -1,31 +1,21 @@
 
-
-
- class devicesystemlog{
-    
+//시스템 디버깅을위해 중요에러또는 정보사항을 기록하고 볼수 있도록 한다.
+module.exports =  class devicesystemlog{
     constructor()
     {
-        this.logarr = new Array(200); 
-        this.nindex =0;
-
+        this.loglist = []; 
     }
     //메모리에 중요로그 기록 웹으로 모니터링
     memlog(logmsg){
         let today = new Date(); 
         let datelog=today.toLocaleString() + " : "+ logmsg;
-
-        this.logarr[this.nindex]  = datelog;
-
-
-        console.log(this.logarr[this.nindex]);
-
-        this.nindex++;
-        if(this.nindex >=200)
+        console.log(datelog);
+        this.loglist.push(datelog);
+        if(this.loglist.length >=1000)
         {
-            this.nindex=0;
+            this.loglist.splice(0, 100);
         }
-        
 
     }
 }
-module.exports = devicesystemlog;
+ 

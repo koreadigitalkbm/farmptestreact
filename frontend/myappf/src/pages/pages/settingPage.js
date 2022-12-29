@@ -282,10 +282,13 @@ export default function SettingPage(props) {
   function readdevicelog(e) {
     console.log("readdevicelog : " + e.target.name);
     myAppGlobal.farmapi.getdevicelog().then((ret) => {
-      console.log(" getdevicelog ret : " + ret.retMessage.nindex);
-      let objlist = ret.retMessage.logarr;
+      let devmlog = ret.retParam;
+      console.log(" getdevicelg ret : " + ret);
+      
+      console.log(ret);
+
       //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
-      objlist.forEach((element) => {
+      devmlog.loglist.forEach((element) => {
         if (element != null) {
           console.log(element);
         }

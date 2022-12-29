@@ -110,34 +110,35 @@ function msgprocessing_common(reqmsg) {
       break;
 
     case KDDefine.REQType.RT_DEVICELOG:
-      rspmsg.retMessage = backGlobal.systemlog;
+
+    rspmsg.retMessage = "devicelog";
+      rspmsg.retParam= backGlobal.systemlog;
       rspmsg.IsOK = true;
       break;
 
     case KDDefine.REQType.RT_SYSTEMINIFO:
-      console.log("---------------------------------RT_SYSTEMINIFO localsysteminformations : " + backGlobal.localsysteminformations);
 
       if (backGlobal.localsysteminformations != null) {
-        rspmsg.retMessage = backGlobal.localsysteminformations;
+        rspmsg.retParam = backGlobal.localsysteminformations;
         rspmsg.IsOK = true;
       }
       break;
 
       case KDDefine.REQType.RT_GETAUTOCONTROLCONFIG:
         if (backGlobal.Autocontrolcfg != null) {
-          rspmsg.retMessage = backGlobal.Autocontrolcfg;
+          rspmsg.retParam = backGlobal.Autocontrolcfg;
           rspmsg.IsOK = true;
         }
         break;
 
 
     case KDDefine.REQType.RT_SENSORSTATUS:
-      if (backGlobal.actuatorinterface != null) {
-        rspmsg.retMessage = backGlobal.actuatorinterface.getactuatorstatus();
+      if (backGlobal.sensorinterface != null) {
+        rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
         rspmsg.IsOK = true;
       }
       break;
-    case KDDefine.REQType.RT_ACTUATOROP:
+    case KDDefine.REQType.RT_ACTUATOROPERATION:
       if (reqmsg.reqParam != null) {
         backGlobal.actuatorinterface.setoperationmanual(reqmsg.reqParam);
       }

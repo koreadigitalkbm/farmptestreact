@@ -51,7 +51,7 @@ function App(props) {
         myAppGlobal.farmapi.getSysteminformations().then((ret) => {
           myAppGlobal.systeminformations= ret.retMessage;
           console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations.Systemconfg.name);
-          console.log("----------------------------systeminformations auto length: " + myAppGlobal.systeminformations.Autocontrolcfg);
+          
         });
       }
       else{
