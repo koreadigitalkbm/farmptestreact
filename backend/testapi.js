@@ -147,16 +147,18 @@ function msgprocessing_common(reqmsg) {
       break;
 
     case KDDefine.REQType.RT_SYSTEMSTATUS:
-      if (backGlobal.sensorinterface != null) {
+      if (backGlobal.sensorinterface != null && reqmsg.reqParam.isSEN===true) {
         rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
       }
-      if (backGlobal.actuatorinterface != null) {
+      if (backGlobal.actuatorinterface != null && reqmsg.reqParam.isACT===true) {
         rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
       }
-      if (backGlobal.dailydatas != null) {
-        rspmsg.retParam = backGlobal.dailydatas;
+      // 시간이 0으로오면 요청없음
+      if (backGlobal.dailydatas != null && reqmsg.reqParam.STime > 0) {
+        rspmsg.retParam = backGlobal.dailydatas.getdatabytime(reqmsg.reqParam.STime,reqmsg.reqParam.ETime);
       }
-      //console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
+
+//      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
       rspmsg.IsOK = true;
       break;

@@ -19,7 +19,7 @@ const ControlPage = (props) => {
             readtimemsec = 2000;
         }
         interval = setInterval(() => {
-            myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
+            myAppGlobal.farmapi.getDeviceStatus(false,true, true,0,0).then((ret) => {
                 let actuators = ret.Outputs;
                 if (actuators != null) {
                     console.log("actuators : " + actuators.length);

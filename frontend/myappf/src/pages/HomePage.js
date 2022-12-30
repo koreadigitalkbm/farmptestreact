@@ -97,7 +97,7 @@ export default function HomePage() {
     }
 
     interval = setInterval(() => {
-      myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
+      myAppGlobal.farmapi.getDeviceStatus(true, false, false, 0,0).then((ret) => {
         let sensors = ret.Sensors;
         console.log("sensors length:" + sensors.length);
 

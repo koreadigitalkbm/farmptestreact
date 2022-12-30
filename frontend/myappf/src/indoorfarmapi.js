@@ -103,8 +103,16 @@ export default class IndoorFarmAPI {
   }
 
   //장비에 대한 전체 상태를 읽어온다. 센서, 구동기, 자동제어, 기타 등등
-  async getDeviceStatus() {
+  async getDeviceStatus(issensor, isactuator, isautocontrol, lastSensorTime,lastEventtime ) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMSTATUS);
+
+    reqmsg.reqParam ={
+      isSEN:issensor,
+      isACT:isactuator,
+      isAUTO:isautocontrol,
+      STime:lastSensorTime,
+      ETime:lastEventtime,
+    };
 
     return await this.setRequestdevice(reqmsg);
   }
