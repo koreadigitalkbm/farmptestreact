@@ -7,10 +7,13 @@ import systemeventdisplay from "../systemeventdisplay";
 let lasteventtime = 1;
 let lastsensortime = 1;
 let eventlist = [];
+let dailysensorlist = [];
+
 const Sensorpage = () => {
   const [msensorsarray, setSensors] = useState([]);
   const [moutdevarray, setUpdate] = useState([]);
   const [mevnetarray, setEvents] = useState([]);
+  const [mdailysensorarray, setDailysensor] = useState([]);
   console.log("-------------------------Sensorpage  ---------------------");
 
   useEffect(() => {
@@ -28,6 +31,7 @@ const Sensorpage = () => {
         let sensors = ret.Sensors;
         let actuators = ret.Outputs;
         let sysevents = ret.retParam.DEvents;
+        let dsensors = ret.retParam.DSensors;
         console.log("sensors length:" + sensors.length);
 
         setSensors(sensors);
@@ -49,6 +53,21 @@ const Sensorpage = () => {
             setEvents(eventlist);
           }
         }
+
+        if (dsensors != null) {
+          console.log("dsensors : " + dsensors.length);
+          if (dsensors.length > 0) {
+            for (let i = 0; i < dsensors.length; i++) {
+              dailysensorlist.push(dsensors[i]);
+              lastsensortime = dsensors[i].SDate;
+            }
+
+            console.log("dsensors lastsensortime : " + lastsensortime + " lenth : " + eventlist.length);
+            setDailysensor(dailysensorlist);
+          }
+        }
+
+
       });
     }, readtimemsec);
 
