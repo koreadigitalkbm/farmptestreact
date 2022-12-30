@@ -30,6 +30,7 @@ module.exports = class Actuatordevice {
       let isevent = false;
       if (this.AOperation.Opid != this.LastCompleteOPID) {
         this.LastCompleteOPID = this.AOperation.Opid;
+        this.LastCompleteState = this.AStatus.Sat;
         isevent = true;
       } else {
         //OPID 은 같지만 상태가 다르다 : 타임드온 방식이면 지정시간동안 켜있다가 꺼짐으로 상태변경될수 있음.

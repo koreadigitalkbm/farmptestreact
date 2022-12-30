@@ -157,7 +157,6 @@ function msgprocessing_common(reqmsg) {
       if (backGlobal.dailydatas != null && reqmsg.reqParam.STime > 0) {
         rspmsg.retParam = backGlobal.dailydatas.getdatabytime(reqmsg.reqParam.STime,reqmsg.reqParam.ETime);
       }
-
 //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
       rspmsg.IsOK = true;

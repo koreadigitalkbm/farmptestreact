@@ -16,14 +16,30 @@ function eventmsgbox(mydata,index) {
 
   
   return (
-    <div className="eventbox_dip" key={index}>
+      <li key={index} role="option"> 
       {evetinfo.eventtostring()}
-    </div>
+      </li>
   );
 }
 
 function systemeventdisplay(moutdevarray ) {
-  return <div className="output">{moutdevarray.map((localState,index) => eventmsgbox(localState,index))}</div>;
+
+  let revlist=[];
+  for(let i=moutdevarray.length-1;i>=0;i--)
+  {
+    revlist.push(moutdevarray[i]);
+  }
+
+  return(
+    <div class="listbox-area">
+<div>
+    <span id="ss_elem" class="listbox-label">시스템 이벤트목록입니다.</span>
+    <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
+    {revlist.map((localState,index) => eventmsgbox(localState,index))}
+    </ul>
+    </div>
+    </div>
+    );
 }
 
 export default systemeventdisplay;
