@@ -324,13 +324,12 @@ export default function SettingPage(props) {
 
   function frameUpdateInfo() {
     console.log('버전체크');
-    console.log(deviceversion);
-    console.log(serverversion);
     let column1, column1_1, column2, column3;
     if(myAppGlobal.islocal === true || myAppGlobal.islocal === "true") {
       column1 = "장비버전: " + deviceversion;
-      column2 = 
+      column2 = "테스트중"
     }
+
     return (
       <Stack
         spacing={0}
