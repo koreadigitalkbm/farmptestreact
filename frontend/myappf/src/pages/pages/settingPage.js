@@ -294,7 +294,7 @@ export default function SettingPage(props) {
     myAppGlobal.farmapi.getdevicelog().then((ret) => {
       let devmlog = ret.retParam;
       console.log(" getdevicelg ret : " + ret);
-      
+
       console.log(ret);
 
       //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
@@ -324,10 +324,21 @@ export default function SettingPage(props) {
 
   function frameUpdateInfo() {
     console.log('버전체크');
-    let column1, column1_1, column2, column3;
-    if(myAppGlobal.islocal === true || myAppGlobal.islocal === "true") {
-      column1 = "장비버전: " + deviceversion;
-      column2 = "테스트중"
+    let column1, column1_1, column2, column2_1, column3;
+    column1 = "장비버전";
+    column1_1 = deviceversion;
+
+    if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true") {
+      column2 = "로컬접속시 업데이트를 지원하지 않습니다."
+      column3 = false
+    } else {
+      column2 = "서버버전"
+      column2_1 = serverversion
+      if (deviceversion < serverversion) {
+        column3 = false
+      } else if (deviceversion === serverversion) {
+        column3 = false
+      }
     }
 
     return (
@@ -341,15 +352,30 @@ export default function SettingPage(props) {
           spacing={0}
           direction="row"
           justifyContent="space-between">
-            {column1}
-          <Typography variant="h6" align='left' sx={{ pl: 1}}>{column1}</Typography>
-          <Typography variant="body1" align="right" sx={{ pr: 1 }}>{column1_1}</Typography>
+          <Typography variant="subtitle1" sx={{ pl: 2 }}>{column1}</Typography>
+          <Typography variant="body1" sx={{ pr: 2 }}>{column1_1}</Typography>
         </Stack>
-        <Button className="" onClick={readdevicelog}>
+        <Stack
+          spacing={0}
+          direction="row"
+          justifyContent="space-between">
+          <Typography variant="subtitle1" sx={{ pl: 2 }}>{column2}</Typography>
+          <Typography variant="subtitle1" sx={{ pl: 2 }}>{column2_1}</Typography>
+        </Stack>
+        <Button disabled={column3} onClick={updateServercode}>업데이트</Button>
+        <Button onClick={readdevicelog}>
           장비로그 가져오기
         </Button>
       </Stack>
     )
+  }
+
+  function updateServercode(e) {
+    console.log("updateServercode : " + e.target.name);
+
+    myAppGlobal.farmapi.setsoftwareupdate(false).then((ret) => {
+      console.log(" setsoftwareupdate ret : " + ret.retMessage);
+    });
   }
 
   function boardUpdate() {
@@ -431,7 +457,6 @@ export default function SettingPage(props) {
     else {
       return (
         <Box align="center">
-          <Typography variant="h1">설정페이지</Typography>
           {myCurrentInfo}
           {myNewInfo}
           <Modal
@@ -457,6 +482,8 @@ export default function SettingPage(props) {
   return (
     <Box>
       <ThemeProvider theme={theme}>
+        <Typography variant="h1">설정페이지</Typography>
+
         {boardUpdate()}
         {initPage()}
       </ThemeProvider>
