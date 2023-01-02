@@ -30,7 +30,7 @@ const muiTheme = createTheme({
         color: 'blue'
       },
       body1: {
-
+        color: 'green'
       },
       body2: {
 

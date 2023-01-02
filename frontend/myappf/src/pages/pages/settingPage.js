@@ -27,6 +27,8 @@ export default function SettingPage(props) {
   const [deviceversion, setDeviceversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
 
+  const [isLatest, setIsLatest] = useState();
+
   const [configureResult, setConfigureResult] = useState(false);
   const [modalTitle, setModalTitle] = useState('모달제목 입니다.');
   const [modalDescription, setModalDescription] = useState('모달설명 입니다.');
@@ -65,6 +67,14 @@ export default function SettingPage(props) {
       console.log("getdevice version ret1 : " + ret.retMessage);
       setDeviceversion(ret.retMessage);
     });
+
+    if (deviceversion < serverversion) {
+      setIsLatest('최신 업데이트가 있습니다.');
+    } else if (deviceversion === serverversion) {
+      setIsLatest('현재 최신버전입니다.');
+    } else {
+      setIsLatest('서버보다 버전이 높습니다.');
+    }
 
     if (props.Systeminfo != null) {
       setMyInfo([
@@ -309,25 +319,45 @@ export default function SettingPage(props) {
     });
   }
 
+  function frameUpdateInfo() {
+    console.log('버전체크');
+    console.log(deviceversion);
+    console.log(serverversion);
+    let column1, column1_1, column2, column3;
+    if(myAppGlobal.islocal === true || myAppGlobal.islocal === "true") {
+      column1 = "장비버전: " + deviceversion;
+      column2 = 
+    }
+    return (
+      <Stack
+        spacing={0}
+        direction="column"
+        divider={<Divider orientation="horizontal" flexItem />}
+        justifyContent="center"
+        sx={{ mt: 5 }}>
+        <Stack
+          spacing={0}
+          direction="row"
+          justifyContent="space-between">
+            {column1}
+          <Typography variant="h6" align='left' sx={{ pl: 1}}>{column1}</Typography>
+          <Typography variant="body1" align="right" sx={{ pr: 1 }}>{column1_1}</Typography>
+        </Stack>
+        <Button className="" onClick={readdevicelog}>
+          장비로그 가져오기
+        </Button>
+      </Stack>
+    )
+  }
+
   function boardUpdate() {
-    console.log("테스트")
-    console.log(myAppGlobal.islocal)
-    if (myAppGlobal.islocal === 'true') {
-      console.log("테스트123")
+    if (myAppGlobal.islocal === true) {
       return (
         <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
           <CardHeader
             title={'소프트웨어 업데이트'}
           />
-          <Stack
-            spacing={1}
-            direction="column"
-            divider={<Divider orientation="horizontal" flexItem />}
-            justifyContent="center"
-            sx={{ mt: 5 }}>
-          <Typography variant="h6" align='left'>장비버전: {deviceversion}</Typography>
-          <Typography variant="h6" align='left'>장비버전: {deviceversion}</Typography>
-          </Stack>
+          {frameUpdateInfo()}
         </Card>
         /*
         <Box>
