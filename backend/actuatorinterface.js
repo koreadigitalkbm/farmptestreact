@@ -3,14 +3,16 @@ const ActuatorNode = require("./actuatornode.js");
 const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
 const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
 const ActuatorBasic = require("../frontend/myappf/src/commonjs/actuatorbasic.js");
+const SystemEvent = require("../frontend/myappf/src/commonjs/systemevent");
+const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("./kdcommon");
+const backGlobal = require("./backGlobal");
 
 module.exports = class ActuatorInterface {
   constructor(sysinfo, modbuscomm) {
     this.modbusMaster = modbuscomm; //통신포트
     this.ActuatorNodes = []; // 구동기노드 리스트
     this.Actuators = []; // 구동기목록
-
     //
     let actuatorconfigfilename = KDCommon.actuatorconfigfilename;
 
@@ -50,13 +52,18 @@ module.exports = class ActuatorInterface {
           if (readactdev.Sat === 299) {
             actd.AStatus.Opm = "LM";
           } else {
-            // 기존값 자동 수동 변경
+            // 기존값 유지, 자동,수동 변경
             actd.AStatus.Opm = actd.AOperation.Opmode;
           }
-
           //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
           if (actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !== "LM") {
             await curactnode.ControlNormal(actd.AOperation, actd.Basicinfo.Channel);
+          } else {
+            let newevt = actd.getEventwithCheck();
+            if (newevt != null) {
+              backGlobal.dailydatas.updateEvent(newevt);
+              console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
+            }
           }
 
           break;
@@ -84,7 +91,7 @@ module.exports = class ActuatorInterface {
       }
     }
   }
-  setoperation(mloperation, opmode) {
+  setACToperation(mloperation, opmode) {
     for (const actd of this.Actuators) {
       if (actd.UniqID === mloperation.Uid) {
         actd.AOperation.setoperation(mloperation.Opcmd, mloperation.Timesec, mloperation.Param, opmode);
@@ -94,12 +101,12 @@ module.exports = class ActuatorInterface {
 
   // 수동제어
   setoperationmanual(manualoperation) {
-    this.setoperation(manualoperation, "MA");
+    this.setACToperation(manualoperation, "MA");
   }
-//자동제어
+  //자동제어
   setoperationAuto(autooperationlist) {
     for (const mopcmd of autooperationlist) {
-      this.setoperation(mopcmd, "AT");
+      this.setACToperation(mopcmd, "AT");
     }
   }
 

@@ -4,7 +4,6 @@ import AutoControlconfig from "../../commonjs/autocontrolconfig";
 import Autocontroleditbox from  "./autocontroleditbox";
 
 const Autocontrolpage =  (props) => {
-  const [systestinfo, setTestinfo] = useState(null)
   const [mAutolist, setUpdateauto] = useState([]);
   const [mSelecteditem, setupselected] = useState(null);
 
@@ -14,15 +13,18 @@ const Autocontrolpage =  (props) => {
 
     console.log("Autocontrolpage useEffect : "+props.Systeminfo + " myAppGlobal.systeminformations : "  + myAppGlobal.systeminformations);
 
-    if(props.Systeminfo !=null)
-    {
-      setTestinfo(props.Systeminfo);
-      if(myAppGlobal.systeminformations != null)
-      {
-        setUpdateauto(myAppGlobal.systeminformations.Autocontrolcfg);
-      }
-    }
-  }, [props.Systeminfo]);
+    myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
+      myAppGlobal.Autocontrolcfg = ret.retParam;
+      console.log("----------------------------systeminformations auto length: " + myAppGlobal.Autocontrolcfg.length);
+
+      setUpdateauto(myAppGlobal.Autocontrolcfg);
+      
+    });
+
+
+    
+
+  }, []);
 
 
 

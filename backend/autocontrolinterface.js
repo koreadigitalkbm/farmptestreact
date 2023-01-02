@@ -86,11 +86,11 @@ module.exports = class AutoControlInterface {
 
   updatesysteminfo() {
     //전역변수에 자동제어 설정 저장
-    backGlobal.localsysteminformations.Autocontrolcfg = [];
+    backGlobal.Autocontrolcfg = [];
     for (const mactl of this.mAutoControllist) {
-      backGlobal.localsysteminformations.Autocontrolcfg.push(mactl.mConfig);
+      backGlobal.Autocontrolcfg.push(mactl.mConfig);
     }
 
-    //console.log("updatesysteminfo : " + backGlobal.localsysteminformations.Autocontrolcfg.length);
+    //console.log("updatesysteminfo : " + backGlobal.Autocontrolcfg.length);
   }
 };

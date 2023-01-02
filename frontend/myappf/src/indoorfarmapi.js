@@ -46,7 +46,7 @@ export default class IndoorFarmAPI {
 
     try {
       resdata = await this.postData(API + "devicerequest", mReqmsg);
-      console.log(" setRequestdevice isok : " + resdata.IsOK);
+      console.log(" setRequestdevice reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {
@@ -77,7 +77,6 @@ export default class IndoorFarmAPI {
 
   async getdevicelog() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_DEVICELOG);
-
     return await this.setRequestdevice(reqmsg);
   }
 
@@ -104,14 +103,22 @@ export default class IndoorFarmAPI {
   }
 
   //장비에 대한 전체 상태를 읽어온다. 센서, 구동기, 자동제어, 기타 등등
-  async getDeviceStatus() {
+  async getDeviceStatus(issensor, isactuator, isautocontrol, lastSensorTime,lastEventtime ) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMSTATUS);
+
+    reqmsg.reqParam ={
+      isSEN:issensor,
+      isACT:isactuator,
+      isAUTO:isautocontrol,
+      STime:lastSensorTime,
+      ETime:lastEventtime,
+    };
 
     return await this.setRequestdevice(reqmsg);
   }
 
   async setActuatorOperation(actopcmd) {
-    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_ACTUATOROP);
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_ACTUATOROPERATION);
     reqmsg.reqParam = actopcmd;
     return await this.setRequestdevice(reqmsg);
   }
@@ -132,6 +139,14 @@ export default class IndoorFarmAPI {
     reqmsg.reqParam = newconf;
     return await this.setRequestdevice(reqmsg);
   }
+
+  async getAutocontrolconfig() {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETAUTOCONTROLCONFIG);
+    return await this.setRequestdevice(reqmsg);
+  }
+
+
+  
 
   async saveAutocontrolconfig(autoccfg) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG);

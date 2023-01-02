@@ -57,13 +57,14 @@ module.exports = class KDDefine {
     RT_SWUPDATE: "setswupdate", // 장비 소프트웨어 업데이트
 
     RT_SYSTEMSTATUS: "getsystemstatus", // 장비 전체 상태
-    RT_ACTUATOROP: "setactuatoroperation", // 구동기 동작
+    RT_ACTUATOROPERATION: "setactuatoroperation", // 구동기 동작
     RT_ACTUATORSTATUS: "getactuatorstatus", // 구동기상태
 
     RT_SENSORSTATUS: "getsensors", // 센서상태
 
     RT_SETMYINFO: 'setmyinfo', //사용자 정보 수정
     RT_SETMYLOCALPW: 'setmypw',  // 로컬 접속 PW변경
+    RT_GETAUTOCONTROLCONFIG: 'getautocontrol',  //자동제어 목록을 가져옴
     RT_SAVEAUTOCONTROLCONFIG: 'saveautocontrol' //자동제어 설정을 저장한다
     
   });
@@ -126,7 +127,14 @@ module.exports = class KDDefine {
         
   });
 
-
+//자동제어 상태
+static EVENTType = Object.freeze({
+  EVT_None: 0, //
+  EVT_SYSTEM: 1,// 시스템 이벤트, 기동, 에러.
+  EVT_ACTUATOR: 2, //  구동기 상태변화
+  EVT_AUTOCONTROL: 3, // 자동제어 변경
+      
+});
 
 
 };

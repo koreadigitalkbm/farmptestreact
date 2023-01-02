@@ -2,6 +2,7 @@
 
 const KDCommon = require("./kdcommon");
 const backGlobal = require("./backGlobal");
+const SystemEvent = require("../frontend/myappf/src/commonjs/systemevent");
 
 module.exports = class DailyCurrentDatas {
   constructor() {
@@ -9,37 +10,55 @@ module.exports = class DailyCurrentDatas {
     this.DEvents = []; //자동제어, 구동기변경, 기타 로그
   }
 
-  updateEvent(curdata) {
+  updateEvent(mevent) {
     //배열 1000개 넘어가면 앞부분 100개 삭제
     if (this.DEvents.length >= 1000) {
       this.DEvents.splice(0, 100);
     }
-    let newitem = new DailyEvent(curdata);
-    this.DEvents.push(newitem);
+    this.DEvents.push(mevent);
   }
 
   updateSensor(curdata) {
-    //배열 1000개 넘어가면 앞부분 100개 삭제
-    if (this.DSensors.length >= 1000) {
+    //배열 2000개 넘어가면 앞부분 100개 삭제
+    if (this.DSensors.length >= 2000) {
       this.DSensors.splice(0, 100);
     }
     let newitem = new DailySensor(curdata);
     this.DSensors.push(newitem);
 
   //  for (const msensor of newitem.SLIST) {
-  //    console.log("updateSensor time : " + newitem.DT + ", ID: " + msensor.Uid + ", value:" + msensor.Val);
+  //    console.log("updateSensor time : " + newitem.SDate + ", ID: " + msensor.Uid + ", value:" + msensor.Val);
   //  }
   }
-};
-class DailyEvent {
-  constructor(emsg) {
-    this.DT = new Date();
-    this.EMSG = emsg; //
+
+  // 업데이트된 데이터만 모아서 보낸다. 
+  getdatabytime(sensorlasttime, eventlasttime)
+  {
+    let sysevts= new  DailyCurrentDatas();
+    for(let i=0;i<this.DSensors.length;i++)
+    {
+      if(this.DSensors[i].SDate >sensorlasttime )
+      {
+        sysevts.DSensors.push(this.DSensors[i]);
+      }
+    }
+
+    for(let i=0;i<this.DEvents.length;i++)
+    {
+      if(this.DEvents[i].EDate >eventlasttime )
+      {
+        sysevts.DEvents.push(this.DEvents[i]);
+      }
+    }
+
+    return sysevts;
   }
-}
+
+};
+
 class DailySensor {
   constructor(dsensors) {
-    this.DT = new Date();
+    this.SDate = Date.now();
     this.SLIST = dsensors; //센서
   }
 }

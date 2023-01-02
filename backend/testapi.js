@@ -110,26 +110,35 @@ function msgprocessing_common(reqmsg) {
       break;
 
     case KDDefine.REQType.RT_DEVICELOG:
-      rspmsg.retMessage = backGlobal.systemlog;
+
+    rspmsg.retMessage = "devicelog";
+      rspmsg.retParam= backGlobal.systemlog;
       rspmsg.IsOK = true;
       break;
 
     case KDDefine.REQType.RT_SYSTEMINIFO:
-      console.log("---------------------------------RT_SYSTEMINIFO localsysteminformations : " + backGlobal.localsysteminformations);
 
       if (backGlobal.localsysteminformations != null) {
-        rspmsg.retMessage = backGlobal.localsysteminformations;
+        rspmsg.retParam = backGlobal.localsysteminformations;
         rspmsg.IsOK = true;
       }
       break;
 
+      case KDDefine.REQType.RT_GETAUTOCONTROLCONFIG:
+        if (backGlobal.Autocontrolcfg != null) {
+          rspmsg.retParam = backGlobal.Autocontrolcfg;
+          rspmsg.IsOK = true;
+        }
+        break;
+
+
     case KDDefine.REQType.RT_SENSORSTATUS:
-      if (backGlobal.actuatorinterface != null) {
-        rspmsg.retMessage = backGlobal.actuatorinterface.getactuatorstatus();
+      if (backGlobal.sensorinterface != null) {
+        rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
         rspmsg.IsOK = true;
       }
       break;
-    case KDDefine.REQType.RT_ACTUATOROP:
+    case KDDefine.REQType.RT_ACTUATOROPERATION:
       if (reqmsg.reqParam != null) {
         backGlobal.actuatorinterface.setoperationmanual(reqmsg.reqParam);
       }
@@ -138,13 +147,17 @@ function msgprocessing_common(reqmsg) {
       break;
 
     case KDDefine.REQType.RT_SYSTEMSTATUS:
-      if (backGlobal.sensorinterface != null) {
+      if (backGlobal.sensorinterface != null && reqmsg.reqParam.isSEN===true) {
         rspmsg.Sensors = backGlobal.sensorinterface.getsensorssimple();
       }
-      if (backGlobal.actuatorinterface != null) {
+      if (backGlobal.actuatorinterface != null && reqmsg.reqParam.isACT===true) {
         rspmsg.Outputs = backGlobal.actuatorinterface.getactuatorstatus();
       }
-      //console.log("---------------------------------RT_SYSTEMSTATUS Sensors length : " + rspmsg.Sensors.length);
+      // 시간이 0으로오면 요청없음
+      if (backGlobal.dailydatas != null && reqmsg.reqParam.STime > 0) {
+        rspmsg.retParam = backGlobal.dailydatas.getdatabytime(reqmsg.reqParam.STime,reqmsg.reqParam.ETime);
+      }
+//      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
       rspmsg.IsOK = true;
       break;

@@ -68,6 +68,23 @@ function WaterguageIcon(props) {
   )
 }
 
+const Sensors = [
+  {
+    name: '실내온도',
+    type: 'Thermometer',
+    value: 27,
+    unit: '℃',
+  },
+  {
+    name: '실내습도',
+    type: 'Hygrometer',
+    value: 50,
+    unit: '%'
+  }
+]
+
+
+
 export default function HomePage() {
   const [sensorList, setSensorList] = useState([]);
 
@@ -80,7 +97,7 @@ export default function HomePage() {
     }
 
     interval = setInterval(() => {
-      myAppGlobal.farmapi.getDeviceStatus().then((ret) => {
+      myAppGlobal.farmapi.getDeviceStatus(true, false, false, 0,0).then((ret) => {
         let sensors = ret.Sensors;
         console.log("sensors length:" + sensors.length);
 
@@ -141,7 +158,7 @@ export default function HomePage() {
           title={sensor.Name}
           subheader={sensor.Sensortype}
         />
-        <Typography variant="h4" align='center'>{sensor.GetValuestring(false,true)}</Typography>
+        <Typography variant="h2" align='center'>{sensor.GetValuestring(false,true)}</Typography>
       </Card>
     )
   }

@@ -8,6 +8,5 @@ module.exports = class SystemInformations {
   constructor() {
     this.Systemconfg = null; //시스템설정
     this.Actuators = null; //구동기 설정 목록
-    this.Autocontrolcfg = null; //자동제어 설정 목록
   }
 };
