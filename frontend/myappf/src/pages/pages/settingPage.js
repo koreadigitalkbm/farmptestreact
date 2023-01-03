@@ -22,6 +22,10 @@ import DeviceSystemconfig from "../../commonjs/devsystemconfig"
 const theme = muiTheme
 
 export default function SettingPage(props) {
+  // const now = new Date();
+  const [now, setNow] = useState(new Date());
+  const [deviceTime, setDeviceTime] = useState();
+
   const [myInfo, setMyInfo] = useState([]);
   const [myNewInfoFrame, setMyNewInfoFrame] = useState([]);
   const [deviceversion, setDeviceversion] = useState(0);
@@ -54,6 +58,7 @@ export default function SettingPage(props) {
     p: 4,
   };
 
+
   useEffect(() => {
 
     if (myAppGlobal.islocal === false) {
@@ -68,6 +73,7 @@ export default function SettingPage(props) {
       setDeviceversion(ret.retMessage);
     });
 
+    /*
     if (deviceversion < serverversion) {
       setIsLatest('최신 업데이트가 있습니다.');
     } else if (deviceversion === serverversion) {
@@ -75,6 +81,7 @@ export default function SettingPage(props) {
     } else {
       setIsLatest('서버보다 버전이 높습니다.');
     }
+    */
 
     if (props.Systeminfo != null) {
       setMyInfo([
@@ -123,11 +130,14 @@ export default function SettingPage(props) {
         }
       ])
     }
+
   }, [props.Systeminfo]);
 
   if (serverversion > deviceversion && deviceversion > 0) {
     isupdate = true;
   }
+
+  
 
   const getMyNewInfoFrame = (myNewI) => {
     switch (myNewI.id) {
@@ -184,17 +194,21 @@ export default function SettingPage(props) {
   }
 
   const myCurrentInfo = (
-    <Box sx={{ flexGrow: 1, p: 2 }} >
-      <Typography variant="h3" sx={{ mb: 2 }}>나의 정보</Typography>
-      <Grid container spacing={2}>
-        {myInfo.map((myI) => (
-          <Grid item key={myI.id} xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Typography variant="h6">{myI.label}</Typography>
-            <Typography variant="body1">{myI.value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
+      <CardHeader
+        title={'나의 정보'}
+      />
+      <Box sx={{ flexGrow: 1, p: 2 }} >
+        <Grid container spacing={2}>
+          {myInfo.map((myI) => (
+            <Grid item key={myI.id} xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Typography variant="h6">{myI.label}</Typography>
+              <Typography variant="body1">{myI.value}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Card>
   );
 
   const onSubmit = (e) => {
@@ -239,35 +253,38 @@ export default function SettingPage(props) {
   }
 
   const myNewInfo = (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch', },
+    <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
+      <CardHeader
+        title={'정보 수정'}
+      />
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch', },
 
-      }}
+        }}
 
-      onSubmit={onSubmit}
-      noValidate
-      autoComplete="off"
-    >
-      <Typography variant="h3" sx={{ mb: 2 }}>정보 수정</Typography>
-      <Grid container spacing={1}>
-        {myNewInfoFrame.map((myNewI) => (
-          <Grid item key={myNewI.id + "g"} xs={12} sm={12} md={12} lg={12} xl={12}>
-            {getMyNewInfoFrame(myNewI)}
-          </Grid>
-        ))}
-      </Grid>
-      <Stack
-        spacing={5}
-        direction="row"
-        justifyContent="center"
-        sx={{ mt: 5 }}>
-        <Button type="reset" variant="outlined" endIcon={<DeleteIcon />}>취소</Button>
-        <Button type="submit" variant="contained" endIcon={<SendIcon />}>수정하기</Button>
-      </Stack>
-    </Box>
-
+        onSubmit={onSubmit}
+        noValidate
+        autoComplete="off"
+      >
+        <Grid container spacing={1}>
+          {myNewInfoFrame.map((myNewI) => (
+            <Grid item key={myNewI.id + "g"} xs={12} sm={12} md={12} lg={12} xl={12}>
+              {getMyNewInfoFrame(myNewI)}
+            </Grid>
+          ))}
+        </Grid>
+        <Stack
+          spacing={5}
+          direction="row"
+          justifyContent="center"
+          sx={{ mt: 5, mb: 3 }}>
+          <Button type="reset" variant="outlined" endIcon={<DeleteIcon />}>취소</Button>
+          <Button type="submit" variant="contained" endIcon={<SendIcon />}>수정하기</Button>
+        </Stack>
+      </Box>
+    </Card>
   );
 
   function inputonchangeHandler(e) {
@@ -289,38 +306,7 @@ export default function SettingPage(props) {
     }
   }
 
-  function readdevicelog(e) {
-    console.log("readdevicelog : " + e.target.name);
-    myAppGlobal.farmapi.getdevicelog().then((ret) => {
-      let devmlog = ret.retParam;
-      console.log(" getdevicelg ret : " + ret);
-
-      console.log(ret);
-
-      //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
-      devmlog.loglist.forEach((element) => {
-        if (element != null) {
-          console.log(element);
-        }
-      });
-    });
-  }
-
-  function updateServercode(e) {
-    console.log("updateServercode : " + e.target.name);
-
-    myAppGlobal.farmapi.setsoftwareupdate(false).then((ret) => {
-      console.log(" setsoftwareupdate ret : " + ret.retMessage);
-    });
-  }
-
-  function updateLocalDevice(e) {
-    console.log("updateLocalDevice : " + e.target.name);
-
-    myAppGlobal.farmapi.setsoftwareupdate(true).then((ret) => {
-      console.log(" setsoftwareupdate ret : " + ret.retMessage);
-    });
-  }
+  
 
   function frameUpdateInfo() {
     console.log('버전체크');
@@ -378,8 +364,48 @@ export default function SettingPage(props) {
     });
   }
 
-  function boardUpdate() {
-    if (myAppGlobal.islocal === true) {
+  function readdevicelog(e) {
+    console.log("readdevicelog : " + e.target.name);
+    myAppGlobal.farmapi.getdevicelog().then((ret) => {
+      let devmlog = ret.retParam;
+      console.log(" getdevicelg ret : " + ret);
+
+      console.log(ret);
+
+      //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
+      devmlog.loglist.forEach((element) => {
+        if (element != null) {
+          console.log(element);
+        }
+      });
+    });
+  }
+
+  function cardSystemSetting() {
+    return (
+      <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
+        <CardHeader
+          title={'시스템 설정'}
+        />
+        <Stack
+        spacing={0}
+        direction="column"
+        divider={<Divider orientation="horizontal" flexItem />}
+        justifyContent="center"
+        sx={{ mt: 5 }}>
+        <Stack
+          spacing={0}
+          direction="row"
+          justifyContent="space-between">
+          <Typography variant="subtitle1" sx={{ pl: 2 }}>현재 장비시간</Typography>
+          <Typography variant="body1" sx={{ pr: 2 }}>{deviceTime}</Typography>
+        </Stack>
+        </Stack>
+      </Card>
+    )
+  }
+
+  function cardUpdate() {
       return (
         <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
           <CardHeader
@@ -387,76 +413,16 @@ export default function SettingPage(props) {
           />
           {frameUpdateInfo()}
         </Card>
-        /*
-        <Box>
-          <Typography>about Page..1111 {myAppGlobal.logindeviceid} </Typography>
-          장비버전 : {devcieversion}
-          <Box>
-            <Button className="" onClick={readdevicelog}>
-              {" "}
-              장비로그 가져오기{" "}
-            </Button>
-          </Box>
-        </Box>
       );
-    } else {
-      if (loginrole === "admin") {
-        return (
-          <Box>
-            <Typography
-              variant="h2">
-              about Page..2222 {myAppGlobal.logindeviceid}
-            </Typography>
-            <div>서버버전 : {serverversion}</div>
-            <div>
-              <button className="" onClick={updateServercode}>
-                {" "}
-                서버 업데이트{" "}
-              </button>
-            </div>
-            <div>
-              <button className="" onClick={readdevicelog}>
-                {" "}
-                장비로그 가져오기{" "}
-              </button>
-            </div>
-          </Box>
-        );
-      } else {
-        return (
-          <Box>
-            <div>장비버전 : {devcieversion}</div>
-            <div>업데이트버전 : {serverversion}</div>
-            <div>
-              {isupdate ? (
-                <button className="" onClick={updateLocalDevice}>
-                  {" "}
-                  업데이트 테스트{" "}
-                </button>
-              ) : (
-                "최신버전 입니다."
-              )}
-            </div>
-            <div>
-              <button className="" onClick={readdevicelog}>
-                {" "}
-                장비로그 가져오기{" "}
-              </button>
-            </div>
-
-          </Box>
-          */
-      );
-    }
   }
 
-  function initPage() {
+  function cardInfo() {
     if (props.Systeminfo == null) {
       return <Box> nodata... </Box>
     }
     else {
       return (
-        <Box align="center">
+        <Box>
           {myCurrentInfo}
           {myNewInfo}
           <Modal
@@ -483,9 +449,9 @@ export default function SettingPage(props) {
     <Box>
       <ThemeProvider theme={theme}>
         <Typography variant="h1">설정페이지</Typography>
-
-        {boardUpdate()}
-        {initPage()}
+        {cardSystemSetting()}
+        {cardUpdate()}
+        {cardInfo()}
       </ThemeProvider>
     </Box>
   );

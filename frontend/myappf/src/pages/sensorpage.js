@@ -19,7 +19,7 @@ const Sensorpage = () => {
   useEffect(() => {
     let interval = null;
     //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
-    let readtimemsec = 1000;
+    let readtimemsec = 30000;
     console.log("-------------------------Sensorpage  useEffect---------------------");
     setEvents(eventlist);
     
@@ -49,7 +49,7 @@ const Sensorpage = () => {
               lasteventtime = sysevents[i].EDate;
             }
 
-            console.log("sysevents lasevttime : " + lasteventtime + " lenth : " + eventlist.length);
+            console.log("sysevents lasevttime : " + Date(lasteventtime) + " lenth : " + eventlist.length);
             setEvents(eventlist);
           }
         }
@@ -61,12 +61,11 @@ const Sensorpage = () => {
               dailysensorlist.push(dsensors[i]);
               lastsensortime = dsensors[i].SDate;
             }
-
-            console.log("dsensors lastsensortime : " + lastsensortime + " lenth : " + eventlist.length);
+            console.log(dailysensorlist);
+            // console.log("dsensors lastsensortime : " + Date(lastsensortime) + " lenth : " + eventlist.length);
             setDailysensor(dailysensorlist);
           }
         }
-
 
       });
     }, readtimemsec);

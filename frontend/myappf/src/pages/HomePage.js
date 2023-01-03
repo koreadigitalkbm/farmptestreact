@@ -17,9 +17,39 @@ import DeviceSystemconfig from "../commonjs/devsystemconfig"
 import myAppGlobal from "../myAppGlobal"
 import Sensordevice from "../commonjs/sensordevice";
 
+import Chart, { scales } from 'chart.js/auto'
+import { Line } from 'react-chartjs-2'
+
 const theme = muiTheme
 
+let lasteventtime = 1;
+let lastsensortime = 1;
+let eventlist = [];
+let dailysensorlist = [];
 
+let nowTime = new Date(Date.now());
+
+const dataChart = {
+  labels: [],
+  datasets: [
+    
+  ],
+};
+// {
+//   type: 'line',
+//   label: 'Dataset 1',
+//   borderColor: 'rgb(54, 162, 235)',
+//   borderWidth: 2,
+//   data: [{ x: nowTime.getHours(), y: 1.3 }, { x: nowTime.getHours() + 1, y: 2.3 }, { x: nowTime.getHours() + 2, y: 3.3 }, { x: nowTime.getHours() + 3, y: 4.3 }, { x: nowTime.getHours() + 4, y: 5.3 }],
+// },
+// {
+//   type: 'line',
+//   label: 'Dataset 2',
+//   backgroundColor: 'rgb(255, 99, 132)',
+//   data: [{ x: nowTime.getHours(), y: 1.7 }, { x: nowTime.getHours() + 1, y: 2.9 }, { x: nowTime.getHours() + 2, y: 3.6 }, { x: nowTime.getHours() + 3, y: 4.8 }, { x: nowTime.getHours() + 4, y: 5.7 }],
+//   borderColor: 'red',
+//   borderWidth: 2,
+// },
 function ThermostatIcon(props) {
   return (
     <SvgIcon {...props}>
@@ -68,38 +98,63 @@ function WaterguageIcon(props) {
   )
 }
 
-const Sensors = [
-  {
-    name: '실내온도',
-    type: 'Thermometer',
-    value: 27,
-    unit: '℃',
-  },
-  {
-    name: '실내습도',
-    type: 'Hygrometer',
-    value: 50,
-    unit: '%'
-  }
-]
-
-
-
 export default function HomePage() {
+  const [moutdevarray, setUpdate] = useState([]);
+  const [mevnetarray, setEvents] = useState([]);
+  const [mdailysensorarray, setDailysensor] = useState([]);
+
   const [sensorList, setSensorList] = useState([]);
 
   useEffect(() => {
     let interval = null;
 
-    let readtimemsec = 1000;
+    let readtimemsec = 3000;
     if (myAppGlobal.islocal === false) {
-      readtimemsec = 2000;
+      readtimemsec = 5000;
     }
 
     interval = setInterval(() => {
-      myAppGlobal.farmapi.getDeviceStatus(true, false, false, 0,0).then((ret) => {
+      myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
         let sensors = ret.Sensors;
-        console.log("sensors length:" + sensors.length);
+        let actuators = ret.Outputs;
+        let sysevents = ret.retParam.DEvents;
+        let dsensors = ret.retParam.DSensors;
+
+        if (actuators != null) {
+          console.log("actuators : " + actuators.length);
+          if (actuators.length > 0) {
+            setUpdate(actuators);
+          }
+        }
+
+        if (sysevents != null) {
+          console.log("sysevents : " + sysevents.length);
+          if (sysevents.length > 0) {
+            for (let i = 0; i < sysevents.length; i++) {
+              eventlist.push(sysevents[i]);
+              lasteventtime = sysevents[i].EDate;
+            }
+            setEvents(eventlist);
+          }
+        }
+
+        if (dsensors != null) {
+          console.log("dsensors : " + dsensors.length);
+          if (dsensors.length > 0) {
+            for (let i = 0; i < dsensors.length; i++) {
+              dailysensorlist.push(dsensors[i]);
+              lastsensortime = dsensors[i].SDate;
+            }
+            // console.log("dsensors lastsensortime : " + Date(lastsensortime) + " lenth : " + eventlist.length);
+            setDailysensor(dailysensorlist);
+            console.log('☆☆☆☆☆차트데이터☆☆☆☆☆')
+            console.log(dataChart);
+            console.log('☆☆☆☆☆차트데이터☆☆☆☆☆')
+            decodeDsensor(dsensors)
+
+
+          }
+        }
 
         setSensorList(sensors);
       });
@@ -145,6 +200,101 @@ export default function HomePage() {
     }
   }
 
+  function drawDailyGraph() {
+    console.log("ㅁㄴㅇㄹ!!");
+
+    
+    if (mdailysensorarray.length !== 0) {
+    return (
+      <Line
+        type='bar'
+        key='dashboardChart'
+        data={dataChart}
+        options={{
+
+        }} />
+    )
+  }
+
+    
+
+    // mdailysensorarray.forEach(e => {                  // 데일리센서배열 탐색 시작
+    //     console.log('로직 시작');
+    //     if (e.SLIST.length === 0) {                     // 타임스탬프는 있는데 해당하는 센서데이터가 없음
+    //       console.log('빈 집합입니다.')
+    //       return (
+    //           <Typography>데이터가 없습니다.</Typography>
+    //       )
+    //     } else {
+    //       console.log('차트데이터 추가')
+    //       let isSensor = false;               
+    //       let index=0;          // 그래프데이터에 센서가 있는지를 확인할 변수
+    //       e.SLIST.forEach(el => {                       // 센서데이터 탐색시작
+    //         data.datasets.forEach(ele => {              // 그래프데이터 탐색시작
+    //           if (ele.label === el.Uid) {               // 그래프데이터에 입력하려는 센서데이터와 동일 uid가 있다면
+    //             ele.data.push({ x: Date()+(index++), y: el.Val }); // x축에 타임스탬프, y축에 센서값을 저장한다.
+    //             isSensor = true;
+    //           }
+    //         })
+    //         if (!isSensor) addGarphSensor(e, el)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
+    //       })
+    //     }
+    //     console.log(data)
+    //     console.log('데이터☆');
+    //     
+    //   });
+    // } else {
+    //   console.log('차트데이터배열에 아무것도 없습니다.');
+    //   console.log(mdailysensorarray);
+    //   return(
+    //     <Typography>차트데이터 배열에 아무것도 없습니다.</Typography>
+    //   )
+    // }
+  }
+
+  function decodeDsensor(d) {
+    console.log('데일리센서 디코딩시작');
+    d.forEach(e => {
+      if(e.SLIST.length !== 0){
+        console.log('로직시작');
+        let isSensor = false;
+        let dTime = new Date(e.SDate);
+        let sTime = dTime.getHours() + ':' + dTime.getMinutes()
+        e.SLIST.forEach(el => {
+          dataChart.datasets.forEach(ele => {
+            if (ele.label === el.Uid) {
+              ele.data.push({ x: sTime, y: el.Val });
+              isSensor = true;
+            }
+          })
+          if (!isSensor) addGarphSensor(sTime, el)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
+        })
+      }else {
+        console.log('타임스탬프만 있음');
+      }
+    })
+  }
+
+  function addGarphSensor(sTime, newSensor) {
+    dataChart.datasets.push({
+      type: 'line',
+      label: newSensor.Uid,
+      borderColor: 'rgb(54, 162, 235)',
+      borderWidth: 2,
+      data: [{ x: sTime, y: newSensor.Val }],
+    })
+  }
+
+  const cardDashboard = () => {
+    return (
+      <Card>
+        <CardHeader
+          title="대시 보드" />
+        {drawDailyGraph()}
+      </Card>
+    )
+  }
+
   const getSensorCard = (sensorInfo) => {
     let sensor = new Sensordevice(sensorInfo);
     return (
@@ -158,7 +308,7 @@ export default function HomePage() {
           title={sensor.Name}
           subheader={sensor.Sensortype}
         />
-        <Typography variant="h2" align='center'>{sensor.GetValuestring(false,true)}</Typography>
+        <Typography variant="h2" align='center'>{sensor.GetValuestring(false, true)}</Typography>
       </Card>
     )
   }
@@ -171,9 +321,7 @@ export default function HomePage() {
         </Typography>
 
         <Box className="HomePageElement" id="dashBoard" sx={{ m: 3 }}>
-          <Card>
-            <Typography variant='h5' sx={{ m: 2 }}>대시 보드</Typography>
-          </Card>
+          {cardDashboard()}
         </Box>
 
         <Box className="HomePageElement" id="sensor" sx={{ m: 3 }}>
@@ -182,7 +330,7 @@ export default function HomePage() {
 
             <Grid container spacing={1}>
               {sensorList.map((sensor) => (
-                <Grid key={sensor.name} xs={12} sm={6} md={6} lg={4} xl={4}>
+                <Grid key={sensor.Uid} xs={12} sm={6} md={6} lg={4} xl={4}>
                   {getSensorCard(sensor)}
                 </Grid>
               ))}
