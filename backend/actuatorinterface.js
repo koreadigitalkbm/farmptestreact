@@ -22,6 +22,12 @@ module.exports = class ActuatorInterface {
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc480;
+    }
+    else if (sysinfo.Systemconfg.productmodel === "KPC200") {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC200, modbuscomm);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc200;
     } else {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC24M, modbuscomm);
       this.ActuatorNodes.push(myactnode_1);

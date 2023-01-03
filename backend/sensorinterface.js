@@ -13,10 +13,13 @@ class SensorInterface {
     ///모델별로 구별해서 센서노드를  설정하자.
     if (sysinfo.Systemconfg.productmodel === "KPC480") {
       const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
-
-      //시뮬레이션용 const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
       this.SensorNodes.push(mysnode_sid_1);
-    } else {
+    }
+    else if (sysinfo.Systemconfg.productmodel === "KPC200") {
+      const mysnode_sid_1 = new SensorNode(1, 140, modbuscomm);
+      this.SensorNodes.push(mysnode_sid_1);
+    }
+     else {
       const mysnode_sid_1 = new SensorNode(11, 40, modbuscomm);
       this.SensorNodes.push(mysnode_sid_1);
     }
