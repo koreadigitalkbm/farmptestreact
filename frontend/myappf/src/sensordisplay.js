@@ -37,6 +37,9 @@ function SensorBox(msensorcompact) {
 }
 
 function Sensordisplay(msensorsarray, isonlystatus) {
+
+  console.log("-------------------------Sensordisplay  ---------------------");
+
   return <div className="sensor">{msensorsarray.map((localState, index) => SensorBox(localState))}</div>;
 }
 
