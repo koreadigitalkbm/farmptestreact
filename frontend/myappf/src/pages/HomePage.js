@@ -32,7 +32,7 @@ let nowTime = new Date(Date.now());
 const dataChart = {
   labels: [],
   datasets: [
-    
+
   ],
 };
 // {
@@ -112,7 +112,7 @@ export default function HomePage() {
     if (myAppGlobal.islocal === false) {
       readtimemsec = 5000;
     }
-
+    setDailysensor(dailysensorlist);
     interval = setInterval(() => {
       myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
         let sensors = ret.Sensors;
@@ -151,11 +151,8 @@ export default function HomePage() {
             console.log(dataChart);
             console.log('☆☆☆☆☆차트데이터☆☆☆☆☆')
             decodeDsensor(dsensors)
-
-
           }
         }
-
         setSensorList(sensors);
       });
     }, readtimemsec);
@@ -201,75 +198,38 @@ export default function HomePage() {
   }
 
   function drawDailyGraph() {
-    console.log("ㅁㄴㅇㄹ!!");
-
-    
     if (mdailysensorarray.length !== 0) {
-    return (
-      <Line
-        type='bar'
-        key='dashboardChart'
-        data={dataChart}
-        options={{
+      return (
+        <Line
+          type='bar'
+          key='dashboardChart'
+          data={dataChart}
+          options={{
 
-        }} />
-    )
-  }
-
-    
-
-    // mdailysensorarray.forEach(e => {                  // 데일리센서배열 탐색 시작
-    //     console.log('로직 시작');
-    //     if (e.SLIST.length === 0) {                     // 타임스탬프는 있는데 해당하는 센서데이터가 없음
-    //       console.log('빈 집합입니다.')
-    //       return (
-    //           <Typography>데이터가 없습니다.</Typography>
-    //       )
-    //     } else {
-    //       console.log('차트데이터 추가')
-    //       let isSensor = false;               
-    //       let index=0;          // 그래프데이터에 센서가 있는지를 확인할 변수
-    //       e.SLIST.forEach(el => {                       // 센서데이터 탐색시작
-    //         data.datasets.forEach(ele => {              // 그래프데이터 탐색시작
-    //           if (ele.label === el.Uid) {               // 그래프데이터에 입력하려는 센서데이터와 동일 uid가 있다면
-    //             ele.data.push({ x: Date()+(index++), y: el.Val }); // x축에 타임스탬프, y축에 센서값을 저장한다.
-    //             isSensor = true;
-    //           }
-    //         })
-    //         if (!isSensor) addGarphSensor(e, el)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
-    //       })
-    //     }
-    //     console.log(data)
-    //     console.log('데이터☆');
-    //     
-    //   });
-    // } else {
-    //   console.log('차트데이터배열에 아무것도 없습니다.');
-    //   console.log(mdailysensorarray);
-    //   return(
-    //     <Typography>차트데이터 배열에 아무것도 없습니다.</Typography>
-    //   )
-    // }
+          }} />
+      )
+    }
   }
 
   function decodeDsensor(d) {
     console.log('데일리센서 디코딩시작');
     d.forEach(e => {
-      if(e.SLIST.length !== 0){
+      if (e.SLIST.length !== 0) {
         console.log('로직시작');
         let isSensor = false;
         let dTime = new Date(e.SDate);
         let sTime = dTime.getHours() + ':' + dTime.getMinutes()
         e.SLIST.forEach(el => {
+          let sensor = new Sensordevice(el);
           dataChart.datasets.forEach(ele => {
-            if (ele.label === el.Uid) {
+            if (ele.label === sensor.Name) {
               ele.data.push({ x: sTime, y: el.Val });
               isSensor = true;
             }
           })
-          if (!isSensor) addGarphSensor(sTime, el)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
+          if (!isSensor) addGarphSensor(sTime, sensor)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
         })
-      }else {
+      } else {
         console.log('타임스탬프만 있음');
       }
     })
@@ -278,10 +238,10 @@ export default function HomePage() {
   function addGarphSensor(sTime, newSensor) {
     dataChart.datasets.push({
       type: 'line',
-      label: newSensor.Uid,
+      label: newSensor.Name,
       borderColor: 'rgb(54, 162, 235)',
       borderWidth: 2,
-      data: [{ x: sTime, y: newSensor.Val }],
+      data: [{ x: sTime, y: newSensor.value }],
     })
   }
 
