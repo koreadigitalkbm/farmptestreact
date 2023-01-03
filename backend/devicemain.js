@@ -94,9 +94,7 @@ async function devicemaintask() {
           }
         }
       }
-    } else {
-      backGlobal.systemlog.memlog(" 통신포트 열기 실패 .. 포트: " + backGlobal.localsysteminformations.Systemconfg.comport);
-    }
+    } 
   } catch (error) {
     backGlobal.systemlog.memlog(" maintask  catch error : " + error.toString());
   } finally {
