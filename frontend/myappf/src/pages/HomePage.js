@@ -17,8 +17,63 @@ import DeviceSystemconfig from "../commonjs/devsystemconfig"
 import myAppGlobal from "../myAppGlobal"
 import Sensordevice from "../commonjs/sensordevice";
 
-import Chart, { scales } from 'chart.js/auto'
-import { Line } from 'react-chartjs-2'
+import {Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend} from 'chart.js'
+import { Line, } from 'react-chartjs-2'
+
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
+const optionChart = {
+  scales: {
+    온도: {
+      type: 'linear',
+      display: true,
+      position: 'right'
+    },
+    습도: {
+      type: 'linear',
+      display: true,
+      position: 'left'
+    },
+    유량: {
+      type: 'linear',
+      display: false,
+      position: 'left'
+    },
+    적산유량: {
+      type: 'linear',
+      display: false,
+      position: 'left'
+    },
+    무게: {
+      type: 'linear',
+      display: false,
+      position: 'left'
+    },
+    수위: {
+      type: 'linear',
+      display: false,
+      position: 'left'
+    },
+    배지온도: {
+      type: 'linear',
+      display: false,
+      position: 'left'
+    },
+    "신규센서(45)": {
+      type: 'linear',
+      display: false,
+      position: 'left'
+    },
+  }
+}
 
 const theme = muiTheme
 
@@ -32,7 +87,6 @@ let nowTime = new Date(Date.now());
 const dataChart = {
   labels: [],
   datasets: [
-
   ],
 };
 // {
@@ -108,7 +162,7 @@ export default function HomePage() {
   useEffect(() => {
     let interval = null;
 
-    let readtimemsec = 3000;
+    let readtimemsec = 1000;
     if (myAppGlobal.islocal === false) {
       readtimemsec = 5000;
     }
@@ -201,12 +255,11 @@ export default function HomePage() {
     if (mdailysensorarray.length !== 0) {
       return (
         <Line
-          type='bar'
           key='dashboardChart'
           data={dataChart}
-          options={{
-
-          }} />
+          options = {
+            optionChart
+          } />
       )
     }
   }
@@ -238,9 +291,11 @@ export default function HomePage() {
   function addGarphSensor(sTime, newSensor) {
     dataChart.datasets.push({
       type: 'line',
+      yAxisID: newSensor.Name,
       label: newSensor.Name,
       borderColor: 'rgb(54, 162, 235)',
       borderWidth: 2,
+      
       data: [{ x: sTime, y: newSensor.value }],
     })
   }
