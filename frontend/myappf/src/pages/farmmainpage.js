@@ -32,7 +32,7 @@ import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting', 'setup'];
+const navItems = ['Home', 'Sensor', 'Control', 'autocontrol', 'Data', 'Setting', 'setup', ];
 
 export default function FarmMainpage(props) {
   console.log("-------------------------FarmMainpage ---------------------LoginRole : " + props.LoginRole + " , window: "+window);
@@ -143,13 +143,13 @@ export default function FarmMainpage(props) {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/Home" element={<HomePage />} />
-              <Route path="/Control" element={<Autocontrolpage {...props} />} />
+              <Route path="/Control" element={<ControlPage {...props} />} />
               <Route path="/Data" element={<DataPage />} />
               <Route path="/Setting" element={<SettingPage {...props} />} />
 
               <Route path="/devices" element={<Devicepage />} />
               <Route path="/sensor" element={<Sensorpage />} />
-              <Route path="/autocontrol" element={<Autocontrolpage />} />
+              <Route path="/autocontrol" element={<Autocontrolpage {...props} />} />
               <Route path="/about" element={<About />} />
               <Route path="/setup" element={<About />} />
               <Route exact path="/admin" element={<AdminSetup />} />
