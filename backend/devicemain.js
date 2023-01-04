@@ -1,3 +1,7 @@
+
+
+const color = require('colors');
+
 const ModbusRTU = require("modbus-serial");
 const ModbusComm = new ModbusRTU();
 
@@ -56,9 +60,14 @@ async function devicemaintask() {
       console.info("connect comport : " + ModbusComm.isOpen);
     }
     if (ModbusComm.isOpen == true) {
+
+      // console.log( '       '.bgMagenta, backGlobal.localsysteminformations  )
+
       await ModbusComm.setTimeout(200);
       mSensorintf = new SensorInterface(backGlobal.localsysteminformations, ModbusComm);
+
       mActuatorintf = new ActuatorInterface(backGlobal.localsysteminformations, ModbusComm);
+
       mAutocontrolintf = new AutoControlInterface();
       mDailyData = new DailyCurrentDatas();
 

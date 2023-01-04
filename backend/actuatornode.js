@@ -1,12 +1,15 @@
+
 //구동기 노드  기본 시간(초)으로 on , off  기능만으로 작동하자.
-const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
-const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
+const ActuatorStatus    = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
+const KDDefine          = require("../frontend/myappf/src/commonjs/kddefine");
 
 module.exports = class ActuatorNode {
   static ACTNODEType = Object.freeze({
-    ANT_VFC24M: 0,/// 인도어팜 구동기노드
+    ANT_VFC24M: 0,  /// 인도어팜 구동기노드
     ANT_KPC480: 1,  /// 식물재배기 전문가용
     ANT_KPC200: 2,  /// 식물재배기 교육용  버전 1,2 
+    ANT_VFC3300: 3,   // 기존 인도어팜 재배기 
+
   });
 
   constructor(slaveid, nodemodel, mmaster) {
@@ -45,6 +48,17 @@ module.exports = class ActuatorNode {
       this.actlist.push(sv);
       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 27, KDDefine.HardwareTypeEnum.HT_PWM));
       this.actlist.push(sv);
+
+
+    } else if ( nodemodel == ActuatorNode.ACTNODEType.ANT_VFC3300 ) {       // 기존 인도어팜 V2 
+      //ac trac 16개 dc mosfet 8  pwm 4개
+      this.maxchannelnumber = 24;
+      let sv;
+      for (let i = 0; i < 24; i++) {
+        sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i, KDDefine.HardwareTypeEnum.HT_RELAY));
+        this.actlist.push(sv);
+      }
+
     } else {
       this.maxchannelnumber = 24;
       for (let i = 0; i < this.maxchannelnumber; i++) {

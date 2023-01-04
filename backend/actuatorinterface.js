@@ -8,8 +8,15 @@ const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("./kdcommon");
 const backGlobal = require("./backGlobal");
 
+
+const color = require('colors');
+
+
 module.exports = class ActuatorInterface {
   constructor(sysinfo, modbuscomm) {
+
+    console.log( '       '.bgMagenta, sysinfo )
+
     this.modbusMaster = modbuscomm; //통신포트
     this.ActuatorNodes = []; // 구동기노드 리스트
     this.Actuators = []; // 구동기목록
@@ -28,10 +35,21 @@ module.exports = class ActuatorInterface {
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc200;
-    } else {
+    }
+    else if (sysinfo.Systemconfg.productmodel === "VFC3300") {
+        const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC3300, modbuscomm);
+        this.ActuatorNodes.push(myactnode_1);
+        //장비별로 따로
+        actuatorconfigfilename = KDCommon.actuatorconfigfilename_VFC3300;
+    } 
+    else {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC24M, modbuscomm);
       this.ActuatorNodes.push(myactnode_1);
     }
+
+
+
+
 
     let actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     ////설정파일이 없으면 디폴트로 생성
@@ -41,6 +59,12 @@ module.exports = class ActuatorInterface {
       actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     }
     ///
+
+
+    console.log( '       '.bgCyan, actinfolist  )
+    console.log( '       '.bgCyan, actinfolist  )
+    console.log( '       '.bgCyan, actinfolist  )
+
 
     sysinfo.Actuators = actinfolist;
     for (const minfo of actinfolist) {

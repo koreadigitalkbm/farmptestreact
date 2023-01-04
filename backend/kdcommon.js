@@ -8,6 +8,10 @@ module.exports = class KDCommon {
   static  actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
   static  actuatorconfigfilename_kpc480 ="../common/local_files/actuatorconfig_kpc480.json";
   static  actuatorconfigfilename_kpc200 ="../common/local_files/actuatorconfig_kpc200.json";
+  static  actuatorconfigfilename_VFC3300 ="../common/local_files/actuatorconfig_VFC3300.json";
+
+
+
 //json 형태로 저장함
   static Writefilejson(filename, mconfig)
     {
