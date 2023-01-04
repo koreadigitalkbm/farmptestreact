@@ -8,10 +8,9 @@ const backGlobal = require("./backGlobal");
 
 const SensorInterface = require("./sensorinterface.js");
 const ActuatorInterface = require("./actuatorinterface.js");
-const AutoControlInterface= require("./autocontrolinterface");
-const DailyCurrentDatas= require("./dailydatas");
+const AutoControlInterface = require("./autocontrolinterface");
+const DailyCurrentDatas = require("./dailydatas");
 const SystemInformations = require("../frontend/myappf/src/commonjs/systeminformations");
-
 
 var mSensorintf;
 var mActuatorintf;
@@ -20,7 +19,7 @@ var mDailyData;
 
 var mAutoControllist = []; //자동제어
 
-function deviceInit() { 
+function deviceInit() {
   console.log("------------deviceInit------------------- ");
   let sconfig = KDCommon.Readfilejson(KDCommon.systemconfigfilename);
   if (sconfig === null) {
@@ -30,7 +29,8 @@ function deviceInit() {
   backGlobal.localsysteminformations = new SystemInformations();
   backGlobal.localsysteminformations.Systemconfg = sconfig;
 
-  console.log("deviceuniqid : ", backGlobal.localsysteminformations.Systemconfg.deviceuniqid + " comport : " + backGlobal.localsysteminformations.Systemconfg.comport);
+  console.log("deviceuniqid : " + backGlobal.localsysteminformations.Systemconfg.deviceuniqid + " comport : " + backGlobal.localsysteminformations.Systemconfg.comport);
+  console.log("device model : " + backGlobal.localsysteminformations.Systemconfg.productmodel);
 
   return backGlobal.localsysteminformations.Systemconfg.deviceuniqid;
 }
@@ -39,7 +39,7 @@ function deviceInit() {
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
 async function devicemaintask() {
   console.log("------------main start-------------------");
-  let last_minute=0;
+  let last_minute = 0;
 
   try {
     backGlobal.systemlog.memlog("devicemaintask start");
@@ -59,15 +59,13 @@ async function devicemaintask() {
       await ModbusComm.setTimeout(200);
       mSensorintf = new SensorInterface(backGlobal.localsysteminformations, ModbusComm);
       mActuatorintf = new ActuatorInterface(backGlobal.localsysteminformations, ModbusComm);
-      mAutocontrolintf= new AutoControlInterface();
+      mAutocontrolintf = new AutoControlInterface();
       mDailyData = new DailyCurrentDatas();
 
       backGlobal.dailydatas = mDailyData;
       backGlobal.sensorinterface = mSensorintf;
       backGlobal.actuatorinterface = mActuatorintf;
       backGlobal.autocontrolinterface = mAutocontrolintf;
-      
-
 
       backGlobal.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mAutocontrolintf.mAutoControllist.length);
 
@@ -77,42 +75,34 @@ async function devicemaintask() {
 
         await mActuatorintf.ReadStatus();
         await KDCommon.delay(500);
-        
-        let opcmdlist= mAutocontrolintf.getOpsByControls();
+
+        let opcmdlist = mAutocontrolintf.getOpsByControls();
         mActuatorintf.setoperationAuto(opcmdlist);
         await KDCommon.delay(500);
 
-                  for (const msensor of mSensorintf.mSensors) {
-              //    console.log("read sensor ID: " + msensor.UniqID + ", value:"+ msensor.GetValuestring(true,true));
-              }
+        for (const msensor of mSensorintf.mSensors) {
+          //    console.log("read sensor ID: " + msensor.UniqID + ", value:"+ msensor.GetValuestring(true,true));
+        }
 
-            //
-            {
-              const date = new Date();
-              const curminute=date.getMinutes();
-              if(last_minute != curminute)
-              {
-                last_minute=curminute;
-                backGlobal.dailydatas.updateSensor(mSensorintf.getsensorssimple());
-              }
-            }
-              
-       
+        //
+        {
+          const date = new Date();
+          const curminute = date.getMinutes();
+          if (last_minute != curminute) {
+            last_minute = curminute;
+            backGlobal.dailydatas.updateSensor(mSensorintf.getsensorssimple());
+          }
+        }
       }
-    }
+    } 
   } catch (error) {
     backGlobal.systemlog.memlog(" maintask  catch error : " + error.toString());
-
   } finally {
     console.log("------------main stop by error finally-------------------");
-    //에러발생시 다시시작
-    setTimeout(devicemaintask, 1000);
+    //에러발생시 20 초후 다시시작  천천히 시작해야 로그기록을 볼수 있음.
+    setTimeout(devicemaintask, 20000);
   }
 }
-
-
-
-
 
 exports.deviceInit = deviceInit;
 exports.devicemaintask = devicemaintask;

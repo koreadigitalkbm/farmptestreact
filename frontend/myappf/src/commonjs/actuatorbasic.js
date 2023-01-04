@@ -86,6 +86,73 @@ module.exports =  class ActuatorBasic{
 
 
           }
+          else if (modelname == "KPC200") {
+
+            let actd;
+            actd = new ActuatorBasic("히터1",0);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_HEATER;
+            mcfglist.push(actd);
+
+            actd = new ActuatorBasic("쿨러2",1);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_COOLER;
+            mcfglist.push(actd);
+
+            actd = new ActuatorBasic("펌프5",4);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
+            mcfglist.push(actd);
+
+
+
+            actd = new ActuatorBasic("환기팬7",6);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
+            mcfglist.push(actd);
+           
+            actd = new ActuatorBasic("팰티어다운팬3",2);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
+            mcfglist.push(actd);
+
+            actd = new ActuatorBasic("팰티어업팬4",3);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
+            mcfglist.push(actd);
+
+
+            actd = new ActuatorBasic("히트싱크팬6",5);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
+            mcfglist.push(actd);
+
+
+            
+            
+            actd = new ActuatorBasic("솔밸브18",17);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
+            mcfglist.push(actd);
+
+
+            
+
+
+            actd = new ActuatorBasic("LED화이트25",24);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE;
+            actd.HWType = KDDefine.HardwareTypeEnum.HT_PWM;
+            actd.makeuid();
+            mcfglist.push(actd);
+
+            actd = new ActuatorBasic("LED레드26",25);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_LED_RED;
+            actd.HWType = KDDefine.HardwareTypeEnum.HT_PWM;
+            actd.makeuid();
+            mcfglist.push(actd);
+
+            actd = new ActuatorBasic("LED블루27",26);
+            actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE;
+            actd.HWType = KDDefine.HardwareTypeEnum.HT_PWM;
+            actd.makeuid();
+            mcfglist.push(actd);
+
+
+
+
+          }
           else{
 
             let act1 = new ActuatorBasic("구동기1",0);

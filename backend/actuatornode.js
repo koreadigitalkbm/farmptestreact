@@ -6,6 +6,7 @@ module.exports = class ActuatorNode {
   static ACTNODEType = Object.freeze({
     ANT_VFC24M: 0,/// 인도어팜 구동기노드
     ANT_KPC480: 1,  /// 식물재배기 전문가용
+    ANT_KPC200: 2,  /// 식물재배기 교육용  버전 1,2 
   });
 
   constructor(slaveid, nodemodel, mmaster) {
@@ -27,7 +28,7 @@ module.exports = class ActuatorNode {
         let sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i, KDDefine.HardwareTypeEnum.HT_RELAY));
         this.actlist.push(sv);
       }
-    } else if (nodemodel == ActuatorNode.ACTNODEType.ANT_KPC480) {
+    } else if (nodemodel == ActuatorNode.ACTNODEType.ANT_KPC480 || nodemodel == ActuatorNode.ACTNODEType.ANT_KPC200) {
       //ac trac 16개 dc mosfet 8  pwm 4개
       this.maxchannelnumber = 28;
       let sv;
@@ -84,12 +85,13 @@ module.exports = class ActuatorNode {
       let regaddress = this.OnOffstatusregstartaddress;
       let rv1 = await this.readRS485Registers(regaddress, this.maxchannelnumber * 4);
       if (rv1 != undefined) {
-        //console.log("ReadStatus : " + rv1.data.toString() + " wopid : " + wopid);
+        
         for (let i = 0; i < this.maxchannelnumber; i++) {
           let msat = rv1.data[i * 4 + 1];
           let mopid = rv1.data[i * 4 + 0];
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
+       //   console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
         }
         //  console.log("-ActuatorNode ReadStatusAll------------------");
 

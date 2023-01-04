@@ -23,8 +23,11 @@ module.exports = class DailyCurrentDatas {
     if (this.DSensors.length >= 2000) {
       this.DSensors.splice(0, 100);
     }
+    if(curdata.length>0)
+    {
     let newitem = new DailySensor(curdata);
     this.DSensors.push(newitem);
+    }
 
   //  for (const msensor of newitem.SLIST) {
   //    console.log("updateSensor time : " + newitem.SDate + ", ID: " + msensor.Uid + ", value:" + msensor.Val);
