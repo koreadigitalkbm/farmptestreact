@@ -23,6 +23,22 @@ var mDailyData;
 
 var mAutoControllist = []; //자동제어
 
+
+/**
+ * 
+ * 단일쓰레드 이므로 전역변수 충돌로인한 문제 없음.
+ * 
+ */
+ global.mainObj = {
+  gpio : [],
+  actuator_list : []
+
+
+}
+
+
+
+
 function deviceInit() {
   console.log("------------deviceInit------------------- ");
   let sconfig = KDCommon.Readfilejson(KDCommon.systemconfigfilename);
@@ -111,7 +127,27 @@ async function devicemaintask() {
     //에러발생시 20 초후 다시시작  천천히 시작해야 로그기록을 볼수 있음.
     setTimeout(devicemaintask, 20000);
   }
+
+
 }
+
+
+
+setInterval(() => {     // mhlee for debugging...
+  try {
+    for(let i=0; i<mainObj.actuator_list.length; i++) {
+      mainObj.gpio[i] = mainObj.actuator_list[i].Sat
+    }
+    console.log( mainObj.gpio.slice(0, 12).join(',').brightCyan )     
+  } 
+  catch (error) {
+    console.log( error )      
+    
+  }
+}, 1000 );
+
+
+
 
 exports.deviceInit = deviceInit;
 exports.devicemaintask = devicemaintask;

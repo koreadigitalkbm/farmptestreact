@@ -108,11 +108,16 @@ module.exports = class ActuatorInterface {
     for (const anode of this.ActuatorNodes) {
       let alist = await anode.ReadStatusAll();
 
+      mainObj.actuator_list = anode.actlist;     // 구동기노드가 하나만 있는것으로 일단은 가정 
+      // console.log( anode.actlist.length )
+
       if (alist) {
         await this.stateupdate(alist, anode);
       }
     }
   }
+
+
   // 그냥테스트 함수
   setcontrolbychannel(opchannel, mcmd, mtimesec) {
     for (const actd of this.Actuators) {

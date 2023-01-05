@@ -65,3 +65,5 @@ var server = app.listen(8877, function () {
 });
 
 console.log("islocalconnect : " + backGlobal.islocal + ",farmscbeplatformversion : " + backGlobal.platformversion + " backGlobal.ncount : " + backGlobal.ncount);
+
+

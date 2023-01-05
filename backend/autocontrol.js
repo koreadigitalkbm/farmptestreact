@@ -140,6 +140,9 @@ module.exports = class AutoControl {
   getOperationsBySpecify(mactlist, currentstate) {
     let opcmdlist = [];
 
+    
+
+
     switch (this.mConfig.Cat) {
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
         let whiteleddev = null;
@@ -240,6 +243,7 @@ module.exports = class AutoControl {
 
   getOperationsByControl(msensors, mactuators) {
     let oplist = [];
+    // console.log( '...' )
 
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
 
@@ -276,6 +280,10 @@ module.exports = class AutoControl {
             //에러발생시 모두 off
             onoffstate = false;
           }
+
+
+
+
 
           if (onoffstate != null) {
             let opcmd = new ActuatorOperation(mactid, onoffstate, this.OnSecTime);
