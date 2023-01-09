@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from "react"
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography';
+import {Box, Button, Card, CardHeader, Divider, Modal, Stack, TextField, Typography} from'@mui/material'
 import Grid from '@mui/material/Unstable_Grid2';
-import Stack from '@mui/material/Stack'
-import Divider from "@mui/material/Divider";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+
 import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Modal from '@mui/material/Modal';
 import { ThemeProvider } from '@mui/material/styles'
 
 import muiTheme from './../muiTheme';
 import myAppGlobal from "../../myAppGlobal"
 
 import DeviceSystemconfig from "../../commonjs/devsystemconfig"
+import { useTranslation } from "react-i18next";
 
 const theme = muiTheme
 
 export default function SettingPage(props) {
-  // const now = new Date();
+  const { t } = useTranslation();
+
   const [now, setNow] = useState(new Date());
   const [deviceTime, setDeviceTime] = useState();
 
@@ -87,27 +82,27 @@ export default function SettingPage(props) {
       setMyInfo([
         {
           id: 'currentDeviceId',
-          label: '기기ID',
+          label: t('DeviceID'),
           value: myAppGlobal.systeminformations.Systemconfg.deviceuniqid
         },
         {
           id: 'currentModelName',
-          label: '모델명',
+          label: t('ModelName'),
           value: myAppGlobal.systeminformations.Systemconfg.productmodel
         },
         {
           id: 'currentBrandName',
-          label: '브랜드명',
+          label: t('BrandName'),
           value: myAppGlobal.systeminformations.Systemconfg.productname
         },
         {
           id: 'currentAlias',
-          label: '기기닉네임',
+          label: t('DeviceName'),
           value: myAppGlobal.systeminformations.Systemconfg.name
         },
         {
           id: 'connectPort',
-          label: '연결된 포트번호',
+          label: t('ConnectedPort'),
           value: myAppGlobal.systeminformations.Systemconfg.comport
         }
       ]);
@@ -115,17 +110,17 @@ export default function SettingPage(props) {
       setMyNewInfoFrame([
         {
           id: 'newAlias',
-          label: '새 기기닉네임',
+          label: t('NewDeviceName'),
           type: 'text'
         },
         {
           id: 'newPort',
-          label: '새 포트번호',
+          label: t('NewLocalPW'),
           type: 'text'
         },
         {
           id: 'newPasswordLocal',
-          label: '새 로컬 비밀번호',
+          label: t('NewPort'),
           type: 'password'
         }
       ])
@@ -196,7 +191,7 @@ export default function SettingPage(props) {
   const myCurrentInfo = (
     <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
       <CardHeader
-        title={'나의 정보'}
+        title={t('MyInformation')}
       />
       <Box sx={{ flexGrow: 1, p: 2 }} >
         <Grid container spacing={2}>
@@ -255,7 +250,7 @@ export default function SettingPage(props) {
   const myNewInfo = (
     <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
       <CardHeader
-        title={'정보 수정'}
+        title={t('ConfigurationInformation')}
       />
       <Box
         component="form"
@@ -280,8 +275,8 @@ export default function SettingPage(props) {
           direction="row"
           justifyContent="center"
           sx={{ mt: 5, mb: 3 }}>
-          <Button type="reset" variant="outlined" endIcon={<DeleteIcon />}>취소</Button>
-          <Button type="submit" variant="contained" endIcon={<SendIcon />}>수정하기</Button>
+          <Button type="reset" variant="outlined" endIcon={<DeleteIcon />}>{t('Cancel')}</Button>
+          <Button type="submit" variant="contained" endIcon={<SendIcon />}>{t('Submit')}</Button>
         </Stack>
       </Box>
     </Card>
@@ -311,14 +306,14 @@ export default function SettingPage(props) {
   function frameUpdateInfo() {
     console.log('버전체크');
     let column1, column1_1, column2, column2_1, column3;
-    column1 = "장비버전";
+    column1 = t('DeviceVersion');
     column1_1 = deviceversion;
 
     if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true") {
-      column2 = "로컬접속시 업데이트를 지원하지 않습니다."
+      column2 = t('WhenLocal');
       column3 = false
     } else {
-      column2 = "서버버전"
+      column2 = t('ServerVersion')
       column2_1 = serverversion
       if (deviceversion < serverversion) {
         column3 = false
@@ -348,9 +343,9 @@ export default function SettingPage(props) {
           <Typography variant="subtitle1" sx={{ pl: 2 }}>{column2}</Typography>
           <Typography variant="subtitle1" sx={{ pl: 2 }}>{column2_1}</Typography>
         </Stack>
-        <Button disabled={column3} onClick={updateServercode}>업데이트</Button>
+        <Button disabled={column3} onClick={updateServercode}>{t('Update')}</Button>
         <Button onClick={readdevicelog}>
-          장비로그 가져오기
+          {t('LoadDeviceLog')}
         </Button>
       </Stack>
     )
@@ -385,7 +380,7 @@ export default function SettingPage(props) {
     return (
       <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
         <CardHeader
-          title={'시스템 설정'}
+          title={t('SystemSetup')}
         />
         <Stack
         spacing={0}
@@ -397,7 +392,7 @@ export default function SettingPage(props) {
           spacing={0}
           direction="row"
           justifyContent="space-between">
-          <Typography variant="subtitle1" sx={{ pl: 2 }}>현재 장비시간</Typography>
+          <Typography variant="subtitle1" sx={{ pl: 2 }}>{t('CurrentDeviceTime')}</Typography>
           <Typography variant="body1" sx={{ pr: 2 }}>{deviceTime}</Typography>
         </Stack>
         </Stack>
@@ -409,7 +404,7 @@ export default function SettingPage(props) {
       return (
         <Card sx={{ minWidth: 200, maxWidth: 'auto', m: 3 }}>
           <CardHeader
-            title={'소프트웨어 업데이트'}
+            title={t('SoftwareUpdate')}
           />
           {frameUpdateInfo()}
         </Card>
@@ -448,7 +443,7 @@ export default function SettingPage(props) {
   return (
     <Box>
       <ThemeProvider theme={theme}>
-        <Typography variant="h1">설정페이지</Typography>
+        <Typography variant="h1">{t('Setting')}</Typography>
         {cardSystemSetting()}
         {cardUpdate()}
         {cardInfo()}

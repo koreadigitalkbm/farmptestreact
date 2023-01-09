@@ -43,15 +43,6 @@ const ControlPage = (props) => {
 
             let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, localState.Uid);
 
-            if (localState.Opm === "LM") {
-                ismanual = (
-                    <div className="man_result">
-                        <span className="blinking">현장제어중</span>
-                    </div>
-                );
-            } else if (localState.Opm === "MA") {
-
-            }
 
 
             return (
