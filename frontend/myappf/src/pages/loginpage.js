@@ -3,7 +3,8 @@ import myAppGlobal from "../myAppGlobal";
 //const crypto = require('crypto');
 
 const Loginpage = (props) => {
-  const [loginresults, setLoginresult] = useState("겔과");
+  //const [loginresults, setLoginresult] = useState("겔과");
+  const loginresults="로그인결과"; //리엑트 훅잘못씀.. 나중에 최상위 함수에서 정의해서   props로 내려받아야함.
   let loginid="";
   let loginpw="";
 
@@ -54,7 +55,7 @@ function loginmode()
   return  logintype;
 }
   
-
+/*
 setInterval(() => {
   console.log('%c ===>> login pass !!!','color:lime' );
 }, 10 * 1000 );
@@ -63,7 +64,7 @@ setTimeout(() => {
   document.getElementById( 'btnLogin' ).click();
 }, 2000);
 
-
+*/
   function inputonchangeHandler(e) {
     switch (e.target.name) {
       case "inputloginid":
@@ -85,7 +86,7 @@ function loginbuttonHandler(e) {
 
           if (ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw")
           {
-            setLoginresult("장비에 접속할수 없습니다.");
+           // setLoginresult("장비에 접속할수 없습니다.");
             //loginresult="장비에 접속할수 없습니다.";
           //  props.onSetlogin("loginfail");
           }

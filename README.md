@@ -45,6 +45,8 @@ npm install @mui/material @emotion/react @emotion/styled
 npm install @fontsource/roboto
 npm install @mui/icons-material
 
+# 다국어지원
+npm install react-i18next i18next --saved
 
 
 브렌치테스트2
