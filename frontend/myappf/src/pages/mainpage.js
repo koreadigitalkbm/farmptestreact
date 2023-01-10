@@ -1,22 +1,8 @@
 import * as React from 'react';
 import { BrowserRouter, Link as RouterLink, Routes, Route } from "react-router-dom";
-import Link from "@mui/material/Link";
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import {AppBar, Box, Button, CssBaseline, Divider, Drawer, IconButton, Link, List, ListItem, ListItemButton, ListItemText, MenuIcon, Toolbar, Typography} from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles'
 
 import muiTheme from './muiTheme';
 
@@ -30,17 +16,21 @@ import AdminSetup from "./adminsetup";
 import Sensorpage from "./sensorpage";
 import Devicepage from "./devicepage";
 
-
 import myAppGlobal from "../myAppGlobal";
 
+import { useTranslation } from "react-i18next";
+
 const drawerWidth = 240;
-const navItems = ['Home', 'Sensor', 'Control', 'Data', 'Setting', 'setup'];
 
 export default function Mainpage(props) {
   console.log("-------------------------main page ---------------------LoginRole : " + props.LoginRole);
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const {t, i18n } = useTranslation();
+
+  const navItems = [t('Home'), t('Sensor'), t('Control'), t('Data'), t('Setting'), t('setup')];
 
   const theme = muiTheme
 
@@ -149,7 +139,6 @@ export default function Mainpage(props) {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
               >
-                MUI
               </Typography>
 
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

@@ -41,6 +41,7 @@ const Sensorpage = () => {
             setUpdate(actuators);
           }
         }
+        
         if (sysevents != null) {
           console.log("sysevents : " + sysevents.length);
           if (sysevents.length > 0) {

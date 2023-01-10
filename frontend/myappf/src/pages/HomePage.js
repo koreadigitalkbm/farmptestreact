@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 
 import { ThemeProvider } from '@mui/material/styles'
-import { Avatar, Box, Card, colors, CardHeader, Grid, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, colors, CardHeader, Grid, Typography } from '@mui/material'
 import { DeviceThermostat, Opacity, Water, Waves, Scale, LocalDrink, LibraryAdd } from '@mui/icons-material'
 
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line, } from 'react-chartjs-2'
 
 import muiTheme from './muiTheme';
-import getIcon from "./pages/getIcon"
+// import getIcon from "./pages/getIcon"
 import myAppGlobal from "../myAppGlobal"
 import Sensordevice from "../commonjs/sensordevice";
 
+import { useTranslation } from 'react-i18next';
 
 
 Chart.register(
@@ -86,8 +87,33 @@ export default function HomePage() {
 
   const [sensorList, setSensorList] = useState([]);
 
+  const {t } = useTranslation();
+
   useEffect(() => {
     let interval = null;
+
+    function decodeDsensor(d) {
+      d.forEach(e => {
+        if (e.SLIST.length !== 0) {
+          console.log('로직시작');
+          let isSensor = false;
+          let dTime = new Date(e.SDate);
+          let sTime = dTime.getHours() + ':' + dTime.getMinutes()
+          e.SLIST.forEach(el => {
+            let sensor = new Sensordevice(el);
+            dataChart.datasets.forEach(ele => {
+              if (ele.label === sensor.Name) {
+                ele.data.push({ x: sTime, y: el.Val });
+                isSensor = true;
+              }
+            })
+            if (!isSensor) addGarphSensor(sTime, sensor)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
+          })
+        } else {
+          console.log('타임스탬프만 있음');
+        }
+      })
+    }
 
     let readtimemsec = 1000;
     if (myAppGlobal.islocal === false) {
@@ -119,7 +145,7 @@ export default function HomePage() {
     }, readtimemsec);
 
     return () => clearInterval(interval);
-  }, [decodeDsensor]);
+  }, []);
 
   const getSensorIcon = (sensorType) => {
     switch (sensorType) {
@@ -160,29 +186,7 @@ export default function HomePage() {
     }
   }
 
-  function decodeDsensor(d) {
-    console.log('데일리센서 디코딩시작');
-    d.forEach(e => {
-      if (e.SLIST.length !== 0) {
-        console.log('로직시작');
-        let isSensor = false;
-        let dTime = new Date(e.SDate);
-        let sTime = dTime.getHours() + ':' + dTime.getMinutes()
-        e.SLIST.forEach(el => {
-          let sensor = new Sensordevice(el);
-          dataChart.datasets.forEach(ele => {
-            if (ele.label === sensor.Name) {
-              ele.data.push({ x: sTime, y: el.Val });
-              isSensor = true;
-            }
-          })
-          if (!isSensor) addGarphSensor(sTime, sensor)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
-        })
-      } else {
-        console.log('타임스탬프만 있음');
-      }
-    })
-  }
+  
 
   function addGarphSensor(sTime, newSensor) {
     dataChart.datasets.push({
@@ -200,7 +204,7 @@ export default function HomePage() {
     return (
       <Card>
         <CardHeader
-          title="대시 보드" />
+          title={t("Dashboard")} />
         {drawDailyGraph()}
       </Card>
     )
@@ -216,7 +220,7 @@ export default function HomePage() {
               {getSensorIcon(sensor.Sensortype)}
             </Avatar>
           }
-          title={sensor.Name}
+          title={t(sensor.Name)}
           subheader={sensor.Sensortype}
         />
         <Typography variant="h2" align='center'>{sensor.GetValuestring(false, true)}</Typography>
@@ -228,7 +232,7 @@ export default function HomePage() {
     <Box>
       <ThemeProvider theme={theme}>
         <Typography variant="h1">
-          홈페이지입니다.
+          {t('Home')}
         </Typography>
 
         <Box className="HomePageElement" id="dashBoard" sx={{ m: 3 }}>
@@ -237,7 +241,7 @@ export default function HomePage() {
 
         <Box className="HomePageElement" id="sensor" sx={{ m: 3 }}>
           <Card>
-            <Typography variant="h5" sx={{ m: 2 }}>센서 보드</Typography>
+            <Typography variant="h5" sx={{ m: 2 }}>{t("Sensorboard")}</Typography>
 
             <Grid container spacing={1}>
               {sensorList.map((sensor) => (
