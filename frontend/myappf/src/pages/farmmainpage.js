@@ -16,46 +16,63 @@ import Sensorpage from "./sensorpage";
 import Devicepage from "./devicepage";
 import Autocontrolpage from "./control/autocontrolpage";
 
-import myAppGlobal from "../myAppGlobal";
-
 import { useTranslation } from "react-i18next";
 
 const drawerWidth = 240;
 
+const navMenu = [
+  'Home',
+  'Sensor',
+  'Control',
+  'Autocontrol',
+  'Data',
+  'Setting',
+  'Setup'
+]
+
 export default function FarmMainpage(props) {
+
   console.log("-------------------------FarmMainpage ---------------------LoginRole : " + props.LoginRole + " , window: " + window);
   const { t, i18n } = useTranslation();
 
-  const navItems = [t('Home'), t('Sensor'), t('Control'), t('Autocontrol'), t('Data'), t('Setting'), t('Setup'),];
-
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  const [navItems, setNavItems] = useState({})
 
   const handleDrawerToggle = () => {
     // setMobileOpen((prevState) => !prevState);
   };
 
   function handleClickChangeLanguage() {
-    if(i18n.language === 'ko-KR'){
+    if (i18n.language === 'ko-KR') {
       i18n.changeLanguage('en-US');
     } else {
       i18n.changeLanguage('ko-KR');
     }
   }
 
+  useEffect(() => {
+    function initnavItems() {
+      let navItem = {};
+      navMenu.map(e => navItem[e] = t(e) )
+      setNavItems(navItem);
+    }
 
+    if (i18n.language) {
+      initnavItems()
+    }
+  }, [t, i18n, setNavItems])
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={console.log('hi')} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         MUI
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {navMenu.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+              <ListItemText primary={navItems[item]} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -86,8 +103,6 @@ export default function FarmMainpage(props) {
     }
   }
 
-
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -113,18 +128,18 @@ export default function FarmMainpage(props) {
             </Typography>
 
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              {navItems.map((item) => (
+              {navMenu.map((item) => (
                 <Button
                   component={RouterLink}
                   key={item}
                   sx={{ color: '#fff' }}
                   to={item}
                 >
-                  {item}
+                  {navItems[item]}
                 </Button>
               ))}
               <IconButton
-              onClick={handleClickChangeLanguage}>
+                onClick={handleClickChangeLanguage}>
                 <Language sx={{ fontSize: 40, color: colors.red[500] }} />
               </IconButton>
             </Box>

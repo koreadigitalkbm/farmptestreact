@@ -17,7 +17,7 @@ i18n
     .use(initReactI18next)
     .init({
         resources: resources,
-        lng: 'en-US',
+        lng: 'ko-KR',
         debug: true,
         defaultNS: 'translations',
         ns: 'translations',
