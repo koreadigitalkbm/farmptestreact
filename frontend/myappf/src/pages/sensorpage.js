@@ -33,7 +33,8 @@ const Sensorpage = () => {
         let sysevents = ret.retParam.DEvents;
         let dsensors = ret.retParam.DSensors;
         console.log("sensors length:" + sensors.length);
-
+        
+        
         setSensors(sensors);
         if (actuators != null) {
           console.log("actuators : " + actuators.length);
