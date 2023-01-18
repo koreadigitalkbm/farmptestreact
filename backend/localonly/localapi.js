@@ -3,10 +3,13 @@
 const KDCommon = require("../kdcommon");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
+const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
+
+
 
 var exec = require("child_process").exec;
 
-const SERVERAPI_URL = "http://13.209.26.2/";
+const SERVERAPI_URL = "http://13.209.26.2/api/";
 
 module.exports = class LocalAPI {
   constructor(fversion, mMain) {
@@ -184,37 +187,41 @@ module.exports = class LocalAPI {
     });
   }
 
-  async setsensordata(did, dtime, slist) {
+  async setsensordatatoserver(did, dtime, slist) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_DEVICELOG);
     reqmsg.reqParam = dtime;
-    return await this.setRequest(reqmsg);
+    return await this.setRequestServer(reqmsg);
   }
 
   async postData(reqURL = "", data = {}) {
+
+
+    console.log("postData  url:"+ reqURL);
+
     let response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
         "Content-Type": "application/json",
-        "Session-ID": 8877,
+        "Session-ID": 877,
       },
       body: JSON.stringify(data), //
     });
-    return response.json();
+    //return response.json();
   }
 
   // 서버, 또는장비에 데이터 저장 요청
-  async setRequest(mReqmsg) {
+  async setRequestServer(mReqmsg) {
     let resdata;
 
     try {
       resdata = await this.postData(SERVERAPI_URL + "dbrequest", mReqmsg);
       //      console.log(" setRequest rsp : " + resdata.IsOK);
     } catch (error) {
-      console.log(" setRequest error : " + error);
+      console.log(" setRequestServer error : " + error);
     } finally {
-      console.log(" setRequest finally  : ");
+      console.log(" setRequestServer finally  : ");
       return resdata;
     }
   }

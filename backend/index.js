@@ -5,22 +5,11 @@ var express = require("express");
 var cors = require("cors");
 const os = require("os");
 
-//const devicesystemlog = require("./devicesystemlog");
-//var backGlobal = require("./backGlobal");
-
-
-//const DeviceMain = require("./devicemain.js");
 const LocalMain = require("./localonly/localmain");
 const ServerMain = require("./serveronly/servermain");
 
 console.log("-------------------------backend start---------------------");
 
-//backGlobal.platformversion = farmscubeplatformversion;
-//backGlobal.backmain = DeviceMain;
-
-//const MainAPI = require("./testapi.js");
-//MainAPI.firebasedbinit();
-//let mAPI;
 let mMainclass;
 
 var myhostname = os.hostname();
@@ -28,19 +17,12 @@ if (myhostname.indexOf("EC2-") != -1) {
   //서버사이드 시작
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다. aws 서버에서 시작되면 무조건 서버용
   mMainclass = new ServerMain(farmscubeplatformversion);
-  //backGlobal.islocal = false;
-  //backGlobal.sessionmap = new Map();
   
 } else {
   //로컬 장비 사이드 시작
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
   mMainclass = new LocalMain(farmscubeplatformversion);
-  //backGlobal.islocal = true;
-  //backGlobal.systemlog = new devicesystemlog();
-  //backGlobal.mylocaldeviceid = backGlobal.backmain.deviceInit();
-  //backGlobal.ncount++;
-  //3초후 메인시작
-  //setTimeout(backGlobal.backmain.devicemaintask, 3000);
+
 }
 
 mMainclass.mAPI.firebasedbsetup();

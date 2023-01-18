@@ -75,10 +75,13 @@ async function devicemaintask(mainclass) {
           const curminute = date.getMinutes();
           if (last_minute != curminute) {
             last_minute = curminute;
+            let simplesensors=mainclass.sensorinterface.getsensorssimple();
 
-            mainclass.dailydatas.updateSensor(mainclass.sensorinterface.getsensorssimple());
+            mainclass.dailydatas.updateSensor(simplesensors);
 
-            dbinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, date, mainclass.sensorinterface.mSensors);
+          //  mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid,date,simplesensors);
+
+          //  dbinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, date, mainclass.sensorinterface.mSensors);
           }
         }
       }
