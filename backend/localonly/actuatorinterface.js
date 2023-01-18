@@ -1,22 +1,23 @@
 //구동기 노드에 대한 인터페이스 클래스
 const ActuatorNode = require("./actuatornode.js");
-const ActuatorStatus = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
-const Actuatordevice = require("../frontend/myappf/src/commonjs/actuatordevice.js");
-const ActuatorBasic = require("../frontend/myappf/src/commonjs/actuatorbasic.js");
-const SystemEvent = require("../frontend/myappf/src/commonjs/systemevent");
-const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
-const KDCommon = require("./kdcommon");
-const backGlobal = require("./backGlobal");
+const ActuatorStatus = require("../../frontend/myappf/src/commonjs/actuatorstatus.js");
+const Actuatordevice = require("../../frontend/myappf/src/commonjs/actuatordevice.js");
+const ActuatorBasic = require("../../frontend/myappf/src/commonjs/actuatorbasic.js");
+const SystemEvent = require("../../frontend/myappf/src/commonjs/systemevent");
+const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
+const KDCommon = require("../kdcommon");
+
 
 
 const color = require('colors');
 
 
 module.exports = class ActuatorInterface {
-  constructor(sysinfo, modbuscomm) {
+  constructor(sysinfo, modbuscomm,mmain) {
 
     console.log( '       '.bgMagenta, sysinfo )
 
+    this.mMain= mmain;
     this.modbusMaster = modbuscomm; //통신포트
     this.ActuatorNodes = []; // 구동기노드 리스트
     this.Actuators = []; // 구동기목록
@@ -91,7 +92,7 @@ module.exports = class ActuatorInterface {
           } else {
             let newevt = actd.getEventwithCheck();
             if (newevt != null) {
-              backGlobal.dailydatas.updateEvent(newevt);
+              this.mMain.dailydatas.updateEvent(newevt);
               console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
             }
           }
@@ -108,7 +109,7 @@ module.exports = class ActuatorInterface {
     for (const anode of this.ActuatorNodes) {
       let alist = await anode.ReadStatusAll();
 
-      mainObj.actuator_list = anode.actlist;     // 구동기노드가 하나만 있는것으로 일단은 가정 
+      //mainObj.actuator_list = anode.actlist;     // 구동기노드가 하나만 있는것으로 일단은 가정 
       // console.log( anode.actlist.length )
 
       if (alist) {

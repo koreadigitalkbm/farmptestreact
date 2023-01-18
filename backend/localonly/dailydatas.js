@@ -1,8 +1,7 @@
 //메모리에 하루동안의 데이터만 저장해보자
 
-const KDCommon = require("./kdcommon");
-const backGlobal = require("./backGlobal");
-const SystemEvent = require("../frontend/myappf/src/commonjs/systemevent");
+
+
 
 module.exports = class DailyCurrentDatas {
   constructor() {

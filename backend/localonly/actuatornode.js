@@ -1,7 +1,7 @@
 
 //구동기 노드  기본 시간(초)으로 on , off  기능만으로 작동하자.
-const ActuatorStatus    = require("../frontend/myappf/src/commonjs/actuatorstatus.js");
-const KDDefine          = require("../frontend/myappf/src/commonjs/kddefine");
+const ActuatorStatus    = require("../../frontend/myappf/src/commonjs/actuatorstatus.js");
+const KDDefine          = require("../../frontend/myappf/src/commonjs/kddefine");
 
 module.exports = class ActuatorNode {
   static ACTNODEType = Object.freeze({

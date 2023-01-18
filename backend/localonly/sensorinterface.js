@@ -1,8 +1,8 @@
 //센서노드에 대한 인터페이스 클래스
 
 const SensorNode = require("./sensornode.js");
-const SensorCompact = require("../frontend/myappf/src/commonjs/sensorcompact.js");
-const Sensordevice = require("../frontend/myappf/src/commonjs/sensordevice.js");
+const SensorCompact = require("../../frontend/myappf/src/commonjs/sensorcompact.js");
+const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
 
 class SensorInterface {
   constructor(sysinfo, modbuscomm) {

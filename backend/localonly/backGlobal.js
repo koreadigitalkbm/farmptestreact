@@ -17,9 +17,7 @@ var backGlobal = {
     autocontrolinterface :undefined, //자동제어 관련 인터페이스
     localsysteminformations:undefined, // 장비설정 및 구동기정보, 기타 관련 정보 집합
     dailydatas :undefined, // 로컬 메모리에 저장되어지는 정보
-    Autocontrolcfg : null, //자동제어 설정 목록
-    sessionmap:undefined,
-
+  
     ncount:0
   }
   
