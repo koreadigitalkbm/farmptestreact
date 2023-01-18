@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { ThemeProvider } from '@mui/material/styles'
-import { Avatar, Box, Button, Card, colors, CardHeader, Grid, Typography } from '@mui/material'
+import { Avatar, Box, Card, colors, CardHeader, Grid, Typography } from '@mui/material'
 import { DeviceThermostat, Opacity, Water, Waves, Scale, LocalDrink, LibraryAdd } from '@mui/icons-material'
 
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'

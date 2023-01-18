@@ -36,13 +36,14 @@ export default function  Autocontroleditbox(myeditcfg) {
     //let endtime_sec = (mydata.mConfig.endtime/3600)+":"+ ((mydata.mConfig.endtime/60)%60);
 
     function setupSave(mcfg) {
+      console.log(mcfg)
       console.log("setupSave uid: " + mcfg.Uid + " name : " + mcfg.Name + " istimer : " + mcfg.istimer);
 
       console.log("setupSave uid: " + " copycfg istimer : " + copycfg.istimer);
 
-      myAppGlobal.farmapi.saveAutocontrolconfig(mcfg).then((ret) => {
-       console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
-    });
+    //   myAppGlobal.farmapi.saveAutocontrolconfig(mcfg).then((ret) => {
+    //    console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
+    // });
 
     }
 
