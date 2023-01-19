@@ -13,12 +13,14 @@
 
 
 클라이언트  설치순서
- 1. nodejs  설치
- 2. 소스 받기 ( git clone https://github.com/koreadigitalkbm/farmptestreact.git)
- 3. 패키지설치( backend, prontend 폴더 npm install)
- 4. common/private 폴더 복사
- 5. 프론트앤드 실행 (prontend/np serve)
- 6. 백앤드 실행 (backend/node index.js )
+ 1. nodejs  설치(v18.12)
+ 2. Git 설치( v2.30)
+ 3. 소스 받기 ( git clone https://github.com/koreadigitalkbm/farmptestreact.git)
+ 4. 패키지설치( backend, prontend 폴더 npm install)
+ 5. common/private 폴더 복사
+ 6. 프론트앤드 실행 (prontend/np serve)
+ 7. 백앤드 실행 (backend/node index.js )
+ 8. 이후 클라이언트 업데이트 (git pull) 명령어 사용 
 
 주요폴더 설명
 > 프로젝트명
@@ -40,13 +42,16 @@
 > > > local_files: 백엔드 저장되어지는 파일
 > 
 
-# MUI용 npm 라이브러리 설치
+# MUI용 npm 라이브러리 설치(프론트)
 npm install @mui/material @emotion/react @emotion/styled
 npm install @fontsource/roboto
 npm install @mui/icons-material
 
-# 다국어지원
+# 다국어지원 ( 프론트 )
 npm install react-i18next i18next --saved
+
+# DB 연동 (백엔드 )
+npm install  mysql --saved
 
 
 브렌치테스트2
