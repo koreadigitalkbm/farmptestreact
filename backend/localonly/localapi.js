@@ -190,6 +190,9 @@ module.exports = class LocalAPI {
   async setsensordatatoserver(did, dtime, slist) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_DEVICELOG);
 
+    console.log("setsensordatatoserverdtime " + dtime);
+    
+
     reqmsg.reqParam ={
       devid:did,
       datetime:dtime,

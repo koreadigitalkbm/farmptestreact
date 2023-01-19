@@ -4,6 +4,8 @@ const color = require("colors");
 const ModbusRTU = require("modbus-serial");
 const ModbusComm = new ModbusRTU();
 
+const moment =require("moment");
+
 const KDCommon = require("../kdcommon");
 
 const SensorInterface = require("./sensorinterface.js");
@@ -79,9 +81,12 @@ async function devicemaintask(mainclass) {
 
             mainclass.dailydatas.updateSensor(simplesensors);
 
-            mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid,date,simplesensors);
+            const curdatetime= moment().local().format('YYYY-MM-DD HH:mm:ss');
 
-          //  dbinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, date, mainclass.sensorinterface.mSensors);
+            mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid,curdatetime,simplesensors);
+
+            dbinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, curdatetime, mainclass.sensorinterface.mSensors);
+
           }
         }
       }

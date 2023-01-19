@@ -36,10 +36,10 @@ module.exports = class DatabaseInterface {
       }
 
       this.conn.query(sql, svalues, function (error, result) {
-        console.log("setsensordata........------------------------------------- \n" + slist.length);
-        console.log(svalues);
+        //console.log("setsensordata........------------------------------------- \n" + slist.length);
+        //console.log(svalues);
         console.log(error);
-        console.log(result);
+        //console.log(result);
       });
     } catch (err) {
       console.log("setsensordata eror \n");
