@@ -4,25 +4,24 @@ const KDCommon = require("../kdcommon");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
 
-
 module.exports = class ServerAPI {
   constructor(mMain) {
-    this.servermain=mMain;
+    this.servermain = mMain;
     this.fbdatabase = null;
     this.sessionmap = new Map();
   }
 
   postapifordatabase(req, rsp) {
-    let reqmsg = JSON.parse(JSON.stringify(req.body));
+    const reqmsg = JSON.parse(JSON.stringify(req.body));
     console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
-    let responsemsg = new responseMessage();
+    const responsemsg = new responseMessage();
     rsp.send(JSON.stringify(responsemsg));
   }
 
   postapi(req, rsp) {
-    let reqmsg = JSON.parse(JSON.stringify(req.body));
-    
-    let rspmsg = this.messageprocessing(reqmsg);
+    const reqmsg = JSON.parse(JSON.stringify(req.body));
+
+    const rspmsg = this.messageprocessing(reqmsg);
     rsp.send(JSON.stringify(rspmsg));
   }
 
@@ -131,6 +130,7 @@ module.exports = class ServerAPI {
     }
 
     console.log("msgprocessing_serveronly   return :  " + rspmsg.IsOK);
+    return rspmsg;
   }
 
   async firebasedbsetup(deviceidlocal) {
