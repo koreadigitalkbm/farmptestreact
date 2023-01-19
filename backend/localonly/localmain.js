@@ -21,7 +21,7 @@ const Systemconfig = require("../../frontend/myappf/src/commonjs/devsystemconfig
 const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminformations");
 
 
-var dbinf = new DatabaseInterface();
+//var dbinf = new DatabaseInterface();
 
 // 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
