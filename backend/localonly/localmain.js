@@ -79,7 +79,7 @@ async function devicemaintask(mainclass) {
 
             mainclass.dailydatas.updateSensor(simplesensors);
 
-          //  mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid,date,simplesensors);
+            mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid,date,simplesensors);
 
           //  dbinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, date, mainclass.sensorinterface.mSensors);
           }

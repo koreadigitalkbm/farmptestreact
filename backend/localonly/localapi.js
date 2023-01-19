@@ -9,7 +9,7 @@ const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
 
 var exec = require("child_process").exec;
 
-const SERVERAPI_URL = "http://13.209.26.2/api/";
+const SERVERAPI_URL = "http://52.79.226.255/api/";
 
 module.exports = class LocalAPI {
   constructor(fversion, mMain) {
@@ -189,7 +189,14 @@ module.exports = class LocalAPI {
 
   async setsensordatatoserver(did, dtime, slist) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_DEVICELOG);
-    reqmsg.reqParam = dtime;
+
+    reqmsg.reqParam ={
+      devid:did,
+      datetime:dtime,
+      sensorlist:slist,
+    };
+
+
     return await this.setRequestServer(reqmsg);
   }
 

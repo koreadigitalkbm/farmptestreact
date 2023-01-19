@@ -3,17 +3,25 @@
 const KDCommon = require("../kdcommon");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
+const DatabaseInterface = require("../dbinterface");
+
 
 module.exports = class ServerAPI {
   constructor(mMain) {
     this.servermain = mMain;
     this.fbdatabase = null;
     this.sessionmap = new Map();
+    this.DBInterface = new DatabaseInterface();
   }
 
   postapifordatabase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
-    console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
+    console.log("---------------------------------postapifordatabase :  reqmsg :" );
+    console.log("  reqmsg devid:"+reqmsg.reqParam.devid );
+    console.log("  reqmsg datetime:"+reqmsg.reqParam.datetime );
+    console.log("  reqmsg sensorlist:"+reqmsg.reqParam.sensorlist );
+    
+
     const responsemsg = new responseMessage();
     rsp.send(JSON.stringify(responsemsg));
   }

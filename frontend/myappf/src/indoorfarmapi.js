@@ -6,7 +6,7 @@ const reqMessage = require("./commonjs/reqMessage");
 
 
 const API = "/api/";
-const LOCALAPI = "http://localhost:8877";
+
 
 export default class IndoorFarmAPI {
   constructor(islocal) {
