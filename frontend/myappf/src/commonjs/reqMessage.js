@@ -1,6 +1,6 @@
 
 //데이터요청 post message  리얼타임디비를 사용하니 요금발생함으로  간단한 구조로 변경하자.
-export default class reqMessage {
+class reqMessage {
 
   constructor(pid, reqtype) {
     const d = new Date();
@@ -12,3 +12,4 @@ export default class reqMessage {
   }
   
 }
+module.exports = reqMessage;

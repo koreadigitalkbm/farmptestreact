@@ -1,14 +1,14 @@
 //구동기 노드에 대한 인터페이스 클래스
 
-const KDCommon = require("./kdcommon");
-const AutoControlconfig = require("../frontend/myappf/src/commonjs/autocontrolconfig");
-const AutoControlUtil = require("../frontend/myappf/src/commonjs/autocontrolutil");
+const KDCommon = require("../kdcommon");
+const AutoControlUtil = require("../../frontend/myappf/src/commonjs/autocontrolutil");
 const AutoControl = require("./autocontrol");
-const backGlobal = require("./backGlobal");
+
 
 module.exports = class AutoControlInterface {
-  constructor() {
+  constructor(mmain) {
     this.mAutoControllist = []; //자동제어 목록
+    this.mMain= mmain;
     //자동제어 목록을 가져옴.
     this.Autocontrolload();
   }
@@ -17,7 +17,7 @@ module.exports = class AutoControlInterface {
     let opcmdlist = [];
     const totalsec = KDCommon.getCurrentTotalsec();
     for (const mactl of this.mAutoControllist) {
-      let mlist = mactl.getOperationsByControl(backGlobal.sensorinterface.mSensors, backGlobal.actuatorinterface.Actuators);
+      let mlist = mactl.getOperationsByControl(this.mMain.sensorinterface.mSensors, this.mMain.actuatorinterface.Actuators);
       opcmdlist.push(...mlist);
     }
 
@@ -57,7 +57,7 @@ module.exports = class AutoControlInterface {
     KDCommon.Writefilejson(KDCommon.autocontrolconfigfilename, mcfglist);
 
 
-    this.updatesysteminfo();
+    
   }
 
   // 자동제어불러옴
@@ -65,7 +65,7 @@ module.exports = class AutoControlInterface {
     let mcfglist = KDCommon.Readfilejson(KDCommon.autocontrolconfigfilename);
 
     if (mcfglist === null) {
-      mcfglist = AutoControlUtil.CreateDefaultConfig(backGlobal.localsysteminformations.Systemconfg.productmodel);
+      mcfglist = AutoControlUtil.CreateDefaultConfig(this.mMain.localsysteminformations.Systemconfg.productmodel);
       KDCommon.Writefilejson(KDCommon.autocontrolconfigfilename, mcfglist);
     }
 
@@ -81,16 +81,18 @@ module.exports = class AutoControlInterface {
       console.log("Autocontrollad load: " + mcfg.Uid + ",name : " + mcfg.Name);
     }
 
-    this.updatesysteminfo();
+    
   }
 
-  updatesysteminfo() {
-    //전역변수에 자동제어 설정 저장
-    backGlobal.Autocontrolcfg = [];
+  //자동제어의 설정만 리턴함
+  getautocontrolconfigall() {
+    
+    let Autocfgs = [];
     for (const mactl of this.mAutoControllist) {
-      backGlobal.Autocontrolcfg.push(mactl.mConfig);
+      Autocfgs.push(mactl.mConfig);
     }
+    return Autocfgs;
 
-    //console.log("updatesysteminfo : " + backGlobal.Autocontrolcfg.length);
+    //console.log("updatesysteminfo : " + Autocfgs.length);
   }
 };

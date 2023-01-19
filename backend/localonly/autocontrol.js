@@ -1,10 +1,10 @@
 //자동제어
-const ActuatorOperation = require("../frontend/myappf/src/commonjs/actuatoroperation");
-const AutoControlStatus = require("../frontend/myappf/src/commonjs/autocontrolstatus");
-const AutoControlconfig = require("../frontend/myappf/src/commonjs/autocontrolconfig");
-const AutoControlUtil = require("../frontend/myappf/src/commonjs/autocontrolutil");
-const KDDefine = require("../frontend/myappf/src/commonjs/kddefine");
-const KDCommon = require("./kdcommon");
+const ActuatorOperation = require("../../frontend/myappf/src/commonjs/actuatoroperation");
+const AutoControlStatus = require("../../frontend/myappf/src/commonjs/autocontrolstatus");
+const AutoControlconfig = require("../../frontend/myappf/src/commonjs/autocontrolconfig");
+const AutoControlUtil = require("../../frontend/myappf/src/commonjs/autocontrolutil");
+const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
+const KDCommon = require("../kdcommon");
 
 module.exports = class AutoControl {
   constructor(mconfig) {

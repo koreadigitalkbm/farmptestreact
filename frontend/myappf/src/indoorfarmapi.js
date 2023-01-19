@@ -1,6 +1,9 @@
 import myAppGlobal from "./myAppGlobal";
-import reqMessage from "./reqMessage";
+//import reqMessage from "./commonjs/reqMessage";
 import KDDefine from "./commonjs/kddefine";
+
+const reqMessage = require("./commonjs/reqMessage");
+
 
 const API = "/api/";
 const LOCALAPI = "http://localhost:8877";

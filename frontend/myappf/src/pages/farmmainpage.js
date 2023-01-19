@@ -53,7 +53,7 @@ export default function FarmMainpage(props) {
   useEffect(() => {
     function initnavItems() {
       let navItem = {};
-      navMenu.map(e => navItem[e] = t(e))
+      navMenu.map(e => navItem[e] = t(e) )
       setNavItems(navItem);
     }
 
@@ -63,7 +63,7 @@ export default function FarmMainpage(props) {
   }, [t, i18n, setNavItems])
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={console.log('hi')} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         MUI
       </Typography>
