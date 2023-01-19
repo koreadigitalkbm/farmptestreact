@@ -1,9 +1,12 @@
 // 백엔드 사용 로컬 장비에서 구동되는 API
 
 const KDCommon = require("../kdcommon");
-const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
-const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
 const DatabaseInterface = require("../dbinterface");
+
+const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
+const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
+const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
+
 
 
 module.exports = class ServerAPI {
@@ -22,6 +25,16 @@ module.exports = class ServerAPI {
     console.log("  reqmsg sensorlist:"+reqmsg.reqParam.sensorlist );
     
 
+    let msensors=[];
+    for (const mscompact of reqmsg.reqParam.sensorlist)
+    {
+      let nsensor= new Sensordevice(mscompact);
+      msensors.push(nsensor);
+
+    }
+
+
+    this.DBInterface.setsensordata(reqmsg.reqParam.devid,reqmsg.reqParam.datetime,msensors) ;
     const responsemsg = new responseMessage();
     rsp.send(JSON.stringify(responsemsg));
   }
