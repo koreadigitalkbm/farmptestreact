@@ -153,7 +153,7 @@ module.exports = class LocalMain {
     // 시스템 기본 정보를 읽어옴.
     this.deviceInit();
 
-    //장비 ID 는 여러군데서 사용하는 중요한 지표이므로 전역에 저장해둠.
+    //장비 ID 는 여러군데서 사용하는 중요한 지표이므로  메인에 저장해둠.
     this.mydeviceuniqid = this.localsysteminformations.Systemconfg.deviceuniqid;
     this.mAPI = new LocalAPI(fversion, this);
     //전역변수로 필요한 객체저장
@@ -176,4 +176,17 @@ module.exports = class LocalMain {
     console.log("deviceuniqid : " + BackLocalGlobal.mylocaldeviceid + " comport : " + this.localsysteminformations.Systemconfg.comport);
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);
   }
+
+  //시스템에 이벤트가 발생하면 기록하고 서버로 보냄
+  setSystemevent(mnewevt)
+  {
+    this.dailydatas.updateEvent(mnewevt);
+
+    //로컬 db로 보냄
+    
+    //서버로 보냄
+
+  }
+
+
 };

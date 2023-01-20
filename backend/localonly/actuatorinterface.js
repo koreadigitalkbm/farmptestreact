@@ -8,7 +8,7 @@ const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("../kdcommon");
 
 
-const BackLocalGlobal = require("./backGlobal");
+
 
 const color = require('colors');
 
@@ -95,7 +95,7 @@ module.exports = class ActuatorInterface {
           } else {
             let newevt = actd.getEventwithCheck();
             if (newevt != null) {
-              this.mMain.dailydatas.updateEvent(newevt);
+              this.mMain.setSystemevent(newevt);
               console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
             }
           }
