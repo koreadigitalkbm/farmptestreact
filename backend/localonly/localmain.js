@@ -4,7 +4,7 @@ const color = require("colors");
 const ModbusRTU = require("modbus-serial");
 const ModbusComm = new ModbusRTU();
 
-const moment =require("moment");
+const moment = require("moment");
 
 const KDCommon = require("../kdcommon");
 
@@ -17,17 +17,19 @@ const DatabaseInterface = require("../dbinterface");
 const devicesystemlog = require("./devicesystemlog");
 const LocalAPI = require("./localapi");
 
+const CameraInterface = require("./camerainterface");
+
 const Systemconfig = require("../../frontend/myappf/src/commonjs/devsystemconfig");
 const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminformations");
 
-
-//var dbinf = new DatabaseInterface();
+var localDBinf = new DatabaseInterface();
 
 // 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
 async function devicemaintask(mainclass) {
   console.log("------------main start-------------------" + mainclass.systemlog);
   let last_minute = 0;
+  let last_hour = 0;
 
   try {
     mainclass.systemlog.memlog("devicemaintask start");
@@ -68,26 +70,48 @@ async function devicemaintask(mainclass) {
         await KDCommon.delay(500);
 
         for (const msensor of mainclass.sensorinterface.mSensors) {
-       //   console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+          //   console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
         }
 
-        //1분 단위로 먼가 처리하는 루틴
+        
+        //시간 단위처리
         {
           const date = new Date();
           const curminute = date.getMinutes();
+
+          //1분 단위로 먼가 처리하는 루틴
           if (last_minute != curminute) {
             last_minute = curminute;
-            let simplesensors=mainclass.sensorinterface.getsensorssimple();
+            let simplesensors = mainclass.sensorinterface.getsensorssimple();
 
             mainclass.dailydatas.updateSensor(simplesensors);
+            const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
 
-            const curdatetime= moment().local().format('YYYY-MM-DD HH:mm:ss');
+            //로컬에 저장
+            localDBinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, curdatetime, mainclass.sensorinterface.mSensors);
 
-            mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid,curdatetime,simplesensors);
-
-           // dbinf.setsensordata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, curdatetime, mainclass.sensorinterface.mSensors);
-
+            //서버로 보냄
+            mainclass.mAPI.setsensordatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid, curdatetime, simplesensors);
           }
+
+          //한시간 단위로 먼가 처리하는 루틴
+          {
+            const curhour = date.getHours();
+            if (last_hour != curhour) {
+              last_hour = curhour;
+              const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
+              let lawimg = CameraInterface.Captureimage();
+
+              localDBinf.setimagefiledata(mainclass.localsysteminformations.Systemconfg.deviceuniqid, curdatetime, 1, "BEG", lawimg);
+
+              //서버로 보냄
+              mainclass.mAPI.setcameradatatoserver(mainclass.localsysteminformations.Systemconfg.deviceuniqid, curdatetime, 1, "BEG", lawimg);
+
+              
+
+            }
+          }
+
         }
       }
     }
