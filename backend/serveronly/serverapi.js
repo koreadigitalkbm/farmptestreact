@@ -23,7 +23,7 @@ module.exports = class ServerAPI {
     switch (reqmsg.reqType) {
       case KDDefine.REQType.RT_SETDB_SENSOR:
         console.log("---------------------------------postapifordatabase :  reqmsg :");
-        console.log("  reqmsg devid:" + reqmsg.reqParam.devid);
+        console.log("  sensor devid:" + reqmsg.reqParam.devid);
         //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
         //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
 
