@@ -62,7 +62,11 @@ function outputdevbox(mydata, isonlystatus, index) {
 }
 
 function Outputdevicedisplay(moutdevarray, isonlystatus) {
-  return <div className="output">{moutdevarray.map((localState, index) => outputdevbox(localState, isonlystatus, index))}</div>;
+  return <div className="output">
+    
+    {moutdevarray.map((localState, index) => outputdevbox(localState, isonlystatus, index))}
+    
+    </div>;
 }
 
 export default Outputdevicedisplay;
