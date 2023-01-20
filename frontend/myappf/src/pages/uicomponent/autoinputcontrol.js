@@ -4,17 +4,17 @@ import KDUtil from "../../commonjs/kdutil";
 const AutoInputControl = (props) => {
   const controlkeyname = props.keyname;
   const inputtype = props.type;
-  let initvalue;
-
-  if (inputtype == "time") {
-    initvalue = KDUtil.timeTosec(props.initvalue[controlkeyname]);
-  } else {
-    initvalue = props.initvalue[controlkeyname];
-  }
+  let initvalue=props.initvalue[controlkeyname];
 
   console.log("AutoInputControl  controlkeyname: " + controlkeyname);
   console.log("AutoInputControl  initvalue: " + initvalue);
 
+
+  if (inputtype == "time") {
+    initvalue = KDUtil.secToTime(initvalue);
+  }
+
+  
   return (
     <div>
       {controlkeyname}

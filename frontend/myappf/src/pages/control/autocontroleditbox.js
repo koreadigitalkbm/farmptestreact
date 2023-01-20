@@ -1,84 +1,43 @@
 import React, { useState, useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
-import AutoInputControl from "../uicomponent/autoinputcontrol";
+
 import { switchClasses } from "@mui/material";
 import KDUtil from "../../commonjs/kdutil";
+import KDDefine from "../../commonjs/kddefine";
 
+import AutoInputControl from "../uicomponent/autoinputcontrol";
 
-export default function  Autocontroleditbox(myeditcfg) {
+import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 
+import JukeboxTemperatureM1 from "./jukeboxtemperature";
+import JukeboxWatersupplyM1 from "./jukeboxwatersupply";
 
-  //const [misTimershow, selectcontrol] = useState(myeditcfg !=null && myeditcfg.istimer);
-  console.log("Autocontroleditbox  ETime: " +myeditcfg.ETime);// Object.entries(myeditcfg));
-
-  let eee= "ETime";
-  myeditcfg[eee]= 22363;
-  console.log("Autocontroleditbox  ETimeff: " +myeditcfg.ETime);
-
-  console.log(myeditcfg);
-
-  console.log(Object.keys(myeditcfg.ETime));
-  
-
-
+export default function Autocontroleditbox(myeditcfg) {
   if (myeditcfg == null) {
-    return <div></div>;
+    return null;
   } else {
-    let copycfg = myeditcfg; 
-
-    //let starttime_sec =/3600)+":"+ ((mydata.mConfig.starttime/60)%60);
-    //let endtime_sec = (mydata.mConfig.endtime/3600)+":"+ ((mydata.mConfig.endtime/60)%60);
+    let copycfg = myeditcfg;
 
     function setupSave(mcfg) {
-      console.log(mcfg)
+      console.log(mcfg);
       console.log("setupSave uid: " + mcfg.Uid + " name : " + mcfg.Name + " istimer : " + mcfg.istimer);
-
-    }
-
-    function inputnumberchangeHandler(e) {
-     
-      console.log(e.target);
-      console.log(e.target.type);
-      console.log("inputnumberchangeHandler : " + e.target.name );
-      copycfg[e.target.name]=e.target.value;
-
-
-//      console.log("inputnumberchangeHandler DTValue: " +copycfg.DTValue);
-  //    console.log("inputnumberchangeHandler NTValue: " +copycfg.NTValue);
-    //  console.log("inputnumberchangeHandler BValue: " +copycfg.BValue);
-
-
-    }
-
-    function inputtimechangeHandler(e) {
-     
-      console.log("inputtimechangeHandler : " + e.target.name );
-      
-
-    }
- function inputtextchangeHandler(e) {
-      console.log("inputtextchangeHandler : " + e.target.name );
-      copycfg[e.target.name]=e.target.value;
     }
 
     function inputallchangeHandler(e) {
-      console.log("inputallchangeHandler name: " + e.target.name + " type : "+e.target.type );
-      switch(e.target.type)
-      {
+      console.log("inputallchangeHandler name: " + e.target.name + " type : " + e.target.type);
+      switch (e.target.type) {
         case "time":
-          copycfg[e.target.name]=KDUtil.timeTosec(e.target.value);
+          copycfg[e.target.name] = KDUtil.timeTosec(e.target.value);
           break;
-          default:
-                        copycfg[e.target.name]=e.target.value;
+        default:
+          copycfg[e.target.name] = e.target.value;
           break;
       }
-
     }
 
-
     function inputonchangeHandler(e) {
-      console.log("inputonchangeHandler : " + e.target.name );
+      console.log("inputonchangeHandler : " + e.target.name);
 
       switch (e.target.name) {
         case "name":
@@ -91,19 +50,12 @@ export default function  Autocontroleditbox(myeditcfg) {
         case "offvalue":
           copycfg.offvalue = Number(e.target.value);
           break;
-
-  
-       
-         //setupselected(AutoControlconfig.deepcopy(copycfg));
-          break;
         case "autoenable":
           if (e.target.checked === true && e.target.id === "enable") {
             copycfg.Enb = true;
           } else {
             copycfg.Enb = false;
           }
-
-        
       }
 
       if (e.target.name === "devcheck") {
@@ -145,9 +97,18 @@ export default function  Autocontroleditbox(myeditcfg) {
     }
 
     let slist = [];
-   
 
-   
+    const formAutoContent = () => {
+      console.log("formAutoContent Cat: " + copycfg.Cat);
+      switch (copycfg.Cat) {
+        case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
+          return (<JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} /> );
+        case KDDefine.AUTOCategory.ATC_WATER:
+          return (<JukeboxWatersupplyM1 keyname="watersuply" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} /> );
+        default:
+          return (<JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} /> );
+      }
+    };
 
     return (
       <div className="auto_control">
@@ -160,61 +121,7 @@ export default function  Autocontroleditbox(myeditcfg) {
         </div>
 
         <div className="autosetupinnerbox">
-          <div className="auto_input">
-            <div className="aut_in">
-              이름 :
-              <input type="text" key={"name" + copycfg.Uid} defaultValue={copycfg.Name} name="name" onChange={inputonchangeHandler} />
-            </div>
-
-            <div className="aut_in">
-              온도 :
-              <AutoInputControl  type="number"  initvalue={copycfg} keyname="DTValue" onChange={inputallchangeHandler} />
-            </div>
-            <div className="aut_in">
-              낮온도 :
-              <AutoInputControl  type="number"  initvalue={copycfg} keyname="NTValue" onChange={inputallchangeHandler} />
-            </div>
-            <div className="aut_in">
-              바운드온도 :
-              <AutoInputControl  type="number"  initvalue={copycfg} keyname="BValue" onChange={inputallchangeHandler} />
-            </div>
-
-            <div className="aut_in">
-              시작시간 :
-              <AutoInputControl  type="time"  initvalue={copycfg} keyname="STime" onChange={inputallchangeHandler} />
-              
-            </div>
-            <div className="aut_in">
-              종료시간 :
-              <AutoInputControl  type="time"  initvalue={copycfg} keyname="ETime" onChange={inputallchangeHandler} />
-            </div>
-          </div>
-
-         
-
-          <div>
-            
-
-            <div className="sensorconditionbox" style={copycfg.istimer === false ? {} : { display: "none" }}>
-              <div className="con_sen" onChange={inputonchangeHandler}>
-                <div className="cons_name">센서선택</div>
-                <div className="cons_radio">{slist.map((localState, index) => sensorselectbox(localState))}</div>
-              </div>
-
-              <div className="conditionselectbox" onChange={inputonchangeHandler}>
-                <input type="radio" key={"up" + copycfg.Uid} name="conditionsel" defaultChecked={copycfg.condition === "up"} id="up" /> 크면켜짐
-                <input type="radio" key={"down" + copycfg.Uid} name="conditionsel" defaultChecked={copycfg.condition === "down"} id="down" />
-                작으면켜짐
-              </div>
-
-              <label>켜짐조건: </label>
-              <input type="number" key={"onvalue" + copycfg.Uid} defaultValue={copycfg.onvalue} name="onvalue" onChange={inputonchangeHandler} />
-              <label>꺼짐조건: </label>
-              <input type="number" key={"offvalue" + copycfg.Uid} defaultValue={copycfg.offvalue} name="offvalue" onChange={inputonchangeHandler} />
-            </div>
-            <p></p>
-           
-          </div>
+          {formAutoContent()}
 
           <div className="control_end">
             <button className="cont_save" onClick={() => setupSave(copycfg)} id="editcheck">
