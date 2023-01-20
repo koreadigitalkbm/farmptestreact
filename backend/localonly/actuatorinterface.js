@@ -8,43 +8,46 @@ const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("../kdcommon");
 
 
+const BackLocalGlobal = require("./backGlobal");
 
 const color = require('colors');
 
 
 module.exports = class ActuatorInterface {
-  constructor(sysinfo, modbuscomm,mmain) {
-
-    console.log( '       '.bgMagenta, sysinfo )
+  constructor(mmain) {
 
     this.mMain= mmain;
-    this.modbusMaster = modbuscomm; //통신포트
     this.ActuatorNodes = []; // 구동기노드 리스트
     this.Actuators = []; // 구동기목록
+    this.modbusMaster = this.mMain.ModbusComm; //통신포트
+
+    console.log( '       '.bgMagenta, this.mMain.localsysteminformations )
+
+
     //
     let actuatorconfigfilename = KDCommon.actuatorconfigfilename;
 
     ///모델별로 구별해서 구동기노드를  설정하자.
-    if (sysinfo.Systemconfg.productmodel === "KPC480") {
-      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC480, modbuscomm);
+    if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC480") {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC480, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc480;
     }
-    else if (sysinfo.Systemconfg.productmodel === "KPC200") {
-      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC200, modbuscomm);
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC200") {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC200, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc200;
     }
-    else if (sysinfo.Systemconfg.productmodel === "VFC3300") {
-        const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC3300, modbuscomm);
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "VFC3300") {
+        const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC3300, this.modbusMaster);
         this.ActuatorNodes.push(myactnode_1);
         //장비별로 따로
         actuatorconfigfilename = KDCommon.actuatorconfigfilename_VFC3300;
     } 
     else {
-      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC24M, modbuscomm);
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC24M, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
     }
 
@@ -55,7 +58,7 @@ module.exports = class ActuatorInterface {
     let actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     ////설정파일이 없으면 디폴트로 생성
     if (actinfolist === null) {
-      actinfolist = ActuatorBasic.CreateDefaultConfig(sysinfo.Systemconfg.productmodel);
+      actinfolist = ActuatorBasic.CreateDefaultConfig(this.mMain.localsysteminformations.Systemconfg.productmodel);
       KDCommon.Writefilejson(actuatorconfigfilename, actinfolist);
       actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     }
@@ -67,7 +70,7 @@ module.exports = class ActuatorInterface {
     console.log( '       '.bgCyan, actinfolist  )
 
 
-    sysinfo.Actuators = actinfolist;
+    this.mMain.localsysteminformations.Actuators = actinfolist;
     for (const minfo of actinfolist) {
       this.Actuators.push(new Actuatordevice(minfo));
     }

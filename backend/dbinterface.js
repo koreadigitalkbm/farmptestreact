@@ -4,7 +4,9 @@ const KDCommon = require("./kdcommon");
 const KDUtil = require("../frontend/myappf/src/commonjs/kdutil");
 
 module.exports = class DatabaseInterface {
-  constructor() {
+  constructor(mmain) {
+    this.mMain= mmain;
+    this.isconnected=false;
     this.conn = mariadb.createConnection({
       host: config.host,
       port: config.port,
@@ -14,11 +16,32 @@ module.exports = class DatabaseInterface {
       connectionLimit: 5,
     });
 
-    this.conn.connect();
+    //this.conn.connect();
+
+    this.conn.connect(err => {
+      if (err) {
+        console.log("not connected due to error: " + err);
+        this.mMain.systemlog.memlog("DB 초기화 에러...: "+ err);
+      } else {
+        this.isconnected=true;
+        console.log("connected !  " );
+        this.mMain.systemlog.memlog("DB 연결 성공...");
+      }
+    });
+
+
+
+
   }
 
   // 센서 데이트를 디비에 저장
   setsensordata(did, dtime, slist) {
+
+    if(this.isconnected== false)
+    {
+      return ;
+    }
+
     try {
       if (slist.length < 1) {
         return;
@@ -53,6 +76,11 @@ module.exports = class DatabaseInterface {
 
   //카메라 촬영된 이미지 정보를 디비에 저장하고 이미지파일은 웹서비스 편하도록 리엑트 pulic 폴더에 이미지폴더에 저장
   setimagefiledata(did, dtime, cameratype, platname, filedatabase64) {
+    if(this.isconnected== false)
+    {
+      return ;
+    }
+
     try {
       var sql = "INSERT INTO fjbox.cameraimages (devid, dtime,ctype,filename) VALUES (?,?,?,?)";
 

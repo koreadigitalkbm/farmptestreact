@@ -7,8 +7,9 @@ const AutoControl = require("./autocontrol");
 
 module.exports = class AutoControlInterface {
   constructor(mmain) {
-    this.mAutoControllist = []; //자동제어 목록
     this.mMain= mmain;
+    this.mAutoControllist = []; //자동제어 목록
+
     //자동제어 목록을 가져옴.
     this.Autocontrolload();
   }

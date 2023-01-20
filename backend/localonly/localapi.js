@@ -10,11 +10,13 @@ var exec = require("child_process").exec;
 const SERVERAPI_URL = "http://52.79.226.255/api/";
 
 module.exports = class LocalAPI {
-  constructor(fversion, mMain) {
+  constructor(fversion, mmain) {
+    this.mMain= mmain;
+
     this.fbdatabase = null;
-    this.localmain = mMain;
+    
     this.platformversion = fversion;
-    this.mylocaldeviceid = mMain.localsysteminformations.Systemconfg.deviceuniqid;
+    this.mylocaldeviceid = this.mMain.mydeviceuniqid;
   }
 
   postapifordatabase(req, rsp) {
@@ -46,7 +48,7 @@ module.exports = class LocalAPI {
     console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
     switch (reqmsg.reqType) {
       case KDDefine.REQType.RT_LOGIN:
-        if (reqmsg.reqParam.loginPW === this.localmain.localsysteminformations.Systemconfg.password) {
+        if (reqmsg.reqParam.loginPW === this.mMain.localsysteminformations.Systemconfg.password) {
           rspmsg.retMessage = "user";
           rspmsg.retParam = this.mylocaldeviceid;
         }
@@ -71,48 +73,48 @@ module.exports = class LocalAPI {
 
       case KDDefine.REQType.RT_DEVICELOG:
         rspmsg.retMessage = "devicelog";
-        rspmsg.retParam = this.localmain.systemlog;
+        rspmsg.retParam = this.mMain.systemlog;
         rspmsg.IsOK = true;
         break;
 
       case KDDefine.REQType.RT_SYSTEMINIFO:
-        if (this.localmain.localsysteminformations != null) {
-          rspmsg.retParam = this.localmain.localsysteminformations;
+        if (this.mMain.localsysteminformations != null) {
+          rspmsg.retParam = this.mMain.localsysteminformations;
           rspmsg.IsOK = true;
         }
         break;
 
       case KDDefine.REQType.RT_GETAUTOCONTROLCONFIG:
-        if (this.localmain.autocontrolinterface != null) {
-          rspmsg.retParam = this.localmain.autocontrolinterface.getautocontrolconfigall();
+        if (this.mMain.autocontrolinterface != null) {
+          rspmsg.retParam = this.mMain.autocontrolinterface.getautocontrolconfigall();
           rspmsg.IsOK = true;
         }
         break;
 
       case KDDefine.REQType.RT_SENSORSTATUS:
-        if (this.localmain.sensorinterface != null) {
-          rspmsg.Sensors = this.localmain.sensorinterface.getsensorssimple();
+        if (this.mMain.sensorinterface != null) {
+          rspmsg.Sensors = this.mMain.sensorinterface.getsensorssimple();
           rspmsg.IsOK = true;
         }
         break;
       case KDDefine.REQType.RT_ACTUATOROPERATION:
         if (reqmsg.reqParam != null) {
-          this.localmain.actuatorinterface.setoperationmanual(reqmsg.reqParam);
+          this.mMain.actuatorinterface.setoperationmanual(reqmsg.reqParam);
         }
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
 
       case KDDefine.REQType.RT_SYSTEMSTATUS:
-        if (this.localmain.sensorinterface != null && reqmsg.reqParam.isSEN === true) {
-          rspmsg.Sensors = this.localmain.sensorinterface.getsensorssimple();
+        if (this.mMain.sensorinterface != null && reqmsg.reqParam.isSEN === true) {
+          rspmsg.Sensors = this.mMain.sensorinterface.getsensorssimple();
         }
-        if (this.localmain.actuatorinterface != null && reqmsg.reqParam.isACT === true) {
-          rspmsg.Outputs = this.localmain.actuatorinterface.getactuatorstatus();
+        if (this.mMain.actuatorinterface != null && reqmsg.reqParam.isACT === true) {
+          rspmsg.Outputs = this.mMain.actuatorinterface.getactuatorstatus();
         }
         // 시간이 0으로오면 요청없음
-        if (this.localmain.dailydatas != null && reqmsg.reqParam.STime > 0) {
-          rspmsg.retParam = this.localmain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
+        if (this.mMain.dailydatas != null && reqmsg.reqParam.STime > 0) {
+          rspmsg.retParam = this.mMain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
         }
         //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
@@ -126,7 +128,7 @@ module.exports = class LocalAPI {
         break;
 
       case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
-        this.localmain.autocontrolinterface.AutocontrolUpdate(reqmsg.reqParam);
+        this.mMain.autocontrolinterface.AutocontrolUpdate(reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
