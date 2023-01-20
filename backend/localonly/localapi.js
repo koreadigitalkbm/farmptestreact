@@ -195,12 +195,13 @@ module.exports = class LocalAPI {
     return await this.setRequestServer(reqmsg);
   }
 
-  async setcameradatatoserver(did, dtime, ctype, mimage) {
+  async setcameradatatoserver(did, dtime, ctype, pname, mimage) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
     reqmsg.reqParam = {
       devid: did,
       datetime: dtime,
       cameratype: ctype,
+      platname: pname,
       imagedatas: mimage,
     };
     return await this.setRequestServer(reqmsg);

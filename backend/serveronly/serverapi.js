@@ -42,7 +42,7 @@ module.exports = class ServerAPI {
         console.log("  camera datetime:" + reqmsg.reqParam.datetime);
         console.log("  camera imagedatas:" + reqmsg.reqParam.imagedatas);
 
-        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.imagedatas);
+        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.platname, reqmsg.reqParam.imagedatas);
         responsemsg.IsOK = true;
 
         break;
