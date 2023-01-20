@@ -20,4 +20,12 @@ module.exports = class KDUtil {
     return rand_1_9999;
   }
 
+  static GetRandom10()
+  {
+    const rand_1_9999 = Math.floor(Math.random() * 10000000000) +1 + Math.floor(Math.random() * 10000);
+    return rand_1_9999;
+  }
+
+
+
 };

@@ -1,4 +1,4 @@
-// 백엔드 사용 로컬 장비에서 구동되는 API
+// 백엔드 사용 클라우드 서버에서만 동작하는 API 대부분 DB 관련임.
 
 const KDCommon = require("../kdcommon");
 const DatabaseInterface = require("../dbinterface");
@@ -6,8 +6,6 @@ const DatabaseInterface = require("../dbinterface");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
-
-
 
 module.exports = class ServerAPI {
   constructor(mMain) {
@@ -19,23 +17,37 @@ module.exports = class ServerAPI {
 
   postapifordatabase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
-    console.log("---------------------------------postapifordatabase :  reqmsg :" );
-    console.log("  reqmsg devid:"+reqmsg.reqParam.devid );
-    console.log("  reqmsg datetime:"+reqmsg.reqParam.datetime );
-    console.log("  reqmsg sensorlist:"+reqmsg.reqParam.sensorlist );
-    
 
-    let msensors=[];
-    for (const mscompact of reqmsg.reqParam.sensorlist)
-    {
-      let nsensor= new Sensordevice(mscompact);
-      msensors.push(nsensor);
+    let responsemsg = new responseMessage();
 
+    switch (reqmsg.reqType) {
+      case KDDefine.REQType.RT_SETDB_SENSOR:
+        console.log("---------------------------------postapifordatabase :  reqmsg :");
+        console.log("  sensor devid:" + reqmsg.reqParam.devid);
+        //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
+        //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
+
+        let msensors = [];
+        for (const mscompact of reqmsg.reqParam.sensorlist) {
+          let nsensor = new Sensordevice(mscompact);
+          msensors.push(nsensor);
+        }
+
+        this.DBInterface.setsensordata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, msensors);
+        responsemsg.IsOK = true;
+
+        break;
+      case KDDefine.REQType.RT_SETDB_CAMERA:
+        console.log("  camera devid:" + reqmsg.reqParam.devid);
+        console.log("  camera datetime:" + reqmsg.reqParam.datetime);
+        //console.log("  camera imagedatas:" + reqmsg.reqParam.imagedatas);
+
+        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.platname, reqmsg.reqParam.imagedatas);
+        responsemsg.IsOK = true;
+
+        break;
     }
 
-
-    this.DBInterface.setsensordata(reqmsg.reqParam.devid,reqmsg.reqParam.datetime,msensors) ;
-    const responsemsg = new responseMessage();
     rsp.send(JSON.stringify(responsemsg));
   }
 

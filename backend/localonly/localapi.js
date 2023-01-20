@@ -5,8 +5,6 @@ const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
 const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
 
-
-
 var exec = require("child_process").exec;
 
 const SERVERAPI_URL = "http://52.79.226.255/api/";
@@ -188,25 +186,29 @@ module.exports = class LocalAPI {
   }
 
   async setsensordatatoserver(did, dtime, slist) {
-    const reqmsg = new reqMessage(did, KDDefine.REQType.RT_DEVICELOG);
-
-    console.log("setsensordatatoserverdtime " + dtime);
-    
-
-    reqmsg.reqParam ={
-      devid:did,
-      datetime:dtime,
-      sensorlist:slist,
+    const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_SENSOR);
+    reqmsg.reqParam = {
+      devid: did,
+      datetime: dtime,
+      sensorlist: slist,
     };
+    return await this.setRequestServer(reqmsg);
+  }
 
-
+  async setcameradatatoserver(did, dtime, ctype, pname, mimage) {
+    const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
+    reqmsg.reqParam = {
+      devid: did,
+      datetime: dtime,
+      cameratype: ctype,
+      platname: pname,
+      imagedatas: mimage,
+    };
     return await this.setRequestServer(reqmsg);
   }
 
   async postData(reqURL = "", data = {}) {
-
-
-    console.log("postData  url:"+ reqURL);
+    console.log("postData  url:" + reqURL);
 
     let response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.

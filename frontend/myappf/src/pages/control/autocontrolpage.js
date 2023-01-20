@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
 import Autocontroleditbox from  "./autocontroleditbox";
+import DialPad from "../uicomponent/dialpad";
 
 const Autocontrolpage =  (props) => {
   const [mAutolist, setUpdateauto] = useState([]);
@@ -90,6 +91,8 @@ const Autocontrolpage =  (props) => {
           </div>
         
       </div>
+      <DialPad/>
+
 
     </div>
   );

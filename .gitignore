@@ -128,3 +128,5 @@ dist
 common/private/*.*
 common/local_files/*.*
 
+frontend/myappf/public/cameraimage/*.*
+frontend/myappf/public/cameraimage/IF0001/*.*
