@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
+import AutoInputControl from "../uicomponent/autoinputcontrol";
+import { switchClasses } from "@mui/material";
+import KDUtil from "../../commonjs/kdutil";
 
 
 export default function  Autocontroleditbox(myeditcfg) {
 
 
   //const [misTimershow, selectcontrol] = useState(myeditcfg !=null && myeditcfg.istimer);
-  //console.log("Autocontroleditbox  misTimershow: " + misTimershow);
+  console.log("Autocontroleditbox  ETime: " +myeditcfg.ETime);// Object.entries(myeditcfg));
 
+  let eee= "ETime";
+  myeditcfg[eee]= 22363;
+  console.log("Autocontroleditbox  ETimeff: " +myeditcfg.ETime);
 
-  function secToTime(dayseconds) {
-    if (dayseconds >= 24 * 3600) {
-      return "23:59";
-    }
-    let hour = Math.floor(dayseconds / 3600);
-    let min = Math.floor((dayseconds - hour * 3600) / 60);
-    if (hour < 10) hour = "0" + hour;
-    if (min < 10) min = "0" + min;
-    console.log("secToTime : " + (hour + ":" + min));
-    return hour + ":" + min;
-  }
+  console.log(myeditcfg);
 
-  function timeTosec(timestr) {
-    const [hours, minutes] = timestr.split(":");
-    return Number(hours * 3600 + minutes * 60);
-  }
+  console.log(Object.keys(myeditcfg.ETime));
+  
+
 
   if (myeditcfg == null) {
     return <div></div>;
@@ -39,16 +34,51 @@ export default function  Autocontroleditbox(myeditcfg) {
       console.log(mcfg)
       console.log("setupSave uid: " + mcfg.Uid + " name : " + mcfg.Name + " istimer : " + mcfg.istimer);
 
-      console.log("setupSave uid: " + " copycfg istimer : " + copycfg.istimer);
+    }
 
-    //   myAppGlobal.farmapi.saveAutocontrolconfig(mcfg).then((ret) => {
-    //    console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
-    // });
+    function inputnumberchangeHandler(e) {
+     
+      console.log(e.target);
+      console.log(e.target.type);
+      console.log("inputnumberchangeHandler : " + e.target.name );
+      copycfg[e.target.name]=e.target.value;
+
+
+//      console.log("inputnumberchangeHandler DTValue: " +copycfg.DTValue);
+  //    console.log("inputnumberchangeHandler NTValue: " +copycfg.NTValue);
+    //  console.log("inputnumberchangeHandler BValue: " +copycfg.BValue);
+
 
     }
 
+    function inputtimechangeHandler(e) {
+     
+      console.log("inputtimechangeHandler : " + e.target.name );
+      
+
+    }
+ function inputtextchangeHandler(e) {
+      console.log("inputtextchangeHandler : " + e.target.name );
+      copycfg[e.target.name]=e.target.value;
+    }
+
+    function inputallchangeHandler(e) {
+      console.log("inputallchangeHandler name: " + e.target.name + " type : "+e.target.type );
+      switch(e.target.type)
+      {
+        case "time":
+          copycfg[e.target.name]=KDUtil.timeTosec(e.target.value);
+          break;
+          default:
+                        copycfg[e.target.name]=e.target.value;
+          break;
+      }
+
+    }
+
+
     function inputonchangeHandler(e) {
-      console.log("inputonchangeHandler : " + e.target.name);
+      console.log("inputonchangeHandler : " + e.target.name );
 
       switch (e.target.name) {
         case "name":
@@ -62,13 +92,7 @@ export default function  Autocontroleditbox(myeditcfg) {
           copycfg.offvalue = Number(e.target.value);
           break;
 
-        case "STime":
-          copycfg.STime = timeTosec(e.target.value);
-          break;
-        case "ETime":
-          copycfg.ETime = timeTosec(e.target.value);
-          break;
-
+  
        
          //setupselected(AutoControlconfig.deepcopy(copycfg));
           break;
@@ -141,13 +165,28 @@ export default function  Autocontroleditbox(myeditcfg) {
               이름 :
               <input type="text" key={"name" + copycfg.Uid} defaultValue={copycfg.Name} name="name" onChange={inputonchangeHandler} />
             </div>
+
+            <div className="aut_in">
+              온도 :
+              <AutoInputControl  type="number"  initvalue={copycfg} keyname="DTValue" onChange={inputallchangeHandler} />
+            </div>
+            <div className="aut_in">
+              낮온도 :
+              <AutoInputControl  type="number"  initvalue={copycfg} keyname="NTValue" onChange={inputallchangeHandler} />
+            </div>
+            <div className="aut_in">
+              바운드온도 :
+              <AutoInputControl  type="number"  initvalue={copycfg} keyname="BValue" onChange={inputallchangeHandler} />
+            </div>
+
             <div className="aut_in">
               시작시간 :
-              <input type="time" key={"STime" + copycfg.Uid} defaultValue={secToTime(copycfg.STime)} name="STime" onChange={inputonchangeHandler} />
+              <AutoInputControl  type="time"  initvalue={copycfg} keyname="STime" onChange={inputallchangeHandler} />
+              
             </div>
             <div className="aut_in">
               종료시간 :
-              <input type="time" key={"ETime" + copycfg.Uid} defaultValue={secToTime(copycfg.ETime)} name="ETime" onChange={inputonchangeHandler} />
+              <AutoInputControl  type="time"  initvalue={copycfg} keyname="ETime" onChange={inputallchangeHandler} />
             </div>
           </div>
 
