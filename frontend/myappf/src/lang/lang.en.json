@@ -1,4 +1,10 @@
 {
+    
+    "LT_LOGINTITLE": "Login",
+    "LT_LOGINTITLE_LOCAL": "Device Login(Local)",
+    "LT_LOGINFAIL_NO": "Login failed.",
+    
+
     "Autocontrol": "Autocontrol",
     "BrandName": "Brand name",
     "Cancel": "Cancel",
