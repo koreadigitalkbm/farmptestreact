@@ -4,8 +4,6 @@ import myAppGlobal from "../../myAppGlobal";
 import { Box, Button, Card, CardHeader, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled, ThemeProvider } from '@mui/material/styles';
-import { AutoMode, ModeStandby } from '@mui/icons-material';
-import { FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
 
 import KDDefine from "../../commonjs/kddefine";
 
@@ -13,6 +11,8 @@ import KDUtil from "../../commonjs/kdutil";
 import muiTheme from './../muiTheme';
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
 import ActuatorOperation from "./../../commonjs/actuatoroperation";
+import ManualControl from "./components/manualControl";
+import TemperatureControl from "./components/temperatureControl"
 
 let lasteventtime = 1;
 let lastsensortime = 1;
@@ -71,10 +71,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 const ControlPage = (props) => {
     const [moutdevarray, setUpdate] = useState([]);
     const [mAutolist, setUpdateauto] = useState([]);
-    const [formAutolist, setFormAutolist] = useState({});
-    const [arrModeSwitch, setarrModeSwitch] = useState([]);
     const [currentAuto, setCurrentAuto] = useState();
-    const [worktime, setWorktime] = useState();
 
     function manualonoff(actuid, onoff) {
         let opcmd = new ActuatorOperation(actuid, onoff, 30);
@@ -93,34 +90,6 @@ const ControlPage = (props) => {
             console.log(name + ": checked!");
         } else {
             console.log(name + ": unchecked!");
-        }
-    }
-
-    function handlerInputworktime(e) {
-        setWorktime(e.target.value);
-    }
-
-    function handlerInputChange(e, ci) {
-        let handleName = e.target.name;
-        let handleValue = e.target.value;
-        switch (handleName) {
-            case "DTValue":
-                mAutolist[ci].DTValue = handleValue;
-                break;
-
-            case "NTValue":
-                mAutolist[ci].NTValue = handleValue;
-                break;
-
-            case "STime":
-                mAutolist[ci].STime = timeTosec(handleValue);
-                break;
-
-            case "ETime":
-                mAutolist[ci].ETime = timeTosec(handleValue);
-                break;
-
-            default: console.log("정의되지 않음");
         }
     }
 
@@ -151,169 +120,40 @@ const ControlPage = (props) => {
             setUpdateauto(myAppGlobal.Autocontrolcfg);
         });
 
-        const autoList123 = (mydata) => {
-            let copyData = AutoControlconfig.deepcopy(mydata)
-
-            setCurrentAuto(copyData)
-        }
-
         return () => clearInterval(interval);
     }, []);
 
-    function secToTime(dayseconds) {
-        if (dayseconds >= 24 * 3600) {
-            return "23:59";
-        }
-        let hour = Math.floor(dayseconds / 3600);
-        let min = Math.floor((dayseconds - hour * 3600) / 60);
-        if (hour < 10) hour = "0" + hour;
-        if (min < 10) min = "0" + min;
-        return hour + ":" + min;
-    }
-
-    function timeTosec(timestr) {
-        const [hours, minutes] = timestr.split(":");
-        return Number(hours * 3600 + minutes * 60);
-    }
-
-    function setupSave(ci) {
-        console.log("setupSave uid: " + mAutolist[ci].Uid + " name : " + mAutolist[ci].Name + " istimer : " + mAutolist[ci].istimer);
-
-        myAppGlobal.farmapi.saveAutocontrolconfig(mAutolist[ci]).then((ret) => {
-            console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
-        });
-    }
-
     const formAutoContent = (ci) => {
         if (mAutolist[ci].Enb === false) {
-            return (
-                <Stack>
-                    <TextField
-                        id="tf-worktime"
-                        label="동작시간"
-                        type="number"
-                        variant="outlined"
-                        onChange={(e) => { setWorktime(e.target.value) }}
-                        sx={{
-                            width: 150,
-                            mt: 3,
-                            '& .MuiOutlinedInput-input': {
-                                width: 150,
-                                border: 0
-                            }
-                        }} />
-                    <Stack direction="row" spacing={4}>
-                        <Button
-                            onClick={console.log(mAutolist[ci].Name + ": " + worktime)}>On</Button>
-                        <Button>Off</Button>
-                    </Stack>
-
-                </Stack>
-            )
+            return <ManualControl autoItem={mAutolist[ci]} />
         } else {
             switch (mAutolist[ci].Cat) {
                 case KDDefine.AUTOCategory.ACT_HEATING:
-                    return (
-                        <Typography>난방</Typography>
-                    )
-                case KDDefine.AUTOCategory.ACT_COOLING:
-                    return (
-                        <Typography>냉방</Typography>
-                    )
-                case KDDefine.AUTOCategory.ACT_LED:
-                    return (
-                        <Typography>광량</Typography>
-                    )
-                case KDDefine.AUTOCategory.ATC_WATER:
-                    return (
-                        <Typography>관수</Typography>
-                    )
-                case KDDefine.AUTOCategory.ATC_AIR:
-                    return (
-                        <Typography>환기</Typography>
-                    )
-                case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
-                    return (
-                        <Stack spacing={2}>
-                            <TextField
-                                id="tf-targetTemperature-daytime"
-                                name="DTValue"
-                                label="주간온도"
-                                type="number"
-                                variant="outlined"
-                                onChange={(e) => { handlerInputChange(e, ci) }}
-                                defaultValue={mAutolist[ci].DTValue}
-                                sx={{
-                                    width: 200,
-                                    mt: 3,
-                                    '& .MuiOutlinedInput-input': {
-                                        width: 150,
-                                        border: 0
-                                    }
-                                }} />
-                            <TextField
-                                id="tf-targetTemperature-night"
-                                name="NTValue"
-                                label="야간온도"
-                                type="number"
-                                variant="outlined"
-                                onChange={(e) => { handlerInputChange(e, ci) }}
-                                defaultValue={mAutolist[ci].NTValue}
-                                sx={{
-                                    width: 200,
-                                    mt: 3,
-                                    '& .MuiOutlinedInput-input': {
-                                        width: 150,
-                                        border: 0
-                                    }
-                                }} />
+                    return <Typography>난방</Typography>
 
-                            <Stack alignItems="center" direction="row" spacing={2}>
-                                <Typography>
-                                    주간시간설정:
-                                </Typography>
-                                <Input
-                                    type="time"
-                                    name="STime"
-                                    defaultValue={secToTime(mAutolist[ci].STime)}
-                                    onChange={(e) => { handlerInputChange(e, ci) }}
-                                    sx={{
-                                        '& .MuiInputBase-input': {
-                                            border: 0,
-                                            width: '100%'
-                                        }
-                                    }}
-                                />
-                                <Typography>
-                                    ~
-                                </Typography>
-                                <Input
-                                    type="time"
-                                    name="ETime"
-                                    defaultValue={secToTime(mAutolist[ci].ETime)}
-                                    onChange={(e) => { handlerInputChange(e, ci) }}
-                                    sx={{
-                                        '& .MuiInputBase-input': {
-                                            border: 0,
-                                            width: '100%'
-                                        }
-                                    }}
-                                />
-                            </Stack>
-                        </Stack>
-                    )
+                case KDDefine.AUTOCategory.ACT_COOLING:
+                    return <Typography>냉방</Typography>
+
+                case KDDefine.AUTOCategory.ACT_LED:
+                    return <Typography>광량</Typography>
+
+                case KDDefine.AUTOCategory.ATC_WATER:
+                    return <Typography>관수</Typography>
+
+                case KDDefine.AUTOCategory.ATC_AIR:
+                    return <Typography>환기</Typography>
+
+                case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
+                    return <TemperatureControl autoConfiguration={mAutolist[ci]} />
+
                 case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
-                    return (
-                        <Typography>3색LED</Typography>
-                    )
+                    return <Typography>3색LED</Typography>
+
                 case KDDefine.AUTOCategory.ACT_AIR_CO2_FOR_FJBOX:
-                    return (
-                        <Typography>CO2</Typography>
-                    )
+                    return <Typography>CO2</Typography>
+
                 case KDDefine.AUTOCategory.ATC_USER:
-                    return (
-                        <Typography>사용자 지정</Typography>
-                    )
+                    return <Typography>사용자 지정</Typography>
 
                 default:
                     return (
@@ -335,13 +175,10 @@ const ControlPage = (props) => {
             return (
                 <Box>
                     <Typography
-                        variant='h2'>{contentName}</Typography>
+                        variant='h2'>
+                        {contentName}
+                    </Typography>
                     {formAutoContent(ci)}
-                    <Stack alignItems="center" direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
-                        <Button onClick={() => setupSave(ci)}>
-                            저장
-                        </Button>
-                    </Stack>
                 </Box>
             )
         }
@@ -353,6 +190,7 @@ const ControlPage = (props) => {
         return (
             <Button
                 id={copyData.Uid}
+                key={copyData.Uid+'list'}
                 onClick={setCurrentAuto}
             >{copyData.Name}</Button>
         )
@@ -372,7 +210,7 @@ const ControlPage = (props) => {
                 ismanual2 = "수동제어"
                 ismanual = (
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Typography sx={{ verticalAlign: "middle" }} style={{ verticalAlign: "center" }}>수동제어</Typography>
+                        <Typography sx={{ verticalAlign: "middle" }} style={{ verticalAlign: "center" }}>{ismanual2}</Typography>
                         <Switch></Switch>
                     </Stack>
                 )
@@ -412,7 +250,7 @@ const ControlPage = (props) => {
 
     const autoControlCard = () => {
         return (
-            <Card maxWidth={{}} sx={{ minWidth: 300, m: 3 }}>
+            <Card sx={{ minWidth: 300, m: 3 }}>
                 <CardHeader
                     title={'자동 제어'}
                 />
@@ -435,7 +273,7 @@ const ControlPage = (props) => {
 
     const actuatorControlCard = () => {
         return (
-            <Card maxWidth={{}} sx={{ minWidth: 300, m: 3 }}>
+            <Card sx={{ minWidth: 300, m: 3 }}>
                 <CardHeader
                     title={'구동기 제어'}
                 />

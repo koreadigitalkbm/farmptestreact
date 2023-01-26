@@ -13,7 +13,6 @@ const AutoInputControl = (props) => {
   if (inputtype == "time") {
     initvalue = KDUtil.secToTime(initvalue);
   }
-
   
   return (
     <div>
