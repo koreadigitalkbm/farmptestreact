@@ -2,7 +2,7 @@
 import { SETVALUE, SETLOGIN,SETSYSINFO } from './mainAction';
 
 const initState = {
-    LoginRole : "none",
+    LoginRole : "init",
     Systeminfo: null,
     intvalue: 0
     
