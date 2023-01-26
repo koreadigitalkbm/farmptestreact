@@ -1,15 +1,16 @@
 import React from "react";
-import { Input, Stack, TextField, Typography } from "@mui/material"
+import {Button, Input, Stack, TextField, Typography } from "@mui/material"
 
-import ButtonSave from "./btnSave"
+import myAppGlobal from "../../../myAppGlobal";
+
 
 export default class TemperatureControl extends React.Component {
-    
     
     constructor(props) {
         super(props);
         this.state = props.autoConfiguration;
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     secToTime(dayseconds) {
@@ -30,6 +31,7 @@ export default class TemperatureControl extends React.Component {
 
 
     handleInputChange() {
+        
         const DayTimeValue = document.getElementById("tf-targetTemperature-dayTime").value;
         const NightTimeValue = document.getElementById("tf-targetTemperature-nightTime").value;
         const StartTime = this.timeTosec(document.getElementById("if-startTime").value);
@@ -45,6 +47,14 @@ export default class TemperatureControl extends React.Component {
         console.log(this.state);
     }
 
+    handleSave() {
+        console.log(this.state);
+        
+        myAppGlobal.farmapi.saveAutocontrolconfig(this.state).then((ret) => {
+            console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
+        });
+    }
+
     render() {
         return (
             <Stack spacing={2}>
@@ -55,7 +65,7 @@ export default class TemperatureControl extends React.Component {
                     label="주간온도"
                     type="number"
                     variant="outlined"
-                    onChange={this.handleInputChange()}
+                    onChange={this.handleInputChange}
                     defaultValue={this.state.DTValue}
                     sx={{
                         width: 200,
@@ -119,7 +129,7 @@ export default class TemperatureControl extends React.Component {
                         }} />
                 </Stack>
                 <hr />
-                <ButtonSave saveObject={this.handleInputChange.state} />
+                <Button onClick={this.handleSave}>저장</Button>
             </Stack>
         )
     }
