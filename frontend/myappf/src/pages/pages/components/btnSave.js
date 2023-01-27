@@ -13,11 +13,6 @@ export default class ButtonSave extends React.Component {
 
     handleSave() {
         console.log(this.state);
-        // console.log("setupSave uid: " + this.state.Uid + " name : " + this.state.Name + " istimer : " + this.state.istimer);
-
-        // myAppGlobal.farmapi.saveAutocontrolconfig(this.state).then((ret) => {
-        //     console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
-        // });
     }
 
     render() {

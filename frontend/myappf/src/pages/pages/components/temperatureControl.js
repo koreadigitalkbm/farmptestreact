@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Input, Stack, TextField, Typography } from "@mui/material"
 
+import KDUtil from "../../../commonjs/kdutil";
 import myAppGlobal from "../../../myAppGlobal";
 
 
@@ -13,29 +14,11 @@ export default class TemperatureControl extends React.Component {
         this.handleSave = this.handleSave.bind(this);
     }
 
-    secToTime(dayseconds) {
-        if (dayseconds >= 24 * 3600) {
-            return "23:59";
-        }
-        let hour = Math.floor(dayseconds / 3600);
-        let min = Math.floor((dayseconds - hour * 3600) / 60);
-        if (hour < 10) hour = "0" + hour;
-        if (min < 10) min = "0" + min;
-        return hour + ":" + min;
-    }
-
-    timeTosec(timestr) {
-        const [hours, minutes] = timestr.split(":");
-        return Number(hours * 3600 + minutes * 60);
-    }
-
-
-    handleInputChange() {
-        
+    handleInputChange() {       
         const DayTimeValue = document.getElementById("tf-targetTemperature-dayTime").value;
         const NightTimeValue = document.getElementById("tf-targetTemperature-nightTime").value;
-        const StartTime = this.timeTosec(document.getElementById("if-startTime").value);
-        const EndTime = this.timeTosec(document.getElementById("if-endTime").value);
+        const StartTime = KDUtil.timeTosec(document.getElementById("if-startTime").value);
+        const EndTime = KDUtil.timeTosec(document.getElementById("if-endTime").value);
 
         this.setState((state) => {
             state.DTValue = DayTimeValue;
@@ -103,7 +86,7 @@ export default class TemperatureControl extends React.Component {
                         key={this.state.Uid + "STime"}
                         type="time"
                         name="STime"
-                        defaultValue={this.secToTime(this.state.STime)}
+                        defaultValue={KDUtil.secToTime(this.state.STime)}
                         onChange={this.handleInputChange}
                         sx={{
                             '& .MuiInputBase-input': {
@@ -119,7 +102,7 @@ export default class TemperatureControl extends React.Component {
                         key={this.state.Uid + "ETime"}
                         type="time"
                         name="ETime"
-                        defaultValue={this.secToTime(this.state.ETime)}
+                        defaultValue={KDUtil.secToTime(this.state.ETime)}
                         onChange={this.handleInputChange}
                         sx={{
                             '& .MuiInputBase-input': {

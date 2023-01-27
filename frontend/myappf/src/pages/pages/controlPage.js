@@ -68,6 +68,256 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
+export default class ContorlPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            moutdevarray: [],
+            mAutolist: [],
+            currentAuto: undefined
+        }
+        myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
+            myAppGlobal.Autocontrolcfg = ret.retParam;
+            console.log("----------------------------systeminformations auto length: " + myAppGlobal.Autocontrolcfg.length);
+
+            this.setState((state) => {
+                state.mAutolist = myAppGlobal.Autocontrolcfg;
+                return state;
+            })
+        });
+
+        this.handleSelectAuto = this.handleSelectAuto.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleSelectAuto(props) {
+        console.log(props.target);
+        this.setState((state) => {
+            state.currentAuto = props.target.id;
+            return state;
+        })
+    }
+
+    handleInputChange() {
+        const DayTimeValue = document.getElementById("tf-targetTemperature-dayTime").value;
+        const NightTimeValue = document.getElementById("tf-targetTemperature-nightTime").value;
+        const StartTime = KDUtil.timeTosec(document.getElementById("if-startTime").value);
+        const EndTime = KDUtil.timeTosec(document.getElementById("if-endTime").value);
+
+        this.setState((state) => {
+            state.DTValue = DayTimeValue;
+            state.NTValue = NightTimeValue;
+            state.STime = StartTime;
+            state.ETime = EndTime;
+            return state;
+        })
+        console.log('핸들인풋체인지');
+        console.log(this.state);
+    }
+
+    handleConfigSave(e) {
+        
+    }
+
+    handleModeChange(event) {
+        const isChecked = event.target.checked;
+        const name = event.target.name;
+        const cat = event.currentTarget.cat;
+        console.log("커런트타겟")
+        console.log(cat)
+        console.log("타겟")
+        console.log(event.target)
+        if (isChecked) {
+            console.log(name + ": checked!");
+        } else {
+            console.log(name + ": unchecked!");
+        }
+    }
+
+    formAutoContent = (ci) => {
+        if (this.state.mAutolist[ci].Enb === false) {
+            return <ManualControl autoItem={this.state.mAutolist[ci]} />
+        } else {
+            switch (this.state.mAutolist[ci].Cat) {
+                case KDDefine.AUTOCategory.ACT_HEATING:
+                    return <Typography>난방</Typography>
+
+                case KDDefine.AUTOCategory.ACT_COOLING:
+                    return <Typography>냉방</Typography>
+
+                case KDDefine.AUTOCategory.ACT_LED:
+                    return <Typography>광량</Typography>
+
+                case KDDefine.AUTOCategory.ATC_WATER:
+                    return <Typography>관수</Typography>
+
+                case KDDefine.AUTOCategory.ATC_AIR:
+                    return <Typography>환기</Typography>
+
+                case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
+                    return <TemperatureControl autoConfiguration={this.state.mAutolist[ci]} />
+
+                case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
+                    return <Typography>3색LED</Typography>
+
+                case KDDefine.AUTOCategory.ACT_AIR_CO2_FOR_FJBOX:
+                    return <Typography>CO2</Typography>
+
+                case KDDefine.AUTOCategory.ATC_USER:
+                    return <Typography>사용자 지정</Typography>
+
+                default:
+                    return (
+                        <Box>
+                            <Typography>디폴트</Typography>
+                            <Typography>{this.state.mAutolist[ci].Cat}</Typography>
+                        </Box>
+                    )
+            }
+        }
+    }
+
+    autoContent() {
+        if (this.state.currentAuto === undefined) {
+            return
+        } else {
+            let ci = this.state.mAutolist.findIndex((e) => e.Uid === this.state.currentAuto)
+            const contentName = this.state.mAutolist[ci].Name;
+            return (
+                <Box>
+                    <Typography
+                        variant='h2'>
+                        {contentName}
+                    </Typography>
+                    {this.formAutoContent(ci)}
+                </Box>
+            )
+        }
+
+    }
+
+    autoList(mydata) {
+        let copyData = AutoControlconfig.deepcopy(mydata)
+        return (
+            <Button
+                id={copyData.Uid}
+                key={copyData.Uid + 'list'}
+                onClick={this.handleSelectAuto}
+            >{copyData.Name}</Button>
+        )
+
+    }
+
+    autoControlCard() {
+
+        return (
+            <Card sx={{ minWidth: 300, m: 3 }}>
+                <CardHeader
+                    title={'자동 제어'}
+                />
+                <Grid container spacing={2}>
+
+                    <Grid xs={2} sm={2} md={2} lg={2} xl={2}>
+                        <Stack>
+                            {this.state.mAutolist.map((localState) => this.autoList(localState))}
+                        </Stack>
+                    </Grid>
+                    <Grid xs={10} sm={10} md={10} lg={10} xl={10}>
+                        {this.autoContent()}
+                    </Grid>
+
+                </Grid>
+                <Button>자동제어 추가</Button>
+            </Card>
+        )
+    }
+
+    actuatorCard = (actuator, isonlystatus, index) => {
+
+        let ismanual;
+        let ismanual2 = ""
+        let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, actuator.Uid);
+
+        if (actuator.Opm === "LM") {
+            ismanual = <Typography>현장제어중</Typography>
+        } else if (actuator.Opm === "MA") {
+            if (isonlystatus === true) {
+                ismanual2 = "수동제어"
+                ismanual = (
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <Typography sx={{ verticalAlign: "middle" }} style={{ verticalAlign: "center" }}>{ismanual2}</Typography>
+                        <Switch></Switch>
+                    </Stack>
+                )
+            }
+        } else {
+            ismanual2 = "자동제어"
+            ismanual = (
+                <FormControlLabel
+                    label={ismanual2}
+                    labelPlacement="start"
+                    control={<MaterialUISwitch
+                        name={actinfo.Name}
+                        onChange={this.handleModeChange} />}
+                ></FormControlLabel>
+            )
+        }
+    }
+
+    actuatorControlCard() {
+        return (
+            <Card sx={{ minWidth: 300, m: 3 }}>
+                <CardHeader
+                    title={'구동기 제어'}
+                />
+                <Grid container spacing={2}>
+                    {this.state.moutdevarray.map((localState, index) => this.actuatorCard(localState, false, index))}
+                </Grid>
+            </Card>
+        )
+    }
+
+    render() {
+        return (
+            <Box>
+                <ThemeProvider theme={muiTheme}>
+                    <Typography variant='h1'>제어 페이지입니다.</Typography>
+                    {this.autoControlCard()}
+                    {this.actuatorControlCard()}
+                </ThemeProvider>
+            </Box>
+        )
+    }
+
+    componentDidMount() {
+        let interval = null;
+        let readtimemsec = 5000;
+
+        if (myAppGlobal.islocal === false) {
+            readtimemsec = 5000;
+        }
+
+        interval = setInterval(() => {
+            myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
+                let actuators = ret.Outputs;
+
+                if (actuators != null) {
+                    if (actuators.length > 0) {
+                        this.setState((state) => {
+                            state.moutdevarray = actuators;
+                        })
+                    }
+                }
+            })
+        }, readtimemsec);
+
+        
+
+        return () => clearInterval(interval);
+    }
+}
+
+
 const ControlPage = (props) => {
     const [moutdevarray, setUpdate] = useState([]);
     const [mAutolist, setUpdateauto] = useState([]);
@@ -190,11 +440,10 @@ const ControlPage = (props) => {
         return (
             <Button
                 id={copyData.Uid}
-                key={copyData.Uid+'list'}
+                key={copyData.Uid + 'list'}
                 onClick={setCurrentAuto}
             >{copyData.Name}</Button>
         )
-
     }
 
     const actuatorCard = (actuator, isonlystatus, index) => {
@@ -255,7 +504,6 @@ const ControlPage = (props) => {
                     title={'자동 제어'}
                 />
                 <Grid container spacing={2}>
-
                     <Grid xs={2} sm={2} md={2} lg={2} xl={2}>
                         <Stack>
                             {mAutolist.map((localState) => autoList(localState))}
@@ -294,4 +542,3 @@ const ControlPage = (props) => {
         </Box>
     )
 }
-export default ControlPage;
