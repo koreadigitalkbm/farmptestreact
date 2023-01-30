@@ -69,6 +69,8 @@ export default function SetupPage(props) {
 
   useEffect(() => {
 
+    console.log("SetupPage  useEffect myAppGlobal.islocal: " + myAppGlobal.islocal);
+
     if (i18n.language === "ko-KR")
     {
         setlangstr(1);
