@@ -9,7 +9,7 @@ module.exports = class ServerMain {
   constructor(fversion) {
     
     this.systemlog = new devicesystemlog();
-    this.mAPI = new ServerAPI(this);
+    this.mAPI = new ServerAPI(fversion,this);
 
   }
 

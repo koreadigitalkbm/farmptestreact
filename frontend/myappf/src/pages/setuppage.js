@@ -45,8 +45,8 @@ const ExpandMore = styled((props) => {
 export default function SetupPage(props) {
     const { t, i18n } = useTranslation();
   const [langstr, setlangstr] = React.useState('');
-  const [deviceversion, setDeviceversion] = useState(null);
-  const [serverversion, setServerversion] = useState(null);
+  const [deviceversion, setDeviceversion] = useState(0);
+  const [serverversion, setServerversion] = useState(0);
   const [expanded, setExpanded] = React.useState(false);
   let isupdate = false;
 
@@ -74,7 +74,7 @@ export default function SetupPage(props) {
   
 
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
-      if(serverversion==null )
+      if(serverversion==0 )
       {
       myAppGlobal.farmapi.getdeviceversion(true).then((ret) => {
         console.log(" get server version ret : " + ret.retMessage);
@@ -83,7 +83,7 @@ export default function SetupPage(props) {
     }
     }
 
-    if(deviceversion==null )
+    if(deviceversion==0 )
     {
     myAppGlobal.farmapi.getdeviceversion(false).then((ret) => {
       console.log("getdevice version ret1 : " + ret.retMessage);

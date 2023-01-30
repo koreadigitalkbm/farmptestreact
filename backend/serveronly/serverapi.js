@@ -8,7 +8,8 @@ const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
 
 module.exports = class ServerAPI {
-  constructor(mMain) {
+  constructor(fversion,mMain) {
+    this.platformversion = fversion;
     this.servermain = mMain;
     this.fbdatabase = null;
     this.sessionmap = new Map();
@@ -159,6 +160,11 @@ module.exports = class ServerAPI {
         }
       }
 
+      rspmsg.IsOK = true;
+    }
+    else if(reqmsg.reqType == KDDefine.REQType.RT_GETVERSION)
+    {
+      rspmsg.retMessage = this.platformversion;
       rspmsg.IsOK = true;
     }
 
