@@ -1,23 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
 
-import myAppGlobal from "../../../myAppGlobal";
-
 export default class ButtonSave extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = props.saveObject;
-        this.handleSave = this.handleSave.bind(this)
-    }
-
-    handleSave() {
-        console.log(this.state);
+        this.onClick = props.onClick;
     }
 
     render() {
         return (
-            <Button onClick={this.handleSave}>
+            <Button name="Save" onClick={this.onClick}>
                 저장
             </Button>
         )
