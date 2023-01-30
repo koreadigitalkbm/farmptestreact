@@ -112,10 +112,10 @@ export default function SetupPage(props) {
 
   
 
-  function updateServercode(e) {
-    console.log("updateServercode : " + e.target.name);
+  function updateforlocaldevice(e) {
+    console.log("updateforlocaldevice : " + e.target.name);
 
-    myAppGlobal.farmapi.setsoftwareupdate(false).then((ret) => {
+    myAppGlobal.farmapi.setsoftwareupdate(true).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
     });
   }
@@ -147,7 +147,7 @@ export default function SetupPage(props) {
           </Typography>
         </Stack>
 
-        <Button onClick={updateServercode} endIcon={<UpgradeIcon />}>
+        <Button onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
           {t("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
