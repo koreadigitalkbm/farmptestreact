@@ -90,7 +90,8 @@ export default function SetupPage(props) {
       console.log("getdevice version ret1 : " + ret.retMessage);
       setDeviceversion(ret.retMessage);
     });
-  }, []);
+  });
+  
 
   if (serverversion > deviceversion && deviceversion > 0) {
     isupdate = true;
