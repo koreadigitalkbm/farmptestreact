@@ -10,7 +10,9 @@ import ControlPage from "./pages/controlPage";
 import DataPage from "./pages/dataPage";
 import SettingPage from "./pages/settingPage";
 
-import AdminSetup from "./adminsetup";
+
+import SetupPage from "./setuppage";
+import FactorySetup from "./factorysetup";
 import Sensorpage from "./sensorpage";
 import Devicepage from "./devicepage";
 import Autocontrolpage from "./control/autocontrolpage";
@@ -18,22 +20,15 @@ import myAppGlobal from "../myAppGlobal";
 
 import { useTranslation } from "react-i18next";
 
-const drawerWidth = 240;
 
 const navMenu = ["Home", "Sensor", "Control", "Autocontrol", "Data", "Setting", "Setup"];
 
 export default function FMainpage(props) {
   const { t, i18n } = useTranslation();
   const [navItems, setNavItems] = useState({});
-  console.log("-------------------------FMainpage ---------------------");
+  console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
-  function handleClickChangeLanguage() {
-    if (i18n.language === "ko-KR") {
-      i18n.changeLanguage("en-US");
-    } else {
-      i18n.changeLanguage("ko-KR");
-    }
-  }
+
 
   useEffect(() => {
     let navItems = {};
@@ -73,9 +68,7 @@ export default function FMainpage(props) {
                 {navItems[item]}
               </Button>
             ))}
-            <IconButton onClick={handleClickChangeLanguage}>
-              <Language sx={{ fontSize: 40, color: colors.red[500] }} />
-            </IconButton>
+           
           </Box>
           <button className="" onClick={logoutbuttonHandler}>
             {" "}
@@ -97,9 +90,7 @@ export default function FMainpage(props) {
           <Route path="/devices" element={<Devicepage />} />
           <Route path="/sensor" element={<Sensorpage />} />
           <Route path="/autocontrol" element={<Autocontrolpage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/setup" element={<About />} />
-          <Route exact path="/admin" element={<AdminSetup />} />
+          <Route path="/setup" element={props.loginrol== "factoryadmin" ? <FactorySetup  {...props} />:<SetupPage {...props}/>} />
         </Routes>
       </Box>
     </Box>

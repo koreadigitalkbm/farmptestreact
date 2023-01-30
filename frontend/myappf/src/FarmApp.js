@@ -5,7 +5,6 @@ import { actionSetlogin, actionSetSysteminfo } from "./mainAction";
 import IndoorFarmAPI from "./indoorfarmapi";
 import FMainpage from "./pages/fmainpage";
 import myAppGlobal from "./myAppGlobal";
-
 import MSignIn from "./pages/mlogin";
 
 function FarmApp(props) {
@@ -16,8 +15,7 @@ function FarmApp(props) {
   let islogin = false;
 
   console.log("-------------------------FarmAPP start--------------------- loginrol:" + loginrol + " islocal:" + islocal  );
-
-  
+ 
 
   function setlogout() {
     myAppGlobal.loginrole = "logout";
@@ -30,6 +28,7 @@ function FarmApp(props) {
 
     setloginrol(myAppGlobal.loginrole);
     setfailmsg("");
+    props.onSetSysteminfo(null);
     
   }
 
@@ -64,13 +63,9 @@ function FarmApp(props) {
     //첫무조건 로그인페이지로
     setlogout();
 
-    
-
     //props.onSetlogin(loginrol);
   } else {
     /// 새로고침  세션에 저장된 데이터 읽어옴
-
-    
     myAppGlobal.islocal = window.sessionStorage.getItem("islocal");
     myAppGlobal.sessionid = window.sessionStorage.getItem("msessionid");
     myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
@@ -79,18 +74,16 @@ function FarmApp(props) {
 
 
     console.log("----------------------------새로고침 : " + myAppGlobal.islocal);
-
     if(islocal ==="true")
     {
       islocal=true; 
     }
-    
     if(loginrol !="logout")
     {
       islogin=true;
     }
-
   }
+
 
 
 
@@ -122,7 +115,7 @@ function FarmApp(props) {
 
   return (
     <div className="FarmApp">
-      {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<FMainpage {...props}  mhandler={loginSMHandler}/> }
+      {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<FMainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> }
    </div>
   );
 }

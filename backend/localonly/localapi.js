@@ -125,6 +125,7 @@ module.exports = class LocalAPI {
         KDCommon.Writefilejson(KDCommon.systemconfigfilename, reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
+        
         break;
 
       case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:

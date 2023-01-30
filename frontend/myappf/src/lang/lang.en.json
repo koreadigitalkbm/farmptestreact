@@ -3,6 +3,12 @@
     "LT_LOGINTITLE": "Login",
     "LT_LOGINTITLE_LOCAL": "Device Login(Local)",
     "LT_LOGINFAIL_NO": "Login failed.",
+    "LT_SOFTWAREUPDATE": "Software Update",
+    "LT_SYSTEMSETUP": "System setting",
+    "LT_CHANGELANGUAGE": "Change language.",
+    "LT_CHANGEPASSWORD": "Change the local access password.",
+    
+
     
 
     "Autocontrol": "Autocontrol",

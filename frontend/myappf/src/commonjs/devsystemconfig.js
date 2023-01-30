@@ -2,6 +2,11 @@
 
 //장비 기본 설정 파일
 module.exports = class DeviceSystemconfig {
+
+  static Clonbyjsonobj(mobj) {
+    return Object.assign(new DeviceSystemconfig(), mobj);
+  }
+
     constructor() {
       this.name = "팜스큐브시스템설정";
       this.deviceuniqid = "IFINIT";

@@ -2,6 +2,16 @@
 //일반 열거형, 상수등을 모아보자
 module.exports = class KDDefine {
 
+
+  static PModelList = [
+    'KPC200',
+    'KPC300',
+    'KPC480',
+    'VFC3300',
+  ];
+
+  
+
   static ONOFFOperationTypeEnum = Object.freeze({
     OPT_On: 201, // 작동시작
     OPT_Off: 0, // 작동 멈춤

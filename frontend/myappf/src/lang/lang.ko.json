@@ -4,7 +4,11 @@
     "LT_LOGINTITLE": "로그인",
     "LT_LOGINTITLE_LOCAL": "간편로그인(로컬)",
     "LT_LOGINFAIL_NO": "로그인에 실패하였습니다.",
-    
+    "LT_SOFTWAREUPDATE": "소프트웨어 업데이트",
+    "LT_SYSTEMSETUP": "시스템 설정",
+    "LT_CHANGELANGUAGE": "언어를 변경합니다.",
+    "LT_CHANGEPASSWORD": "로컬접속 암호를 변경합니다.",
+
 
     "Autocontrol": "자동제어",
     "BrandName": "브랜드명",
