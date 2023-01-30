@@ -71,15 +71,9 @@ export default function SetupPage(props) {
 
     console.log("SetupPage  useEffect myAppGlobal.islocal: " + myAppGlobal.islocal);
 
-    if (i18n.language === "ko-KR")
-    {
-        setlangstr(1);
-    }
-    else{
-        setlangstr(0);
-    }
+  
 
-    if (myAppGlobal.islocal === false) {
+    if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
       myAppGlobal.farmapi.getdeviceversion(true).then((ret) => {
         console.log(" get server version ret : " + ret.retMessage);
         setServerversion(ret.retMessage);
@@ -90,8 +84,22 @@ export default function SetupPage(props) {
       console.log("getdevice version ret1 : " + ret.retMessage);
       setDeviceversion(ret.retMessage);
     });
-  });
+
+
+    if (i18n.language === "ko-KR")
+    {
+        setlangstr(1);
+    }
+    else{
+        setlangstr(0);
+    }
   
+    
+
+  });
+
+
+
 
   if (serverversion > deviceversion && deviceversion > 0) {
     isupdate = true;
