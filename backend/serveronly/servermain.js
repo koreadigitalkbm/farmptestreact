@@ -3,11 +3,12 @@
 
 
 const ServerAPI = require("./serverapi");
-
+const devicesystemlog = require("../devicesystemlog");
 
 module.exports = class ServerMain {
   constructor(fversion) {
     
+    this.systemlog = new devicesystemlog();
     this.mAPI = new ServerAPI(this);
 
   }

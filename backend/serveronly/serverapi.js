@@ -12,7 +12,7 @@ module.exports = class ServerAPI {
     this.servermain = mMain;
     this.fbdatabase = null;
     this.sessionmap = new Map();
-    this.DBInterface = new DatabaseInterface();
+    this.DBInterface = new DatabaseInterface(mMain);
   }
 
   postapifordatabase(req, rsp) {
