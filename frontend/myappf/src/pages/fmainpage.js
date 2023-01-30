@@ -34,11 +34,12 @@ export default function FMainpage(props) {
     let navItems = {};
     navMenu.map((e) => (navItems[e] = t(e)));
     setNavItems(navItems);
+    console.log("-------------------------FMainpage --------------------- useEffect:");
 
     if (myAppGlobal.systeminformations == null) {
       myAppGlobal.farmapi.getSysteminformations().then((ret) => {
         myAppGlobal.systeminformations = ret.retParam;
-        console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations.Systemconfg.name);
+        console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
 
         props.onSetSysteminfo("set info");
       });
