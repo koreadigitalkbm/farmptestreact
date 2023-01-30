@@ -45,8 +45,8 @@ const ExpandMore = styled((props) => {
 export default function SetupPage(props) {
     const { t, i18n } = useTranslation();
   const [langstr, setlangstr] = React.useState('');
-  const [deviceversion, setDeviceversion] = useState(0);
-  const [serverversion, setServerversion] = useState(0);
+  const [deviceversion, setDeviceversion] = useState(null);
+  const [serverversion, setServerversion] = useState(null);
   const [expanded, setExpanded] = React.useState(false);
   let isupdate = false;
 
@@ -74,17 +74,22 @@ export default function SetupPage(props) {
   
 
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
+      if(serverversion==null )
+      {
       myAppGlobal.farmapi.getdeviceversion(true).then((ret) => {
         console.log(" get server version ret : " + ret.retMessage);
         setServerversion(ret.retMessage);
       });
     }
+    }
 
+    if(deviceversion==null )
+    {
     myAppGlobal.farmapi.getdeviceversion(false).then((ret) => {
       console.log("getdevice version ret1 : " + ret.retMessage);
       setDeviceversion(ret.retMessage);
     });
-
+  }
 
     if (i18n.language === "ko-KR")
     {
@@ -101,11 +106,11 @@ export default function SetupPage(props) {
 
 
 
-  if (serverversion > deviceversion && deviceversion > 0) {
+  if (serverversion >= deviceversion && deviceversion > 0) {
     isupdate = true;
   }
 
-  isupdate = true;
+  
 
   function updateServercode(e) {
     console.log("updateServercode : " + e.target.name);
