@@ -6,6 +6,7 @@ import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 const JukeboxTemperatureM1 = (props) => {
   const copycfg = props.initvalue;
 
+  ///수동제어 
   if(copycfg.Enb ===false)
   {
     return (
@@ -18,7 +19,7 @@ const JukeboxTemperatureM1 = (props) => {
     );
   }
 
-
+//자동제어
   return (
     <div className="auto_input">
             <div className="aut_in">
