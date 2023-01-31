@@ -2,12 +2,12 @@
 //일반 열거형, 상수등을 모아보자
 module.exports = class KDDefine {
 
-
+// 장비 모델명
   static PModelList = [
-    'KPC200',
-    'KPC300',
-    'KPC480',
-    'VFC3300',
+    'KPC200', // 식물재배기 1차 2차
+    'KPC300', // 식물재배기 교육용 3차 
+    'KPC480', // 식물재배기 연구용 3차
+    'VFC3300', // 인도어팜
   ];
 
   
