@@ -1,4 +1,3 @@
-import { Box, Button, Card, CardHeader, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography } from "@mui/material";
 
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
@@ -6,6 +5,19 @@ import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 
 const JukeboxTemperatureM1 = (props) => {
   const copycfg = props.initvalue;
+
+  if(copycfg.Enb ===false)
+  {
+    return (
+      <div className="auto_input">
+              <div className="aut_in">
+                수동제어 이름 :
+                <input type="text" key={"name" + copycfg.Uid} defaultValue={copycfg.Name} name="name" onChange={props.inputonchangeHandler} />
+              </div>
+            </div>
+    );
+  }
+
 
   return (
     <div className="auto_input">

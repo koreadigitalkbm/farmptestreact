@@ -3,14 +3,125 @@ import myAppGlobal from "../../myAppGlobal";
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
 import Autocontroleditbox from "./autocontroleditbox";
 
+import { Box, Button, Card, CardHeader, Divider, Modal, Stack, TextField, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import CardActions from "@mui/material/CardActions";
+import IconButton from "@mui/material/IconButton";
+import UpgradeIcon from "@mui/icons-material/Upgrade";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import Switch from "@mui/material/Switch";
+import Container from "@mui/material/Container";
+import { ThemeProvider } from "@mui/material/styles";
+import muiTheme from "../muiTheme";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+const theme = muiTheme;
+const commonStyles = {
+  bgcolor: "background.paper",
+  borderColor: "info.main",
+  m: 1,
+  border: 1,
+  width: "50rem",
+  height: "5rem",
+};
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 
-  
+const Autocontrolcard = (props) => {
+  const [expanded, setExpanded] = React.useState(false);
+  const mydata = props.myconfig;
+  const [autoenable, setautoenable] = React.useState(mydata.Enb);
+
+
+
+  const saveconfig=(mconfig, newstate)=>
+  {
+    myAppGlobal.farmapi.saveAutocontrolconfig(mconfig).then((ret) => {
+      console.log("Autocontrolcard  retMessage: " + ret.retMessage);
+
+      if(newstate==null)
+      {
+        alert("자동제어설정이 저장되었습니다.");
+      }
+      else{
+
+      if(newstate===true)
+      {
+        alert("자동제어가 활성화 되었습니다.");
+      }
+      else{
+        alert("자동제어가 중지되었습니다. 수동제어상태  ");
+      }
+    }
+      
+
+  });
+  }
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const handleChange = (event) => {
+    const newstate=!autoenable;
+    mydata.Enb=newstate;
+
+    saveconfig(mydata,newstate);
+    setautoenable(newstate);
+  };
+
+  return (
+    <div>
+      <Box sx={{ ...commonStyles, borderRadius: "16px" }}>
+        <ThemeProvider theme={muiTheme}>
+          <CardActions disableSpacing>
+            <LabelImportantIcon color="action" fontSize="large" />
+            <Typography variant="h5">{mydata.Name}</Typography>
+
+            <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label="자동제어사용" />
+
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <ExpandMoreIcon color="success" fontSize="large" />
+            </ExpandMore>
+            <Typography variant="h6">{autoenable === true ? "설정변경" : "수동제어"} </Typography>
+          </CardActions>
+        </ThemeProvider>
+      </Box>
+
+      <div>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} /> : ""}</div>
+
+      <div className="control_end">
+      {expanded === true ?
+            <button className="cont_save" onClick={() => saveconfig(mydata,null)} id="editcheck">
+              저장{" "}
+            </button>
+            :""}
+          </div>
+
+    </div>
+  );
+};
+
 const Autocontrolpage = (props) => {
   const [mAutolist, setUpdateauto] = useState([]);
-  const [mSelecteditem, setupselected] = useState(null);
-
-  console.log("Autocontrolpage: ");
+  
 
   useEffect(() => {
     console.log("Autocontrolpage useEffect : " + props.Systeminfo + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
@@ -23,42 +134,16 @@ const Autocontrolpage = (props) => {
     });
   }, []);
 
-  function autocontrolbox(mydata, mseldata) {
-    let autostate = <label className="auto_result"> 정지됨</label>;
-
-    if (mydata.Enb === true) {
-      let onofficon = "./image/" + (mydata.Enb ? "on" : "off") + ".png";
-
-      ///<img src={onofficon} className="onoff" />
-      autostate = <label className="auto_result"> 작동중</label>;
-    }
-
-    
-
-
-    return (
-      <div>
-        <div className="auto_seln">
-          <label className="auto_inname">{mydata.Name}</label>
-
-          {autostate}
-          <div className="auto_change">
-            <button className="change_but" onClick={() => setupselected(AutoControlconfig.deepcopy(mydata))} id="editcheck">
-              설정변경
-            </button>
-          </div>
-        </div>
-
-        <div>{mseldata != null && mseldata.Uid == mydata.Uid ? Autocontroleditbox(mseldata) : ""}</div>
-      </div>
-    );
-  }
+ 
 
   function onAdd() {}
 
+  const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
+  console.log("Autocontrolpage autoList : " + autoList.length);
+
   return (
     <div>
-      <div className="autocontroltable">{mAutolist.map((localState, index) => autocontrolbox(localState, mSelecteditem))}</div>
+      <div className="autocontroltable">{autoList}</div>
       <div className="auto">
         <div className="select_add">
           <button className="add_button" onClick={() => onAdd()}>
@@ -66,7 +151,6 @@ const Autocontrolpage = (props) => {
           </button>
         </div>
       </div>
-      
     </div>
   );
 };

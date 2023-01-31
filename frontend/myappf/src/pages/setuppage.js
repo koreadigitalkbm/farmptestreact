@@ -178,10 +178,10 @@ export default function SetupPage(props) {
             </ExpandMore>
           </CardActions>
         </ThemeProvider>
-        <Container maxWidth="sm" sx={expanded == true ? { visibility: "hidden" } : { visibility: "visible" }}>
-          <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }} />
-        </Container>
+        
       </Box>
+      {(expanded === true) ?   (<Container maxWidth="sm" >          <Box sx={{ bgcolor: "#cfe8fc", height: "50vh" }} />        </Container> ): null}
+
       <Stack spacing={0} direction="row" justifyContent="space-between">
         <Typography variant="subtitle1" sx={{ pl: 2 }}>   {t("DeviceVersion")}   </Typography>
         <Typography variant="body1" sx={{ pr: 2 }}>
