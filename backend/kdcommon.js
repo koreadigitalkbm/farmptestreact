@@ -39,6 +39,14 @@ module.exports = class KDCommon {
     return totalsec;
   }
 
+    //현재시간 분단위로
+    static getCurrentTotalminute() {
+      const clocknow = new Date();
+      const totalsec = clocknow.getHours() * 60 + clocknow.getMinutes() * 60 ;
+      return totalsec;
+    }
+
+
   static mkdirRecursive(dirPath) {
     const isExists = fs.existsSync(dirPath);
     if (!isExists) {

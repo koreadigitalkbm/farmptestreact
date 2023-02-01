@@ -50,7 +50,7 @@ module.exports = class AutoControlconfig {
       this.BValue= 1; //범위 센서값  +- 
       this.Cdir= KDDefine.SensorConditionType.SCT_UP; // 센서 조건 "up" : 설정값보다 크면(>=) 켜짐 "down"  설정값보다작으면(<=) 켜짐
 
-      this.Params=[]; // 구동기 제어시 필요한 파라메터 LED 디밍 
+      this.Params=[]; // 구동기 제어시 필요한 파라메터 LED 디밍 ,  카메라경우 매일 촬영횟수
 
 
       

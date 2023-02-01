@@ -2,7 +2,9 @@
 
 const KDCommon = require("../kdcommon");
 const AutoControlUtil = require("../../frontend/myappf/src/commonjs/autocontrolutil");
+const KDDefine          = require("../../frontend/myappf/src/commonjs/kddefine");
 const AutoControl = require("./autocontrol");
+
 
 
 module.exports = class AutoControlInterface {
@@ -14,16 +16,31 @@ module.exports = class AutoControlInterface {
     this.Autocontrolload();
   }
 
+  // 전체 자동제어목록을 확인하고 상태가 변경되면 구동기명령어를 리턴함. 
   getOpsByControls() {
     let opcmdlist = [];
     const totalsec = KDCommon.getCurrentTotalsec();
     for (const mactl of this.mAutoControllist) {
-      let mlist = mactl.getOperationsByControl(this.mMain.sensorinterface.mSensors, this.mMain.actuatorinterface.Actuators);
-      opcmdlist.push(...mlist);
+          let mlist = mactl.getOperationsByControl(this.mMain.sensorinterface.mSensors, this.mMain.actuatorinterface.Actuators);
+          opcmdlist.push(...mlist);
     }
 
     return opcmdlist;
   }
+
+  // 카메라 촬영 자동제어
+  getOpsForCamera() {
+    let opcmdlist = [];
+    const totalsec = KDCommon.getCurrentTotalsec();
+    for (const mactl of this.mAutoControllist) {
+          let mlist = mactl.getOperationsforcamera();
+          opcmdlist.push(...mlist);
+    }
+
+    return opcmdlist;
+  }
+
+
 
   //자동제어 설정변경저장하고 다시 표시함.
   AutocontrolUpdate(isonlyoneitem) {

@@ -71,7 +71,7 @@ async function devicemaintask(mainclass) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
                 for (const msensor of mainclass.sensorinterface.mSensors) {
-                  //   console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+                     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
                 }
                 sec_step++;
                 break;
@@ -109,8 +109,34 @@ async function devicemaintask(mainclass) {
 
             //서버로 보냄
             mainclass.mAPI.setsensordatatoserver(mainclass.mydeviceuniqid, curdatetime, simplesensors);
+
+            //카메라 촬영, 카메라 자동제어확인후 시간이 됬으면 촬영후 저장
+            let opcmdlist = mainclass.autocontrolinterface.getOpsForCamera();
+
+            if(opcmdlist.length >0)
+            {
+              
+              
+              const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
+              let lawimg = CameraInterface.Captureimage();
+              
+              console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
+
+
+              //로컬에 저장
+              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
+
+              //서버로 보냄
+              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
+            
+
+
+            }
+
+
           }
 
+          /*
           //한시간 단위로 먼가 처리하는 루틴
           {
             const curhour = date.getHours();
@@ -126,6 +152,8 @@ async function devicemaintask(mainclass) {
               mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
             }
           }
+*/
+
         }
       }
     }

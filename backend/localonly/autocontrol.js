@@ -173,9 +173,9 @@ module.exports = class AutoControl {
             ledstate = true;
             //console.log("-getOperationsBySpecify  ateType.AST_On : " + whiteleddev.UniqID + " Params:" + this.mConfig.Params[0]);
             // 디밍값을 켜짐시간에 합쳐서 전달
-            whitedemming = this.OnSecTime + this.mConfig.Params[0] * 10000000;
-            reddemming = this.OnSecTime + this.mConfig.Params[1] * 10000000;
-            bluedemming = this.OnSecTime + this.mConfig.Params[2] * 10000000;
+            whitedemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.mConfig.Params[0]);
+            reddemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.mConfig.Params[1]);
+            bluedemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.mConfig.Params[2]);
           } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             ledstate = false;
           }
@@ -241,13 +241,58 @@ module.exports = class AutoControl {
     return opcmdlist;
   }
 
+  getOperationsforcamera() {
+    let oplist = [];
+  //카메라는  촬영확인
+    if(this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX)
+    {
+      let timeminnow = KDCommon.getCurrentTotalminute();
+      let iscapture=false;
+      
+      
+      let starttimemin = this.mConfig.STime/60;
+
+      let ncount= this.mConfig.Params[0];
+      let intervalmin = (1440)/ncount;
+
+      for(let i=0;i<=1440 ; i+=intervalmin)
+      {
+        let timestep= ( starttimemin + i);
+
+        timestep=(timestep>=1440)? (timestep-1440): timestep;
+
+         if(timeminnow == timestep)
+         {
+          iscapture=true;
+          break;
+         }
+      }
+
+      if(iscapture === true)
+      {
+        console.log("getOperationsforcamera ---------------capture:  "+this.mConfig.Actlist[0] );
+        oplist.push(this.mConfig.Actlist[0]);
+      }
+
+      
+    }
+
+    return oplist;
+
+  }
+
   getOperationsByControl(msensors, mactuators) {
     let oplist = [];
-    // console.log( '...' )
-
+    
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
-
     let timesecnow = KDCommon.getCurrentTotalsec();
+
+    //카메라는 여기서 처리안함
+    if(this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX)
+    {
+      return oplist;
+    }
+
     if (this.isBasiccondition(timesecnow) == true) {
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY) {
         //타이머

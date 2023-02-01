@@ -12,7 +12,9 @@ export default function Autocontroleditbox(props) {
    console.log("Autocontroleditbox  name : " + copycfg.Name);
 
   function inputallchangeHandler(e) {
-    console.log("inputallchangeHandler name: " + e.target.name + " type : " + e.target.type);
+    console.log("inputallchangeHandler  11 DOnTime: " +copycfg.DOnTime);
+
+    console.log("inputallchangeHandler name: " + e.target.name + " type : " + e.target.type + " value:"+e.target.value);
     switch (e.target.type) {
       case "time":
         copycfg[e.target.name] = KDUtil.timeTosec(e.target.value);
@@ -21,6 +23,8 @@ export default function Autocontroleditbox(props) {
         copycfg[e.target.name] = e.target.value;
         break;
     }
+
+    console.log("inputallchangeHandler  22 DOnTime: " +copycfg.DOnTime);
   }
 
   const formAutoContent = () => {

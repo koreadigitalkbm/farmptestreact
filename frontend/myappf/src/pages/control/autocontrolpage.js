@@ -86,7 +86,7 @@ const Autocontrolcard = (props) => {
       <div>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} /> : ""}</div>
 
       <div className="control_end">
-        {expanded === true ? (
+        {((expanded === true) && (mydata.Enb=== true) ) ? (
           <button className="cont_save" onClick={() => saveconfig(mydata, null)} id="editcheck">
             저장{" "}
           </button>
@@ -111,7 +111,7 @@ const Autocontrolpage = (props) => {
   }, []);
 
   function onAdd() {}
-  
+
   const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
   
   return (

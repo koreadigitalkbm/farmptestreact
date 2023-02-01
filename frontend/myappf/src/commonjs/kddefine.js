@@ -121,6 +121,8 @@ module.exports = class KDDefine {
     ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED  
     ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급  
     
+    ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
+
     
     ATC_USER: 999,// 사용자지정 
     
@@ -150,6 +152,15 @@ static EVENTType = Object.freeze({
   EVT_SYSTEM: 1,// 시스템 이벤트, 기동, 에러.
   EVT_ACTUATOR: 2, //  구동기 상태변화
   EVT_AUTOCONTROL: 3, // 자동제어 변경
+      
+});
+
+//카메라 타입
+static  CameraType= Object.freeze({
+  CT_RGB: "RGBCamera", // RGB 컬러카메라
+  CT_USB: "USBCamera", // USB 타입 RGB 컬러카메라
+  CT_DEPTH: "DEPTHCamera", // 데스카메라
+  CT_IR: "IRCamera"
       
 });
 
