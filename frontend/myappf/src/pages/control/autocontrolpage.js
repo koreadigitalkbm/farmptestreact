@@ -105,7 +105,7 @@ const Autocontrolpage = (props) => {
     console.log("Autocontrolpage useEffect : " + props.Systeminfo + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
     myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
       myAppGlobal.Autocontrolcfg = ret.retParam;
-      console.log("----------------------------systeminformations auto length: " + myAppGlobal.Autocontrolcfg.length);
+      console.log("----------------------------systeminformations Autocontrolcfg: " + myAppGlobal.Autocontrolcfg);
       setUpdateauto(myAppGlobal.Autocontrolcfg);
     });
   }, []);
@@ -116,7 +116,7 @@ const Autocontrolpage = (props) => {
   {
     return null;
   }
-  
+
 
   const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
   
