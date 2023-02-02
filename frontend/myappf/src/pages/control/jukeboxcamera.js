@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 import {Button, Stack, Typography } from "@mui/material";
@@ -17,10 +17,12 @@ import KDUtil from "../../commonjs/kdutil";
 const JukeboxCamera = (props) => {
   
 let manultakefilename="devicon_0.png";
-  const [takeimageurl, settakeimageurl] = React.useState(manultakefilename);
+  const [takeimageurl, settakeimageurl] = useState(manultakefilename);
   const copycfg = props.initvalue;
 
   console.log("JukeboxCamera manultakefilename:" +manultakefilename);
+
+
 
 
   function manualtake(istake) {
@@ -40,6 +42,7 @@ let manultakefilename="devicon_0.png";
         {
         const  newurl="/cameraimage/" +myAppGlobal.logindeviceid + "/manual/"+manultakefilename;
         console.log("JukeboxCamera url:" +newurl);
+        alert("촬영되었습니다.");
         settakeimageurl(newurl);
         }
         else{

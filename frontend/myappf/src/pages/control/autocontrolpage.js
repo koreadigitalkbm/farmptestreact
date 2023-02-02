@@ -47,9 +47,9 @@ const Autocontrolcard = (props) => {
         alert("자동제어설정이 저장되었습니다.");
       } else {
         if (newstate === true) {
-          alert("자동제어가 활성화 되었습니다.");
+          alert("자동제어가 시작되었습니다. 수동제어안됨.");
         } else {
-          alert("자동제어가 중지되었습니다. 수동제어상태  ");
+          alert("자동제어가 중지되었습니다. 수동으로 제어할 수 있습니다.  ");
         }
       }
     });
