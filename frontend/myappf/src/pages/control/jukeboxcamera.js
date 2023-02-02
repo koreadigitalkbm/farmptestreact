@@ -12,34 +12,39 @@ import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
 
 import KDDefine from "../../commonjs/kddefine";
+import KDUtil from "../../commonjs/kdutil";
 
 const JukeboxCamera = (props) => {
   
-  const [takeimageurl, settakeimageurl] = React.useState("/image/devicon_0.png");
-  
+let manultakefilename="devicon_0.png";
+  const [takeimageurl, settakeimageurl] = React.useState(manultakefilename);
   const copycfg = props.initvalue;
 
-  const inputchangeHandler = (event) => {
+  console.log("JukeboxCamera manultakefilename:" +manultakefilename);
 
-    console.log("inputchangeHandler event.target.name:" +event.target.name);
-
-
-    switch (event.target.name) {
-      
-     
-      default:
-        break;
-    }
-  };
 
   function manualtake(istake) {
     
     const actuid = copycfg.Actlist[0];
     let opcmd = new ActuatorOperation(actuid, istake, 0);
-    opcmd.setoperation(KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave,0,"12399",istake);
 
-    myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {
-        settakeimageurl("/image/devicon_1.png");
+    if(istake=== true)
+    {
+        let rid=KDUtil.GetRandom10();
+        manultakefilename= "cameara_" + "m_" + rid+ ".jpg";
+    }
+    
+    opcmd.setoperation(KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave,0,manultakefilename,istake);
+     myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {
+        if(istake === true)
+        {
+        const  newurl="/cameraimage/" +myAppGlobal.logindeviceid + "/manual/"+manultakefilename;
+        console.log("JukeboxCamera url:" +newurl);
+        settakeimageurl(newurl);
+        }
+        else{
+            alert("저장되었습니다.");
+        }
     });
 
   }
@@ -50,11 +55,7 @@ const JukeboxCamera = (props) => {
     
     return (
       <Stack spacing={1}>
-        <img
-        src={takeimageurl}
-        loading="lazy"
-      />
-
+        <img    src={takeimageurl}     loading="lazy"    />
 
         <Button type="submit" variant="contained" onClick={() => manualtake(true)}>
           사진촬영

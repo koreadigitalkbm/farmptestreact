@@ -74,6 +74,17 @@ module.exports = class DatabaseInterface {
     }
   }
 
+  setimagetodb(did, dtime, cameratype, filename)
+  {
+    var sql = "INSERT INTO fjbox.cameraimages (devid, dtime,ctype,filename) VALUES (?,?,?,?)";
+    const svalues = [did, dtime, cameratype, filename];
+    this.conn.query(sql, svalues, function (error, result)
+     {
+      console.log(error);
+    });
+
+  }
+
   //카메라 촬영된 이미지 정보를 디비에 저장하고 이미지파일은 웹서비스 편하도록 리엑트 pulic 폴더에 이미지폴더에 저장
   setimagefiledata(did, dtime, cameratype, platname, filedatabase64, isetdb) {
     if(this.isconnected== false)
@@ -93,11 +104,11 @@ module.exports = class DatabaseInterface {
       if(isetdb == false)
       {
         filepath = "../frontend/myappf/public/cameraimage/" + did + "/manual/";
-        filename = "cameara_" + platname + "_" + dtime + ".jpg";
-        
-      }
-   
+        //
+        filename = platname;
 
+      }
+  
       
 
       // 디렉토리생성
@@ -111,13 +122,7 @@ module.exports = class DatabaseInterface {
 
       if(isetdb == true)
       {
-        var sql = "INSERT INTO fjbox.cameraimages (devid, dtime,ctype,filename) VALUES (?,?,?,?)";
-        const svalues = [did, dtime, cameratype, filename];
-        this.conn.query(sql, svalues, function (error, result)
-         {
-          console.log(error);
-        });
-
+            this.setimagetodb(did, dtime, cameratype, filename);
       }
 
       

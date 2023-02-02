@@ -152,14 +152,14 @@ module.exports = class ActuatorInterface {
       if(mops.Opmode == true)
       {
         const lawimg = CameraInterface.Captureimage();
-        let filename = "cameara_" + "m_" + mops.Param+ ".jpg";
-        let filepath = "../../frontend/myappf/public/cameraimage/manual/";
+        let filename =  mops.Param;
+        let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
         KDCommon.mkdirRecursive(filepath);
         filepath = filepath + filename;
         KDCommon.WritefileBase64(filepath, lawimg);
 
          //서버로 보냄
-         this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "curdatetime", 1, "554554", lawimg, false);
+         this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
             
 
 
