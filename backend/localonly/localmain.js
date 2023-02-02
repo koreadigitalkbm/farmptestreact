@@ -124,10 +124,10 @@ async function devicemaintask(mainclass) {
 
 
               //로컬에 저장
-              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
+              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg,true);
 
               //서버로 보냄
-              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
+              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg, true);
             
 
 
@@ -146,10 +146,10 @@ async function devicemaintask(mainclass) {
               let lawimg = CameraInterface.Captureimage();
 
               //로컬에 저장
-              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
+              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg,true);
 
               //서버로 보냄
-              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg);
+              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg,true);
             }
           }
 */

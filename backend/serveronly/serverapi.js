@@ -41,9 +41,9 @@ module.exports = class ServerAPI {
       case KDDefine.REQType.RT_SETDB_CAMERA:
         console.log("  camera devid:" + reqmsg.reqParam.devid);
         console.log("  camera datetime:" + reqmsg.reqParam.datetime);
-        //console.log("  camera imagedatas:" + reqmsg.reqParam.imagedatas);
+        console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
 
-        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.platname, reqmsg.reqParam.imagedatas);
+        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.platname, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
         responsemsg.IsOK = true;
 
         break;

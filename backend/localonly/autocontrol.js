@@ -252,7 +252,7 @@ module.exports = class AutoControl {
       
       let starttimemin = this.mConfig.STime/60;
 
-      let ncount= this.mConfig.Params[0];
+      let ncount= this.mConfig.DTValue;
       let intervalmin = (1440)/ncount;
 
       for(let i=0;i<=1440 ; i+=intervalmin)

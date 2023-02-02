@@ -49,11 +49,11 @@ export default class IndoorFarmAPI {
 
     try {
       resdata = await this.postData(API + "devicerequest", mReqmsg);
-      console.log(" setRequestdevice reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
+      //console.log(" setRequestdevice reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {
-      console.log(" setRequestdevice finally  : ");
+      //console.log(" setRequestdevice finally  : ");
       return resdata;
     }
   }

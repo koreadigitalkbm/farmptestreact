@@ -125,7 +125,7 @@ module.exports = class LocalAPI {
         KDCommon.Writefilejson(KDCommon.systemconfigfilename, reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
-        
+
         break;
 
       case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
@@ -197,8 +197,8 @@ module.exports = class LocalAPI {
     };
     return await this.setRequestServer(reqmsg);
   }
-
-  async setcameradatatoserver(did, dtime, ctype, pname, mimage) {
+/// issetdb 가 false 이면 db 저장안함 메뉴얼촬영 이미지 전송때  flase
+  async setcameradatatoserver(did, dtime, ctype, pname, mimage,issetdb) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
     reqmsg.reqParam = {
       devid: did,
@@ -206,6 +206,7 @@ module.exports = class LocalAPI {
       cameratype: ctype,
       platname: pname,
       imagedatas: mimage,
+      issetdbase: issetdb, 
     };
     return await this.setRequestServer(reqmsg);
   }

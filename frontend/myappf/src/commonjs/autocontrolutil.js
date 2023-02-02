@@ -109,7 +109,7 @@ module.exports = class AutoControlUtil {
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = true;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
-      m1.Cat = KDDefine.AUTOCategory.ATC_AIR; //  자동제어 분류
+      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
       m1.Actlist.push("N01C06T00"); ///환기팬
       m1.DOnTime = 3600;
       m1.DOffTime = 3600;
@@ -215,11 +215,10 @@ module.exports = class AutoControlUtil {
       m1.NOffTime = 0;
       m1.STime = 6 * 3600; //아침 6시 저녁 6시  촬영
       m1.ETime = 0;
-      m1.DTValue = 0;
+      m1.DTValue = 2; // 매일 촬영 회수를 여기다 설정   1,2,4,8  로만지정
       m1.BValue = 0;
       m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
       m1.Params.push(2);  // 일 2회
-      
       mcfglist.push(m1);
 
     }

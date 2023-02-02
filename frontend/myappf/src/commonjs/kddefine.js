@@ -17,6 +17,9 @@ module.exports = class KDDefine {
     OPT_Off: 0, // 작동 멈춤
     OPT_Timed_On: 202, // 정해진 시간동안 작동
     OPT_Driectional_On: 203, // 정해긴 방향으로 정해진 시간동안 동작
+
+    OPT_Camera_TakeSave: 1909, // 카메라촬영 및 저장 이값으로 지정
+    
   });
 
   static OPStatus = Object.freeze({
@@ -120,6 +123,7 @@ module.exports = class KDDefine {
     ACT_HEAT_COOL_FOR_FJBOX: 100, // 냉난방  
     ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED  
     ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급  
+    ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX: 103, // 환기제어, co2, 습도센서 사용 
     
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 
