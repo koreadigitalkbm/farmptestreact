@@ -106,6 +106,8 @@ const Autocontrolpage = (props) => {
     myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
       myAppGlobal.Autocontrolcfg = ret.retParam;
       console.log("----------------------------systeminformations Autocontrolcfg: " + myAppGlobal.Autocontrolcfg);
+      console.log(myAppGlobal.Autocontrolcfg);
+      
       setUpdateauto(myAppGlobal.Autocontrolcfg);
     });
   }, []);
