@@ -101,37 +101,39 @@ const Autocontrolcard = (props) => {
 const Autocontrolpage = (props) => {
   const [mAutolist, setUpdateauto] = useState([]);
 
+  console.log("----------------------------Autocontrolpage fmaininit: " + props.fmaininit);
   useEffect(() => {
     console.log("Autocontrolpage useEffect : " + props.Systeminfo + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
+    if (myAppGlobal.systeminformations != null)
+    {
     myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
       myAppGlobal.Autocontrolcfg = ret.retParam;
       console.log("----------------------------systeminformations Autocontrolcfg: " + myAppGlobal.Autocontrolcfg);
       console.log(myAppGlobal.Autocontrolcfg);
-      
       setUpdateauto(myAppGlobal.Autocontrolcfg);
     });
-  }, []);
+  }
+  }, [props.fmaininit]);
 
   function onAdd() {}
 
-  if(mAutolist.length ==0)
-  {
-    return null;
-  }
+  
 
 
   const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
   
   return (
     <div>
-      <div className="autocontroltable">{autoList}</div>
+      <div className="autocontroltable">{autoList} </div>
       <div className="auto">
         <div className="select_add">
           <button className="add_button" onClick={() => onAdd()}>
-            + 자동제어 추가
+            + 자동제어 추가 
           </button>
         </div>
       </div>
+    
+      
     </div>
   );
 };
