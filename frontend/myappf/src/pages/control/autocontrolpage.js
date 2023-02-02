@@ -112,6 +112,12 @@ const Autocontrolpage = (props) => {
 
   function onAdd() {}
 
+  if(mAutolist.length ==0)
+  {
+    return null;
+  }
+  
+
   const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
   
   return (
