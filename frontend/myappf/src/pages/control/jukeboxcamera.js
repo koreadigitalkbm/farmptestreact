@@ -15,17 +15,26 @@ import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
 
 let recenturl="";
+let togleflg=0;
 
 const JukeboxCamera = (props) => {
   let manultakefilename = "devicon_0.png";
   const [takeimageurl, settakeimageurl] = useState(manultakefilename);
   const copycfg = props.initvalue;
 
-  console.log("JukeboxCamera recenturl:" + recenturl);
+  console.log("JukeboxCamera recenturl:" + recenturl + ' togleflg:'+ togleflg + "takeimageurl : " +takeimageurl);
 
   function manualreload() {
+    if(togleflg ==0)
+    {
     settakeimageurl("empty");
+    togleflg=1;
+    }
+    else
+    {
     settakeimageurl(recenturl);
+    togleflg=0;
+    }
   
   }
   function manualtake(istake) {
