@@ -143,7 +143,7 @@ module.exports = class ActuatorInterface {
   
   }
 
-  cameraoperation(mops)
+  async cameraoperation(mops)
   {
 
       console.log("cameraoperation  Uid :  " + mops.Uid  + " Opmode:  "+ mops.Opmode + " param: "+mops.Param);
@@ -159,10 +159,8 @@ module.exports = class ActuatorInterface {
         KDCommon.WritefileBase64(filepath, lawimg);
 
          //서버로 보냄
-         this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
+         await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
             
-
-
       }
       else
       {
