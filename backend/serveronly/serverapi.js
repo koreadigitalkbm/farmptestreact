@@ -98,7 +98,7 @@ module.exports = class ServerAPI {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-               console.log("farebase i:"+i+", msgisd :"+ msgisd );
+               console.log("farebase i:"+i+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
 
               if (repsdata.length > 10) {
                 try {
@@ -106,6 +106,7 @@ module.exports = class ServerAPI {
                   responsemsg = JSON.parse(decodedStr);
 
                   i = 10000; //loop out
+                  console.log("out................ i:"+i+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
                 } catch (e) {
                   console.log("No data base64 decode error: " + e);
                 }
