@@ -31,8 +31,11 @@ const Sensorpage = () => {
 
 
         console.log(ret);
-        
 
+        if(ret.IsOK == true)
+        {
+
+          
         let sensors = ret.Sensors;
         let actuators = ret.Outputs;
         let sysevents = ret.retParam.DEvents;
@@ -79,6 +82,9 @@ const Sensorpage = () => {
            // setDailysensor(dailysensorlist);
           }
         }
+        
+        }
+
 
       });
     }, readtimemsec);
