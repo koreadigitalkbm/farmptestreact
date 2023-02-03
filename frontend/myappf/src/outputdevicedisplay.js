@@ -16,6 +16,10 @@ function outputdevbox(mydata, isonlystatus, index) {
   let ismanual;
 
   //console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
+  if(myAppGlobal.systeminformations.Actuators== null)
+  {
+    return null;
+  }
 
   let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid);
   let devicon = "./image/devicon_" + actinfo.HWType + ".png";
