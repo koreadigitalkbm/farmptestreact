@@ -155,7 +155,7 @@ module.exports = class ServerAPI {
 
 
       rsp.send(JSON.stringify(responsemsg));
-      //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
+      console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
     }
 
     
