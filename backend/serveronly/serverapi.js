@@ -87,7 +87,7 @@ module.exports = class ServerAPI {
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
       const ismyreqid="clear"+reqmsg.Time;
-      repskey.set(ismyreqid);
+      //repskey.set(ismyreqid);
       reqkey.set(objJsonB64encode);
 
       repskey.once('value', (snapshot) => {
