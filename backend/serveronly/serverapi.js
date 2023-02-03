@@ -131,6 +131,7 @@ module.exports = class ServerAPI {
             }
           })
           .catch((error) => {
+            console.log("fb error : ");
             console.error(error);
           });
       }
