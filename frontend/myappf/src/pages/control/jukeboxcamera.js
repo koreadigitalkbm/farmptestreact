@@ -15,6 +15,7 @@ import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
 
 let recenturl="";
+let recenturl_thum="";
 let togleflg=0;
 
 const JukeboxCamera = (props) => {
@@ -27,7 +28,7 @@ const JukeboxCamera = (props) => {
   function manualreload() {
     if(togleflg ==0)
     {
-    settakeimageurl("empty");
+    settakeimageurl(recenturl_thum);
     togleflg=1;
     }
     else
@@ -52,6 +53,7 @@ const JukeboxCamera = (props) => {
         const newurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/manual/" + manultakefilename;
         console.log("JukeboxCamera url:" + newurl);
         recenturl = newurl;
+        recenturl_thum=newurl.replace(".jpg", "_thum.jpg");
      //   alert("촬영되었습니다.");
         settakeimageurl(newurl);
         

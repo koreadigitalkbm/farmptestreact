@@ -11,10 +11,10 @@ const SERVERAPI_URL = "http://52.79.226.255/api/";
 
 module.exports = class LocalAPI {
   constructor(fversion, mmain) {
-    this.mMain= mmain;
+    this.mMain = mmain;
 
     this.fbdatabase = null;
-    
+
     this.platformversion = fversion;
     this.mylocaldeviceid = this.mMain.mydeviceuniqid;
   }
@@ -150,20 +150,14 @@ module.exports = class LocalAPI {
     console.log("---------------------------------firebasedbsetup  mylocaldeviceid: " + this.mylocaldeviceid);
 
     this.fbdatabase = admin.database();
-
     const reqkeystr = "IFDevices/" + this.mylocaldeviceid + "/request";
-    
-
     const fblocalrequst = this.fbdatabase.ref(reqkeystr);
-
 
     fblocalrequst.on("value", (snapshot) => {
       const data = snapshot.val();
       //console.log("frebase frrequest local on event... data: " + data);
 
       try {
-        
-        
         const decodedStr = Buffer.from(data, "base64");
         const reqmsg = JSON.parse(decodedStr);
         const rspmsg = this.messageprocessing(reqmsg);
@@ -204,8 +198,8 @@ module.exports = class LocalAPI {
     };
     return await this.setRequestServer(reqmsg);
   }
-/// issetdb 가 false 이면 db 저장안함 메뉴얼촬영 이미지 전송때  flase
-  async setcameradatatoserver(did, dtime, ctype, pname, mimage,issetdb) {
+  /// issetdb 가 false 이면 db 저장안함 메뉴얼촬영 이미지 전송때  flase
+  async setcameradatatoserver(did, dtime, ctype, pname, mimage, issetdb) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
     reqmsg.reqParam = {
       devid: did,
@@ -213,7 +207,7 @@ module.exports = class LocalAPI {
       cameratype: ctype,
       platname: pname,
       imagedatas: mimage,
-      issetdbase: issetdb, 
+      issetdbase: issetdb,
     };
     return await this.setRequestServer(reqmsg);
   }

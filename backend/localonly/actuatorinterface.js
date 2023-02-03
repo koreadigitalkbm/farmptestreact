@@ -157,6 +157,9 @@ module.exports = class ActuatorInterface {
         KDCommon.mkdirRecursive(filepath);
         filepath = filepath + filename;
         KDCommon.WritefileBase64(filepath, lawimg);
+        /// 썸네일 이미지도 만들자 나중에
+        filepath=filepath.replace(".jpg", "_thum.jpg");
+        KDCommon.WritefileBase64(filepath, lawimg);
 
          //서버로 보냄
          await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
