@@ -68,7 +68,7 @@ module.exports = class ServerAPI {
 
     let reqkey;
     let repskey;
-    let repsdata;
+    
 
     //   for (const [key, value] of this.sessionmap) {
     //     console.log("map key:"+ key + ", vlaue :" +value);
@@ -92,7 +92,7 @@ module.exports = class ServerAPI {
 
       repskey.once('value', (snapshot) => {
         
-        const data = snapshot.val();
+        const repsdata = snapshot.val();
        
        if (repsdata.length > 10) {
         let decodedStr = Buffer.from(repsdata, "base64");
