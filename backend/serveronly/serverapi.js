@@ -86,7 +86,8 @@ module.exports = class ServerAPI {
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
-      repskey.set("clear");
+      const ismyreqid="clear"+reqmsg.Time;
+      repskey.set(ismyreqid);
       reqkey.set(objJsonB64encode);
 
       //2초간 기다림
@@ -100,7 +101,7 @@ module.exports = class ServerAPI {
 
                console.log("farebase i:"+i+", msgisd :"+ msgisd  + " time:" + reqmsg.Time);
 
-              if (repsdata.length > 10) {
+              if (repsdata.length > 20) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
@@ -116,9 +117,11 @@ module.exports = class ServerAPI {
               }
               else
               {
-                console.log("no ................ repsdata:"+repsdata+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
-                if(repsdata==="clear")
+                
+                if(repsdata!=ismyreqid)
                 {
+                  console.log("no ................ repsdata:"+repsdata+", ismyreqid :"+ ismyreqid  + + " time:" + reqmsg.Time);
+                  
                   i = 10000; //loop out
                 }
               }
