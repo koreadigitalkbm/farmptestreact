@@ -82,7 +82,7 @@ module.exports = class ServerAPI {
       console.log("session not same ....");
     } else {
       reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
-      repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response");
+      repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
@@ -93,7 +93,13 @@ module.exports = class ServerAPI {
       repskey.once('value', (snapshot) => {
         
         const data = snapshot.val();
-       console.log("server on event... data: " + data);
+       
+       if (repsdata.length > 10) {
+        let decodedStr = Buffer.from(repsdata, "base64");
+        responsemsg = JSON.parse(decodedStr);
+        console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " time:" + reqmsg.Time);
+
+       }
 
       });
 

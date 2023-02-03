@@ -152,20 +152,23 @@ module.exports = class LocalAPI {
     this.fbdatabase = admin.database();
 
     const reqkeystr = "IFDevices/" + this.mylocaldeviceid + "/request";
-    const reskeystr = "IFDevices/" + this.mylocaldeviceid + "/response";
+    
 
     const fblocalrequst = this.fbdatabase.ref(reqkeystr);
-    const fblocalresponse = this.fbdatabase.ref(reskeystr);
+
 
     fblocalrequst.on("value", (snapshot) => {
       const data = snapshot.val();
       //console.log("frebase frrequest local on event... data: " + data);
 
       try {
+        const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
+        const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         let decodedStr = Buffer.from(data, "base64");
         var reqmsg = JSON.parse(decodedStr);
         let rspmsg = this.messageprocessing(reqmsg);
         let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+
         fblocalresponse.set(objJsonB64encode);
         //console.log("frebase response set: " +objJsonB64encode);
       } catch (e) {
