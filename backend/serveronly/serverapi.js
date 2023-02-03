@@ -86,7 +86,7 @@ module.exports = class ServerAPI {
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       //응답메시지를 먼저지우고
-      repskey.set("");
+      repskey.set("clear");
       reqkey.set(objJsonB64encode);
 
       //2초간 기다림
@@ -98,19 +98,26 @@ module.exports = class ServerAPI {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-               console.log("farebase i:"+i+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
+               console.log("farebase i:"+i+", msgisd :"+ msgisd  + " time:" + reqmsg.Time);
 
               if (repsdata.length > 10) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
 
-                  i = 10000; //loop out
                   console.log("out................ i:"+i+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
+
+                  i = 10000; //loop out
+                  
                 } catch (e) {
                   console.log("No data base64 decode error: " + e);
                 }
               }
+              else
+              {
+                console.log("no ................ repsdata:"+repsdata+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
+              }
+
             } else {
               console.log("No data available");
             }
