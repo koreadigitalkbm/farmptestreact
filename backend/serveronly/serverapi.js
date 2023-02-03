@@ -101,7 +101,7 @@ module.exports = class ServerAPI {
         responsemsg = JSON.parse(decodedStr);
         console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
         rsp.send(JSON.stringify(responsemsg));
-        console.log(rsp);
+        
 
        }
 
