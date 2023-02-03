@@ -90,6 +90,14 @@ module.exports = class ServerAPI {
       repskey.set(ismyreqid);
       reqkey.set(objJsonB64encode);
 
+      repskey.once('value', (snapshot) => {
+        
+        const data = snapshot.val();
+       console.log("server on event... data: " + data);
+
+      });
+
+      /*
       //2초간 기다림
       for (var i = 0; i < 10; i++) {
         await KDCommon.delay(200);
@@ -135,6 +143,7 @@ module.exports = class ServerAPI {
             console.error(error);
           });
       }
+      */
 
 
       rsp.send(JSON.stringify(responsemsg));

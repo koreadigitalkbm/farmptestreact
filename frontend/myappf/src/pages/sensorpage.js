@@ -3,11 +3,13 @@ import Sensordisplay from "../sensordisplay";
 import myAppGlobal from "../myAppGlobal";
 import Outputdevicedisplay from "../outputdevicedisplay";
 import systemeventdisplay from "../systemeventdisplay";
+import KDUtil from "../commonjs/kdutil";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
 let eventlist = [];
 let dailysensorlist = [];
+let issetreq = false;
 
 const Sensorpage = () => {
   const [msensorsarray, setSensors] = useState([]);
@@ -17,20 +19,33 @@ const Sensorpage = () => {
   console.log("-------------------------Sensorpage  ---------------------");
 
   useEffect(() => {
-    let interval = null;
+    
     //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
     let readtimemsec = 1000;
-    console.log("-------------------------Sensorpage  useEffect---------------------");
+    const rid=KDUtil.GetRandom10();
+    console.log("-------------------------Sensorpage  useEffect---------------------issetreq:"+issetreq);
     //setEvents(eventlist);
     
     if (myAppGlobal.islocal == false || myAppGlobal.islocal == "false") {
       readtimemsec = 3000;
     }
-    interval = setInterval(() => {
+    
+
+    const interval = setInterval(() => {
+
+      
+      console.log("-------------------------Sensorpage  setInterval--------------------- issetreqend:" + issetreq );
+      if(issetreq==  true)
+      {
+        console.log("-------------------------Sensorpage  return :" );
+        return ;
+      }
+
+      issetreq=true;
       myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
 
 
-        console.log(ret);
+        //console.log(ret);
 
         if(ret.IsOK == true)
         {
@@ -83,12 +98,13 @@ const Sensorpage = () => {
           }
         }
         
+        issetreq=false;
         }
-
-
       });
     }, readtimemsec);
 
+
+    console.log("-------------------------Sensorpage  finish--------------------- out:" + interval );
     return () => clearInterval(interval);
   }, []);
 
