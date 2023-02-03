@@ -98,7 +98,7 @@ module.exports = class ServerAPI {
             if (snapshot.exists()) {
               repsdata = snapshot.val();
 
-              // console.log("farebase i:"+i+", repsdatalenght :"+ repsdata.length  );
+               console.log("farebase i:"+i+", msgisd :"+ msgisd );
 
               if (repsdata.length > 10) {
                 try {
