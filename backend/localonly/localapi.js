@@ -172,8 +172,8 @@ module.exports = class LocalAPI {
         const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
         const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         fblocalresponse.set(objJsonB64encode);
-        
-        console.log("frebase response set: " +objJsonB64encode);
+
+        //console.log("frebase response set: " +objJsonB64encode);
       } catch (e) {
         console.log("firebasedbsetup error: " + e);
 
