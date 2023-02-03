@@ -94,7 +94,7 @@ module.exports = class ServerAPI {
         
         const repsdata = snapshot.val();
        
-        console.log(repsdata);
+//        console.log(repsdata);
 
        if (repsdata!=null) {
         const decodedStr = Buffer.from(repsdata, "base64");

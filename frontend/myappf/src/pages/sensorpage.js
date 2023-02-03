@@ -38,7 +38,7 @@ const Sensorpage = () => {
       if(issetreq==  true)
       {
         console.log("-------------------------Sensorpage  return :" );
-        return ;
+     //   return ;
       }
 
       issetreq=true;
