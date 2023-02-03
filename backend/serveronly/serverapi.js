@@ -94,6 +94,7 @@ module.exports = class ServerAPI {
         
         const repsdata = snapshot.val();
        
+        console.log(repsdata);
        if (repsdata.length > 10) {
         let decodedStr = Buffer.from(repsdata, "base64");
         responsemsg = JSON.parse(decodedStr);
