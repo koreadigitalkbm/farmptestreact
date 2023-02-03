@@ -108,6 +108,7 @@ module.exports = class ServerAPI {
                   console.log("out................ i:"+i+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
 
                   i = 10000; //loop out
+                  rsp.send(JSON.stringify(responsemsg));
                   
                 } catch (e) {
                   console.log("No data base64 decode error: " + e);
@@ -116,6 +117,10 @@ module.exports = class ServerAPI {
               else
               {
                 console.log("no ................ repsdata:"+repsdata+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
+                if(repsdata==="clear")
+                {
+                  i = 10000; //loop out
+                }
               }
 
             } else {
@@ -130,7 +135,7 @@ module.exports = class ServerAPI {
       //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
     }
 
-    rsp.send(JSON.stringify(responsemsg));
+    
   }
 
   //////////////////////
