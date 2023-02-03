@@ -97,9 +97,10 @@ module.exports = class ServerAPI {
         console.log(repsdata);
 
        if (repsdata!=null) {
-        let decodedStr = Buffer.from(repsdata, "base64");
+        const decodedStr = Buffer.from(repsdata, "base64");
         responsemsg = JSON.parse(decodedStr);
         console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " time:" + reqmsg.Time);
+        rsp.send(JSON.stringify(responsemsg));
 
        }
 
@@ -154,7 +155,7 @@ module.exports = class ServerAPI {
       */
 
 
-      rsp.send(JSON.stringify(responsemsg));
+      //rsp.send(JSON.stringify(responsemsg));
       console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
     }
 
