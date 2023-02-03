@@ -8,7 +8,7 @@ const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
 
 module.exports = class ServerAPI {
-  constructor(fversion,mMain) {
+  constructor(fversion, mMain) {
     this.platformversion = fversion;
     this.servermain = mMain;
     this.fbdatabase = null;
@@ -61,14 +61,10 @@ module.exports = class ServerAPI {
 
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordevice(req, rsp) {
-    let jsonstr = JSON.stringify(req.body);
-    let reqmsg = JSON.parse(jsonstr);
+    const jsonstr = JSON.stringify(req.body);
+    const reqmsg = JSON.parse(jsonstr);
     //기본 nak 메시지로 만듬.
     let responsemsg = new responseMessage();
-
-    let reqkey;
-    let repskey;
-    
 
     //   for (const [key, value] of this.sessionmap) {
     //     console.log("map key:"+ key + ", vlaue :" +value);
@@ -81,30 +77,23 @@ module.exports = class ServerAPI {
     if (sid != msgisd) {
       console.log("session not same ....");
     } else {
-      reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
-      repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
+      const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
+      const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
-      //응답메시지를 먼저지우고
-      const ismyreqid="clear"+reqmsg.Time;
-      //repskey.set(ismyreqid);
       reqkey.set(objJsonB64encode);
 
-      repskey.once('value', (snapshot) => {
-        
+      // 이벤트 리스너 한번만
+      repskey.once("value", (snapshot) => {
         const repsdata = snapshot.val();
-       
-//        console.log(repsdata);
+        //        console.log(repsdata);
 
-       if (repsdata!=null) {
-        const decodedStr = Buffer.from(repsdata, "base64");
-        responsemsg = JSON.parse(decodedStr);
-        console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
-        rsp.send(JSON.stringify(responsemsg));
-        
-
-       }
-
+        if (repsdata != null) {
+          const decodedStr = Buffer.from(repsdata, "base64");
+          responsemsg = JSON.parse(decodedStr);
+          console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
+          rsp.send(JSON.stringify(responsemsg));
+        }
       });
 
       /*
@@ -155,12 +144,9 @@ module.exports = class ServerAPI {
       }
       */
 
-
       //rsp.send(JSON.stringify(responsemsg));
-      console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
+      //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
     }
-
-    
   }
 
   //////////////////////
@@ -199,9 +185,7 @@ module.exports = class ServerAPI {
       }
 
       rspmsg.IsOK = true;
-    }
-    else if(reqmsg.reqType == KDDefine.REQType.RT_GETVERSION)
-    {
+    } else if (reqmsg.reqType == KDDefine.REQType.RT_GETVERSION) {
       rspmsg.retMessage = this.platformversion;
       rspmsg.IsOK = true;
     }

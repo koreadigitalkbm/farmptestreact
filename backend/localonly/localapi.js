@@ -169,6 +169,7 @@ module.exports = class LocalAPI {
         const rspmsg = this.messageprocessing(reqmsg);
         const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
 
+        //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
         const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
         const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         fblocalresponse.set(objJsonB64encode);
