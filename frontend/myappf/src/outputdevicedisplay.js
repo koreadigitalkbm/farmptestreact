@@ -16,7 +16,7 @@ function outputdevbox(mydata, isonlystatus, index) {
   let ismanual;
 
   //console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
-  if(myAppGlobal.systeminformations.Actuators== null)
+  if(myAppGlobal.systeminformations == null)
   {
     return null;
   }
