@@ -23,8 +23,8 @@ const Sensorpage = () => {
     console.log("-------------------------Sensorpage  useEffect---------------------");
     //setEvents(eventlist);
     
-    if (myAppGlobal.islocal == false) {
-      readtimemsec = 2000;
+    if (myAppGlobal.islocal == false || myAppGlobal.islocal == "false") {
+      readtimemsec = 3000;
     }
     interval = setInterval(() => {
       myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
