@@ -99,8 +99,9 @@ module.exports = class ServerAPI {
        if (repsdata!=null) {
         const decodedStr = Buffer.from(repsdata, "base64");
         responsemsg = JSON.parse(decodedStr);
-        console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " time:" + reqmsg.Time);
+        console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
         rsp.send(JSON.stringify(responsemsg));
+        console.log(rsp);
 
        }
 
