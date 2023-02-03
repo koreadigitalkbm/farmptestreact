@@ -101,15 +101,15 @@ module.exports = class ServerAPI {
 
                console.log("farebase i:"+i+", msgisd :"+ msgisd  + " time:" + reqmsg.Time);
 
-              if (repsdata.length > 20) {
+              if (repsdata.length > 30) {
                 try {
                   let decodedStr = Buffer.from(repsdata, "base64");
                   responsemsg = JSON.parse(decodedStr);
 
-                  console.log("out................ i:"+i+", msgisd :"+ msgisd  + + " time:" + reqmsg.Time);
+                  console.log("out success................ i:"+i+", msgisd :"+ msgisd  +  " time:" + reqmsg.Time);
 
                   i = 10000; //loop out
-                  rsp.send(JSON.stringify(responsemsg));
+                  
                   
                 } catch (e) {
                   console.log("No data base64 decode error: " + e);
@@ -120,8 +120,8 @@ module.exports = class ServerAPI {
                 
                 if(repsdata!=ismyreqid)
                 {
-                  console.log("no ................ repsdata:"+repsdata+", ismyreqid :"+ ismyreqid  + + " time:" + reqmsg.Time);
-                  
+                  console.log("no ................ repsdata:"+repsdata+", ismyreqid :"+ ismyreqid  +  " time:" + reqmsg.Time);
+
                   i = 10000; //loop out
                 }
               }
@@ -135,6 +135,8 @@ module.exports = class ServerAPI {
           });
       }
 
+
+      rsp.send(JSON.stringify(responsemsg));
       //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
     }
 
