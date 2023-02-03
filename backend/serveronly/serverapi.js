@@ -95,7 +95,8 @@ module.exports = class ServerAPI {
         const repsdata = snapshot.val();
        
         console.log(repsdata);
-       if (repsdata.length > 10) {
+
+       if (repsdata!=null) {
         let decodedStr = Buffer.from(repsdata, "base64");
         responsemsg = JSON.parse(decodedStr);
         console.log("responsemsg success................ :"+", msgisd :"+ msgisd  +  " time:" + reqmsg.Time);
