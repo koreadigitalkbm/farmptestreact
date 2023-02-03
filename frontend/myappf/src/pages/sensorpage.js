@@ -28,6 +28,11 @@ const Sensorpage = () => {
     }
     interval = setInterval(() => {
       myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
+
+
+        console.log(ret);
+        
+
         let sensors = ret.Sensors;
         let actuators = ret.Outputs;
         let sysevents = ret.retParam.DEvents;
