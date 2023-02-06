@@ -9,6 +9,17 @@
     "LT_CHANGELANGUAGE": "언어를 변경합니다.",
     "LT_CHANGEPASSWORD": "로컬접속 암호를 변경합니다.",
 
+        
+    "LT_ANAME_DEFULT": "자동제어",
+    "LT_ANAME_TEMP": "온도제어(냉난방)",
+    "LT_ANAME_WATER": "관수제어(타이머)",
+    "LT_ANAME_LED": "광량제어(3색)",
+    "LT_ANAME_AIR": "환기제어환기제어(CO2,습도)",
+    "LT_ANAME_CAMERA": "사진촬영(RGB)",
+
+
+
+
 
     "Autocontrol": "자동제어",
     "BrandName": "브랜드명",

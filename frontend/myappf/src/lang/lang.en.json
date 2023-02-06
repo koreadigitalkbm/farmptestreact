@@ -10,6 +10,15 @@
     
 
     
+    "LT_ANAME_DEFULT": "Automatic Control",
+    "LT_ANAME_TEMP": "Temperature Control",
+    "LT_ANAME_WATER": "Water Supply(Timer)",
+    "LT_ANAME_LED": "LED Control(3Color)",
+    "LT_ANAME_AIR": "Air Circulation",
+    "LT_ANAME_CAMERA": "Taking Pictures(RGB)",
+
+
+    
 
     "Autocontrol": "Autocontrol",
     "BrandName": "Brand name",

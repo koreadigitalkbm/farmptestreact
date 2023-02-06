@@ -12,6 +12,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "../muiTheme";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { useTranslation } from "react-i18next";
 
 const commonStyles = {
   bgcolor: "background.paper",
@@ -100,20 +101,34 @@ const Autocontrolcard = (props) => {
 };
 
 const Autocontrolpage = (props) => {
+  const { t } = useTranslation();
   const [mAutolist, setUpdateauto] = useState([]);
 
   console.log("----------------------------Autocontrolpage fmaininit: " + props.fmaininit);
+
   useEffect(() => {
     console.log("Autocontrolpage useEffect  length: " + mAutolist.length + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
 
     if (myAppGlobal.systeminformations != null) {
       if (myAppGlobal.Autocontrolcfg != null) {
+        myAppGlobal.Autocontrolcfg.map(function (item) {
+          if (item.Lid != null) {
+            item.Name = t(item.Lid);
+          }
+        });
         setUpdateauto(myAppGlobal.Autocontrolcfg);
       } else {
         myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
           myAppGlobal.Autocontrolcfg = ret.retParam;
+
+          myAppGlobal.Autocontrolcfg.map(function (item) {
+            if (item.Lid != null) {
+              item.Name = t(item.Lid);
+            }
+          });
+
           console.log("----------------------------systeminformations Autocontrolcfg: " + myAppGlobal.Autocontrolcfg);
-          console.log(myAppGlobal.Autocontrolcfg);
+          //          console.log(myAppGlobal.Autocontrolcfg);
           setUpdateauto(myAppGlobal.Autocontrolcfg);
         });
       }

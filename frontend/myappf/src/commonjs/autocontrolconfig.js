@@ -17,6 +17,7 @@ module.exports = class AutoControlconfig {
       //자동제어 고유id 자동생성
       this.Uid= "AID"+ Math.random().toString(36).substr(2, 16);
       this.Name = "자동제어";
+      this.Lid= null;// 자동제어 고정일때 다국어지원하기 위해 넣음 사용자제어일경우  null로 지정
       this.Enb=false; // ture: 자동 false: 수동(작동중지)
       
       this.AType=KDDefine.AUTOType.ACM_TIMER_ONLY_DAY; // ture: 타이머제어(시간) false: 센서제어
