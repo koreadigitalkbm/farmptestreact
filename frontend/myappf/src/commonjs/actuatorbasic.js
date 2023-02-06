@@ -211,8 +211,8 @@ module.exports =  class ActuatorBasic{
 
             let act1 = new ActuatorBasic("구동기1",0);
             let act2 = new ActuatorBasic("구동기2",1);
-            actinfolist.push(act1);
-            actinfolist.push(act2);
+            mcfglist.push(act1);
+            mcfglist.push(act2);
             
 
           }

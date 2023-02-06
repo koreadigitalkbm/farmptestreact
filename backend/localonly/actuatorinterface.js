@@ -7,6 +7,7 @@ const SystemEvent = require("../../frontend/myappf/src/commonjs/systemevent");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("../kdcommon");
 
+const CameraInterface = require("./camerainterface");
 
 
 
@@ -131,16 +132,58 @@ module.exports = class ActuatorInterface {
     }
   }
   setACToperation(mloperation, opmode) {
+
+    
+
     for (const actd of this.Actuators) {
       if (actd.UniqID === mloperation.Uid) {
         actd.AOperation.setoperation(mloperation.Opcmd, mloperation.Timesec, mloperation.Param, opmode);
       }
     }
+  
+  }
+
+  async cameraoperation(mops)
+  {
+
+      console.log("cameraoperation  Uid :  " + mops.Uid  + " Opmode:  "+ mops.Opmode + " param: "+mops.Param);
+
+      //사진촬영
+      if(mops.Opmode == true)
+      {
+        const lawimg = CameraInterface.Captureimage();
+        let filename =  mops.Param;
+        let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
+        KDCommon.mkdirRecursive(filepath);
+        filepath = filepath + filename;
+        KDCommon.WritefileBase64(filepath, lawimg);
+        /// 썸네일 이미지도 만들자 나중에
+        filepath=filepath.replace(".jpg", "_thum.jpg");
+        KDCommon.WritefileBase64(filepath, lawimg);
+
+         //서버로 보냄
+         await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
+            
+      }
+      else
+      {
+
+      }
+
   }
 
   // 수동제어
   setoperationmanual(manualoperation) {
-    this.setACToperation(manualoperation, "MA");
+
+    //카메라 촬영 별도로
+    if(manualoperation.Opcmd == KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave)
+    {
+        this.cameraoperation(manualoperation);
+    }
+    else{
+      this.setACToperation(manualoperation, "MA");
+    }
+    
   }
   //자동제어
   setoperationAuto(autooperationlist) {

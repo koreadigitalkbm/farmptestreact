@@ -13,7 +13,6 @@ import muiTheme from "../muiTheme";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-
 const commonStyles = {
   bgcolor: "background.paper",
   borderColor: "info.main",
@@ -45,11 +44,13 @@ const Autocontrolcard = (props) => {
 
       if (newstate == null) {
         alert("자동제어설정이 저장되었습니다.");
+        //다음페이지이동시에 자동제어 설정을 다시 읽어올수 있도록 전역변수 초기화
+        myAppGlobal.Autocontrolcfg = null;
       } else {
         if (newstate === true) {
-          alert("자동제어가 활성화 되었습니다.");
+          alert("자동제어가 시작되었습니다. 수동으로 제어할 수 없습니다. ");
         } else {
-          alert("자동제어가 중지되었습니다. 수동제어상태  ");
+          alert("자동제어가 중지되었습니다. 수동으로 제어할 수 있습니다. ");
         }
       }
     });
@@ -86,7 +87,7 @@ const Autocontrolcard = (props) => {
       <div>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} /> : ""}</div>
 
       <div className="control_end">
-        {expanded === true ? (
+        {expanded === true && mydata.Enb === true ? (
           <button className="cont_save" onClick={() => saveconfig(mydata, null)} id="editcheck">
             저장{" "}
           </button>
@@ -101,22 +102,31 @@ const Autocontrolcard = (props) => {
 const Autocontrolpage = (props) => {
   const [mAutolist, setUpdateauto] = useState([]);
 
+  console.log("----------------------------Autocontrolpage fmaininit: " + props.fmaininit);
   useEffect(() => {
-    console.log("Autocontrolpage useEffect : " + props.Systeminfo + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
-    myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
-      myAppGlobal.Autocontrolcfg = ret.retParam;
-      console.log("----------------------------systeminformations auto length: " + myAppGlobal.Autocontrolcfg.length);
-      setUpdateauto(myAppGlobal.Autocontrolcfg);
-    });
-  }, []);
+    console.log("Autocontrolpage useEffect  length: " + mAutolist.length + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
+
+    if (myAppGlobal.systeminformations != null) {
+      if (myAppGlobal.Autocontrolcfg != null) {
+        setUpdateauto(myAppGlobal.Autocontrolcfg);
+      } else {
+        myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
+          myAppGlobal.Autocontrolcfg = ret.retParam;
+          console.log("----------------------------systeminformations Autocontrolcfg: " + myAppGlobal.Autocontrolcfg);
+          console.log(myAppGlobal.Autocontrolcfg);
+          setUpdateauto(myAppGlobal.Autocontrolcfg);
+        });
+      }
+    }
+  }, [props.fmaininit, mAutolist]);
 
   function onAdd() {}
-  
+
   const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
-  
+
   return (
     <div>
-      <div className="autocontroltable">{autoList}</div>
+      <div className="autocontroltable">{autoList} </div>
       <div className="auto">
         <div className="select_add">
           <button className="add_button" onClick={() => onAdd()}>

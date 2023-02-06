@@ -46,7 +46,7 @@ module.exports = class AutoControl {
       onsectime = this.mConfig.NOnTime;
     }
 
-    this.OnSecTime = onsectime;
+    this.OnSecTime = Number(onsectime);
 
     if (offsectime == 0) {
       if (this.PWMonoffstate == false) {
@@ -63,7 +63,7 @@ module.exports = class AutoControl {
       }
 
       if (this.PWMonoffstate == false) {
-        if (daytotalsec > this.PWMLasttoltalsec + offsectime) {
+        if (daytotalsec > Number(this.PWMLasttoltalsec) + Number(offsectime)) {
           this.PWMLasttoltalsec = daytotalsec;
           this.PWMonoffstate = true;
           //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
@@ -71,7 +71,7 @@ module.exports = class AutoControl {
           return KDDefine.AUTOStateType.AST_On;
         }
       } else {
-        if (daytotalsec > this.PWMLasttoltalsec + onsectime) {
+        if (daytotalsec > Number(this.PWMLasttoltalsec) + Number(onsectime)) {
           this.PWMLasttoltalsec = daytotalsec;
           this.PWMonoffstate = false;
           console.log("-isTimercondition off : " + daytotalsec);
@@ -96,24 +96,42 @@ module.exports = class AutoControl {
     }
     if (currsensor == null) {
       //해당센서 없음
-      console.log("getStateBySensorcondition no sensor : " + msensors.length);
+      console.log("getStateBySensorcondtion no sensor : " + msensors.length);
 
       return KDDefine.AUTOStateType.AST_ERROR;
     } else {
       const daytotalsec = KDCommon.getCurrentTotalsec();
       let upvalue;
       let downvalue;
+      let targetvalue;
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
-        upvalue = this.mConfig.DTValue + this.mConfig.BValue;
-        downvalue = this.mConfig.DTValue - this.mConfig.BValue;
+        targetvalue = Number(this.mConfig.DTValue);
       } else {
-        upvalue = this.mConfig.NTValue + this.mConfig.BValue;
-        downvalue = this.mConfig.NTValue - this.mConfig.BValue;
+        targetvalue = Number(this.mConfig.NTValue);
       }
+      upvalue = targetvalue + Number(this.mConfig.BValue);
+      downvalue = targetvalue - Number(this.mConfig.BValue);
 
-      //console.log("getStateBySensorcondition  upvalue : " + upvalue + " ,downvalue: " + downvalue);
+      console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
-      if (KDDefine.SensorConditionType.SCT_UP == this.mConfig.Cdir) {
+      //냉난방 동시제어일때
+      if (KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE == this.mConfig.Cdir) {
+        if (currsensor.value <= downvalue) {
+          //히터 켬
+          currentstate = KDDefine.AUTOStateType.AST_On;
+        } else if (currsensor.value > upvalue) {
+          //냉방 켬
+          currentstate = KDDefine.AUTOStateType.AST_Off;
+        } else {
+          if (currsensor.value <= targetvalue) {
+            //냉방끔
+            currentstate = KDDefine.AUTOStateType.AST_Down_Idle;
+          } else if (currsensor.value > targetvalue) {
+            //히터 끔
+            currentstate = KDDefine.AUTOStateType.AST_Up_Idle;
+          }
+        }
+      } else if (KDDefine.SensorConditionType.SCT_UP == this.mConfig.Cdir) {
         if (currsensor.value >= upvalue) {
           currentstate = KDDefine.AUTOStateType.AST_On;
         } else if (currsensor.value < downvalue) {
@@ -136,12 +154,19 @@ module.exports = class AutoControl {
     return false;
   }
 
+  isOperationsBySpecify() {
+    switch (this.mConfig.Cat) {
+      case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
+      case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   ///장비고정이고 특별히 제어되는것은 여기서
   getOperationsBySpecify(mactlist, currentstate) {
     let opcmdlist = [];
-
-    
-
 
     switch (this.mConfig.Cat) {
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
@@ -171,19 +196,19 @@ module.exports = class AutoControl {
 
           if (currentstate == KDDefine.AUTOStateType.AST_On) {
             ledstate = true;
-            //console.log("-getOperationsBySpecify  ateType.AST_On : " + whiteleddev.UniqID + " Params:" + this.mConfig.Params[0]);
+            //console.log("-getOperationsBySpcify  ateType.AST_On : " + whiteleddev.UniqID + " Params:" + this.mConfig.Params[0]);
             // 디밍값을 켜짐시간에 합쳐서 전달
-            whitedemming = this.OnSecTime + this.mConfig.Params[0] * 10000000;
-            reddemming = this.OnSecTime + this.mConfig.Params[1] * 10000000;
-            bluedemming = this.OnSecTime + this.mConfig.Params[2] * 10000000;
+            whitedemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.mConfig.Params[0]);
+            reddemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.mConfig.Params[1]);
+            bluedemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.mConfig.Params[2]);
           } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             ledstate = false;
           }
 
           if (ledstate != null) {
-            console.log("-getOperationsBySpecify  whiteleddev : " + whiteleddev.UniqID + " whitedemming:" + whitedemming);
-            console.log("-getOperationsBySpecify  redleddev : " + redleddev.UniqID + " whitedemming:" + reddemming);
-            console.log("-getOperationsBySpecify  blueleddev : " + blueleddev.UniqID + " whitedemming:" + bluedemming);
+            console.log("-getOperationsBySpcify  whiteleddev : " + whiteleddev.UniqID + " whitedemming:" + whitedemming);
+            console.log("-getOperationsBySpcify  redleddev : " + redleddev.UniqID + " whitedemming:" + reddemming);
+            console.log("-getOperationsBySpcify  blueleddev : " + blueleddev.UniqID + " whitedemming:" + bluedemming);
 
             let opcmdwhite = new ActuatorOperation(whiteleddev.UniqID, ledstate, whitedemming);
             let opcmdred = new ActuatorOperation(redleddev.UniqID, ledstate, reddemming);
@@ -191,6 +216,8 @@ module.exports = class AutoControl {
             opcmdlist.push(opcmdwhite);
             opcmdlist.push(opcmdred);
             opcmdlist.push(opcmdblue);
+
+            this.mState.State = currentstate;
           }
         }
 
@@ -198,6 +225,8 @@ module.exports = class AutoControl {
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
         let heaterdev = null;
         let coollerdev = null;
+
+        console.log("-getOperationsBySpcify ACT_HEAT_COOL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
 
         for (const mactid of this.mConfig.Actlist) {
           let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
@@ -223,15 +252,28 @@ module.exports = class AutoControl {
           } else if (currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             heaterstate = false;
             coollerstate = false;
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Up_Idle) {
+            if (this.mState.State == KDDefine.AUTOStateType.AST_On) {
+              heaterstate = false;
+              coollerstate = false;
+            }
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Down_Idle) {
+            if (this.mState.State == KDDefine.AUTOStateType.AST_Off) {
+              heaterstate = false;
+              coollerstate = false;
+            }
           }
 
           if (heaterstate != null && coollerstate != null) {
-            console.log("-getOperationsBySpecify  heaterdev : " + heaterdev.UniqID + " coollerdev:" + coollerdev.UniqID + ",currentstate : " + currentstate + " , OTime : " + this.OnSecTime);
+            console.log("-getOperationsBySpcify  heaterdev : " + heaterdev.UniqID + " coollerdev:" + coollerdev.UniqID + ",currentstate : " + currentstate + " , OTime : " + this.OnSecTime);
 
             let opcmdheater = new ActuatorOperation(heaterdev.UniqID, heaterstate, this.OnSecTime);
             let opcmdcooler = new ActuatorOperation(coollerdev.UniqID, coollerstate, this.OnSecTime);
             opcmdlist.push(opcmdheater);
             opcmdlist.push(opcmdcooler);
+
+            //현재상태 갱신
+            this.mState.State = currentstate;
           }
         }
 
@@ -241,13 +283,49 @@ module.exports = class AutoControl {
     return opcmdlist;
   }
 
+  getOperationsforcamera() {
+    let oplist = [];
+    //카메라는  촬영확인
+    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
+      let timeminnow = KDCommon.getCurrentTotalminute();
+      let iscapture = false;
+
+      let starttimemin = this.mConfig.STime / 60;
+
+      let ncount = this.mConfig.DTValue;
+      let intervalmin = 1440 / ncount;
+
+      for (let i = 0; i <= 1440; i += intervalmin) {
+        let timestep = starttimemin + i;
+
+        timestep = timestep >= 1440 ? timestep - 1440 : timestep;
+
+        if (timeminnow == timestep) {
+          iscapture = true;
+          break;
+        }
+      }
+
+      if (iscapture === true) {
+        console.log("getOperationsforcamera ---------------capture:  " + this.mConfig.Actlist[0]);
+        oplist.push(this.mConfig.Actlist[0]);
+      }
+    }
+
+    return oplist;
+  }
+
   getOperationsByControl(msensors, mactuators) {
     let oplist = [];
-    // console.log( '...' )
 
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
-
     let timesecnow = KDCommon.getCurrentTotalsec();
+
+    //카메라는 여기서 처리안함
+    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
+      return oplist;
+    }
+
     if (this.isBasiccondition(timesecnow) == true) {
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY) {
         //타이머
@@ -265,33 +343,31 @@ module.exports = class AutoControl {
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
     if (this.mState.ischangestatecheck(currentstate) == true) {
-      oplist = this.getOperationsBySpecify(mactuators, currentstate);
+      if (currentstate != KDDefine.AUTOStateType.AST_IDLE) {
+        if (this.isOperationsBySpecify() == true) {
+          oplist = this.getOperationsBySpecify(mactuators, currentstate);
+          return oplist;
+        } else {
+          //일반적인 자동제어 처리 처리
+          for (const mactid of this.mConfig.Actlist) {
+            let onoffstate = null;
+            if (currentstate == KDDefine.AUTOStateType.AST_On) {
+              onoffstate = true;
+            } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+              //에러발생시 모두 off
+              onoffstate = false;
+            }
 
-      if (oplist.length > 0) {
-        ///
-      } else {
-        //일반적인 처리
-        for (const mactid of this.mConfig.Actlist) {
-          let onoffstate = null;
-
-          if (currentstate == KDDefine.AUTOStateType.AST_On) {
-            onoffstate = true;
-          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
-            //에러발생시 모두 off
-            onoffstate = false;
-          }
-
-
-
-
-
-          if (onoffstate != null) {
-            let opcmd = new ActuatorOperation(mactid, onoffstate, this.OnSecTime);
-            oplist.push(opcmd);
-            console.log("-getOperationsByControl new---------------mactid : " + mactid + " cmd:" + opcmd.Opcmd);
+            if (onoffstate != null) {
+              let opcmd = new ActuatorOperation(mactid, onoffstate, this.OnSecTime);
+              oplist.push(opcmd);
+              console.log("-getOperationsByControl new---------------mactid : " + mactid + " cmd:" + opcmd.Opcmd);
+            }
           }
         }
       }
+
+      this.mState.State = currentstate;
     }
 
     return oplist;

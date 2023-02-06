@@ -24,27 +24,26 @@ import { useTranslation } from "react-i18next";
 const navMenu = ["Home", "Sensor", "Control", "Autocontrol", "Data", "Setting", "Setup"];
 
 export default function FMainpage(props) {
-  const { t, i18n } = useTranslation();
-  const [navItems, setNavItems] = useState({});
+  const { t} = useTranslation();
+  const [fmaininit, setfmaininit] = useState(false);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
+  console.log("fmaininit: "+ fmaininit);
 
-
+  
 
   useEffect(() => {
-    let navItems = {};
-    navMenu.map((e) => (navItems[e] = t(e)));
-    setNavItems(navItems);
-    console.log("-------------------------FMainpage --------------------- useEffect:");
+    
+    console.log("FMainpage -------- useEffect:");
 
     if (myAppGlobal.systeminformations == null) {
       myAppGlobal.farmapi.getSysteminformations().then((ret) => {
         myAppGlobal.systeminformations = ret.retParam;
         console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
+        setfmaininit(true);
 
-        props.onSetSysteminfo("set info");
       });
     }
-  }, [t, i18n]);
+  }, []);
 
 
 
@@ -66,7 +65,7 @@ export default function FMainpage(props) {
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navMenu.map((item) => (
               <Button component={RouterLink} key={item} sx={{ color: "#fff" }} to={item}>
-                {navItems[item]}
+                {t(item)}
               </Button>
             ))}
            
@@ -90,7 +89,7 @@ export default function FMainpage(props) {
 
           <Route path="/devices" element={<Devicepage />} />
           <Route path="/sensor" element={<Sensorpage />} />
-          <Route path="/autocontrol" element={<Autocontrolpage />} />
+          <Route path="/autocontrol" element={<Autocontrolpage fmaininit={fmaininit} />} />
           <Route path="/setup" element={props.loginrol== "factoryadmin" ? <FactorySetup  {...props} />:<SetupPage {...props}/>} />
         </Routes>
       </Box>

@@ -11,10 +11,10 @@ const SERVERAPI_URL = "http://52.79.226.255/api/";
 
 module.exports = class LocalAPI {
   constructor(fversion, mmain) {
-    this.mMain= mmain;
+    this.mMain = mmain;
 
     this.fbdatabase = null;
-    
+
     this.platformversion = fversion;
     this.mylocaldeviceid = this.mMain.mydeviceuniqid;
   }
@@ -45,7 +45,7 @@ module.exports = class LocalAPI {
 
   messageprocessing(reqmsg) {
     let rspmsg = new responseMessage();
-    console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
+    //console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
     switch (reqmsg.reqType) {
       case KDDefine.REQType.RT_LOGIN:
         if (reqmsg.reqParam.loginPW === this.mMain.localsysteminformations.Systemconfg.password) {
@@ -125,7 +125,7 @@ module.exports = class LocalAPI {
         KDCommon.Writefilejson(KDCommon.systemconfigfilename, reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
-        
+
         break;
 
       case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
@@ -140,8 +140,8 @@ module.exports = class LocalAPI {
   }
 
   async firebasedbsetup() {
-    var admin = require("firebase-admin");
-    var serviceAccount = require("../../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
+    const admin = require("firebase-admin");
+    const serviceAccount = require("../../common/private/farmcube-push-firebase-adminsdk-z8u93-e5d8d4f325.json");
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
       databaseURL: "https://farmcube-push.firebaseio.com",
@@ -150,23 +150,24 @@ module.exports = class LocalAPI {
     console.log("---------------------------------firebasedbsetup  mylocaldeviceid: " + this.mylocaldeviceid);
 
     this.fbdatabase = admin.database();
-
     const reqkeystr = "IFDevices/" + this.mylocaldeviceid + "/request";
-    const reskeystr = "IFDevices/" + this.mylocaldeviceid + "/response";
-
     const fblocalrequst = this.fbdatabase.ref(reqkeystr);
-    const fblocalresponse = this.fbdatabase.ref(reskeystr);
 
     fblocalrequst.on("value", (snapshot) => {
       const data = snapshot.val();
       //console.log("frebase frrequest local on event... data: " + data);
 
       try {
-        let decodedStr = Buffer.from(data, "base64");
-        var reqmsg = JSON.parse(decodedStr);
-        let rspmsg = this.messageprocessing(reqmsg);
-        let objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+        const decodedStr = Buffer.from(data, "base64");
+        const reqmsg = JSON.parse(decodedStr);
+        const rspmsg = this.messageprocessing(reqmsg);
+        const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+
+        //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
+        const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
+        const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         fblocalresponse.set(objJsonB64encode);
+
         //console.log("frebase response set: " +objJsonB64encode);
       } catch (e) {
         console.log("firebasedbsetup error: " + e);
@@ -197,8 +198,8 @@ module.exports = class LocalAPI {
     };
     return await this.setRequestServer(reqmsg);
   }
-
-  async setcameradatatoserver(did, dtime, ctype, pname, mimage) {
+  /// issetdb 가 false 이면 db 저장안함 메뉴얼촬영 이미지 전송때  flase
+  async setcameradatatoserver(did, dtime, ctype, pname, mimage, issetdb) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
     reqmsg.reqParam = {
       devid: did,
@@ -206,6 +207,7 @@ module.exports = class LocalAPI {
       cameratype: ctype,
       platname: pname,
       imagedatas: mimage,
+      issetdbase: issetdb,
     };
     return await this.setRequestServer(reqmsg);
   }

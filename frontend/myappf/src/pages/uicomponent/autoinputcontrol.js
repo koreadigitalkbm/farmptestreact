@@ -1,24 +1,24 @@
-import { Box, Button, Card, CardHeader, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography } from "@mui/material";
+import { TextField, InputAdornment } from "@mui/material";
 import KDUtil from "../../commonjs/kdutil";
+import React from "react";
 
 const AutoInputControl = (props) => {
   const controlkeyname = props.keyname;
   const inputtype = props.type;
-  let initvalue=props.initvalue[controlkeyname];
-
-  console.log("AutoInputControl  controlkeyname: " + controlkeyname);
-  console.log("AutoInputControl  initvalue: " + initvalue);
+  const unitstring = props.unit;
+  let initvalue = props.initvalue;
 
 
-  if (inputtype == "time") {
+  if (inputtype === "time") {
     initvalue = KDUtil.secToTime(initvalue);
   }
-  
+
   return (
-    <div>
-      {controlkeyname}
-      <TextField type={inputtype} defaultValue={initvalue} name={controlkeyname} onChange={props.onChange} />
-    </div>
+    <React.Fragment>
+      <TextField type={inputtype} defaultValue={initvalue} name={controlkeyname} onChange={props.onChange} variant="standard" 
+      InputProps={{ endAdornment: <InputAdornment position="start"> {unitstring} </InputAdornment> }} 
+      sx={{ mt: 3, border: 0, "& .MuiInputBase-input": { border: 0 } }} />
+    </React.Fragment>
   );
 };
 export default AutoInputControl;

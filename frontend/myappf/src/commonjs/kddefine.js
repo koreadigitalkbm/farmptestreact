@@ -17,6 +17,9 @@ module.exports = class KDDefine {
     OPT_Off: 0, // 작동 멈춤
     OPT_Timed_On: 202, // 정해진 시간동안 작동
     OPT_Driectional_On: 203, // 정해긴 방향으로 정해진 시간동안 동작
+
+    OPT_Camera_TakeSave: 1909, // 카메라촬영 및 저장 이값으로 지정
+    
   });
 
   static OPStatus = Object.freeze({
@@ -120,7 +123,10 @@ module.exports = class KDDefine {
     ACT_HEAT_COOL_FOR_FJBOX: 100, // 냉난방  
     ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED  
     ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급  
+    ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX: 103, // 환기제어, co2, 습도센서 사용 
     
+    ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
+
     
     ATC_USER: 999,// 사용자지정 
     
@@ -132,6 +138,8 @@ module.exports = class KDDefine {
     AST_On: 1, // 켬
     AST_IDLE: 2, // 상태유지, 
     AST_ERROR: 3, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
+    AST_Down_Idle: 4, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
+    AST_Up_Idle: 5, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
     AST_Off_finish: 10, // 제어종료 장비를 off 하고 끝냄
     AST_Init: 20, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
         
@@ -141,7 +149,7 @@ module.exports = class KDDefine {
   static  SensorConditionType= Object.freeze({
     SCT_UP: "up", // >= 크면  on
     SCT_DOWN: "down", // <= 작으면  on
-        
+    SCT_DOWNBOTHIDLE: "both", // <= 온도 냉난방제어시 사용 작으면  true 설정값에 근접하면 장비 off 상태유지되도록
   });
 
 //자동제어 상태
@@ -150,6 +158,15 @@ static EVENTType = Object.freeze({
   EVT_SYSTEM: 1,// 시스템 이벤트, 기동, 에러.
   EVT_ACTUATOR: 2, //  구동기 상태변화
   EVT_AUTOCONTROL: 3, // 자동제어 변경
+      
+});
+
+//카메라 타입
+static  CameraType= Object.freeze({
+  CT_RGB: "RGBCamera", // RGB 컬러카메라
+  CT_USB: "USBCamera", // USB 타입 RGB 컬러카메라
+  CT_DEPTH: "DEPTHCamera", // 데스카메라
+  CT_IR: "IRCamera"
       
 });
 
