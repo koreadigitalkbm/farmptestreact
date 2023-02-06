@@ -7,7 +7,8 @@ const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
 
 var exec = require("child_process").exec;
 
-const SERVERAPI_URL = "http://52.79.226.255/api/";
+
+const SERVERAPI_URL = "http://15.164.60.217/api/";
 
 module.exports = class LocalAPI {
   constructor(fversion, mmain) {
