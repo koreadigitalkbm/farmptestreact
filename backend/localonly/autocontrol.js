@@ -46,7 +46,7 @@ module.exports = class AutoControl {
       onsectime = this.mConfig.NOnTime;
     }
 
-    this.OnSecTime = onsectime;
+    this.OnSecTime = Number(onsectime);
 
     if (offsectime == 0) {
       if (this.PWMonoffstate == false) {
@@ -63,7 +63,7 @@ module.exports = class AutoControl {
       }
 
       if (this.PWMonoffstate == false) {
-        if (daytotalsec > this.PWMLasttoltalsec + offsectime) {
+        if (daytotalsec > (Number(this.PWMLasttoltalsec) + Number(offsectime))) {
           this.PWMLasttoltalsec = daytotalsec;
           this.PWMonoffstate = true;
           //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
@@ -71,7 +71,7 @@ module.exports = class AutoControl {
           return KDDefine.AUTOStateType.AST_On;
         }
       } else {
-        if (daytotalsec > this.PWMLasttoltalsec + onsectime) {
+        if (daytotalsec > (Number(this.PWMLasttoltalsec) + Number(onsectime))) {
           this.PWMLasttoltalsec = daytotalsec;
           this.PWMonoffstate = false;
           console.log("-isTimercondition off : " + daytotalsec);
@@ -104,14 +104,14 @@ module.exports = class AutoControl {
       let upvalue;
       let downvalue;
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
-        upvalue = this.mConfig.DTValue + this.mConfig.BValue;
-        downvalue = this.mConfig.DTValue - this.mConfig.BValue;
+        upvalue = Number(this.mConfig.DTValue) + Number(this.mConfig.BValue);
+        downvalue = Number(this.mConfig.DTValue) - Number(this.mConfig.BValue);
       } else {
-        upvalue = this.mConfig.NTValue + this.mConfig.BValue;
-        downvalue = this.mConfig.NTValue - this.mConfig.BValue;
+        upvalue = Number(this.mConfig.NTValue) + Number(this.mConfig.BValue);
+        downvalue = Number(this.mConfig.NTValue) - Number(this.mConfig.BValue);
       }
 
-      //console.log("getStateBySensorcondition  upvalue : " + upvalue + " ,downvalue: " + downvalue);
+      console.log("getStateBySensorcondition currsensor:" +currsensor.value+ " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
       if (KDDefine.SensorConditionType.SCT_UP == this.mConfig.Cdir) {
         if (currsensor.value >= upvalue) {
