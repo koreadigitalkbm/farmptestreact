@@ -57,7 +57,7 @@ module.exports = class AutoControlUtil {
       m1.DTValue = 24.0;
       m1.NTValue = 20.0;
       m1.BValue = 1;
-      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
       mcfglist.push(m1);
 
       //////////////////관수제어
@@ -67,7 +67,7 @@ module.exports = class AutoControlUtil {
       m1.Enb = true;
       m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
-      m1.Actlist.push("N01C17T00"); ///관수 릴레이 장비
+      m1.Actlist.push("N01C04T00"); ///관수 릴레이 장비
       m1.DOnTime = 30;
       m1.DOffTime = 120;
       m1.NOnTime = 10;
@@ -146,7 +146,7 @@ module.exports = class AutoControlUtil {
       m1.DTValue = 24.0;
       m1.NTValue = 20.0;
       m1.BValue = 1;
-      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
       mcfglist.push(m1);
 
       //////////////////관수제어
@@ -156,7 +156,7 @@ module.exports = class AutoControlUtil {
       m1.Enb = true;
       m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
-      m1.Actlist.push("N01C17T00"); ///관수 릴레이 장비
+      m1.Actlist.push("N01C06T00"); ///관수 릴레이 장비
       m1.DOnTime = 30;
       m1.DOffTime = 120;
       m1.NOnTime = 10;

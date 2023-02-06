@@ -138,6 +138,8 @@ module.exports = class KDDefine {
     AST_On: 1, // 켬
     AST_IDLE: 2, // 상태유지, 
     AST_ERROR: 3, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
+    AST_Down_Idle: 4, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
+    AST_Up_Idle: 5, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
     AST_Off_finish: 10, // 제어종료 장비를 off 하고 끝냄
     AST_Init: 20, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
         
@@ -147,7 +149,7 @@ module.exports = class KDDefine {
   static  SensorConditionType= Object.freeze({
     SCT_UP: "up", // >= 크면  on
     SCT_DOWN: "down", // <= 작으면  on
-        
+    SCT_DOWNBOTHIDLE: "both", // <= 온도 냉난방제어시 사용 작으면  true 설정값에 근접하면 장비 off 상태유지되도록
   });
 
 //자동제어 상태

@@ -45,7 +45,7 @@ module.exports = class LocalAPI {
 
   messageprocessing(reqmsg) {
     let rspmsg = new responseMessage();
-    console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
+    //console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
     switch (reqmsg.reqType) {
       case KDDefine.REQType.RT_LOGIN:
         if (reqmsg.reqParam.loginPW === this.mMain.localsysteminformations.Systemconfg.password) {
