@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { actionSetlogin, actionSetSysteminfo } from "./mainAction";
 import IndoorFarmAPI from "./indoorfarmapi";
 import FMainpage from "./pages/fmainpage";
+import Mainpage from "./pages/mainpage2"
 import myAppGlobal from "./myAppGlobal";
 import MSignIn from "./pages/mlogin";
 
@@ -115,7 +116,8 @@ function FarmApp(props) {
 
   return (
     <div className="FarmApp">
-      {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<FMainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> }
+      {/* {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<FMainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> } */}
+      {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<Mainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> }
    </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
-import { InputAdornment, Stack, TextField, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 
+import InputValueUnit from "./inputValueUnit";
 
 export default class InputTemperatureInterval extends React.Component {
 
@@ -8,7 +9,7 @@ export default class InputTemperatureInterval extends React.Component {
         super(props)
         this.uid = props.uid
         this.defaultValue = props.defaultValue
-        this.onChange = props.onChange;
+        this.onChange = props.handleClickAndChange;
     }
 
     render() {
@@ -18,28 +19,15 @@ export default class InputTemperatureInterval extends React.Component {
                     온도 조절 간격:
                 </Typography>
 
-                <TextField
+                <InputValueUnit 
                     id={this.uid + "TemperatureInterval"}
                     key={this.uid + "TemperatureInterval"}
                     name="TemperatureInterval"
                     type="number"
                     variant="standard"
-                    onChange={this.onChange}
-                    defaultValue={this.defaultValue}
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="start">
-                                ℃
-                            </InputAdornment>
-                        )
-                    }}
-                    sx={{
-                        mt: 3,
-                        border: 0,
-                        '& .MuiInputBase-input': {
-                            border: 0
-                        }
-                    }} />
+                    defaultValue = {this.defaultValue}
+                    onchange={this.onchnage}
+                    unit="℃"/>
             </Stack>
         )
     }

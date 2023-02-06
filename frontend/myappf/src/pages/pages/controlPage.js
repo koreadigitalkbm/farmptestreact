@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 
-import { Box, Button, Card, CardHeader, FormControlLabel, FormGroup, Stack, Switch, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Collapse, FormControlLabel, FormGroup, IconButton, Stack, Switch, Typography } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled, ThemeProvider } from '@mui/material/styles';
 import muiTheme from './../muiTheme';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
@@ -17,7 +18,17 @@ import ButtonSave from "./components/btnSave";
 let lasteventtime = 1;
 let lastsensortime = 1;
 
-  
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
+
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,
     height: 34,
@@ -69,7 +80,165 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
-export default class ContorlPage extends React.Component {
+export default function ContorlPage() {
+    const [Autolist, setAutolist] = React.useState([]);
+
+    function AutoCard(props) {
+        let copyData = AutoControlconfig.deepcopy(props.config)
+        const [expanded, setExpanded] = React.useState(false)
+        const [switchWorkmode, setSwitchWorkmode] = React.useState(copyData.Enb);
+
+        function handleExpandClick() {
+            setExpanded(!expanded);
+        }
+
+        function handleModeChange() {
+            setSwitchWorkmode(!switchWorkmode);
+        }
+
+        function handleClickAndChange(e) {
+            const targetName = e.target.name;
+            switch (targetName) {
+                case 'Save':
+                    console.log(copyData);
+                    myAppGlobal.farmapi.saveAutocontrolconfig(copyData).then((ret) => {
+                        console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
+                    })
+                    break;
+
+                case 'DTValue': 
+                    copyData.DTValue = e.target.value;
+                    console.log(copyData.DTValue);
+                    break;
+
+                case 'NTValue': copyData.NTValue = e.target.value;
+                    break;
+
+                case 'STime': copyData.STime = KDUtil.timeTosec(e.target.value);
+                    break;
+
+                case 'ETime': copyData.ETime = KDUtil.timeTosec(e.target.value);
+                    break;
+
+                case 'TemperatureInterval': copyData.TemperatureInterval = e.target.value;
+                    break;
+
+                default:
+                    console.log("정의되지 않은 요소");
+                    break;
+            }
+        }
+
+        function formAutoContent() {
+            if (copyData.Enb === false) {
+                return <ManualControl autoItem={copyData} />
+            } else {
+                switch (copyData.Cat) {
+                    case KDDefine.AUTOCategory.ACT_HEATING:
+                        return <Typography>난방</Typography>
+
+                    case KDDefine.AUTOCategory.ACT_COOLING:
+                        return <Typography>냉방</Typography>
+
+                    case KDDefine.AUTOCategory.ACT_LED:
+                        return <Typography>광량</Typography>
+
+                    case KDDefine.AUTOCategory.ATC_WATER:
+                        return <Typography>관수</Typography>
+
+                    case KDDefine.AUTOCategory.ATC_AIR:
+                        return <Typography>환기</Typography>
+
+                    case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
+                        return <TemperatureControl autoConfiguration={copyData} onChange={handleClickAndChange} />
+
+                    case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
+                        return <Typography>3색LED</Typography>
+
+                    case KDDefine.AUTOCategory.ACT_AIR_CO2_FOR_FJBOX:
+                        return <Typography>CO2</Typography>
+
+                    case KDDefine.AUTOCategory.ATC_USER:
+                        return <Typography>사용자 지정</Typography>
+
+                    default:
+                        return (
+                            <Box>
+                                <Typography>디폴트</Typography>
+                                <Typography>{copyData.Cat}</Typography>
+                            </Box>
+                        )
+                }
+            }
+        }
+
+        function AutoContent() {
+            return (
+                <Box>
+                    {formAutoContent()}
+                    <ButtonSave onClick={handleClickAndChange} />
+                </Box>
+            )
+        }
+
+        return (
+            <Card sx={{ m: 1, mb: 2}}>
+                <Stack direction="row" spacing={0.5} justifyContent="space-between" sx={{ pl: 2, pr: 2 }}>
+                    <Typography sx={{ width: 150 }}>{copyData.Name}</Typography>
+                    <Typography>{switchWorkmode ? '자동모드' : '수동모드'}</Typography>
+                    <MaterialUISwitch checked={switchWorkmode} onChange={handleModeChange} />
+
+                    <ExpandMore
+                        expand={expanded}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="고급 설정"
+                    >
+                        <ExpandMoreIcon />
+                    </ExpandMore>
+                </Stack>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <AutoContent />
+                    </CardContent>
+                </Collapse>
+            </Card>
+        )
+    }
+
+    function autoControlCard() {
+        return (
+            <Card sx={{ minWidth: 300, m: 3 }}>
+                <CardHeader
+                    title={'자동 제어'}
+                />
+                <Stack direction="column">
+                    {Autolist.map((localState, index) => <AutoCard key={"autoCard" + index} config={localState} />)}
+                </Stack>
+
+                <Button>자동제어 추가</Button>
+            </Card>
+        )
+    }
+
+    useEffect(() => {
+        myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
+            myAppGlobal.Autocontrolcfg = ret.retParam;
+            console.log("----------------------------systeminformations auto length: " + myAppGlobal.Autocontrolcfg.length);
+
+            setAutolist(myAppGlobal.Autocontrolcfg)
+        });
+    }, [])
+
+    return (
+        <ThemeProvider theme={muiTheme}>
+            <Typography variant='h1'>제어 페이지입니다.</Typography>
+            {autoControlCard()}
+        </ThemeProvider>
+    )
+}
+
+class ContorlPage2 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -126,6 +295,7 @@ export default class ContorlPage extends React.Component {
             case 'STime':
                 this.setState((state) => {
                     state.mAutolist[selectIndex].STime = KDUtil.timeTosec(e.target.value);
+                    console.log(state);
                     return state;
                 });
                 break;
@@ -264,14 +434,12 @@ export default class ContorlPage extends React.Component {
                 />
                 <Grid container spacing={2}>
 
-                    <Grid xs={2} sm={2} md={2} lg={2} xl={2}>
-                        <Stack>
-                            {this.state.mAutolist.map((localState) => this.autoList(localState))}
-                        </Stack>
-                    </Grid>
-                    <Grid xs={10} sm={10} md={10} lg={10} xl={10}>
+                    <Stack>
+                        {this.state.mAutolist.map((localState) => this.autoList(localState))}
+                    </Stack>
+                    {/* <Grid xs={10} sm={10} md={10} lg={10} xl={10}>
                         {this.autoContent()}
-                    </Grid>
+                    </Grid> */}
 
                 </Grid>
                 <Button>자동제어 추가</Button>

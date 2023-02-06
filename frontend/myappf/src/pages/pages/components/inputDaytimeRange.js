@@ -1,13 +1,13 @@
 import React from "react";
-import { Input, Stack, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 
-import KDUtil from "../../../commonjs/kdutil";
+import InputValueUnit from "./inputValueUnit";
 
 export default class InputDaytimeRange extends React.Component {
 
     constructor(props) {
         super(props)
-        this.uid = props.confID;
+        this.uid = props.uid;
         this.STime = props.STime;
         this.ETime = props.ETime;
         this.onChange = props.onChange;
@@ -16,40 +16,31 @@ export default class InputDaytimeRange extends React.Component {
     render() {
         return (
             <Stack alignItems="center" direction="row" spacing={2}>
-                    <Typography>
-                        주간시간설정:
-                    </Typography>
+                <Typography>
+                    주간시간설정:
+                </Typography>
+                <InputValueUnit
+                    id={this.uid + "STime"}
+                    key={this.uid + "STime"}
+                    type="time"
+                    variant="standard"
+                    name="STime"
+                    defaultValue={this.STime}
+                    onChange={this.onChange}
+                />
 
-                    <Input
-                        id={this.uid + "STime"}
-                        key={this.uid + "STime"}
-                        type="time"
-                        name="STime"
-                        defaultValue={KDUtil.secToTime(this.STime)}
-                        onChange={this.onChange}
-                        sx={{
-                            '& .MuiInputBase-input': {
-                                border: 0,
-                                width: '100%'
-                            }
-                        }} />
+                <Typography> ~ </Typography>
 
-                    <Typography> ~ </Typography>
-
-                    <Input
-                        id={this.uid + "ETime"}
-                        key={this.uid + "ETime"}
-                        type="time"
-                        name="ETime"
-                        defaultValue={KDUtil.secToTime(this.ETime)}
-                        onChange={this.onChange}
-                        sx={{
-                            '& .MuiInputBase-input': {
-                                border: 0,
-                                width: '100%'
-                            }
-                        }} />
-                </Stack>
+                <InputValueUnit
+                    id={this.uid + "ETime"}
+                    key={this.uid + "ETime"}
+                    type="time"
+                    variant="standard"
+                    name="ETime"
+                    defaultValue={this.ETime}
+                    onChange={this.onChange}
+                />
+            </Stack>
         )
     }
 }

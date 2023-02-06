@@ -17,7 +17,6 @@ const AutoInputControl = (props) => {
   return (
     <div>
       {controlkeyname}
-
       <TextField type={inputtype} defaultValue={initvalue} name={controlkeyname} onChange={props.onChange} />
     </div>
   );
