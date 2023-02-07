@@ -7,8 +7,10 @@ import FMainpage from "./pages/fmainpage";
 import Mainpage from "./pages/mainpage2"
 import myAppGlobal from "./myAppGlobal";
 import MSignIn from "./pages/mlogin";
+import { useTranslation } from "react-i18next";
 
 function FarmApp(props) {
+  const { t} = useTranslation();
   const [loginrol, setloginrol] = useState(window.sessionStorage.getItem("login"));
   const [failmsg, setfailmsg] = useState("");
 
@@ -17,6 +19,8 @@ function FarmApp(props) {
 
   console.log("-------------------------FarmAPP start--------------------- loginrol:" + loginrol + " islocal:" + islocal  );
  
+  myAppGlobal.langT=t;
+  
 
   function setlogout() {
     myAppGlobal.loginrole = "logout";

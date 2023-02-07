@@ -1,8 +1,9 @@
 import React from "react";
 import Sensordevice from "./commonjs/sensordevice";
+import myAppGlobal from "./myAppGlobal";
 
 function SensorBox(msensorcompact) {
-  let msensor = new Sensordevice(msensorcompact);
+  let msensor = new Sensordevice(msensorcompact,myAppGlobal);
 
   let cname = "sen_con";
   let svalue;

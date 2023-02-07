@@ -1,8 +1,9 @@
 const ActuatorStatus = require("../../frontend/myappf/src/commonjs/actuatorstatus");
 const ActuatorOperation = require("../../frontend/myappf/src/commonjs/actuatoroperation");
 const ActuatorBasic = require("../../frontend/myappf/src/commonjs/actuatorbasic");
-const SystemEvent = require("../../frontend/myappf/src/commonjs/systemevent");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
+const SystemEvent = require("./systemevent");
+
 
 //구동기 기본정적 정보와 상태정보, 마지막제어명령어등을 포함한다.
 module.exports = class Actuatordevice {
@@ -16,12 +17,7 @@ module.exports = class Actuatordevice {
     console.log("Actuatordevice  : " + this.UniqID);
   }
 
-  // 이벤트를 문자열로..
-  eventTonomalstring() {
-    let estr = "[" + this.Basicinfo.Name + "]" + " 장치상태가 " + this.AStatus.statetonomalstring() + " 로 변경되었습니다.";
-    return estr;
-  }
-
+  
   //구동기상태변화가 있거나 먼가 이벤트가 발생했는지 확인
   getEventwithCheck() {
     let newevent = null;
@@ -42,8 +38,11 @@ module.exports = class Actuatordevice {
       }
 
       if (isevent == true) {
-        let eparam = this.eventTonomalstring();
-        newevent = new SystemEvent(KDDefine.EVENTType.EVT_ACTUATOR, eparam);
+        //let eparam = this.eventTonomalstring();
+        //newevent = new SystemEvent(KDDefine.EVENTType.EVT_ACTUATOR, eparam);
+
+        newevent= SystemEvent.createActuatorEvent(this.UniqID,this.AStatus.Sat);
+
       }
     }
 

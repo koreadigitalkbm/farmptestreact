@@ -21,9 +21,11 @@ function outputdevbox(mydata, isonlystatus, index) {
     return null;
   }
 
-  let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid);
+  let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid, myAppGlobal);
   let devicon = "./image/devicon_" + actinfo.HWType + ".png";
   let onofficon = "./image/opstatus_" + mydata.Sat + ".png";
+
+  
 
   if (mydata.Opm === "LM") {
     ismanual = (

@@ -5,7 +5,6 @@ const Actuatordevice = require("./actuatordevice");
 const ActuatorStatus = require("../../frontend/myappf/src/commonjs/actuatorstatus.js");
 
 const ActuatorBasic = require("../../frontend/myappf/src/commonjs/actuatorbasic.js");
-const SystemEvent = require("../../frontend/myappf/src/commonjs/systemevent");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("../kdcommon");
 

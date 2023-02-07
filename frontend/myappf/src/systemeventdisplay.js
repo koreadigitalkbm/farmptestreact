@@ -2,28 +2,21 @@ import React from "react";
 
 import myAppGlobal from "./myAppGlobal";
 import KDUtil from "./commonjs/kdutil";
-import KDDefine from "./commonjs/kddefine";
-import SystemEvent from "./commonjs/systemevent";
-
 
 
 function eventmsgbox(mydata,index) {
-  let ismanual;
-
-//  console.log("------------------------eventmsgbox--------------------index : " + index);
-
-  let evetinfo = SystemEvent.Clonbyjsonobj(mydata);
+  
+  let evetinfo =mydata;
 
   
   return (
       <li key={index} role="option"> 
-      {evetinfo.eventtostring()}
+      {KDUtil.EventToString(evetinfo, myAppGlobal)}
       </li>
   );
 }
 
 function systemeventdisplay(moutdevarray ) {
-
   
   //console.log("------------------------systemeventdisplay-------------------length : " + moutdevarray.length);
   return(

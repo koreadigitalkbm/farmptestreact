@@ -21,6 +21,7 @@ module.exports = class KDCommon {
       let objlist = JSON.parse(rawdata);
       return objlist;
     } catch (error) {
+      console.log(error);
       return null;
     }
   }
@@ -94,4 +95,17 @@ module.exports = class KDCommon {
       return null;
     }
   }
+
+  static EcodeBase64(mobjstr)
+  {
+    const datas = Buffer.from(mobjstr, "base64");
+    return datas;
+  }
+
+  static DecodeBase64(mb64str)
+  {
+    let rawdata = mb64str.toString("base64");
+    return rawdata;
+  }
+
 };

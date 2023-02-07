@@ -16,7 +16,7 @@ const CameraInterface = require("./camerainterface");
 const Systemconfig = require("../../frontend/myappf/src/commonjs/devsystemconfig");
 const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminformations");
 
-const BackLocalGlobal = require("./backGlobal");
+const BackLocalGlobal = require("../backGlobal");
 
 // 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
@@ -166,6 +166,9 @@ async function devicemaintask(mainclass) {
   }
 }
 
+
+
+
 module.exports = class LocalMain {
   constructor(fversion) {
     this.localsysteminformations = null;
@@ -184,12 +187,42 @@ module.exports = class LocalMain {
     //장비 ID 는 여러군데서 사용하는 중요한 지표이므로  메인에 저장해둠.
     this.mydeviceuniqid = this.localsysteminformations.Systemconfg.deviceuniqid;
     this.mAPI = new LocalAPI(fversion, this);
-    //전역변수로 필요한 객체저장
-    BackLocalGlobal.systemlog = this.systemlog;
+
+
+    
+
 
     //3초후 메인시작
     setTimeout(devicemaintask, 3000, this);
   }
+
+  /*
+  //언어추가되면 여기에 추가
+  loadlanguagefile(mlang)
+  {
+    let filepath = "./lang/";
+    switch(mlang)
+    {
+      case "ko-KR":
+        filepath = filepath+"backlang.ko.json";
+      break;
+      default:
+        filepath = filepath+"backlang.en.json";
+        break;
+    }
+    console.log("loadlanguagefile path------------------- "+filepath + " mlang:"+ mlang);
+
+    const langset=KDCommon.Readfilejson(filepath);
+
+    return langset;
+
+  }
+  BackLocalGlobal.StringSET=this.loadlanguagefile(this.localsysteminformations.Systemconfg.language) 
+    let str=BackLocalGlobal.StringSET.LT_LOGINTITLE_LOCAL.format("ffsdf","klkl");
+    console.log("lang :" + str);
+*/
+
+
 
   deviceInit() {
     console.log("------------deviceInit------------------- ");
@@ -201,7 +234,7 @@ module.exports = class LocalMain {
     this.localsysteminformations = new SystemInformations();
     this.localsysteminformations.Systemconfg = sconfig;
 
-    console.log("deviceuniqid : " + BackLocalGlobal.mylocaldeviceid + " comport : " + this.localsysteminformations.Systemconfg.comport);
+    console.log("deviceuniqid : " + this.mydeviceuniqid+ " comport : " + this.localsysteminformations.Systemconfg.comport);
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);
   }
 

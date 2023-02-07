@@ -12,6 +12,7 @@ var myAppGlobal = {
     systeminformations:undefined,
     Autocontrolcfg: undefined,
     sessionid:0,//  중복로그인 방지 장비와는 한개 브라우져만 연결되도록  로그인시 램덤하게 생성
+    langT:null,
     ncount:0
   }
   

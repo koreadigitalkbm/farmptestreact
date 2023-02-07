@@ -1,5 +1,5 @@
 
-
+const KDUtil = require("./kddefine");
 
 
 const KDSensorTypeEnum = Object.freeze(
@@ -60,12 +60,11 @@ const KDSensorTypeEnum = Object.freeze(
     });
 
 
- class Sensordevice{
+    module.exports = class Sensordevice{
         
     
-        constructor(mcompactsensor, errorcount=0) {
-    
-            
+        constructor(mcompactsensor, myGlobal=null)  {
+                
             this.Name = "sensor";
             this.ValueUnit = " ";
             this.SignificantDigit = 3;
@@ -75,10 +74,9 @@ const KDSensorTypeEnum = Object.freeze(
             this.Sensortype = Sensordevice.Getsensortype(mcompactsensor.Uid);
 
 
-            this.value = mcompactsensor.Val;
             this.UniqID = mcompactsensor.Uid; // 센서를 구별하는 고유ID  센서노드번호와 하드웨어 채널  센서타입정보로 생성한다. S11C1T23
-            this.status =0;// repdatas[2];
-            this.errorcount=errorcount;
+            this.status =0;
+            this.errorcount=0;
 
             switch (this.Sensortype) {
                 case KDSensorTypeEnum.SUT_Temperature: this.ValueUnit = "℃"; this.Name = "온도"; this.SignificantDigit = 1; break;
@@ -96,19 +94,20 @@ const KDSensorTypeEnum = Object.freeze(
                 case KDSensorTypeEnum.SUT_SoraRadiation: this.ValueUnit = "W/m2"; this.Name = "일사"; this.SignificantDigit = 1; break;
     
                 case KDSensorTypeEnum.SUT_WINDSPEED: this.ValueUnit = "°"; this.Name = "풍향"; this.SignificantDigit = 1; break;
-                case KDSensorTypeEnum.SUT_WINDVANE: this.ValueUnit = "m/s"; this.Name = "풍속"; this.SignificantDigit = 1; break;
     
-                case KDSensorTypeEnum.SUT_BAROMETER: this.ValueUnit = "hPa"; this.Name = "대기압"; this.SignificantDigit = 1; break;
+    
+                case KDSensorTypeEnum.SUT_WINDVANE: this.ValueUnit = "m/s"; this.Name = "풍속"; this.SignificantDigit = 1; break;
+                    case KDSensorTypeEnum.SUT_BAROMETER: this.ValueUnit = "hPa"; this.Name = "대기압"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_PRESSURE: this.ValueUnit = "hPa"; this.Name = "압력"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_RAINGUAGE: this.ValueUnit = "mm"; this.Name = "강우량"; this.SignificantDigit = 1; break;
-                case KDSensorTypeEnum.SUT_RAINDETECTOR: this.ValueUnit = " "; this.Name = "강우감지"; this.SignificantDigit = 1; break;
-    
-                case KDSensorTypeEnum.SUT_UV: this.ValueUnit = ""; this.Name = "UV"; this.SignificantDigit = 1; break;
+               case KDSensorTypeEnum.SUT_RAINDETECTOR: this.ValueUnit = " "; this.Name = "강우감지"; this.SignificantDigit = 1; break;
+                   case KDSensorTypeEnum.SUT_UV: this.ValueUnit = ""; this.Name = "UV"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_PE300_PH: this.ValueUnit = " "; this.Name = "pH"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_PE300_EC: this.ValueUnit = "dS/m"; this.Name = "EC"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_PE300_TEMP: this.ValueUnit = "℃"; this.Name = "PE300온도"; this.SignificantDigit = 1; break;
-    
-                case KDSensorTypeEnum.SUT_CO1: this.ValueUnit = "ppm"; this.Name = "일산화탄소"; this.SignificantDigit = 1; break;
+                    case KDSensorTypeEnum.SUT_CO1: this.ValueUnit = "ppm"; this.Name = "일산화탄소"; this.SignificantDigit = 1; break;
+                
+                
                 case KDSensorTypeEnum.SUT_O2: this.ValueUnit = "%"; this.Name = "산소"; this.SignificantDigit = 2; break;
                 case KDSensorTypeEnum.SUT_LIGHT: this.ValueUnit = "Lux"; this.Name = "조도"; this.SignificantDigit = 0; break;
                 case KDSensorTypeEnum.SUT_COLOR_RED: this.ValueUnit = " "; this.Name = "RED"; this.SignificantDigit = 0; break;
@@ -118,6 +117,7 @@ const KDSensorTypeEnum = Object.freeze(
                 case KDSensorTypeEnum.SUT_FLOWMETER: this.ValueUnit = "L/min"; this.Name = "유량"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_FLOWMETER_TOTAL: this.ValueUnit = "L"; this.Name = "적산유량"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_BATTRY: this.ValueUnit = "%"; this.Name = "베터리"; this.SignificantDigit = 1; break;
+                
                 case KDSensorTypeEnum.SUT_WEIGHT_KG: this.ValueUnit = "kg"; this.Name = "무게"; this.SignificantDigit = 3; break;
                 case KDSensorTypeEnum.SUT_WATER_MM: this.ValueUnit = "mm"; this.Name = "수위"; this.SignificantDigit = 1; break;
                 case KDSensorTypeEnum.SUT_DO_MG: this.ValueUnit = "mg/L"; this.Name = "용존산소량"; this.SignificantDigit = 2; break;
@@ -138,10 +138,19 @@ const KDSensorTypeEnum = Object.freeze(
                     break;
     
             }
-    
-            this.valuestring = this.GetValuestring(false,false);
-    
-    
+
+            // 센서종류로 이름 리턴 다국어 지원
+            if(myGlobal !=null)
+            {
+                const tid="LT_SNAME_"+this.Sensortype;
+                const statestr= myGlobal.langT(tid);
+             if(statestr !=null)
+             {
+                this.Name = statestr;
+             }
+            }
+
+            this.Setupdatevalue(mcompactsensor.Val);
     
         }
 
@@ -150,32 +159,29 @@ const KDSensorTypeEnum = Object.freeze(
 
     //센서값을 문자열로표시 표시
     GetValuestring(isWithname, isWithunit){
-
         let strvalue = "";
-
         if (isWithname === true) {
-
             strvalue += this.Name + " ";
         }
 
         if(this.value !=null)
         {
-        strvalue += this.value.toFixed(this.SignificantDigit);
+            strvalue += this.valuestring ;
         }
+
         if (isWithunit === true) {
             strvalue += " " + this.ValueUnit;
         }
-
         return strvalue;
-
     }
+   
 
     Setupdatevalue(newvalue)
     {
 
         this.value =newvalue;
         this.errorcount=0;
-        this.valuestring = this.GetValuestring(false,false);
+        this.valuestring = this.value.toFixed(this.SignificantDigit);
     }
     static Getchannel(uniqid)
     {
@@ -199,5 +205,5 @@ const KDSensorTypeEnum = Object.freeze(
 }
 
 
-module.exports = Sensordevice;
+
 

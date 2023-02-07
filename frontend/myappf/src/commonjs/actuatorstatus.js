@@ -23,25 +23,25 @@ module.exports = class ActuatorStatus{
 
         }
 
-        statetonomalstring()
+        static stateToStringID(mSat)
         {
-            let strmsg;
-            switch(this.Sat)
+            let strid;
+            switch(mSat)
             {
                 case KDDefine.ONOFFOperationTypeEnum.OPT_Off:
-                    strmsg="꺼짐(Off)";
+                    strid="LT_ACT_STATE_OFF";
                 break;
                 case KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On:
                 case KDDefine.ONOFFOperationTypeEnum.OPT_On:
-                    strmsg="켜짐(On)";
+                    strid="LT_ACT_STATE_ON";
                 break;
 
                 default:
-                    strmsg=this.Sat;
+                    strid="LT_ACT_STATE_IDLE";
                     break;
             }
 
-            return strmsg;
+            return strid;
         }
       
 

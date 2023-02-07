@@ -1,4 +1,4 @@
-//구동기 기본 정보
+//시스템에 모드 정보를 여기에 모아서 한번에 프론트엔드로 보냄
 
 module.exports = class SystemInformations {
   static Clonbyjsonobj(mobj) {
@@ -7,6 +7,6 @@ module.exports = class SystemInformations {
 
   constructor() {
     this.Systemconfg = null; //시스템설정
-    this.Actuators = null; //구동기 설정 목록
+    this.Actuators = null; //구동기 기본 정보를 가지는 목록 ActuatorBasic 클래스 어레이 
   }
 };

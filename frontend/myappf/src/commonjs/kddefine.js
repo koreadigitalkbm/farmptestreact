@@ -3,11 +3,18 @@
 module.exports = class KDDefine {
 
 // 장비 모델명
+static PModel = Object.freeze({
+  KPC200:'KPC200', // 식물재배기 1차 2차
+  KPC300:'KPC300', // 식물재배기  3차(교육용) 
+  KPC480:'KPC480', // 식물재배기  3차(연구용)
+  VFC3300:'VFC3300', // 인도어팜
+});
+
   static PModelList = [
-    'KPC200', // 식물재배기 1차 2차
-    'KPC300', // 식물재배기  3차(교육용) 
-    'KPC480', // 식물재배기  3차(연구용)
-    'VFC3300', // 인도어팜
+    KDDefine.PModel.KPC200,
+    KDDefine.PModel.KPC300,
+    KDDefine.PModel.KPC480,
+    KDDefine.PModel.VFC3300,
   ];
 
   
@@ -157,7 +164,7 @@ static EVENTType = Object.freeze({
   EVT_None: 0, //
   EVT_SYSTEM: 1,// 시스템 이벤트, 기동, 에러.
   EVT_ACTUATOR: 2, //  구동기 상태변화
-  EVT_AUTOCONTROL: 3, // 자동제어 변경
+  EVT_AUTOCONTROL: 3, // 자동제어 변경, 상태변화
       
 });
 
@@ -169,6 +176,46 @@ static  CameraType= Object.freeze({
   CT_IR: "IRCamera"
       
 });
+
+//구동기 이름  id 
+static  ActuatorNameID= Object.freeze({
+  NID_ACTUATOR: 0, // actuator
+  NID_HEATER: 1, // 히터
+  NID_COOLER: 2, // 쿨러
+  NID_PUMP: 3, // 펌프
+  NID_FAN: 4, // 팬
+  NID_AIRFAN: 5, //환기팬
+  NID_VALVE: 6, // 밸브
+  NID_AIRVALVE: 7, // 환기밸브
+  NID_WATERPUMP: 8, // 관수펌프
+  NID_FLOWFAN: 9, // 유동팬
+  NID_SOLVALVE: 10, // 솔밸브
+
+  NID_LED: 20,      //LED
+  NID_LEDWHITE: 21, // 흰색 LED
+  NID_LEDRED: 22, // 적색 LED
+  NID_LEDBLUE: 23, // 청색 LED
+  NID_LEDGREEN: 24, // 녹색 LED
+
+  NID_ECVALVEA: 30, // A액밸브(EC)
+  NID_ECVALVEB: 31, // B액밸브(EC)
+  NID_ECVALVEC: 32, // C액밸브(EC)
+  NID_ECVALVED: 33, // D액밸브(EC)
+  NID_ECVALVEE: 34, // E액밸브(EC)
+
+  NID_ECVALVEA_PH: 35, // A액밸브(산)
+  NID_ECVALVEB_PH: 36, // B액밸브(산)
+  NID_ECVALVEC_PH: 37, // C액밸브(산)
+  NID_ECVALVED_PH: 38, // D액밸브(산)
+  NID_ECVALVEE_PH: 39, // E액밸브(산)
+
+
+
+
+
+});
+
+
 
 
 };

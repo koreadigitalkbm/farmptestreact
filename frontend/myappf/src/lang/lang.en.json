@@ -18,6 +18,115 @@
     "LT_ANAME_CAMERA": "Taking Pictures(RGB)",
 
 
+    "LT_UNKNOWN_EVENT": "This is an unknown event.({0})",
+    "LT_ACTUATOR_EVENT": "The [{0}] Device status changed to {1}.",
+
+
+    "LT_ACT_STATE_ON": "On",
+    "LT_ACT_STATE_OFF": "Off",
+    "LT_ACT_STATE_IDLE": "Idle",
+
+    
+
+
+    "LT_ACTDEVICE_0": "Autuator",
+    "LT_ACTDEVICE_1": "Heater",
+    "LT_ACTDEVICE_2": "Cooler",
+    "LT_ACTDEVICE_3": "Pump",
+    "LT_ACTDEVICE_4": "Fan",
+    "LT_ACTDEVICE_5": "Air Fan",
+    "LT_ACTDEVICE_6": "Valve",
+    "LT_ACTDEVICE_7": "Air Valve",
+    "LT_ACTDEVICE_8": "Water Pump",
+    "LT_ACTDEVICE_9": "Flow Fan",
+    
+    "LT_ACTDEVICE_10": "SolValve",
+    "LT_ACTDEVICE_11": "SolValve",
+    "LT_ACTDEVICE_12": "SolValve",
+    "LT_ACTDEVICE_13": "SolValve",
+    "LT_ACTDEVICE_14": "SolValve",
+    "LT_ACTDEVICE_15": "SolValve",
+    "LT_ACTDEVICE_16": "SolValve",
+    "LT_ACTDEVICE_17": "SolValve",
+    "LT_ACTDEVICE_18": "SolValve",
+    "LT_ACTDEVICE_19": "SolValve",
+    
+
+    "LT_ACTDEVICE_20": "LED",
+    "LT_ACTDEVICE_21": "White LED",
+    "LT_ACTDEVICE_22": "Red LED",
+    "LT_ACTDEVICE_23": "Blue LED",
+    "LT_ACTDEVICE_24": "Green LED",
+    "LT_ACTDEVICE_25": "LED",
+    "LT_ACTDEVICE_26": "LED",
+    "LT_ACTDEVICE_27": "LED",
+    "LT_ACTDEVICE_28": "LED",
+    "LT_ACTDEVICE_29": "LED",
+    
+    "LT_ACTDEVICE_30": "A Solution(EC)",
+    "LT_ACTDEVICE_31": "B Solution(EC)",
+    "LT_ACTDEVICE_32": "C Solution(EC)",
+    "LT_ACTDEVICE_33": "D Solution(EC)",
+    "LT_ACTDEVICE_34": "E Solution(EC)",
+    "LT_ACTDEVICE_35": "A Solution(Acid)",
+    "LT_ACTDEVICE_36": "B Solution(Acid)",
+    "LT_ACTDEVICE_37": "C Solution(Acid)",
+    "LT_ACTDEVICE_38": "D Solution(Acid)",
+    "LT_ACTDEVICE_39": "E Solution(Acid)",
+    
+
+
+
+    "LT_SNAME_0": "None",
+    "LT_SNAME_1": "Temperature",
+    "LT_SNAME_2": "Humidity",
+    "LT_SNAME_3": "토양온도",
+    "LT_SNAME_4": "토양함수율",
+    "LT_SNAME_5": "토양EC",
+    "LT_SNAME_6": "CO2",
+    "LT_SNAME_7": "Temperature",
+    "LT_SNAME_8": "일사",
+    "LT_SNAME_9": "Wind Speed",
+    
+    "LT_SNAME_10": "Wind Vain",
+    "LT_SNAME_11": "대기압",
+    "LT_SNAME_12": "압력",
+    "LT_SNAME_13": "강우량",
+    "LT_SNAME_14": "강우감지",
+    "LT_SNAME_15": "UV",
+    "LT_SNAME_16": "pH",
+    "LT_SNAME_17": "EC",
+    "LT_SNAME_18": "PE300온도",
+    "LT_SNAME_19": "CO",
+    
+    "LT_SNAME_20": "O2",
+    "LT_SNAME_21": "Light",
+    "LT_SNAME_22": "RED",
+    "LT_SNAME_23": "GREEN",
+    "LT_SNAME_24": "BLUE",
+    "LT_SNAME_25": "암모니아",
+    "LT_SNAME_26": "Flow rate",
+    "LT_SNAME_27": "Total flow",
+    "LT_SNAME_28": "Battery",
+    "LT_SNAME_29": "Weight",
+    
+    "LT_SNAME_30": "Water level",
+    "LT_SNAME_31": "DO",
+    "LT_SNAME_32": "Bulk EC",
+    "LT_SNAME_33": "Couter",
+    "LT_SNAME_34": "황화수소",
+    "LT_SNAME_35": "초미세먼지",
+    "LT_SNAME_36": "미세먼지",
+    "LT_SNAME_37": "메탄",
+    "LT_SNAME_38": "에탄",
+    "LT_SNAME_39": "프로판",
+
+    "LT_SNAME_40": "누적일사량",
+    "LT_SNAME_41": "Dew point",
+    
+    
+
+
     
 
     "Autocontrol": "Autocontrol",
