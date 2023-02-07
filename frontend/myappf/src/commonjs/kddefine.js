@@ -5,8 +5,8 @@ module.exports = class KDDefine {
 // 장비 모델명
   static PModelList = [
     'KPC200', // 식물재배기 1차 2차
-    'KPC300', // 식물재배기 교육용 3차 
-    'KPC480', // 식물재배기 연구용 3차
+    'KPC300', // 식물재배기  3차(교육용) 
+    'KPC480', // 식물재배기  3차(연구용)
     'VFC3300', // 인도어팜
   ];
 

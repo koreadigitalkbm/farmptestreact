@@ -1,7 +1,9 @@
 //구동기 노드에 대한 인터페이스 클래스
 const ActuatorNode = require("./actuatornode.js");
+const Actuatordevice = require("./actuatordevice");
+
 const ActuatorStatus = require("../../frontend/myappf/src/commonjs/actuatorstatus.js");
-const Actuatordevice = require("../../frontend/myappf/src/commonjs/actuatordevice.js");
+
 const ActuatorBasic = require("../../frontend/myappf/src/commonjs/actuatorbasic.js");
 const SystemEvent = require("../../frontend/myappf/src/commonjs/systemevent");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");

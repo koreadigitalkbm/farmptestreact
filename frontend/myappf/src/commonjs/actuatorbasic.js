@@ -28,7 +28,7 @@ module.exports =  class ActuatorBasic{
           let mcfglist = [];
           let actd = {};
 
-          if (modelname == "KPC480") {
+          if (modelname === KDDefine.PModelList.KPC480) {
             actd = new ActuatorBasic("구동기1",0);
             actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
             mcfglist.push(actd);
@@ -85,7 +85,7 @@ module.exports =  class ActuatorBasic{
             mcfglist.push(actd);
 
           }
-          else if (modelname == 'VFC3300') {              // mhlee VFC3300 <<< 이전 인도어팜 V2
+          else if (modelname ===  KDDefine.PModelList.VFC3300) {              // mhlee VFC3300 <<< 이전 인도어팜 V2
 
             // ODT_RELAY: 0, // 단순접점
             // ODT_PUMP: 1, //
@@ -142,7 +142,7 @@ module.exports =  class ActuatorBasic{
 
           }
 
-          else if (modelname == "KPC200") {
+          else if (modelname == KDDefine.PModelList.KPC200) {
             actd = new ActuatorBasic("히터1",0);
             actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_HEATER;
             mcfglist.push(actd);
@@ -154,8 +154,6 @@ module.exports =  class ActuatorBasic{
             actd = new ActuatorBasic("펌프5",4);
             actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;
             mcfglist.push(actd);
-
-
 
             actd = new ActuatorBasic("환기팬7",6);
             actd.DevType = KDDefine.OutDeviceTypeEnum.ODT_RELAY;

@@ -1,8 +1,9 @@
-const ActuatorStatus = require("./actuatorstatus.js");
-const ActuatorOperation = require("./actuatoroperation");
-const ActuatorBasic = require("./actuatorbasic");
-const SystemEvent = require("./systemevent");
-const KDDefine = require("./kddefine");
+const ActuatorStatus = require("../../frontend/myappf/src/commonjs/actuatorstatus");
+const ActuatorOperation = require("../../frontend/myappf/src/commonjs/actuatoroperation");
+const ActuatorBasic = require("../../frontend/myappf/src/commonjs/actuatorbasic");
+const SystemEvent = require("../../frontend/myappf/src/commonjs/systemevent");
+const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
+
 //구동기 기본정적 정보와 상태정보, 마지막제어명령어등을 포함한다.
 module.exports = class Actuatordevice {
   constructor(mBasicinfo) {
