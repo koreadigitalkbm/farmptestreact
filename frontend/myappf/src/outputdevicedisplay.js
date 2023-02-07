@@ -22,7 +22,7 @@ function outputdevbox(mydata, isonlystatus, index) {
   }
 
   let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid, myAppGlobal);
-  let devicon = "./image/devicon_" + actinfo.HWType + ".png";
+  let devicon = "./image/devicon_" + actinfo.DevType + ".png";
   let onofficon = "./image/opstatus_" + mydata.Sat + ".png";
 
   
@@ -35,7 +35,7 @@ function outputdevbox(mydata, isonlystatus, index) {
     );
   } else if (mydata.Opm == "MA") {
     if (isonlystatus == true) {
-      ismanual = <div className="out_result">수동제어</div>;
+      ismanual = <div className="out_result">정지(수동)</div>;
     } else {
       ismanual = (
         <div className="out_button">

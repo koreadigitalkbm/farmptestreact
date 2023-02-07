@@ -177,7 +177,7 @@ static  CameraType= Object.freeze({
       
 });
 
-//구동기 이름  id 
+//구동기 이름  id  다국어지원  언어셋 ID만들때 사용
 static  ActuatorNameID= Object.freeze({
   NID_ACTUATOR: 0, // actuator
   NID_HEATER: 1, // 히터

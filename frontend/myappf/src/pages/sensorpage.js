@@ -88,7 +88,7 @@ const Sensorpage = () => {
   return (
     <div>
       <div>{Sensordisplay(msensorsarray, true)}</div>
-      <div>{Outputdevicedisplay(moutdevarray, false)}</div>
+      <div>{Outputdevicedisplay(moutdevarray, true)}</div>
       <div>{systemeventdisplay(mevnetarray, false)}</div>
     </div>
   );
