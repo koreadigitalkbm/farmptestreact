@@ -5,6 +5,7 @@ const AutoControlconfig = require("../../frontend/myappf/src/commonjs/autocontro
 const AutoControlUtil = require("../../frontend/myappf/src/commonjs/autocontrolutil");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("../kdcommon");
+const SystemEvent = require("./systemevent");
 
 module.exports = class AutoControl {
   constructor(mconfig) {
@@ -14,6 +15,7 @@ module.exports = class AutoControl {
     this.PWMonoffstate = false;
     this.PWMLasttoltalsec = 0; // 마지막 명령어 전송시점.
     this.OnSecTime = 0; //켜짐시간(초), 모드에 따라 변경됨으로
+    this.NewEvent=null;//이벤트 발생하면 여기에 
   }
   static Clonbyjsonobj(mobj) {
     return new AutoControl(mobj.mConfig);
@@ -433,12 +435,39 @@ module.exports = class AutoControl {
 
     return oplist;
   }
+  
+  //자동제어 상태를 업데이트하고 상태변경이 되면 이벤트를 생성해서 리턴한다.
+  setUpdatestateWithEvent(newautostate)
+  {
 
+    this.NewEvent=null;
+    if(this.mState.State != newautostate)
+    {
+      //상태가 유지상태일경우 이벤트 발생안함
+      if(newautostate== KDDefine.AUTOStateType.AST_Up_Idle || newautostate== KDDefine.AUTOStateType.AST_Down_Idle  || newautostate== KDDefine.AUTOStateType.AST_IDLE)
+      {
+
+      }
+      else{
+
+        this.NewEvent=SystemEvent.createAutoControlEvent(this.mConfig.Uid,newautostate);
+      }
+      this.mState.State=newautostate;
+    }
+    return this.NewEvent;
+  }
+
+
+  //자동제어 조건을 확인하고 변경이 되면 구동명령어 목록을 리턴한다.
   getOperationsByControl(msensors, mactuators) {
     let oplist = [];
+    
+    
 
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
     let timesecnow = KDCommon.getCurrentTotalsec();
+
+
 
     //카메라는 여기서 처리안함
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
@@ -462,10 +491,14 @@ module.exports = class AutoControl {
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
     if (this.mState.ischangestatecheck(currentstate) == true) {
+
+      
+
+
       if (currentstate != KDDefine.AUTOStateType.AST_IDLE) {
         if (this.isOperationsBySpecify() == true) {
           oplist = this.getOperationsBySpecify(mactuators, currentstate);
-          return oplist;
+          
         } else {
           //일반적인 자동제어 처리 처리
           for (const mactid of this.mConfig.Actlist) {
@@ -486,7 +519,8 @@ module.exports = class AutoControl {
         }
       }
 
-      this.mState.State = currentstate;
+      this.setUpdatestateWithEvent(currentstate);
+      
     }
 
     return oplist;

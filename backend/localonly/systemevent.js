@@ -30,6 +30,16 @@ module.exports = class SystemEvent {
      return new SystemEvent(KDDefine.EVENTType.EVT_ACTUATOR, params);
    }
 
+   static createAutoControlEvent(autoid,mstate)
+   {
+     let params={
+                "autoid": autoid,
+                "state": mstate
+                };
+
+     return new SystemEvent(KDDefine.EVENTType.EVT_AUTOCONTROL, params);
+   }
+
    
 
 };

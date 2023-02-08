@@ -6,6 +6,26 @@ const ActuatorStatus = require("./actuatorstatus");
 
 module.exports = class KDUtil {
 
+  static GetAutoconfigfromid(aunqid, myGlobal)
+  {
+    const autolist=myGlobal.Autocontrolcfg;
+    if(autolist==null)
+    {
+      return null;
+    }
+
+    for (const mitem of autolist) {
+        if( mitem.Uid ===aunqid)
+        {
+          
+          return mitem;
+        }
+      
+    }
+    return null;
+  }
+//
+
   
   static GetActuatorinfofromid(actlist, aunqid, myGlobal)
   {
@@ -70,6 +90,21 @@ module.exports = class KDUtil {
     strevent = today.toLocaleString() +": ";
     switch(mEvent.EType)
     {
+      case KDDefine.EVENTType.EVT_AUTOCONTROL:
+          if(myGlobal.Autocontrolcfg!=null)
+          {
+
+            let autoinfo = KDUtil.GetAutoconfigfromid(mEvent.EParam.autoid,myGlobal);
+            if(autoinfo!=null)
+            {
+            const statestr= myGlobal.langT(ActuatorStatus.stateToStringID(mEvent.EParam.state));
+            strevent=strevent+ KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_BASIC"),autoinfo.Name,statestr);
+            }
+          
+          }
+        
+        break;
+
       case KDDefine.EVENTType.EVT_SYSTEM:
         {
           const strid="LT_SYSTEM_EVENT_"+mEvent.EParam.ecode;
@@ -78,8 +113,11 @@ module.exports = class KDUtil {
         break;
       case KDDefine.EVENTType.EVT_ACTUATOR:
         let actinfo = KDUtil.GetActuatorinfofromid(myGlobal.systeminformations.Actuators, mEvent.EParam.actid,myGlobal);
+        if(actinfo !=null)
+        {
         const statestr= myGlobal.langT(ActuatorStatus.stateToStringID(mEvent.EParam.state));
         strevent=strevent+ KDUtil.Stringformat(myGlobal.langT("LT_ACTUATOR_EVENT"),actinfo.Name,statestr);
+        }
         break;
 
       default:

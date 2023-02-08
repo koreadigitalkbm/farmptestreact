@@ -24,6 +24,8 @@
     "LT_SYSTEM_EVENT_1": "System started.",
     "LT_SYSTEM_EVENT_2": "The system failure has occurred.",
 
+    "LT_AUTO_EVENT_BASIC": "The [{0}] Control status changed to {1}.",
+
 
 
     "LT_ACT_STATE_ON": "On",

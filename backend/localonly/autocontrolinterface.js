@@ -23,6 +23,10 @@ module.exports = class AutoControlInterface {
     for (const mactl of this.mAutoControllist) {
           let mlist = mactl.getOperationsByControl(this.mMain.sensorinterface.mSensors, this.mMain.actuatorinterface.Actuators);
           opcmdlist.push(...mlist);
+          if(mactl.NewEvent !=null)
+          {
+            this.mMain.setSystemevent(mactl.NewEvent);
+          }
     }
 
     return opcmdlist;

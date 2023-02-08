@@ -18,7 +18,7 @@ function eventmsgbox(mydata,index) {
 
 function systemeventdisplay(moutdevarray ) {
   
-  //console.log("------------------------systemeventdisplay-------------------length : " + moutdevarray.length);
+  console.log("------------------------systemeventdisplay-------------------length : "  );
   return(
     <div class="listbox-area">
 <div>

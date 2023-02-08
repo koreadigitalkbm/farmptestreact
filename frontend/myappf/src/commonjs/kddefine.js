@@ -141,14 +141,15 @@ static PModel = Object.freeze({
 
   //자동제어 상태
   static AUTOStateType = Object.freeze({
-    AST_Off: 0, // off
-    AST_On: 1, // 켬
-    AST_IDLE: 2, // 상태유지, 
-    AST_ERROR: 3, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
-    AST_Down_Idle: 4, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
-    AST_Up_Idle: 5, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
-    AST_Off_finish: 10, // 제어종료 장비를 off 하고 끝냄
-    AST_Init: 20, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
+    // 자동제어상태는 만단위로 시작 다른 상태와 구별하기 위해
+    AST_Off: 10000, // off 
+    AST_On: 10001, // 켬
+    AST_IDLE: 10002, // 상태유지, 
+    AST_ERROR: 10003, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
+    AST_Down_Idle: 10004, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
+    AST_Up_Idle: 10005, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
+    AST_Off_finish: 10010, // 제어종료 장비를 off 하고 끝냄
+    AST_Init: 10020, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
         
   });
 
@@ -161,7 +162,7 @@ static PModel = Object.freeze({
 
 //자동제어 상태
 static EVENTType = Object.freeze({
-  EVT_None: 0, //
+  EVT_None: 0, // 
   EVT_SYSTEM: 1,// 시스템 이벤트, 기동, 에러.
   EVT_ACTUATOR: 2, //  구동기 상태변화
   EVT_AUTOCONTROL: 3, // 자동제어 변경, 상태변화

@@ -24,11 +24,16 @@
     "LT_SYSTEM_EVENT_1": "시스템이 시작되었습니다.",
     "LT_SYSTEM_EVENT_2": "시스템에 장애가 발생하였습니다.",
 
+    "LT_AUTO_EVENT_BASIC": "[{0}] 자동제어 상태가 {1}로 변경되었습니다.",
+    
 
 
     "LT_ACT_STATE_ON": "켜짐(On)",
     "LT_ACT_STATE_OFF": "꺼짐(Off)",
     "LT_ACT_STATE_IDLE": "상태유지",
+
+
+
 
 
     "LT_ACTDEVICE_0": "구동기",
