@@ -33,14 +33,7 @@ Chart.register(
 
 const optionChart = {
   scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-
+   
     온도: {
       type: 'linear',
       display: true,
