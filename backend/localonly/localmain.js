@@ -14,7 +14,9 @@ const devicesystemlog = require("../devicesystemlog");
 const LocalAPI = require("./localapi");
 const CameraInterface = require("./camerainterface");
 const Systemconfig = require("../../frontend/myappf/src/commonjs/devsystemconfig");
+const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminformations");
+const SystemEvent = require("./systemevent");
 
 const BackLocalGlobal = require("../backGlobal");
 
@@ -29,6 +31,10 @@ async function devicemaintask(mainclass) {
 
   try {
     mainclass.systemlog.memlog("devicemaintask start");
+
+
+    
+
 
     //통신 객체는 한번만 생성하자 여러번생성안됨.
     if (mainclass.ModbusComm == null) {
@@ -57,6 +63,9 @@ async function devicemaintask(mainclass) {
       mainclass.localDBinterface = new DatabaseInterface(mainclass);
       mainclass.dailydatas = new DailyCurrentDatas();
 
+      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup));
+
+      
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
 
       while (true) {

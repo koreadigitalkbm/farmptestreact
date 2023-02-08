@@ -1,7 +1,7 @@
 import React from "react";
 
-import myAppGlobal from "./myAppGlobal";
-import KDUtil from "./commonjs/kdutil";
+import myAppGlobal from "../../myAppGlobal";
+import KDUtil from "../../commonjs/kdutil";
 
 
 function eventmsgbox(mydata,index) {

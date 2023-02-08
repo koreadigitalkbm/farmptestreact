@@ -17,9 +17,6 @@ module.exports = class ActuatorBasic {
 
     this.UniqID = ActuatorStatus.makeactuatoruniqid(this.Nodeid, this.Channel, this.HWType);
   }
-  makeuid() {
-    this.UniqID = ActuatorStatus.makeactuatoruniqid(this.Nodeid, this.Channel, this.HWType);
-  }
 
   /// 구동기목록 모델별로 디폴트 생성 json 파일에서 편집할경우 구조체가 변경되면  귀찮음.. 코드로 추가하고 파일삭제하면 자동생성되게 하자.
   static CreateDefaultConfig(modelname) {
@@ -41,13 +38,13 @@ module.exports = class ActuatorBasic {
      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 5, KDDefine.OutDeviceTypeEnum.ODT_FAN));
 
      //화이트
-     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE));
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
      //red
-     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED));
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
      //blue
-     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE));
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
 
     } else if (modelname === KDDefine.PModel.VFC3300) {
@@ -92,13 +89,13 @@ module.exports = class ActuatorBasic {
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 6, KDDefine.OutDeviceTypeEnum.ODT_FAN));
 
       //화이트
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
       //red
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
       //blue
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
       
     } else {///기타 디폴트

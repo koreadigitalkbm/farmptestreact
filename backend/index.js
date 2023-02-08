@@ -17,12 +17,10 @@ if (myhostname.indexOf("EC2AMAZ") != -1) {
   //서버사이드 시작
   //AWS 사용할것이므로 서버 이름이 EC2로 시작한다. aws 서버에서 시작되면 무조건 서버용
   mMainclass = new ServerMain(farmscubeplatformversion);
-  
 } else {
   //로컬 장비 사이드 시작
   ///로컬로 접속하면 기본 장비 정보를 읽어와야함.
   mMainclass = new LocalMain(farmscubeplatformversion);
-
 }
 
 mMainclass.mAPI.firebasedbsetup();

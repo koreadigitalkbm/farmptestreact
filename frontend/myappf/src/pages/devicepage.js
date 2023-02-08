@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import myAppGlobal from "../myAppGlobal";
-import Outputdevicedisplay from "../outputdevicedisplay";
+import Outputdevicedisplay from "./home/outputdevicedisplay";
 
 
 

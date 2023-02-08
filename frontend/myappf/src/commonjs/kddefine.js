@@ -210,9 +210,16 @@ static  ActuatorNameID= Object.freeze({
   NID_ECVALVEE_PH: 39, // E액밸브(산)
 
 
+});
 
 
+//시스템 이벤트 코드 
+static SysEventCode = Object.freeze({
+  SEC_None: 0, // 시스템 이벤트
+  SEC_Bootup: 1, //시스템 시작되었습니다.
+  SEC_Error: 2, //시스템 장애가 발생하였습니다.
 
+      
 });
 
 

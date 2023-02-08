@@ -1,9 +1,9 @@
 import React from "react";
 
-import myAppGlobal from "./myAppGlobal";
-import KDUtil from "./commonjs/kdutil";
-import KDDefine from "./commonjs/kddefine";
-import ActuatorOperation from "./commonjs/actuatoroperation";
+import myAppGlobal from "../../myAppGlobal";
+import KDUtil from "../../commonjs/kdutil";
+import KDDefine from "../../commonjs/kddefine";
+import ActuatorOperation from "../../commonjs/actuatoroperation";
 
 function manualonoff(actuid, onoff) {
  let opcmd = new ActuatorOperation(actuid, onoff,30);

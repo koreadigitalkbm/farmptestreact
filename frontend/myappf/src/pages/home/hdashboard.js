@@ -1,30 +1,30 @@
 import { useState, useEffect } from "react";
-import Sensordisplay from "../sensordisplay";
-import myAppGlobal from "../myAppGlobal";
-import Outputdevicedisplay from "../outputdevicedisplay";
-import systemeventdisplay from "../systemeventdisplay";
+import Sensordisplay from "./sensordisplay";
+import myAppGlobal from "../../myAppGlobal";
+import Outputdevicedisplay from "./outputdevicedisplay";
+import systemeventdisplay from "./systemeventdisplay";
 
 
 let lasteventtime = 1;
 let lastsensortime = 1;
 let eventlist = [];
 let dailysensorlist = [];
-
-const Sensorpage = () => {
+//홈 메인 대시보드 
+const HDashboard = () => {
   const [msensorsarray, setSensors] = useState([]);
   const [moutdevarray, setUpdate] = useState([]);
   const [mevnetarray, setEvents] = useState([]);
   const [mdailysensorarray, setDailysensor] = useState([]);
-  console.log("-------------------------Sensorpage  ---------------------");
+  console.log("-------------------------HDashboard  ---------------------");
 
   useEffect(() => {
     //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
     let readtimemsec = 1000;
 
-    console.log("-------------------------Sensorpage  useEffect---------------------issetreq:");
+    console.log("-------------------------HDashboard  useEffect---------------------issetreq:");
     //setEvents(eventlist);
 
-    if (myAppGlobal.islocal == false || myAppGlobal.islocal == "false") {
+    if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
       readtimemsec = 3000;
     }
 
@@ -81,7 +81,7 @@ const Sensorpage = () => {
       });
     }, readtimemsec);
 
-    console.log("-------------------------Sensorpage  finish--------------------- out:" + interval);
+    console.log("-------------------------HDashboard  finish--------------------- out:" + interval);
     return () => clearInterval(interval);
   }, []);
 
@@ -94,4 +94,4 @@ const Sensorpage = () => {
   );
 };
 
-export default Sensorpage;
+export default HDashboard;

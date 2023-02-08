@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink, Routes, Route } from "react-router-dom";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, Speed } from "@mui/icons-material";
+import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, Speed,LocalFlorist } from "@mui/icons-material";
+
+
 
 import HomePage from "./HomePage";
 import ControlPage from "./pages/controlPage";
@@ -10,8 +12,8 @@ import SettingPage from "./pages/settingPage";
 
 import SetupPage from "./setuppage";
 import FactorySetup from "./factorysetup";
-import Sensorpage from "./sensorpage";
-import Devicepage from "./devicepage";
+import HDashboard from "./home/hdashboard";
+
 import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 
@@ -64,7 +66,7 @@ export default function FMainpage(props) {
         switch (props.id) {
             case 'Home': return <Home />
             case 'Data': return <Dataset />
-            case 'Autocontrol': return <Speed />
+            case 'Autocontrol': return <LocalFlorist />
             case 'Setting': return <Settings />
             case 'Logout': return <Logout />
 
@@ -161,14 +163,14 @@ export default function FMainpage(props) {
                 <Toolbar />
 
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/Home" element={<HomePage />} />
+                    <Route path="/" element={<HDashboard />} />
+                    <Route path="/Home" element={<HDashboard />} />
                     <Route path="/Control" element={<ControlPage />} />
                     <Route path="/Data" element={<DataPage />} />
                     <Route path="/Setting" element={<SettingPage />} />
 
-                    <Route path="/devices" element={<Devicepage />} />
-                    <Route path="/sensor" element={<Sensorpage />} />
+                    
+                    <Route path="/sensor" element={<HDashboard />} />
                     <Route path="/autocontrol" element={<Autocontrolpage />} />
                     <Route path="/setup" element={props.loginrol === "factoryadmin" ? <FactorySetup  {...props} /> : <SetupPage {...props} />} />
                 </Routes>

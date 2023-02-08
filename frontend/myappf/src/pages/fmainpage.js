@@ -13,7 +13,7 @@ import SettingPage from "./pages/settingPage";
 
 import SetupPage from "./setuppage";
 import FactorySetup from "./factorysetup";
-import Sensorpage from "./sensorpage";
+
 import Devicepage from "./devicepage";
 import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
@@ -88,7 +88,7 @@ export default function FMainpage(props) {
           <Route path="/Setting" element={<SettingPage />} />
 
           <Route path="/devices" element={<Devicepage />} />
-          <Route path="/sensor" element={<Sensorpage />} />
+          
           <Route path="/autocontrol" element={<Autocontrolpage fmaininit={fmaininit} />} />
           <Route path="/setup" element={props.loginrol== "factoryadmin" ? <FactorySetup  {...props} />:<SetupPage {...props}/>} />
         </Routes>

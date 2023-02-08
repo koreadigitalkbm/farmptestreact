@@ -42,7 +42,6 @@ module.exports = class KDUtil {
     let min = Math.floor((dayseconds - hour * 3600) / 60);
     if (hour < 10) hour = "0" + hour;
     if (min < 10) min = "0" + min;
-    console.log("secToTime : " + (hour + ":" + min));
     return hour + ":" + min;
   }
 
@@ -53,7 +52,6 @@ module.exports = class KDUtil {
 
   static Stringformat()
   {
-    
     let formatted = arguments[0];
     for (let arg=1;arg<arguments.length;arg++) 
     {
@@ -72,18 +70,20 @@ module.exports = class KDUtil {
     strevent = today.toLocaleString() +": ";
     switch(mEvent.EType)
     {
+      case KDDefine.EVENTType.EVT_SYSTEM:
+        {
+          const strid="LT_SYSTEM_EVENT_"+mEvent.EParam.ecode;
+           strevent=strevent+ myGlobal.langT(strid);
+        }
+        break;
       case KDDefine.EVENTType.EVT_ACTUATOR:
         let actinfo = KDUtil.GetActuatorinfofromid(myGlobal.systeminformations.Actuators, mEvent.EParam.actid,myGlobal);
-
         const statestr= myGlobal.langT(ActuatorStatus.stateToStringID(mEvent.EParam.state));
         strevent=strevent+ KDUtil.Stringformat(myGlobal.langT("LT_ACTUATOR_EVENT"),actinfo.Name,statestr);
-
         break;
 
       default:
-                
         strevent=strevent+ KDUtil.Stringformat(myGlobal.langT("LT_UNKNOWN_EVENT"),mEvent.EType);
-
         break;
 
     }
