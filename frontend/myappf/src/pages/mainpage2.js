@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink, Routes, Route } from "react-router-dom";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, Speed,LocalFlorist } from "@mui/icons-material";
+import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage,LocalFlorist } from "@mui/icons-material";
 
 
 
@@ -65,7 +65,7 @@ export default function FMainpage(props) {
     function Navicon(props) {
         switch (props.id) {
             case 'Home': return <Home />
-            case 'Data': return <Dataset />
+            case 'Data': return <FindInPage />
             case 'Autocontrol': return <LocalFlorist />
             case 'Setting': return <Settings />
             case 'Logout': return <Logout />
