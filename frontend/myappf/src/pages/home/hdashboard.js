@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+import { Line, } from 'react-chartjs-2'
+
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
 import Outputdevicedisplay from "./outputdevicedisplay";
@@ -9,6 +13,48 @@ let lasteventtime = 1;
 let lastsensortime = 1;
 let eventlist = [];
 let dailysensorlist = [];
+
+const dataChart = {
+  labels: [],
+  datasets: [
+  ],
+};
+
+
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
+const optionChart = {
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true,
+        },
+      },
+    ],
+
+    온도: {
+      type: 'linear',
+      display: true,
+      position: 'right'
+    },
+    습도: {
+      type: 'linear',
+      display: true,
+      position: 'left'
+    },
+    
+  }
+}
+
 //홈 메인 대시보드 
 const HDashboard = () => {
   const [msensorsarray, setSensors] = useState([]);
@@ -87,6 +133,16 @@ const HDashboard = () => {
 
   return (
     <div>
+      <div>
+      
+       <Line width="500" height="100"
+          key='dashboardChart'
+          data={dataChart}
+          options={
+            optionChart
+          } />
+      
+        </div>
       <div>{Sensordisplay(msensorsarray, true)}</div>
       <div>{Outputdevicedisplay(moutdevarray, true)}</div>
       <div>{systemeventdisplay(mevnetarray, false)}</div>
