@@ -134,7 +134,7 @@ const HDashboard = () => {
 
   const chartbox = useMemo(() => {
     return <DashboardChart chartdatas ={mdailysensorarray} lasttime= {msensorlasttime} />;
-  }, [msensorlasttime]);
+  }, [mdailysensorarray]);
 
 
 
