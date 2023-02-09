@@ -198,38 +198,11 @@ module.exports = class LocalMain {
     this.mAPI = new LocalAPI(fversion, this);
 
 
-    
-
-
     //3초후 메인시작
     setTimeout(devicemaintask, 3000, this);
   }
 
-  /*
-  //언어추가되면 여기에 추가
-  loadlanguagefile(mlang)
-  {
-    let filepath = "./lang/";
-    switch(mlang)
-    {
-      case "ko-KR":
-        filepath = filepath+"backlang.ko.json";
-      break;
-      default:
-        filepath = filepath+"backlang.en.json";
-        break;
-    }
-    console.log("loadlanguagefile path------------------- "+filepath + " mlang:"+ mlang);
-
-    const langset=KDCommon.Readfilejson(filepath);
-
-    return langset;
-
-  }
-  BackLocalGlobal.StringSET=this.loadlanguagefile(this.localsysteminformations.Systemconfg.language) 
-    let str=BackLocalGlobal.StringSET.LT_LOGINTITLE_LOCAL.format("ffsdf","klkl");
-    console.log("lang :" + str);
-*/
+  
 
 
 
@@ -253,8 +226,16 @@ module.exports = class LocalMain {
     this.dailydatas.updateEvent(mnewevt);
 
     //로컬 db로 보냄
-    
-    //서버로 보냄
+    let events=[];
+    events.push(mnewevt);
+     this.localDBinterface.seteventdata(this.mydeviceuniqid, events);
+
+     //서버로 보냄
+     this.mAPI.seteventdatatoserver(this.mydeviceuniqid, events);
+
+
+     //서버로 보냄
+    // this.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg, true);
 
   }
 

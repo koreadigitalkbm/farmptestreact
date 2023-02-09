@@ -1,7 +1,9 @@
 var config = require("../common/private/dbcon");
 const mariadb = require("mysql");
+const moment = require("moment");
 const KDCommon = require("./kdcommon");
 const KDUtil = require("../frontend/myappf/src/commonjs/kdutil");
+const SystemEvent = require("./localonly/systemevent")
 
 module.exports = class DatabaseInterface {
   constructor(mmain) {
@@ -67,6 +69,47 @@ module.exports = class DatabaseInterface {
     } finally {
     }
   }
+
+
+  // 이벤트 데이트를 디비에 저장
+  seteventdata(did,newevents) {
+    if (this.isconnected == false) {
+      return;
+    }
+
+    try {
+      if (newevents.length < 1) {
+        return;
+      }
+
+      var sql = "INSERT INTO fjbox.systemevent (devid, dtime,etype,edatas,emessage) VALUES ";
+      let items = [];
+
+      for (const mevt of newevents) {
+        if (items.length > 0) {
+          sql += ",";
+        }
+
+        let eparam=SystemEvent.eparamEcodeb64(mevt.EParam);
+        const curdatetime = moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
+        let newsv = [did, curdatetime,mevt.EType,eparam,""];
+        items.push(newsv);
+        sql += "(?)";
+      }
+
+      this.conn.query(sql, items, function (error, result) {
+        
+        console.log(error);
+        //console.log(result);
+      });
+    } catch (err) {
+      console.log("seteventdata erorr \n");
+
+      console.log(err);
+    } finally {
+    }
+  }
+
 
   setimagetodb(did, dtime, cameratype, filename) {
     if (this.isconnected == false) {

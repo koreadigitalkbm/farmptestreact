@@ -6,6 +6,7 @@ const DatabaseInterface = require("../dbinterface");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
+const SystemEvent =require("../localonly/systemevent");
 
 module.exports = class ServerAPI {
   constructor(fversion, mMain) {
@@ -27,7 +28,7 @@ module.exports = class ServerAPI {
       return rsp.send(JSON.stringify(rspmsg));
  
    }
-   
+
   postapifordatabase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
 
@@ -44,6 +45,22 @@ module.exports = class ServerAPI {
         return this.DBInterface.gettable(rsp, reqmsg, this.callbackreturn);
 
         break;
+      
+      case KDDefine.REQType.RT_SETDB_EVENT:
+        console.log("---------------------------------postapifordatabase :  reqmsg :");
+        console.log("  devid:" + reqmsg.reqParam.devid);
+        
+        let mevents = [];
+        for (const mevt of reqmsg.reqParam.eventlist) {
+          let newev =SystemEvent.Clonbyjsonobj(mevt);
+          mevents.push(newev);
+        }
+
+        this.DBInterface.seteventdata(reqmsg.reqParam.devid, mevents);
+        responsemsg.IsOK = true;
+
+        break;
+
       case KDDefine.REQType.RT_SETDB_SENSOR:
         console.log("---------------------------------postapifordatabase :  reqmsg :");
         console.log("  sensor devid:" + reqmsg.reqParam.devid);

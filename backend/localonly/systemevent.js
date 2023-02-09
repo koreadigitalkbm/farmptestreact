@@ -41,6 +41,16 @@ module.exports = class SystemEvent {
      return new SystemEvent(KDDefine.EVENTType.EVT_AUTOCONTROL, params);
    }
 
+   static eparamEcodeb64(mparaobj)
+   {
+
+    let objJsonStr = JSON.stringify(mparaobj);
+    let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+//    console.log("eparamEcodeb64 : " + objJsonB64);
+
+    return objJsonB64;
+
+   }
    
 
 };

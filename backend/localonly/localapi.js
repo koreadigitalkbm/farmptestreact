@@ -30,7 +30,7 @@ module.exports = class LocalAPI {
        return this.mMain.localDBinterface.gettable(rsp, reqmsg, this.callbackreturn);
     }
 
-    
+
     let responsemsg = new responseMessage();
     rsp.send(JSON.stringify(responsemsg));
   }
@@ -229,6 +229,17 @@ module.exports = class LocalAPI {
     };
     return await this.setRequestServer(reqmsg);
   }
+
+  ///이벤트 데이터를 서버로 보냄
+  async seteventdatatoserver(did, events) {
+    const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_EVENT);
+    reqmsg.reqParam = {
+      devid: did,
+      eventlist: events,
+    };
+    return await this.setRequestServer(reqmsg);
+  }
+
   /// issetdb 가 false 이면 db 저장안함 메뉴얼촬영 이미지 전송때  flase
   async setcameradatatoserver(did, dtime, ctype, pname, mimage, issetdb) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
