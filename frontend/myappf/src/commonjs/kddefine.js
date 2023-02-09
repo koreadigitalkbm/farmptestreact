@@ -93,6 +93,9 @@ static PModel = Object.freeze({
     RT_SETDB_EVENT: 'setdbevent', //  이벤트 데이터를 저장한다.
     RT_SETDB_CAMERA: 'setdbcamera', //  카메라 이미지데이터를 저장한다.
     
+
+    RT_GETDB_DATAS: 'getdbdatas', //  DB 에서 데이터를 검색해서 보내준다.
+
     
   });
 

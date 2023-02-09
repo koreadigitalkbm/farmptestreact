@@ -72,6 +72,9 @@ module.exports = class DatabaseInterface {
     if (this.isconnected == false) {
       return;
     } else {
+
+      
+
       var sql = "INSERT INTO fjbox.cameraimages (devid, dtime,ctype,filename) VALUES (?,?,?,?)";
       const svalues = [did, dtime, cameratype, filename];
       this.conn.query(sql, svalues, function (error, result) {
@@ -118,17 +121,41 @@ module.exports = class DatabaseInterface {
   }
 
   // 그냥테스트 함수
-  gettable() {
+   gettable(rsp, reqmsg, returncallback) {
+    
     try {
-      this.conn.query("SELECT * FROM sensordatas", function (error, result) {
+
+      const qparam= reqmsg.reqParam;
+      const devid = reqmsg.uqid;
+      let sqlquery ;
+      console.log(qparam);
+
+      if(qparam.TableName =="sensor")
+      {
+       sqlquery = "SELECT distinct dtime,value,stype FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      }
+      else if(qparam.TableName =="camera")
+      {
+       sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      }
+      else if(qparam.TableName =="event")
+      {
+       sqlquery = "SELECT distinct dtime,value,stype FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      }
+
+       this.conn.query(sqlquery, function (error, result) {
         console.log("get table dtata........ \n");
-        console.log(result);
+        //console.log(result);
+        returncallback(rsp,result);
+  
+        
       });
     } catch (err) {
       console.log("get table eror \n");
 
       console.log(err);
     } finally {
+      
     }
   }
 };

@@ -16,12 +16,34 @@ module.exports = class ServerAPI {
     this.DBInterface = new DatabaseInterface(mMain);
   }
 
+
+   //콜백함수에서 응답해야한다면 이함수를사용하자.
+   callbackreturn(rsp, mparam)
+   {
+     let rspmsg = new responseMessage();
+     rspmsg.retMessage = mparam;
+     rspmsg.IsOK = true;
+      console.log("callbackreturn mparam:"+ mparam.length );
+      return rsp.send(JSON.stringify(rspmsg));
+ 
+   }
+   
   postapifordatabase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
 
     let responsemsg = new responseMessage();
 
+   
+   
+
     switch (reqmsg.reqType) {
+
+
+       //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
+      case KDDefine.REQType.RT_GETDB_DATAS:
+        return this.DBInterface.gettable(rsp, reqmsg, this.callbackreturn);
+
+        break;
       case KDDefine.REQType.RT_SETDB_SENSOR:
         console.log("---------------------------------postapifordatabase :  reqmsg :");
         console.log("  sensor devid:" + reqmsg.reqParam.devid);

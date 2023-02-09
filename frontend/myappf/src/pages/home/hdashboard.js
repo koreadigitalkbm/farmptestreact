@@ -1,7 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import { Line } from "react-chartjs-2";
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
