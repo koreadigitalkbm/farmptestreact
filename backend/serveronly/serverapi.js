@@ -47,7 +47,7 @@ module.exports = class ServerAPI {
         break;
       
       case KDDefine.REQType.RT_SETDB_EVENT:
-        console.log("---------------------------------postapifordatabase :  reqmsg :");
+        console.log("---------------------------------postapifordatabase :  RT_SETDB_EVENT :");
         console.log("  devid:" + reqmsg.reqParam.devid);
         
         let mevents = [];

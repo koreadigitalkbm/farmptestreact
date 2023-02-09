@@ -4,7 +4,7 @@ const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 
 module.exports = class SystemEvent {
   static Clonbyjsonobj(mobj) {
-    return Object.assign(new SystemEvent(), mobj);
+    return Object.assign(new SystemEvent(0,0), mobj);
   }
 
   constructor(metype, mparams) {
