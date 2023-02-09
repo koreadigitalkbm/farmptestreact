@@ -15,7 +15,7 @@ function manualonoff(actuid, onoff) {
 function outputdevbox(mydata, isonlystatus, index) {
   let ismanual;
 
-  //console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
+//  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
   if(myAppGlobal.systeminformations == null)
   {
     return null;
@@ -68,6 +68,9 @@ function outputdevbox(mydata, isonlystatus, index) {
 }
 
 function Outputdevicedisplay(moutdevarray, isonlystatus) {
+
+  console.log("------------------------Outputdevicedisplay--------------------isonlystatus : " + isonlystatus);
+
   return <div className="output">
     
     {moutdevarray.map((localState, index) => outputdevbox(localState, isonlystatus, index))}

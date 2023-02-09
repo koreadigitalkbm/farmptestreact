@@ -16,6 +16,7 @@ import HDashboard from "./home/hdashboard";
 
 import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
+import DataMainPage from "./datas/datamain";
 
 import { useTranslation } from "react-i18next";
 
@@ -166,7 +167,7 @@ export default function FMainpage(props) {
                     <Route path="/" element={<HDashboard />} />
                     <Route path="/Home" element={<HDashboard />} />
                     <Route path="/Control" element={<ControlPage />} />
-                    <Route path="/Data" element={<DataPage />} />
+                    <Route path="/Data" element={<DataMainPage />} />
                     <Route path="/Setting" element={<SettingPage />} />
 
                     

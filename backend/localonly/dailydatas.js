@@ -15,6 +15,9 @@ module.exports = class DailyCurrentDatas {
       this.DEvents.splice(0, 100);
     }
     this.DEvents.push(mevent);
+
+    
+
   }
 
   updateSensor(curdata) {
@@ -49,6 +52,7 @@ module.exports = class DailyCurrentDatas {
     {
       if(this.DEvents[i].EDate >eventlasttime )
       {
+        
         sysevts.DEvents.push(this.DEvents[i]);
       }
     }

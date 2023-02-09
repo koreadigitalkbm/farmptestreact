@@ -113,7 +113,7 @@ module.exports = class AutoControl {
 
       if (humiditysensor == null && co2sensor ==null) {
         //해당센서 없음
-        console.log("getStateBySensorcondtion no sensor all : " + msensors.length);
+        //console.log("getStateBySensorcondtion no sensor all : " + msensors.length);
         return KDDefine.AUTOStateType.AST_ERROR;
       }
 
@@ -216,7 +216,7 @@ module.exports = class AutoControl {
       upvalue = targetvalue + Number(this.mConfig.BValue);
       downvalue = targetvalue - Number(this.mConfig.BValue);
 
-      console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
+      //console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
       //냉난방 동시제어일때
       if (KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE == this.mConfig.Cdir) {

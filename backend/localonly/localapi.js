@@ -23,6 +23,14 @@ module.exports = class LocalAPI {
   postapifordatabase(req, rsp) {
     let reqmsg = JSON.parse(JSON.stringify(req.body));
     console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
+
+    //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
+    if(reqmsg.reqType ==KDDefine.REQType.RT_GETDB_DATAS)
+    {
+       return this.mMain.localDBinterface.gettable(rsp, reqmsg, this.callbackreturn);
+    }
+
+    
     let responsemsg = new responseMessage();
     rsp.send(JSON.stringify(responsemsg));
   }
@@ -39,15 +47,35 @@ module.exports = class LocalAPI {
     let jsonstr = JSON.stringify(req.body);
     let reqmsg = JSON.parse(jsonstr);
     //기본 nak 메시지로 만듬.
-    let responsemsg = this.messageprocessing(reqmsg);
+
+
+    
+    
+    let responsemsg =  this.messageprocessing(reqmsg);
 
     rsp.send(JSON.stringify(responsemsg));
   }
 
-  messageprocessing(reqmsg) {
+
+  //콜백함수에서 응답해야한다면 이함수를사용하자.
+  callbackreturn(rsp, mparam)
+  {
+    let rspmsg = new responseMessage();
+    rspmsg.retMessage = mparam;
+    rspmsg.IsOK = true;
+     console.log("callbackreturn mparam:"+ mparam.length );
+     return rsp.send(JSON.stringify(rspmsg));
+
+  }
+
+
+   messageprocessing(reqmsg) {
     let rspmsg = new responseMessage();
     //console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
     switch (reqmsg.reqType) {
+
+      
+
       case KDDefine.REQType.RT_LOGIN:
         if (reqmsg.reqParam.loginPW === this.mMain.localsysteminformations.Systemconfg.password) {
           rspmsg.retMessage = "user";
@@ -115,6 +143,8 @@ module.exports = class LocalAPI {
         }
         // 시간이 0으로오면 요청없음
         if (this.mMain.dailydatas != null && reqmsg.reqParam.STime > 0) {
+        
+          
           rspmsg.retParam = this.mMain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
         }
         //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);

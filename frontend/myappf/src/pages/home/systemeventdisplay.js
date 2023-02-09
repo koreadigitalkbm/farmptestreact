@@ -1,34 +1,41 @@
-import React from "react";
-
 import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 
 
-function eventmsgbox(mydata,index) {
-  
-  let evetinfo =mydata;
 
+function eventmsgbox(mydata,index) {
+    //console.log("------------------------eventmsgbox------------------- : ");
   
   return (
       <li key={index} role="option"> 
-      {KDUtil.EventToString(evetinfo, myAppGlobal)}
+      {KDUtil.EventToString(mydata, myAppGlobal)}
       </li>
   );
 }
 
-function systemeventdisplay(moutdevarray ) {
+const  Systemeventdisplay= (props )=> {
   
-  console.log("------------------------systemeventdisplay-------------------length : "  );
+  
+  const evtlist = props.mevtlist;
+
+  
+  if(evtlist ==null)
+  {
+    return null;
+  }
+  console.log("------------------------systemeventdisplay-------------------length : "  +evtlist.length);
+
   return(
     <div class="listbox-area">
 <div>
     <span id="ss_elem" class="listbox-label">시스템 이벤트목록입니다.</span>
     <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
-    {moutdevarray.map((localState,index) => eventmsgbox(localState,index))}
+    {evtlist.map((localState,index) => eventmsgbox(localState,index))}
     </ul>
     </div>
     </div>
     );
 }
 
-export default systemeventdisplay;
+
+export default Systemeventdisplay;

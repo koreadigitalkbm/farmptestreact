@@ -43,6 +43,24 @@ export default class IndoorFarmAPI {
     }
   }
 
+
+  // 장비또는 서버의 DB 데이터 요청
+  async setRequestDB(mReqmsg) {
+    let resdata;
+
+    try {
+      resdata = await this.postData(API + "dbrequest", mReqmsg);
+      //console.log(" setRequestDB reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
+    } catch (error) {
+      console.log(" setRequestDB error : " + error);
+    } finally {
+      //console.log(" setRequestDB finally  : ");
+      return resdata;
+    }
+  }
+
+
+
   // 장비에 데이터 요청
   async setRequestdevice(mReqmsg) {
     let resdata;
@@ -148,12 +166,22 @@ export default class IndoorFarmAPI {
     return await this.setRequestdevice(reqmsg);
   }
 
-
-  
+ 
 
   async saveAutocontrolconfig(autoccfg) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG);
     reqmsg.reqParam = autoccfg;
     return await this.setRequestdevice(reqmsg);
   }
+
+  async getDataformDB(mdbquery) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETDB_DATAS);
+    reqmsg.reqParam = mdbquery;
+    return await this.setRequestDB(reqmsg);
+  }
+
+
+  
+
+
 }
