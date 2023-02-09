@@ -21,6 +21,7 @@ const HDashboard = () => {
   const [moutdevarray, setActuator] = useState([]);
   const [mevnetarray, setEvents] = useState([]);
   const [mdailysensorarray, setDailysensor] = useState([]);
+  const [msensorlasttime, setLasttime] = useState(1);
 
   console.log("-------------------------HDashboard  ---------------------");
 
@@ -108,6 +109,8 @@ const HDashboard = () => {
               {
                 lastsensortime =  recivelasttime;
                 setDailysensor(dailysensorlist);
+                setLasttime(recivelasttime);
+                console.log("update sensor : " + Date(lastsensortime) + " lenth : " + dailysensorlist.length);
                 console.log(dailysensorlist);
               }
               
@@ -128,12 +131,17 @@ const HDashboard = () => {
     return <Systemeventdisplay mevtlist={mevnetarray} />;
   }, [mevnetarray]);
 
-  
+
+  const chartbox = useMemo(() => {
+    return <DashboardChart chartdatas ={mdailysensorarray} lasttime= {msensorlasttime} />;
+  }, [msensorlasttime]);
+
+
 
   return (
     <div>
       
-        <DashboardChart chartdatas ={mdailysensorarray} />
+        {chartbox}
         <Sensordisplay sensors={msensorsarray} />
         <ActuatorDisplay actuators={moutdevarray} />
         {eventbox}
