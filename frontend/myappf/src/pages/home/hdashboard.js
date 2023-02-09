@@ -10,6 +10,7 @@ import DashboardChart from "./dashboardchart";
 let lasteventtime = 1;
 let lastsensortime = 1;
 let eventlist = [];
+let eventlistTime = [];
 let dailysensorlist = [];
 
 
@@ -17,8 +18,8 @@ let dailysensorlist = [];
 const HDashboard = () => {
   const [msensorsarray, setSensors] = useState([]);
   const [moutdevarray, setActuator] = useState([]);
-  const [mevnetarray, setEvents] = useState([]);
-  const [mdailysensorarray, setDailysensor] = useState([]);
+  const [mevnetarray, setEvents] = useState(eventlistTime);
+  const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [msensorlasttime, setLasttime] = useState(1);
 
   console.log("-------------------------HDashboard  ---------------------");
@@ -62,6 +63,7 @@ const HDashboard = () => {
             if (sysevents.length > 0) {
               let revlasttime;
               let isupdateevent=false;
+              
               console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(lasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
@@ -79,12 +81,12 @@ const HDashboard = () => {
               if (isupdateevent ===true) {
                 lasteventtime = revlasttime;
                 console.log("update event : " + Date(lasteventtime) + " lenth : " + eventlist.length);
-                let revlist = [];
+                eventlistTime= [];
                 for (let i =0; i <eventlist.length; i++) {
-                  revlist.push(eventlist[eventlist.length-i-1]);
+                  eventlistTime.push(eventlist[eventlist.length-i-1]);
                   console.log(eventlist[eventlist.length-i-1]);
                 }
-                setEvents(revlist);
+                setEvents(eventlistTime);
               }
             }
           }
