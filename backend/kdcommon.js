@@ -68,6 +68,7 @@ module.exports = class KDCommon {
     filename = filename.replace("#", "_");
     filename = filename.replace("$", "_");
     filename = filename.replace("&", "_");
+    filename = filename.replace(" ", "_");
 
     return filename;
   }

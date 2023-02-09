@@ -51,6 +51,19 @@ module.exports = class SystemEvent {
     return objJsonB64;
 
    }
+
+   static createEventbyDBObject(dbobj)
+   {
+     const etype= dbobj.etype;
+     const etime= dbobj.dtime;
+     const jsonString = Buffer.from(dbobj.edatas,'base64').toString();
+     const eparam= JSON.parse(jsonString);
+     let newevt= new SystemEvent(etype, params);
+     newevt.EDate=etime;
+     return newevt;
+
+   }
+   
    
 
 };

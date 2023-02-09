@@ -82,6 +82,7 @@ const HDashboard = () => {
                 let revlist = [];
                 for (let i =0; i <eventlist.length; i++) {
                   revlist.push(eventlist[eventlist.length-i-1]);
+                  console.log(eventlist[eventlist.length-i-1]);
                 }
                 setEvents(revlist);
               }

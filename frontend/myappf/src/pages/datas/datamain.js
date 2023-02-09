@@ -3,7 +3,9 @@ import { useState, useEffect, useMemo } from "react";
 import DBQueryParam from "../../commonjs/dbqueryparam";
 import DashboardChart from "../home/dashboardchart";
 import myAppGlobal from "../../myAppGlobal";
-
+import Systemeventdisplay from "../home/systemeventdisplay";
+import { Buffer } from "buffer";
+import TitlebarBelowImageList from "./Himagedisplay";
 
 //홈 메인 대시보드
 const DataMainPage = () => {
@@ -39,6 +41,59 @@ const DataMainPage = () => {
     myAppGlobal.farmapi.getDataformDB(dbqcam).then((ret) => {
       console.log("-------------------------getdb camera: " + ret.IsOK);
       console.log(ret.retMessage);
+
+      const imglist = ret.retMessage;
+      let items = [];
+      if (imglist != null) {
+        for (let i = 0; i < imglist.length; i++) {
+         
+            let fileurl= "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imglist[i].filename ;
+            console.log("fileurl:"+ fileurl);
+
+            let newimg= 
+            {
+                img: fileurl,
+                title:imglist[i].dtime,
+                author: imglist[i].ctype,
+            }
+            
+            items.push(newimg);
+        }
+        setCamimages(items);
+        
+      }
+
+
+
+    });
+
+    let dbevt = new DBQueryParam(sday, eday, "event");
+    myAppGlobal.farmapi.getDataformDB(dbevt).then((ret) => {
+      console.log("-------------------------getdb event: " + ret.IsOK);
+      //console.log(ret.retMessage);
+
+      const elist = ret.retMessage;
+      let sevents = [];
+      if (elist != null) {
+        for (let i = 0; i < elist.length; i++) {
+            const jsonString = Buffer.from(elist[i].edatas, "base64").toString();
+
+          if (jsonString.length > 10) {
+            const paramobj2 = JSON.parse(jsonString);
+
+            let newobj = {
+              EDate: elist[i].dtime,
+              EType: elist[i].etype,
+              EParam: paramobj2,
+            };
+            sevents.push(newobj);
+            // console.log(elist[i]);
+            // console.log(newobj);
+          }
+        }
+      }
+
+      setEvents(sevents);
     });
   }
 
@@ -52,8 +107,12 @@ const DataMainPage = () => {
         <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
       </div>
 
-      <div>이미지검색</div>
-      <div>이벤트검색</div>
+      <div>이미지내용</div>
+      {TitlebarBelowImageList(camimages) }
+      <div>
+        이벤트내용
+        <Systemeventdisplay mevtlist={mevnetarray} />
+      </div>
     </div>
   );
 };

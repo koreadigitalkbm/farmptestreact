@@ -26,7 +26,7 @@ const  Systemeventdisplay= (props )=> {
   console.log("------------------------systemeventdisplay-------------------length : "  +evtlist.length);
 
   return(
-    <div class="listbox-area">
+    <div class="listbox-area"  >
 <div>
     <span id="ss_elem" class="listbox-label">시스템 이벤트목록입니다.</span>
     <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">

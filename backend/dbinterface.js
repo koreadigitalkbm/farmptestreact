@@ -183,7 +183,7 @@ module.exports = class DatabaseInterface {
       }
       else if(qparam.TableName =="event")
       {
-       sqlquery = "SELECT distinct dtime,value,stype FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+       sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
       }
 
        this.conn.query(sqlquery, function (error, result) {
