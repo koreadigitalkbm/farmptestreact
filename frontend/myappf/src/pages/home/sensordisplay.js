@@ -2,7 +2,7 @@ import React from "react";
 import Sensordevice from "../../commonjs/sensordevice";
 import myAppGlobal from "../../myAppGlobal";
 
-function SensorBox(msensorcompact) {
+function SensorBox(msensorcompact,index) {
   let msensor = new Sensordevice(msensorcompact,myAppGlobal);
 
   let cname = "sen_con";
@@ -39,14 +39,14 @@ function SensorBox(msensorcompact) {
 
 const Sensordisplay = (props)=> {
 
-  const msensorsarray=props.msensorsarray;
+  const mysensors=props.sensors;
   console.log("-------------------------Sensordisplay  ---------------------");
-  if(msensorsarray ==null)
+  if(mysensors ==null)
   {
     return null;
   }
 
-  return <div className="sensor">{msensorsarray.map((localState, index) => SensorBox(localState))}</div>;
+  return <div className="sensor">{mysensors.map((item, index) => SensorBox(item,index))}</div>;
 }
 
 export default Sensordisplay;

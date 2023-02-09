@@ -25,7 +25,11 @@ module.exports = class AutoControlInterface {
           opcmdlist.push(...mlist);
           if(mactl.NewEvent !=null)
           {
+            
             this.mMain.setSystemevent(mactl.NewEvent);
+            //이벤트 저장햇으면 삭제
+            mactl.NewEvent=null;
+
           }
     }
 

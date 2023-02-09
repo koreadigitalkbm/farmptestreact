@@ -65,7 +65,7 @@ async function devicemaintask(mainclass) {
 
       mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup));
 
-      
+
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
 
       while (true) {
@@ -80,7 +80,7 @@ async function devicemaintask(mainclass) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
                 for (const msensor of mainclass.sensorinterface.mSensors) {
-                     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+                 //    console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
                 }
                 sec_step++;
                 break;

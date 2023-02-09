@@ -5,35 +5,15 @@ import { Line } from "react-chartjs-2";
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
-import Outputdevicedisplay from "./outputdevicedisplay";
+import ActuatorDisplay from "./actuatordisplay";
 import Systemeventdisplay from "./systemeventdisplay";
+import DashboardChart from "./dashboardchart";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
 let eventlist = [];
 let dailysensorlist = [];
 
-const dataChart = {
-  labels: [],
-  datasets: [],
-};
-
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-const optionChart = {
-  scales: {
-    온도: {
-      type: "linear",
-      display: true,
-      position: "right",
-    },
-    습도: {
-      type: "linear",
-      display: true,
-      position: "left",
-    },
-  },
-};
 
 //홈 메인 대시보드
 const HDashboard = () => {
@@ -82,42 +62,59 @@ const HDashboard = () => {
           if (sysevents != null) {
             if (sysevents.length > 0) {
               let revlasttime;
+              let isupdateevent=false;
               console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(lasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
-                eventlist.push(sysevents[i]);
+
                 revlasttime = sysevents[i].EDate;
-                console.log("r i : " + i+ " time : " + Date(revlasttime) );
+                if(revlasttime > lasteventtime)
+                {
+                  eventlist.push(sysevents[i]);
+                  isupdateevent=true;
+                  console.log("r i : " + i+ " eventtime : " +revlasttime  + " lasteventtime: "+lasteventtime);
+                }
               }
               
 
-              if (lasteventtime !== revlasttime) {
+              if (isupdateevent ===true) {
                 lasteventtime = revlasttime;
                 console.log("update event : " + Date(lasteventtime) + " lenth : " + eventlist.length);
                 let revlist = [];
                 for (let i =0; i <eventlist.length; i++) {
                   revlist.push(eventlist[eventlist.length-i-1]);
                 }
-
                 setEvents(revlist);
               }
             }
           }
-          /*
+          
           if (dsensors != null) {
             console.log("dsensors : " + dsensors.length);
             if (dsensors.length > 0) {
+              let recivelasttime;
+              let isupdate=false;
+
               for (let i = 0; i < dsensors.length; i++) {
-                dailysensorlist.push(dsensors[i]);
-                lastsensortime = dsensors[i].SDate;
+                recivelasttime = dsensors[i].SDate;
+                if(recivelasttime >lastsensortime )
+                {
+                  dailysensorlist.push(dsensors[i]);
+                  isupdate=true;
+
+                }
               }
-              //console.log(dailysensorlist);
-              // console.log("dsensors lastsensortime : " + Date(lastsensortime) + " lenth : " + eventlist.length);
-              // setDailysensor(dailysensorlist);
+              if(isupdate === true)
+              {
+                lastsensortime =  recivelasttime;
+                setDailysensor(dailysensorlist);
+                console.log(dailysensorlist);
+              }
+              
             }
           }
 
-          */
+          
         }
       });
     }, readtimemsec);
@@ -131,17 +128,15 @@ const HDashboard = () => {
     return <Systemeventdisplay mevtlist={mevnetarray} />;
   }, [mevnetarray]);
 
+  
+
   return (
     <div>
-      <div>
-        <Line width="500" height="100" key="dashboardChart" data={dataChart} options={optionChart} />
-      </div>
-
-      <div>
-        <Sensordisplay msensorsarray={msensorsarray} />
-        <div>{Outputdevicedisplay(moutdevarray, false)}</div>
-      </div>
-      <div>{eventbox}</div>
+      
+        <DashboardChart chartdatas ={mdailysensorarray} />
+        <Sensordisplay sensors={msensorsarray} />
+        <ActuatorDisplay actuators={moutdevarray} />
+        {eventbox}
     </div>
   );
 };
