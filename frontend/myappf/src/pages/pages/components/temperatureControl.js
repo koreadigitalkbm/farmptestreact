@@ -1,14 +1,35 @@
 import React from "react";
-import { InputAdornment, Stack, TextField, Typography } from "@mui/material"
+import { Collapse, IconButton, InputAdornment, Stack, TextField, Typography } from "@mui/material"
+import { styled } from '@mui/material/styles';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+
 
 import InputDaytimeRange from "./inputDaytimeRange";
 import InputTemperatureInterval from "./InputTemperatureInterval";
+
+
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
 
 export default function TemperatureControl(props) {
 
     let temperatureControlTemplate = undefined;
     const config = props.autoConfiguration;
     const onchange = props.onChange
+
+    const [expanded, setExpanded] = React.useState(false)
+
+    function handleExpandClick(e) {
+        setExpanded(!expanded);
+    }
 
     temperatureControlTemplate = (
         <Stack spacing={1}>
@@ -25,6 +46,7 @@ export default function TemperatureControl(props) {
                     defaultValue={config.DTValue}
                     InputProps={{
                         endAdornment: (
+
                             <InputAdornment position="start">
                                 ℃
                             </InputAdornment>
@@ -66,11 +88,25 @@ export default function TemperatureControl(props) {
 
                 <Typography>유지합니다.</Typography>
             </Stack>
+            <Stack onClick={handleExpandClick} direction="row" alignItems="center" justifyContent="center" spacing="1">
+                <Typography>고급설정</Typography>
+                <ExpandMore
+                    expand={expanded}
+                    aria-expanded={expanded}
+                    aria-label="설정 변경"
+                >
+                    <ExpandMoreIcon />
+                </ExpandMore>
+            </Stack>
 
-            <InputDaytimeRange uid={config.Uid} STime={config.STime} ETime={config.ETime} onChange={onchange} />
-            <InputTemperatureInterval uid={config.Uid} defaultValue="1" onChange={onchange} />
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <InputDaytimeRange uid={config.Uid} STime={config.STime} ETime={config.ETime} onChange={onchange} />
+                <InputTemperatureInterval uid={config.Uid} defaultValue="1" onChange={onchange} />
+            </Collapse>
+
             <hr />
         </Stack>
+
     )
 
     return temperatureControlTemplate

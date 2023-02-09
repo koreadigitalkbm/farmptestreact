@@ -15,6 +15,17 @@ import ManualControl from "./components/manualControl";
 import TemperatureControl from "./components/temperatureControl"
 import ButtonSave from "./components/btnSave";
 
+const CardFarmsCube = styled(Card)(({ theme }) => ({
+    margin:'1em',
+    marginBottom:'1em',
+    paddingTop: '1em',
+    paddingBottom: '1em',
+    backgroundColor: theme.palette.mode === 'dark' ? '#9ea7aa' : '#cfd8dc',
+    ':hover': {
+        backgroundColor: theme.palette.mode === 'dark' ? '#808e95' : '#b0bec5',
+    }
+}));
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -45,10 +56,13 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
                 )}" d="M19.03 3.56c-1.67-1.39-3.74-2.3-6.03-2.51v2.01c1.73.19 3.31.88 4.61 1.92l1.42-1.42zM11 3.06V1.05c-2.29.2-4.36 1.12-6.03 2.51l1.42 1.42C7.69 3.94 9.27 3.25 11 3.06zM4.98 6.39 3.56 4.97C2.17 6.64 1.26 8.71 1.05 11h2.01c.19-1.73.88-3.31 1.92-4.61zM20.94 11h2.01c-.21-2.29-1.12-4.36-2.51-6.03l-1.42 1.42c1.04 1.3 1.73 2.88 1.92 4.61zM7 12l3.44 1.56L12 17l1.56-3.44L17 12l-3.44-1.56L12 7l-1.56 3.44zM12 21c-3.11 0-5.85-1.59-7.46-4H7v-2H1v6h2v-2.7c1.99 2.84 5.27 4.7 9 4.7 4.87 0 9-3.17 10.44-7.56l-1.96-.45C19.25 18.48 15.92 21 12 21z"/></svg>')`,
             },
             '& + .MuiSwitch-track': {
-                opacity: 1,
-                backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+        borderRadius: 20 / 2,
+        backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
             },
         },
+        '&.Mui-disabled': {
+            opacity: 0.7
+        }
     },
     '& .MuiSwitch-thumb': {
         width: 32,
@@ -71,7 +85,6 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
         },
     },
     '& .MuiSwitch-track': {
-        opacity: 1,
         backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
         borderRadius: 20 / 2,
     },
@@ -85,15 +98,17 @@ export default function ContorlPage() {
         const [expanded, setExpanded] = React.useState(false)
         const [switchWorkmode, setSwitchWorkmode] = React.useState(copyData.Enb);
 
-        function handleExpandClick() {
+        function handleExpandClick(e) {
             setExpanded(!expanded);
         }
 
-        function handleModeChange() {
+        function handleModeChange(e) {
+            e.stopPropagation();
             setSwitchWorkmode(!switchWorkmode);
         }
 
         function handleClickAndChange(e) {
+            e.stopPropagation();
             const targetName = e.target.name;
             switch (targetName) {
                 case 'Save':
@@ -103,9 +118,7 @@ export default function ContorlPage() {
                     })
                     break;
 
-                case 'DTValue': 
-                    copyData.DTValue = e.target.value;
-                    console.log(copyData.DTValue);
+                case 'DTValue': copyData.DTValue = e.target.value;
                     break;
 
                 case 'NTValue': copyData.NTValue = e.target.value;
@@ -148,7 +161,7 @@ export default function ContorlPage() {
 
                     case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
                         return <TemperatureControl autoConfiguration={copyData} onChange={handleClickAndChange} />
-
+                    
                     case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
                         return <Typography>3색LED</Typography>
 
@@ -179,17 +192,17 @@ export default function ContorlPage() {
         }
 
         return (
-            <Card sx={{ m: 1, mb: 2}}>
-                <Stack direction="row" spacing={0.5} justifyContent="space-between" sx={{ pl: 2, pr: 2 }}>
+            <CardFarmsCube>
+                <Stack onClick={handleExpandClick}  direction="row" alignItems="center" spacing={0.5} justifyContent="space-between" sx={{ pl: 2, pr: 2 }}>
                     <Typography sx={{ width: 150 }}>{copyData.Name}</Typography>
                     <Typography>{switchWorkmode ? '자동모드' : '수동모드'}</Typography>
-                    <MaterialUISwitch checked={switchWorkmode} onChange={handleModeChange} />
+                    <MaterialUISwitch checked={switchWorkmode} onClick= {e => handleModeChange(e)} disabled={expanded}/>
 
                     <ExpandMore
                         expand={expanded}
                         onClick={handleExpandClick}
                         aria-expanded={expanded}
-                        aria-label="고급 설정"
+                        aria-label="설정 변경"
                     >
                         <ExpandMoreIcon />
                     </ExpandMore>
@@ -199,13 +212,13 @@ export default function ContorlPage() {
                         <AutoContent />
                     </CardContent>
                 </Collapse>
-            </Card>
+            </CardFarmsCube>
         )
     }
 
     function autoControlCard() {
         return (
-            <Card sx={{ minWidth: 300, m: 3 }}>
+            <Card sx={{ minWidth: 300, m: 3, backgroundColor: '#eceff1'}}>
                 <CardHeader
                     title={'자동 제어'}
                 />
