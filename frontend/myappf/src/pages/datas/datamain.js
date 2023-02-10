@@ -4,6 +4,7 @@ import DBQueryParam from "../../commonjs/dbqueryparam";
 import DashboardChart from "../home/dashboardchart";
 import myAppGlobal from "../../myAppGlobal";
 import Systemeventdisplay from "../home/systemeventdisplay";
+import {Buffer}  from "buffer";
 import TitlebarBelowImageList from "./Himagedisplay";
 
 //홈 메인 대시보드
