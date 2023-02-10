@@ -83,11 +83,15 @@ function FarmApp(props) {
     }
     if(loginrol !="logout")
     {
+      
       islogin=true;
+      // 로그아웃아니면 로그인상태임으로 기본정보를 읽어옴
+      
     }
 
+
     console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " islogin : "+islogin);
-    
+
 
 
   }
