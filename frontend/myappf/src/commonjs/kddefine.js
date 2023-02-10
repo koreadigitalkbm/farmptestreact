@@ -2,6 +2,65 @@
 //일반 열거형, 상수등을 모아보자
 module.exports = class KDDefine {
 
+
+  
+static KDSensorTypeEnum = Object.freeze(
+  {
+
+      SUT_None: 0,
+      SUT_Temperature: 1,           //공기온도
+      SUT_Humidity: 2,
+      SUT_SoilTemperature: 3,
+      SUT_SoilMoisture: 4,
+      SUT_SoilEC: 5,
+      SUT_CO2: 6,
+      SUT_WTemperature: 7, ///배지온도
+      SUT_SoraRadiation: 8,
+      SUT_WINDSPEED: 9,
+      SUT_WINDVANE: 10,
+      SUT_BAROMETER: 11,
+      SUT_PRESSURE: 12,
+      SUT_RAINGUAGE: 13,
+      SUT_RAINDETECTOR: 14,
+      SUT_UV: 15,
+
+      SUT_PE300_PH: 16,                           ///
+      SUT_PE300_EC: 17,
+      SUT_PE300_TEMP: 18,
+
+      SUT_CO1: 19, //Co  센서
+      SUT_O2: 20, //산소 센서
+
+      SUT_LIGHT: 21, //SMBL 조도 센서
+
+      SUT_COLOR_RED: 22, //SMBL 컬러센서 Red   n 0~100000
+      SUT_COLOR_GREEN: 23, //SMBL 컬러센서 Green  n  0~100000
+      SUT_COLOR_BLUE: 24, //SMBL 컬러센서 Blue  n 0~100000
+
+      SUT_AMMONIA: 25, //암모니아 센서 ppm  0~1000
+      SUT_FLOWMETER: 26, //유량계  L/min    0.01~1000.00
+      SUT_FLOWMETER_TOTAL: 27, //적산 유량계  L    0.1~10000.0
+
+      SUT_BATTRY: 28, //베터리 레벨  Battery %   0~100 %
+      SUT_WEIGHT_KG: 29, //무게  Weght kg   0.001 소수점 3자리
+      SUT_WATER_MM: 30, //수위      mm  1~10000mm
+
+      SUT_DO_MG: 31, //용존산소량  ( DO)    0~20 mg/L  소수점 2자리
+
+      SUT_SoilBulkEC: 32, // 토양 벌크 EC
+      SUT_Counter: 33, //  단순계수기
+
+      SUT_H2S: 34, //  황화수소
+      SUT_PM25: 35, //  초미세먼지
+      SUT_PM10: 36, //  미세먼지
+      SUT_C1H4: 37, //  매탄
+      SUT_C2H6: 38, //  에탄
+      SUT_C3H6: 39, // 프로판
+      SUT_SOLARMJ: 40,// MJ/m2    누적일사량    메가 줄  소수점 3자리
+      SUT_DEWPOINT: 41,// ℃   이슬점     소스점 1자리
+
+  });
+
 // 장비 모델명
 static PModel = Object.freeze({
   KPC200:'KPC200', // 식물재배기 1차 2차

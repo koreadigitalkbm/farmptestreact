@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Sensordevice from "../../commonjs/sensordevice";
+import KDDefine from '../../commonjs/kddefine';
+import myAppGlobal from '../../myAppGlobal';
 
 let dataChart = {
   labels: [],
@@ -13,56 +15,122 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Too
 
 const optionChart = {
   scales: {
-    온도: {
-      type: "linear",
+    x: {
       display: true,
-      position: "right",
+      text: "x title",
     },
-    습도: {
+    
+    'y-left': {
+      min: 10,
+      max: 40,
       type: "linear",
       display: true,
       position: "left",
+      ticks: {
+        suggestedMin: 50,
+        suggestedMax: 100
+      },
+      title: {
+        display: true,
+        text: '온도'
+      }
+    },
+    'y-right': {
+      min: 0,
+      max: 100,
+      type: "linear",
+      display: true,
+      position: "right",
+      title: {
+        display: true,
+        text: '습도'
+      },
+      grid: {
+        display: false
+      }
     },
   },
 };
 
-function addGarphSensor(sTime, newSensor) {
-    dataChart.datasets.push({
-      type: 'line',
-      yAxisID: newSensor.Name,
-      label: newSensor.Name,
-      borderColor: 'rgb(54, 162, 235)',
-      borderWidth: 2,
-
-      data: [{ x: sTime, y: newSensor.value }],
-    })
-  }
 function decodeDsensor(d) {
     dataChart = {
         labels: [],
         datasets: [],
       };
     
+      let xlabels=[];
+      let leftdatas=
+      {
+        type: 'line',
+        label: '온도',
+        yAxisID: 'y-left',
+        pointStyle:'triangle',
+        pointRadius:4,
+        borderColor: 'rgb(24, 112, 235)',
+        borderWidth: 2,
+        data: [],
+      };
+
+      let rightdatas=
+      {
+        type: 'line',
+        label: '습도',
+        yAxisID: 'y-right',
+        pointRadius:4,
+        borderColor: 'rgb(54, 250, 135)',
+        borderWidth: 2,
+        data: [],
+      };
+      
+
     d.forEach(e => {
-      if (e.SLIST.length !== 0) {
-        console.log('로직시작');
-        let isSensor = false;
-        let dTime = new Date(e.SDate);
-        let sTime = dTime.getHours() + ':' + dTime.getMinutes()
-        e.SLIST.forEach(el => {
-          let sensor = new Sensordevice(el);
-          dataChart.datasets.forEach(ele => {
-            if (ele.label === sensor.Name) {
-              ele.data.push({ x: sTime, y: el.Val });
-              isSensor = true;
-            }
-          })
-          if (!isSensor) addGarphSensor(sTime, sensor)        // 그래프데이터에 센서가 없을경우 그래프 데이터셋 하나 추가
+      
+      let dTime = new Date(e.SDate);
+      let sTime = dTime.getHours() + ':' + dTime.getMinutes()
+      let isSensor = false;
+
+      
+      
+          e.SLIST.forEach(el => {
+          let sensor = new Sensordevice(el,myAppGlobal);
+          if(sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature)
+          {
+            leftdatas.data.push(sensor.valuestring);
+            isSensor=true;
+          }
+
+          if(sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity)
+          {
+            rightdatas.data.push(sensor.valuestring);
+            isSensor=true;
+          }
+
         })
-      } else {
-        console.log('타임스탬프만 있음');
-      }
+
+        if (isSensor===true) 
+        {
+          xlabels.push(sTime);
+        }
+
+
     })
+
+    console.log("------------------------leftdatas--------------------");
+    
+
+    dataChart.labels = xlabels;
+    //센서값이 만드면 포인터 삭제
+    if(xlabels.length >30)
+    {
+      leftdatas.pointRadius=0;
+      rightdatas.pointRadius=0;
+    }
+    dataChart.datasets.push(leftdatas) ;
+    dataChart.datasets.push(rightdatas) ;
+
+
+
+
   }
 
 const DashboardChart = (props) => {

@@ -12,7 +12,7 @@ import TitlebarBelowImageList from "./Himagedisplay";
 let sevents = [];
 let cmeraimglist = [];
 //홈 메인 대시보드
-const DataMainPage = () => {
+const DataMainPage = (props) => {
   const [camimages, setCamimages] = useState(cmeraimglist);
   const [moutdevarray, setActuator] = useState([]);
   const [mevnetarray, setEvents] = useState(sevents);
@@ -24,6 +24,8 @@ const DataMainPage = () => {
   useEffect(() => {
     console.log("-------------------------DataMainPage  useEffect---------------------issetreq:");
   }, []);
+
+
 
   function getdb() {
     let utcnow = new Date();
