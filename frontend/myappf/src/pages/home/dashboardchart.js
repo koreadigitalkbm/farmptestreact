@@ -136,9 +136,9 @@ const DashboardChart = (props) => {
   decodeDsensor(props.chartdatas);
 
   return (
-    <div>
+    <div className="dashboardchar">
       {Date(props.lasttime)}
-      <Line width="500" height="100" key="dashboardChart" data={dataChart} options={optionChart} />{" "}
+      <Line  key="dashboardChart" data={dataChart} options={optionChart} />{" "}
     </div>
   );
 };

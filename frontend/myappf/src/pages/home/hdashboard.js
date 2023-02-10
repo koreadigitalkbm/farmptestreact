@@ -37,7 +37,6 @@ const HDashboard = () => {
     let nowdate=new Date();
     console.log("-------------------------loaddata date: "+nowdate + " readtimemsec: "+ readtimemsec);
 
-
     myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
       //console.log(ret);
       if(ret ==null)
@@ -81,7 +80,7 @@ const HDashboard = () => {
               if (revlasttime > lasteventtime) {
                 eventlist.push(sysevents[i]);
                 isupdateevent = true;
-                console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + lasteventtime);
+             //   console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + lasteventtime);
               }
             }
 
@@ -116,7 +115,7 @@ const HDashboard = () => {
               setDailysensor(dailysensorlist);
               setLasttime(recivelasttime);
               console.log("update sensor : " + Date(lastsensortime) + " lenth : " + dailysensorlist.length);
-              console.log(dailysensorlist);
+             // console.log(dailysensorlist);
             }
           }
         }

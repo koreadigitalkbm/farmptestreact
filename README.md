@@ -56,6 +56,8 @@ npm install  mysql --saved
 
 브렌치테스트2
 
+# git pull  업데이트시 에러발생
+git reset --hard HEAD  가장최신버전으로 바꾸자
 
 
 

@@ -8,7 +8,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-
+import Box from '@mui/material/Box';
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoControlUtil from "../../commonjs/autocontrolutil";
@@ -114,10 +114,11 @@ const JukeboxWatersupplyM1 = (props) => {
         <AutoInputControl type="number" initvalue={copycfg.NOnTime} unit="초간" keyname="NOnTime" onChange={inputchangeHandler} />
         <Typography>공급 합니다.</Typography>
       </Stack>
-
+      <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
       <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label="고급설정" />
 
       {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+      </Box>
     </Stack>
   );
 };

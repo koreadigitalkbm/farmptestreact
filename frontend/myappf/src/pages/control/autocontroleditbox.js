@@ -3,6 +3,8 @@ import React from "react";
 import KDUtil from "../../commonjs/kdutil";
 import KDDefine from "../../commonjs/kddefine";
 
+import Box from '@mui/material/Box';
+
 import JukeboxTemperatureM1 from "./jukeboxtemperature";
 import JukeboxWatersupplyM1 from "./jukeboxwatersupply";
 import JukeboxMultiLED from "./jukeboxmultiled";
@@ -47,9 +49,10 @@ export default function Autocontroleditbox(props) {
 
   return (
     <div>
-      <div className="auto_control">
-        <div className="autosetupinnerbox">{formAutoContent()}</div>
-      </div>
+      <Box  sx={{   backgroundColor: '#fffce0' }} >
+        {formAutoContent()}
+        </Box>
+      
     </div>
   );
 }

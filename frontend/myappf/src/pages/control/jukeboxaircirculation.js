@@ -2,7 +2,7 @@ import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 import { Stack, Typography } from "@mui/material";
-
+import Box from '@mui/material/Box';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 
@@ -10,6 +10,8 @@ import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
+
+
 
 const JukeboxAircirculation = (props) => {
   const [avchecked, setAVChecked] = React.useState(false);
@@ -61,6 +63,7 @@ const JukeboxAircirculation = (props) => {
   const AdvenceSetting = (props) => {
     const copycfg = props.initvalue;
     return (
+      
       <Stack spacing={1}>
         <Stack direction="row" alignItems="flex-end">
           <AutoInputTimeRange initvalue={copycfg}  dispstring ="작동시간 설정:"onChange={props.inputallchangeHandler} />
@@ -87,10 +90,12 @@ const JukeboxAircirculation = (props) => {
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={props.inputallchangeHandler} />
         <Typography> 이상 높아질경우 환기팬, 환기밸브를 작동시킵니다.</Typography>
       </Stack>
-
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label="고급설정" />
-
-      {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+      <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
+      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label=" 고급설정" />
+      
+      {avchecked === true ? <AdvenceSetting  initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+      </Box>
+      
     </Stack>
   );
 };

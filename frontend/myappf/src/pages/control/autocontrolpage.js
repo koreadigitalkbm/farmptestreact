@@ -6,28 +6,28 @@ import { Box, Button, Card, CardHeader, Divider, Modal, Stack, TextField, Typogr
 import { styled } from "@mui/material/styles";
 import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Switch from "@mui/material/Switch";
 import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "../muiTheme";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import AddCardIcon from "@mui/icons-material/AddCard";
+
 import { useTranslation } from "react-i18next";
 
-const commonStyles = {
-  bgcolor: "background.paper",
-  borderColor: "info.main",
-  m: 1,
-  border: 1,
+const CardFarmsCube = styled(Card)(({ theme }) => ({
+  margin: "6px",
   width: "50rem",
-  height: "5rem",
-};
+  backgroundColor: theme.palette.mode === "dark" ? "#ffe0b2" : "#ffe0b2",
+}));
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   marginLeft: "auto",
   transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
@@ -70,33 +70,32 @@ const Autocontrolcard = (props) => {
   };
 
   return (
-    <div>
-      <Box sx={{ ...commonStyles, borderRadius: "16px" }}>
-        <ThemeProvider theme={muiTheme}>
-          <CardActions disableSpacing>
-            <LabelImportantIcon color="action" fontSize="large" />
-            <Typography variant="h5">{mydata.Name}</Typography>
-            <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label="자동제어사용" />
-            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-              <ExpandMoreIcon color="success" fontSize="large" />
-            </ExpandMore>
-            <Typography variant="h6">{autoenable === true ? "설정변경" : "수동제어"} </Typography>
-          </CardActions>
-        </ThemeProvider>
-      </Box>
+    <CardFarmsCube>
+      <ThemeProvider theme={muiTheme}>
+        <CardActions disableSpacing>
+          <Typography variant="h6" sx={{ width: 400 }}>
+            {mydata.Name}
+          </Typography>
+          <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label="자동제어사용" />
+
+          <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+            <Typography>{autoenable === true ? "설정변경" : "수동제어"} </Typography>
+            {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
+          </ExpandMore>
+        </CardActions>
+      </ThemeProvider>
 
       <div>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} /> : ""}</div>
 
-      <div className="control_end">
-        {expanded === true && mydata.Enb === true ? (
-          <button className="cont_save" onClick={() => saveconfig(mydata, null)} id="editcheck">
-            저장{" "}
-          </button>
-        ) : (
-          ""
-        )}
-      </div>
-    </div>
+      {expanded === true && mydata.Enb === true ? (
+        <div>
+          
+          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig(mydata, null)} endIcon={<SaveAltIcon fontSize="large" />}>
+            저장
+          </Button>
+        </div>
+      ) : null}
+    </CardFarmsCube>
   );
 };
 
@@ -104,7 +103,7 @@ const Autocontrolpage = (props) => {
   const { t } = useTranslation();
   const [mAutolist, setUpdateauto] = useState(myAppGlobal.Autocontrolcfg);
 
-  console.log("----------------------------Autocontrolpage " );
+  console.log("----------------------------Autocontrolpage ");
 
   useEffect(() => {
     console.log("Autocontrolpage useEffect  length: " + mAutolist.length + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
@@ -123,7 +122,6 @@ const Autocontrolpage = (props) => {
         });
     }
     */
-
   }, []);
 
   function onAdd() {}
@@ -132,14 +130,14 @@ const Autocontrolpage = (props) => {
 
   return (
     <div>
-      <div className="autocontroltable">{autoList} </div>
-      <div className="auto">
-        <div className="select_add">
-          <button className="add_button" onClick={() => onAdd()}>
-            + 자동제어 추가
-          </button>
-        </div>
-      </div>
+      <ThemeProvider theme={muiTheme}>
+        <Card sx={{ minWidth: 300, m: 3, backgroundColor: "#fff3e0" }}>
+          <CardHeader title={"자동 제어 목록입니다."} />
+          <Stack direction="column">{autoList}</Stack>
+
+          <Button endIcon={<AddCardIcon fontSize="large" />}>자동제어 추가</Button>
+        </Card>
+      </ThemeProvider>
     </div>
   );
 };
