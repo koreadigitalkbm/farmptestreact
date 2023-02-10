@@ -26,10 +26,6 @@ const optionChart = {
       type: "linear",
       display: true,
       position: "left",
-      ticks: {
-        suggestedMin: 50,
-        suggestedMax: 100
-      },
       title: {
         display: true,
         text: '온도'

@@ -121,10 +121,28 @@
     font-weight: bold;
 }
 
-.sensor, .output{
-    margin : 30px 20px 30px 20px;
+.sensor{
+    margin : 2px 2px 2px 2px;
     flex-direction: column;
-    width: 1510px;
+    
+    background: rgba(210, 250, 233, 0.411);
+    padding : 15px;
+
+
+}
+.output{
+    margin : 2px 2px 2px 2px;
+    flex-direction: column;
+    
+    background: rgba(230, 236, 233, 0.411);
+    padding : 15px;
+
+
+}
+.dashboardchar{
+    margin : 2px 2px 2px 2px;
+    flex-direction: column;
+    height: 300px;
     background: rgba(230, 236, 233, 0.411);
     padding : 15px;
 
@@ -134,8 +152,8 @@
 
 .sen_con {
     font-size: 12px;
-    margin: 10px 0 10px 20px;
-    padding : 8px;
+    margin: 4px 0 4px 8px;
+    padding : 4px;
     text-align: center;
     border-radius: 8px;
     width : 140px;
@@ -198,7 +216,7 @@
 }
 
 .eventbox_dip {
-    padding : 10px;
+    padding : 4px;
     font-size: 12px;
     width : 440px;
     height : 100px;
@@ -217,14 +235,14 @@
 }
 
 .out_con {
-    padding : 10px;
+    padding : 4px;
     font-size: 12px;
     width : 140px;
     height : 140px;
     justify-content: space-around;
     display: inline-flex;
     flex-direction: column;
-    margin: 10px 0 10px 20px;
+    margin: 4px 0 4px 8px;
     text-align: center;
     border-radius: 8px;
     border-color:#037a7a;
