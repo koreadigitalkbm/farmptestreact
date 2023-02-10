@@ -26,10 +26,10 @@ const  Systemeventdisplay= (props )=> {
   console.log("------------------------systemeventdisplay-------------------length : "  +evtlist.length);
 
   return(
-    <div class="listbox-area"  >
+    <div  >
 <div>
-    <span id="ss_elem" class="listbox-label">시스템 이벤트목록입니다.</span>
-    <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
+    <span id="ss_elem">시스템 이벤트목록입니다.</span>
+    <ul id="ss_elem_list"  role="listbox" aria-labelledby="ss_elem">
     {evtlist.map((localState,index) => eventmsgbox(localState,index))}
     </ul>
     </div>

@@ -76,9 +76,7 @@ function FarmApp(props) {
     myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
     myAppGlobal.loginrole = window.sessionStorage.getItem("login");
     myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
-
-
-    console.log("----------------------------새로고침 : " + myAppGlobal.islocal);
+    
     if(islocal ==="true")
     {
       islocal=true; 
@@ -87,6 +85,11 @@ function FarmApp(props) {
     {
       islogin=true;
     }
+
+    console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " islogin : "+islogin);
+    
+
+
   }
 
 

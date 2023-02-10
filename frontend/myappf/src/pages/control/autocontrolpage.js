@@ -102,38 +102,29 @@ const Autocontrolcard = (props) => {
 
 const Autocontrolpage = (props) => {
   const { t } = useTranslation();
-  const [mAutolist, setUpdateauto] = useState([]);
+  const [mAutolist, setUpdateauto] = useState(myAppGlobal.Autocontrolcfg);
 
-  console.log("----------------------------Autocontrolpage fmaininit: " + props.fmaininit);
+  console.log("----------------------------Autocontrolpage " );
 
   useEffect(() => {
     console.log("Autocontrolpage useEffect  length: " + mAutolist.length + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
 
+    /*
     if (myAppGlobal.systeminformations != null) {
-      if (myAppGlobal.Autocontrolcfg != null) {
-        myAppGlobal.Autocontrolcfg.map(function (item) {
-          if (item.Lid != null) {
-            item.Name = t(item.Lid);
-          }
-        });
-        setUpdateauto(myAppGlobal.Autocontrolcfg);
-      } else {
-        myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
+    myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
           myAppGlobal.Autocontrolcfg = ret.retParam;
-
           myAppGlobal.Autocontrolcfg.map(function (item) {
             if (item.Lid != null) {
               item.Name = t(item.Lid);
             }
           });
-
           console.log("----------------------------systeminformations Autocontrolcfg: " + myAppGlobal.Autocontrolcfg);
-          //          console.log(myAppGlobal.Autocontrolcfg);
           setUpdateauto(myAppGlobal.Autocontrolcfg);
         });
-      }
     }
-  }, [props.fmaininit, mAutolist]);
+    */
+
+  }, []);
 
   function onAdd() {}
 
