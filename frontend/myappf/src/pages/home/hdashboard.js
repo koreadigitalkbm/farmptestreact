@@ -9,15 +9,18 @@ import DashboardChart from "./dashboardchart";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
+
+//화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
-
+let actuaotrslist=[];
+let sensorlist=[];
 
 //홈 메인 대시보드
 const HDashboard = () => {
-  const [msensorsarray, setSensors] = useState([]);
-  const [moutdevarray, setActuator] = useState([]);
+  const [msensorsarray, setSensors] = useState(sensorlist);
+  const [mactuaotrs, setActuator] = useState(actuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [msensorlasttime, setLasttime] = useState(1);
@@ -48,14 +51,21 @@ const HDashboard = () => {
           if (sensors != null) {
             console.log("sensors length:" + sensors.length);
             if (sensors.length > 0) {
-              setSensors(sensors);
+              sensorlist=[];
+              
+              sensorlist.push(...sensors);
+              
+              setSensors(sensorlist);
             }
           }
 
           if (actuators != null) {
             console.log("actuators : " + actuators.length);
+            
             if (actuators.length > 0) {
-              setActuator(actuators);
+              actuaotrslist=[];
+              actuaotrslist.push(...actuators);
+              setActuator(actuaotrslist);
             }
           }
 
@@ -144,7 +154,7 @@ const HDashboard = () => {
       
         {chartbox}
         <Sensordisplay sensors={msensorsarray} />
-        <ActuatorDisplay actuators={moutdevarray} />
+        <ActuatorDisplay actuators={mactuaotrs} />
         {eventbox}
     </div>
   );
