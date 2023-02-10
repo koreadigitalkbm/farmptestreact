@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
 
-
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
 import ActuatorDisplay from "./actuatordisplay";
@@ -14,8 +13,8 @@ let lastsensortime = 1;
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
-let actuaotrslist=[];
-let sensorlist=[];
+let actuaotrslist = [];
+let sensorlist = [];
 
 //홈 메인 대시보드
 const HDashboard = () => {
@@ -51,19 +50,16 @@ const HDashboard = () => {
           if (sensors != null) {
             console.log("sensors length:" + sensors.length);
             if (sensors.length > 0) {
-              sensorlist=[];
-              
+              sensorlist = [];
               sensorlist.push(...sensors);
-              
               setSensors(sensorlist);
             }
           }
 
           if (actuators != null) {
             console.log("actuators : " + actuators.length);
-            
             if (actuators.length > 0) {
-              actuaotrslist=[];
+              actuaotrslist = [];
               actuaotrslist.push(...actuators);
               setActuator(actuaotrslist);
             }
@@ -72,63 +68,54 @@ const HDashboard = () => {
           if (sysevents != null) {
             if (sysevents.length > 0) {
               let revlasttime;
-              let isupdateevent=false;
-              
+              let isupdateevent = false;
+
               console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(lasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
-
                 revlasttime = sysevents[i].EDate;
-                if(revlasttime > lasteventtime)
-                {
+                if (revlasttime > lasteventtime) {
                   eventlist.push(sysevents[i]);
-                  isupdateevent=true;
-                  console.log("r i : " + i+ " eventtime : " +revlasttime  + " lasteventtime: "+lasteventtime);
+                  isupdateevent = true;
+                  console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + lasteventtime);
                 }
               }
-              
 
-              if (isupdateevent ===true) {
+              if (isupdateevent === true) {
                 lasteventtime = revlasttime;
                 console.log("update event : " + Date(lasteventtime) + " lenth : " + eventlist.length);
-                eventlistTime= [];
-                for (let i =0; i <eventlist.length; i++) {
-                  eventlistTime.push(eventlist[eventlist.length-i-1]);
-                  console.log(eventlist[eventlist.length-i-1]);
+                eventlistTime = [];
+                for (let i = 0; i < eventlist.length; i++) {
+                  eventlistTime.push(eventlist[eventlist.length - i - 1]);
+                //  console.log(eventlist[eventlist.length - i - 1]);
                 }
                 setEvents(eventlistTime);
               }
             }
           }
-          
+
           if (dsensors != null) {
             console.log("dsensors : " + dsensors.length);
             if (dsensors.length > 0) {
               let recivelasttime;
-              let isupdate=false;
+              let isupdate = false;
 
               for (let i = 0; i < dsensors.length; i++) {
                 recivelasttime = dsensors[i].SDate;
-                if(recivelasttime >lastsensortime )
-                {
+                if (recivelasttime > lastsensortime) {
                   dailysensorlist.push(dsensors[i]);
-                  isupdate=true;
-
+                  isupdate = true;
                 }
               }
-              if(isupdate === true)
-              {
-                lastsensortime =  recivelasttime;
+              if (isupdate === true) {
+                lastsensortime = recivelasttime;
                 setDailysensor(dailysensorlist);
                 setLasttime(recivelasttime);
                 console.log("update sensor : " + Date(lastsensortime) + " lenth : " + dailysensorlist.length);
                 console.log(dailysensorlist);
               }
-              
             }
           }
-
-          
         }
       });
     }, readtimemsec);
@@ -142,20 +129,16 @@ const HDashboard = () => {
     return <Systemeventdisplay mevtlist={mevnetarray} />;
   }, [mevnetarray]);
 
-
   const chartbox = useMemo(() => {
-    return <DashboardChart chartdatas ={mdailysensorarray} lasttime= {msensorlasttime} />;
+    return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
   }, [mdailysensorarray]);
-
-
 
   return (
     <div>
-      
-        {chartbox}
-        <Sensordisplay sensors={msensorsarray} />
-        <ActuatorDisplay actuators={mactuaotrs} />
-        {eventbox}
+      {chartbox}
+      <Sensordisplay sensors={msensorsarray} />
+      <ActuatorDisplay actuators={mactuaotrs} />
+      {eventbox}
     </div>
   );
 };

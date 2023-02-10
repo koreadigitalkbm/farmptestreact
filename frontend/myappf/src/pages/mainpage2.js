@@ -153,8 +153,9 @@ export default function FMainpage(props) {
 
       <AppBar component="nav">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
-            MUI
+            <img src="/image/farmscube_logo_small48.png"  ></img>
+          <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
+            FamsCube
           </Typography>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
