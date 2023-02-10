@@ -140,7 +140,7 @@ export default function FMainpage(props) {
         <Route path="/Data" element={<DataMainPage />} />
         <Route path="/Setting" element={<SettingPage />} />
 
-        <Route path="/sensor" element={<HDashboard />} />
+        
         <Route path="/autocontrol" element={<Autocontrolpage />} />
         <Route path="/setup" element={props.loginrol === "factoryadmin" ? <FactorySetup {...props} /> : <SetupPage {...props} />} />
       </Routes>
