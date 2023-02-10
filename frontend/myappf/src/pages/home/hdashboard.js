@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-
+import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
 import ActuatorDisplay from "./actuatordisplay";
