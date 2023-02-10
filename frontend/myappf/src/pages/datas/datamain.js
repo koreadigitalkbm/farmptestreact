@@ -7,11 +7,15 @@ import Systemeventdisplay from "../home/systemeventdisplay";
 import {Buffer}  from "buffer";
 import TitlebarBelowImageList from "./Himagedisplay";
 
+
+
+let sevents = [];
+let cmeraimglist = [];
 //홈 메인 대시보드
 const DataMainPage = () => {
-  const [camimages, setCamimages] = useState([]);
+  const [camimages, setCamimages] = useState(cmeraimglist);
   const [moutdevarray, setActuator] = useState([]);
-  const [mevnetarray, setEvents] = useState([]);
+  const [mevnetarray, setEvents] = useState(sevents);
   const [mdailysensorarray, setDailysensor] = useState([]);
   const [msensorlasttime, setLasttime] = useState(1);
 
@@ -43,7 +47,7 @@ const DataMainPage = () => {
       console.log(ret.retMessage);
 
       const imglist = ret.retMessage;
-      let items = [];
+      cmeraimglist=[];
       if (imglist != null) {
         for (let i = 0; i < imglist.length; i++) {
          
@@ -57,9 +61,9 @@ const DataMainPage = () => {
                 author: imglist[i].ctype,
             }
             
-            items.push(newimg);
+            cmeraimglist.push(newimg);
         }
-        setCamimages(items);
+        setCamimages(cmeraimglist);
         
       }
 
@@ -73,7 +77,7 @@ const DataMainPage = () => {
       //console.log(ret.retMessage);
 
       const elist = ret.retMessage;
-      let sevents = [];
+      sevents = [];
       if (elist != null) {
         for (let i = 0; i < elist.length; i++) {
             const jsonString = Buffer.from(elist[i].edatas, "base64").toString();

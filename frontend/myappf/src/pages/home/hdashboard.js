@@ -18,6 +18,8 @@ let actuaotrslist = [];
 let sensorlist = [];
 
 
+let isoffscreen=false;
+
 //홈 메인 대시보드
 const HDashboard = () => {
   const [msensorsarray, setSensors] = useState(sensorlist);
@@ -120,7 +122,10 @@ const HDashboard = () => {
         }
       }
       clearTimeout(readcallbacktimeout);
-      readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
+      if(isoffscreen ==false)
+      {
+        readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
+      }
 
     });
     
@@ -139,7 +144,15 @@ const HDashboard = () => {
     }
 
     clearTimeout(readcallbacktimeout);
+    isoffscreen=false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
+
+
+    return () => {
+      console.log('컴포넌트가 화면에서 사라짐 isoffscreen: '+isoffscreen);
+      isoffscreen=true;
+      clearTimeout(readcallbacktimeout);
+    };
 
     /*
     const interval = setInterval(() => {
