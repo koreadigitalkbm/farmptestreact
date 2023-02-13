@@ -131,14 +131,14 @@ module.exports = class DatabaseInterface {
     try {
       let filepath = "../frontend/myappf/public/cameraimage/" + did + "/";
 
-      filename = capturefilename;
+      let filename = capturefilename;
       //메뉴얼저장이면
       if (isetdb == false) {
         filepath = "../frontend/myappf/public/cameraimage/" + did + "/manual/";
         //수동촬영이면 프론트로 부터 파일이름 받아옴.
         //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
         KDCommon.removeallfiles(filepath);
-        
+
       }
 
 
