@@ -54,7 +54,7 @@ function FarmApp(props) {
     console.log("Hostname : " + window.location.hostname + ",host : " + window.location.protocol);
 
     myAppGlobal.isinitalizeApp = true;
-    if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("15.164.60.217") != -1) {
+    if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("15.164.60.217") != -1 || window.location.hostname.indexOf("koreadigital.com") != -1) {
       //서버 IP이거나 도메인이 서버이면 서버접속임.
       myAppGlobal.islocal = false;
       window.sessionStorage.setItem("islocal", false);
