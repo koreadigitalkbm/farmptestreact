@@ -7,8 +7,13 @@ module.exports = class DailyCurrentDatas {
   constructor() {
     this.DSensors = []; //센서데이터
     this.DEvents = []; //자동제어, 구동기변경, 기타 로그
+    this.LastimageFilename;
   }
 
+  updateCaptureimage(fname)
+  {
+    this.LastimageFilename= fname;
+  }
   updateEvent(mevent) {
     //배열 1000개 넘어가면 앞부분 100개 삭제
     if (this.DEvents.length >= 1000) {

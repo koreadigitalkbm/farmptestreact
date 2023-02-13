@@ -150,12 +150,16 @@ module.exports = class ActuatorInterface {
 
       console.log("cameraoperation  Uid :  " + mops.Uid  + " Opmode:  "+ mops.Opmode + " param: "+mops.Param);
 
+      
+      let filename =  mops.Param;
+
       //사진촬영
       if(mops.Opmode == true)
       {
         const lawimg = CameraInterface.Captureimage();
-        let filename =  mops.Param;
         let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
+        //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
+        KDCommon.removeallfiles(filepath);
         KDCommon.mkdirRecursive(filepath);
         filepath = filepath + filename;
         KDCommon.WritefileBase64(filepath, lawimg);
@@ -169,6 +173,10 @@ module.exports = class ActuatorInterface {
       }
       else
       {
+        // 수동촬영된 사진을  일반사진처럼 저장하고 디비에도 저장하고 서버에도 저장한다.
+        const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
+
+
 
       }
 

@@ -246,13 +246,13 @@ module.exports = class LocalAPI {
   }
 
   /// issetdb 가 false 이면 db 저장안함 메뉴얼촬영 이미지 전송때  flase
-  async setcameradatatoserver(did, dtime, ctype, pname, mimage, issetdb) {
+  async setcameradatatoserver(did, dtime, ctype, fname, mimage, issetdb) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_CAMERA);
     reqmsg.reqParam = {
       devid: did,
       datetime: dtime,
       cameratype: ctype,
-      platname: pname,
+      cfilename: fname,
       imagedatas: mimage,
       issetdbase: issetdb,
     };
@@ -260,8 +260,8 @@ module.exports = class LocalAPI {
   }
 
   async postData(reqURL = "", data = {}) {
-    console.log("postData  url:" + reqURL);
-    console.log( JSON.stringify(data) );
+    //console.log("postData  url:" + reqURL);
+    //console.log( JSON.stringify(data) );
 
     let response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.

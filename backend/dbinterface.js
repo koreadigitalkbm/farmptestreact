@@ -127,25 +127,26 @@ module.exports = class DatabaseInterface {
   }
 
   //카메라 촬영된 이미지 정보를 디비에 저장하고 이미지파일은 웹서비스 편하도록 리엑트 pulic 폴더에 이미지폴더에 저장
-  setimagefiledata(did, dtime, cameratype, platname, filedatabase64, isetdb) {
+  setimagefiledata(did, dtime, cameratype, capturefilename, filedatabase64, isetdb) {
     try {
       let filepath = "../frontend/myappf/public/cameraimage/" + did + "/";
 
-      // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
-      let filename = "cameara_" + platname + "_" + cameratype + "_" + dtime + "_" + KDUtil.GetRandom10() + ".jpg";
-
+      filename = capturefilename;
       //메뉴얼저장이면
       if (isetdb == false) {
         filepath = "../frontend/myappf/public/cameraimage/" + did + "/manual/";
-        //
-        filename = platname;
+        //수동촬영이면 프론트로 부터 파일이름 받아옴.
+        //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
+        KDCommon.removeallfiles(filepath);
+        
       }
+
 
       // 디렉토리생성
       KDCommon.mkdirRecursive(filepath);
-      filename = KDCommon.FilenameCheck(filename);
-
+      
       filepath = filepath + filename;
+
       console.log("setimagefildata --- filepath : " + filepath);
       KDCommon.WritefileBase64(filepath, filedatabase64);
       /// 썸네일 이미지도 만들자 나중에

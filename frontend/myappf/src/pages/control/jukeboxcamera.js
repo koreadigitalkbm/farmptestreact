@@ -14,12 +14,15 @@ import AutoManualActuator from "../uicomponent/automanualactuator";
 import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
 
+
+
+let manultakefilename = "image/noimage.png";
 let recenturl="";
 let recenturl_thum="";
 let togleflg=0;
 
 const JukeboxCamera = (props) => {
-  let manultakefilename = "devicon_0.png";
+  
   const [takeimageurl, settakeimageurl] = useState(manultakefilename);
   const copycfg = props.initvalue;
 
@@ -43,10 +46,14 @@ const JukeboxCamera = (props) => {
     let opcmd = new ActuatorOperation(actuid, istake, 0);
 
     if (istake === true) {
-      let rid = KDUtil.GetRandom10();
-      manultakefilename = "cameara_" + "m_" + rid + ".jpg";
-    }
+      
+      let capfilename = "cameara_" +  1 + "_manual_"+ KDUtil.GetRandom10() + ".jpg";
+         
 
+      manultakefilename =capfilename;
+    }
+    console.log("manultakefilename : " + manultakefilename);
+    
     opcmd.setoperation(KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave, 0, manultakefilename, istake);
     myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {
       if (istake === true) {

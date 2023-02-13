@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require('path');
 
 //백엔드에서 공통으로 사용되는 함수들
 module.exports = class KDCommon {
@@ -47,6 +48,45 @@ module.exports = class KDCommon {
       return totalsec;
     }
 
+  static removeallfiles(dirPath)
+  {
+
+    
+    const printResult = (err, result) => {
+      if (err) return console.log(err);
+    
+      console.log(`${result} 를 정상적으로 삭제했습니다`);
+    };
+
+
+    try { 
+
+      const removePath = (p, callback) => { // A 
+        fs.stat(p, (err, stats) => { 
+          if (err) return callback(err);
+      
+          if (!stats.isDirectory()) { // B 
+            console.log('이 경로는 파일');
+            return fs.unlink(p, err => err ? callback(err) : callback(null, p));
+          }
+      
+          console.log('이 경로는 폴더');  // C 
+          fs.rmdir(p, (err) => {  
+            if (err) return callback(err);
+      
+            return callback(null, p);
+          });
+        });
+      };
+
+
+      const files = fs.readdirSync(dirPath);  
+      if (files.length) 
+        files.forEach(f => removePath(path.join(dirPath, f), printResult)); 
+    } catch (err) {
+      if (err) return console.log(err);
+    }
+  }
 
   static mkdirRecursive(dirPath) {
     const isExists = fs.existsSync(dirPath);
