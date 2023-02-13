@@ -8,6 +8,11 @@ const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
 var exec = require("child_process").exec;
 
 
+// import fetch from "node-fetch"; 
+const fetch = require("node-fetch");    // only work on Version2.xx, not working V3.x
+
+
+
 const SERVERAPI_URL = "http://15.164.60.217/api/";
 
 module.exports = class LocalAPI {
@@ -256,6 +261,7 @@ module.exports = class LocalAPI {
 
   async postData(reqURL = "", data = {}) {
     console.log("postData  url:" + reqURL);
+    console.log( JSON.stringify(data) );
 
     let response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
