@@ -8,9 +8,15 @@ import Mainpage from "./pages/mainpage2"
 import myAppGlobal from "./myAppGlobal";
 import MSignIn from "./pages/mlogin";
 import { useTranslation } from "react-i18next";
+import { useCookies } from 'react-cookie';
+
+import KDUtil from "./commonjs/kdutil";
+
+
 
 function FarmApp(props) {
-  const { t} = useTranslation();
+  const { t,i18n} = useTranslation();
+  const [cookies, setCookie] = useCookies(['languageT']);
   const [loginrol, setloginrol] = useState(window.sessionStorage.getItem("login"));
   const [failmsg, setfailmsg] = useState("");
 
@@ -18,7 +24,21 @@ function FarmApp(props) {
   let islogin = false;
 
   console.log("-------------------------FarmAPP start--------------------- loginrol:" + loginrol + " islocal:" + islocal  );
- 
+
+  console.log("-------------------------cookies languageT:"+cookies.languageT + " i18n:"+ i18n.language + " navigator.language:"+ navigator.language);
+  
+  if(cookies.languageT==null)
+  {
+    setCookie('languageT', KDUtil.isSupportLanguage(navigator.language));
+  }
+
+
+  if(cookies.languageT  != i18n.language)
+  {
+    i18n.changeLanguage(cookies.languageT);
+  }
+
+
   myAppGlobal.langT=t;
   
 

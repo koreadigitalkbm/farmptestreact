@@ -19,6 +19,8 @@ import Select from '@mui/material/Select';
 import myAppGlobal from "../myAppGlobal";
 
 import { useTranslation } from "react-i18next";
+import { useCookies } from 'react-cookie';
+import KDUtil from "../commonjs/kdutil";
 
 const theme = muiTheme;
 
@@ -44,6 +46,7 @@ const ExpandMore = styled((props) => {
 
 export default function SetupPage(props) {
     const { t, i18n } = useTranslation();
+    const [cookies, setCookie] = useCookies(['languageT']);
   const [langstr, setlangstr] = React.useState('');
   const [deviceversion, setDeviceversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
@@ -52,13 +55,18 @@ export default function SetupPage(props) {
 
   const handleChange = (event) => {
     setlangstr(event.target.value);
+    let langstr="en-US";
     if(event.target.value ==0)
     {
-        i18n.changeLanguage("en-US");
+      
     }
     else{
-        i18n.changeLanguage("ko-KR");  
+      langstr="ko-KR";  
     }
+    langstr= KDUtil.isSupportLanguage(langstr);
+    i18n.changeLanguage(langstr);
+     setCookie('languageT', langstr);
+    console.log("-------------------------SetupPage cookies:"+cookies.languageT);
 
   };
 

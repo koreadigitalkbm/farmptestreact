@@ -30,24 +30,6 @@ export default function FMainpage(props) {
   const open = Boolean(anchorEl);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
-  let isFarmLang = getCookieLang();
-
-  if (isFarmLang) {
-    console.log("현재 언어는 " + isFarmLang + "입니다.");
-  } else {
-    let date = new Date();
-    date.setDate(date.getDate() + 30);
-    if (navigator.language === "ko-kr") {
-      console.log("시스템 언어를 한국어로 설정합니다.");
-      document.cookie = `lang=ko-KR; expires=${date.toUTCString()}`;
-    } else {
-      console.log("Set the system language to English.");
-      document.cookie = `lang=en-US; expires=${date.toUTCString()}`;
-    }
-  }
-  function getCookieLang() {
-    return document.cookie.match("(^|;)\\s*lang\\s*=\\s*([^;]+)")?.pop() || undefined;
-  }
 
   function logoutbuttonHandler(e) {
     props.mhandler(null, null);

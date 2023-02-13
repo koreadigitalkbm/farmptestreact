@@ -131,6 +131,19 @@ module.exports = class KDUtil {
   }
 
 
+  //지원언어리턴 지원하지 않으면 영어로
+  static isSupportLanguage(mlang)
+  {
+
+    if(mlang == "ko-KR" || mlang=="en-US")
+    {
+      return  mlang
+    }
+
+    return "en-US";
+
+  }
+
 
 
 };

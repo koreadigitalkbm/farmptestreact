@@ -137,7 +137,7 @@ const DashboardChart = (props) => {
         </Box>
         <Box
           component="img"
-          src="logo512.png"
+          src="image/noimage.png"
           sx={{
             height: 300,
             width: 300,

@@ -6,14 +6,18 @@ import './lang/i18n';
 import './index.css';
 import FarmApp from './FarmApp';
 import manistore from "./mainStore";
+import { CookiesProvider } from 'react-cookie';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store = {manistore}>
+    <CookiesProvider> 
+
      <BrowserRouter>
     <FarmApp />
     </BrowserRouter>
+    </CookiesProvider> 
   </Provider>
 );
 
