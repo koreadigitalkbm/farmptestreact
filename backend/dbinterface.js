@@ -176,7 +176,7 @@ module.exports = class DatabaseInterface {
 
       if(qparam.TableName =="sensor")
       {
-       sqlquery = "SELECT distinct dtime,value,stype FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+       sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
       }
       else if(qparam.TableName =="camera")
       {
