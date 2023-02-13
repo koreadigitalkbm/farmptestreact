@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect } from "react";
+import { Box, Card, CardContent, CardHeader, Collapse, IconButton, Stack, Switch, Typography } from "@mui/material";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
+
+import { Image } from "@mui/icons-material";
+
 import Sensordevice from "../../commonjs/sensordevice";
-import KDDefine from '../../commonjs/kddefine';
-import myAppGlobal from '../../myAppGlobal';
+import KDDefine from "../../commonjs/kddefine";
+import myAppGlobal from "../../myAppGlobal";
 
 let dataChart = {
   labels: [],
@@ -19,8 +22,8 @@ const optionChart = {
       display: true,
       text: "x title",
     },
-    
-    'y-left': {
+
+    "y-left": {
       min: 10,
       max: 40,
       type: "linear",
@@ -28,10 +31,10 @@ const optionChart = {
       position: "left",
       title: {
         display: true,
-        text: '온도'
-      }
+        text: "온도",
+      },
     },
-    'y-right': {
+    "y-right": {
       min: 0,
       max: 100,
       type: "linear",
@@ -39,95 +42,77 @@ const optionChart = {
       position: "right",
       title: {
         display: true,
-        text: '습도'
+        text: "습도",
       },
       grid: {
-        display: false
-      }
+        display: false,
+      },
     },
   },
 };
 
 function decodeDsensor(d) {
-    dataChart = {
-        labels: [],
-        datasets: [],
-      };
-    
-      let xlabels=[];
-      let leftdatas=
-      {
-        type: 'line',
-        label: '온도',
-        yAxisID: 'y-left',
-        pointStyle:'triangle',
-        pointRadius:4,
-        borderColor: 'rgb(24, 112, 235)',
-        borderWidth: 2,
-        data: [],
-      };
+  dataChart = {
+    labels: [],
+    datasets: [],
+  };
 
-      let rightdatas=
-      {
-        type: 'line',
-        label: '습도',
-        yAxisID: 'y-right',
-        pointRadius:4,
-        borderColor: 'rgb(54, 250, 135)',
-        borderWidth: 2,
-        data: [],
-      };
-      
+  let xlabels = [];
+  let leftdatas = {
+    type: "line",
+    label: "온도",
+    yAxisID: "y-left",
+    pointStyle: "triangle",
+    pointRadius: 4,
+    borderColor: "rgb(24, 112, 235)",
+    borderWidth: 2,
+    data: [],
+  };
 
-    d.forEach(e => {
-      
-      let dTime = new Date(e.SDate);
-      let sTime = dTime.getHours() + ':' + dTime.getMinutes()
-      let isSensor = false;
+  let rightdatas = {
+    type: "line",
+    label: "습도",
+    yAxisID: "y-right",
+    pointRadius: 4,
+    borderColor: "rgb(54, 250, 135)",
+    borderWidth: 2,
+    data: [],
+  };
 
-      
-      
-          e.SLIST.forEach(el => {
-          let sensor = new Sensordevice(el,myAppGlobal);
-          if(sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature)
-          {
-            leftdatas.data.push(sensor.valuestring);
-            isSensor=true;
-          }
+  d.forEach((e) => {
+    let dTime = new Date(e.SDate);
+    let sTime = dTime.getHours() + ":" + dTime.getMinutes();
+    let isSensor = false;
 
-          if(sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity)
-          {
-            rightdatas.data.push(sensor.valuestring);
-            isSensor=true;
-          }
+    e.SLIST.forEach((el) => {
+      let sensor = new Sensordevice(el, myAppGlobal);
+      if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature) {
+        leftdatas.data.push(sensor.valuestring);
+        isSensor = true;
+      }
 
-        })
+      if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity) {
+        rightdatas.data.push(sensor.valuestring);
+        isSensor = true;
+      }
+    });
 
-        if (isSensor===true) 
-        {
-          xlabels.push(sTime);
-        }
-
-
-    })
-
-    console.log("------------------------leftdatas--------------------");
-    
-
-    dataChart.labels = xlabels;
-    //센서값이 만드면 포인터 삭제
-    if(xlabels.length >30)
-    {
-      leftdatas.pointRadius=0;
-      rightdatas.pointRadius=0;
+    if (isSensor === true) {
+      xlabels.push(sTime);
     }
-    dataChart.datasets.push(leftdatas) ;
-    dataChart.datasets.push(rightdatas) ;
+  });
 
+  console.log("------------------------leftdatas--------------------");
 
-
-
+  dataChart.labels = xlabels;
+  //센서값이 만드면 포인터 삭제
+  if (xlabels.length > 30) {
+    leftdatas.pointRadius = 0;
+    rightdatas.pointRadius = 0;
   }
+  dataChart.datasets.push(leftdatas);
+  dataChart.datasets.push(rightdatas);
+}
 
 const DashboardChart = (props) => {
   console.log("------------------------DashboardChart--------------------");
@@ -137,8 +122,30 @@ const DashboardChart = (props) => {
 
   return (
     <div className="dashboardchar">
-      {Date(props.lasttime)}
-      <Line  key="dashboardChart" data={dataChart} options={optionChart} />{" "}
+      <Box sx={{ display: "flex" }}>
+        <Box
+          sx={{
+            height: 300,
+            width: 800,
+            minHeight: { xs: 200, md: 167 },
+            minWidth: { xs: 400, md: 250 },
+            background: '#ffffff'
+          }}
+        >
+          {Date(props.lasttime)}
+          <Line key="dashboardChart" data={dataChart} options={optionChart} />{" "}
+        </Box>
+        <Box
+          component="img"
+          src="logo512.png"
+          sx={{
+            height: 300,
+            width: 300,
+            maxHeight: { xs: 100, md: 167 },
+            minWidth: { xs: 100, md: 250 },
+          }}
+        ></Box>
+      </Box>
     </div>
   );
 };

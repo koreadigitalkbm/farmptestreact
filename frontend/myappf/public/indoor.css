@@ -141,8 +141,7 @@
 }
 .dashboardchar{
     margin : 2px 2px 2px 2px;
-    flex-direction: column;
-    height: 300px;
+    min-height: 300px;
     background: rgba(230, 236, 233, 0.411);
     padding : 15px;
 

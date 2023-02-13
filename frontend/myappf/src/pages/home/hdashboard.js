@@ -178,12 +178,12 @@ const HDashboard = () => {
   }, [mdailysensorarray,msensorlasttime]);
 
   return (
-    <div>
+    <Box sx={{ flexDirection: 'row'  }}>
       {chartbox}
       <Sensordisplay sensors={msensorsarray} />
       <ActuatorDisplay actuators={mactuaotrs} />
       {eventbox}
-    </div>
+      </Box>
   );
 };
 
