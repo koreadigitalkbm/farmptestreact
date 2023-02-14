@@ -61,7 +61,8 @@ module.exports = class DailyCurrentDatas {
         sysevts.DEvents.push(this.DEvents[i]);
       }
     }
-
+    sysevts.LastimageFilename = this.LastimageFilename;
+    
     return sysevts;
   }
 

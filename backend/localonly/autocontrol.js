@@ -89,11 +89,17 @@ module.exports = class AutoControl {
     let currsensor = null;
 
 
+    
+
     //환기제어 별도로 왜냐면 센서가 여려개일수 있고 이레적으로  PWM 제어임
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX) 
     {
       let co2sensor=null;
       let humiditysensor=null;
+
+
+    //  console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX daytotalsec : " +daytotalsec);
+
       for (const ms of msensors) {
         //우선 센서 1개만 처리
         if (ms.UniqID == this.mConfig.Senlist[0]) {
@@ -115,6 +121,10 @@ module.exports = class AutoControl {
         //해당센서 없음
         //console.log("getStateBySensorcondtion no sensor all : " + msensors.length);
         return KDDefine.AUTOStateType.AST_ERROR;
+      }
+      else
+      {
+       // console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX humiditysensor : " + humiditysensor);
       }
 
 
@@ -153,6 +163,8 @@ module.exports = class AutoControl {
       }
       else{
         
+        
+
         currentstate=  KDDefine.AUTOStateType.AST_IDLE;
           //환기 켜기 조건일 때만 PWM 방식으로 제어 
           if (this.PWMLasttoltalsec > daytotalsec) {
@@ -331,8 +343,22 @@ module.exports = class AutoControl {
 
         for (const mactid of this.mConfig.Actlist) {
           let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
-          let opcmd = new ActuatorOperation(actd.UniqID, currentstate, this.OnSecTime);
-          opcmdlist.push(opcmd);
+          let onoffstate = null;
+          if (currentstate == KDDefine.AUTOStateType.AST_On) {
+            onoffstate = true;
+           
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+            onoffstate = false;
+          }
+
+          if(onoffstate !=null)
+          {
+            let opcmd = new ActuatorOperation(actd.UniqID, onoffstate, this.OnSecTime);
+            console.log("-getOperationsBySpcify ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+            opcmdlist.push(opcmd);
+          }
+          
+
         }
         //현재상태 갱신
         this.mState.State = currentstate;

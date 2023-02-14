@@ -148,8 +148,6 @@ module.exports = class LocalAPI {
         }
         // 시간이 0으로오면 요청없음
         if (this.mMain.dailydatas != null && reqmsg.reqParam.STime > 0) {
-        
-          
           rspmsg.retParam = this.mMain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
         }
         //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
