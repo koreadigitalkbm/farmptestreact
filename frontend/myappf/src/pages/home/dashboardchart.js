@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { Box, Card, CardContent, CardHeader, Collapse, IconButton, Stack, Switch, Typography } from "@mui/material";
+
+import { Box } from "@mui/material";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
 
-import { Image } from "@mui/icons-material";
 
 import Sensordevice from "../../commonjs/sensordevice";
 import KDDefine from "../../commonjs/kddefine";
