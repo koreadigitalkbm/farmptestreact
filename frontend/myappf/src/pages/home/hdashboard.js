@@ -199,11 +199,9 @@ const HDashboard = () => {
       <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
       </Grid>
       <Grid item xs={4} >
-      <Box
-          component="img"
-          src={mimgfileurl}
-         
-        ></Box>
+      <Box       component="img"      src={mimgfileurl} />
+          
+        
       </Grid>
       <Grid item xs={12} md={12}>
       <Sensordisplay sensors={msensorsarray} />
@@ -224,13 +222,3 @@ const HDashboard = () => {
 
 export default HDashboard;
 
-/*
- {
-    <Box sx={{ flexDirection: "row" }}>
-      {chartbox}
-      <Sensordisplay sensors={msensorsarray} />
-      <ActuatorDisplay actuators={mactuaotrs} />
-      {eventbox}
-    </Box>
-  }
-*/

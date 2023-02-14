@@ -144,6 +144,25 @@ module.exports = class KDUtil {
 
   }
 
+  static dateTostringforme(mdate, isdate, istime)
+  {
+    const d = new Date(mdate);
+    const date = d.toISOString().split('T')[0];
+    const time = d.toTimeString().split(' ')[0];
+    let timestr;
+    if(isdate ==true)
+    {
+      timestr= date;
+    }
+    if(istime ==true)
+    {
+      timestr= timestr +' '+time;
+    }
+    
+
+    return timestr
+
+  }
 
 
 };

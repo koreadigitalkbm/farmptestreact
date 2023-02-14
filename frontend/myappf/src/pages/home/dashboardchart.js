@@ -7,6 +7,7 @@ import { Image } from "@mui/icons-material";
 
 import Sensordevice from "../../commonjs/sensordevice";
 import KDDefine from "../../commonjs/kddefine";
+import KDUtil from "../../commonjs/kdutil";
 import myAppGlobal from "../../myAppGlobal";
 
 let dataChart = {
@@ -17,6 +18,11 @@ let dataChart = {
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const optionChart = {
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
   maintainAspectRatio: false,
   scales: {
     x: {
@@ -33,6 +39,7 @@ const optionChart = {
       title: {
         display: true,
         text: "온도",
+        color: "rgb(24, 112, 235)",
       },
     },
     "y-right": {
@@ -44,6 +51,7 @@ const optionChart = {
       title: {
         display: true,
         text: "습도",
+        color: "rgb(54, 250, 135)",
       },
       grid: {
         display: false,
@@ -52,7 +60,7 @@ const optionChart = {
   },
 };
 
-function decodeDsensor(d) {
+function decodeDsensor(sdatas) {
   dataChart = {
     labels: [],
     datasets: [],
@@ -80,22 +88,70 @@ function decodeDsensor(d) {
     data: [],
   };
 
-  d.forEach((e) => {
-    let dTime = new Date(e.SDate);
+  
+  let leftsensor;
+  let rightsensor;
+  sdatas[0].SLIST.forEach((sitem) => {
+    let sensor = new Sensordevice(sitem, myAppGlobal);
+    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature) {
+      if(leftsensor !=null)
+      {
+        //온도가 여러개이면 채널번호가 낮으것이 내부온도이다.
+         if( leftsensor.channel > sensor.channel)
+         {
+          leftsensor = sensor;
+         }
+      }
+      else{
+        leftsensor = sensor;
+      }
+    }
+
+    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity) {
+      
+      if(rightsensor !=null)
+      {
+         if( rightsensor.channel > sensor.channel)
+         {
+          rightsensor = sensor;
+         }
+      }
+      else{
+        rightsensor = sensor;
+      }
+
+    }
+  });
+
+  console.log("------decodeDsensor leftsensor : " + leftsensor.Name );
+
+  sdatas.forEach((item) => {
+    let dTime = new Date(item.SDate);
     let sTime = dTime.getHours() + ":" + dTime.getMinutes();
     let isSensor = false;
 
-    e.SLIST.forEach((el) => {
-      let sensor = new Sensordevice(el, myAppGlobal);
-      if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature) {
-        leftdatas.data.push(sensor.valuestring);
-        isSensor = true;
+    item.SLIST.forEach((sitem) => {
+
+      if(leftsensor !=null )
+      {
+        if( sitem.Uid == leftsensor.UniqID)
+        {
+          leftdatas.data.push(sitem.Val);
+          isSensor = true;
+        }
       }
 
-      if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity) {
-        rightdatas.data.push(sensor.valuestring);
-        isSensor = true;
+      if(rightsensor !=null )
+      {
+        if( sitem.Uid == rightsensor.UniqID)
+        {
+          rightdatas.data.push(sitem.Val);
+          isSensor = true;
+        }
       }
+
+     
+
     });
 
     if (isSensor === true) {
@@ -106,13 +162,24 @@ function decodeDsensor(d) {
   console.log("------------------------leftdatas--------------------");
 
   dataChart.labels = xlabels;
-  //센서값이 만드면 포인터 삭제
+  //센서값이 많으면 포인터 삭제
   if (xlabels.length > 30) {
     leftdatas.pointRadius = 0;
     rightdatas.pointRadius = 0;
   }
   dataChart.datasets.push(leftdatas);
   dataChart.datasets.push(rightdatas);
+  if(leftsensor !=null )
+  {
+    optionChart.scales["y-left"].title.text=leftsensor.Name + " (" + leftsensor.ValueUnit + ")";
+  }
+ 
+  if(rightsensor !=null )
+  {
+    optionChart.scales["y-right"].title.text=rightsensor.Name + " (" + rightsensor.ValueUnit + ")";
+  }
+
+
 }
 
 const DashboardChart = (props) => {
@@ -121,24 +188,24 @@ const DashboardChart = (props) => {
   //다시 만들어야됨
   decodeDsensor(props.chartdatas);
 
+  //optionChart.scales["y-right"].title.text="hahahha";
+
   return (
-    
-      <Box sx={{ display: "flex" }}>
-        <Box
-          sx={{
-            height: 300,
-            width: 800,
-            minHeight: { xs: 200, md: 167 },
-            minWidth: { xs: 400, md: 250 },
-            background: '#ffffff'
-          }}
-        >
-          {Date(props.lasttime)}
-          <Line key="dashboardChart" data={dataChart} options={optionChart} />{" "}
-        </Box>
-        
+    <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          height: 300,
+          width: 800,
+          minHeight: { xs: 200, md: 167 },
+          minWidth: { xs: 400, md: 250 },
+          background: "#ffffff",
+        }}
+      >
+        {"시간: "}
+        { KDUtil.dateTostringforme(props.lasttime,true, true)}
+        <Line key="dashboardChart" data={dataChart} options={optionChart} />{" "}
       </Box>
-    
+    </Box>
   );
 };
 
