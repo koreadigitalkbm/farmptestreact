@@ -20,7 +20,8 @@ let eventlistTime = [];
 let dailysensorlist = [];
 let actuaotrslist = [];
 let sensorlist = [];
-let imagefilename = "image/noimage.png";
+let imagefilename = "";
+let imagefileurl= "image/noimage.png";
 let isoffscreen = false;
 
 //홈 메인 대시보드
@@ -29,7 +30,7 @@ const HDashboard = () => {
   const [mactuaotrs, setActuator] = useState(actuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
-  const [mimgfileurl, setImgfileurl] = useState(imagefilename);
+  const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
   
   const [msensorlasttime, setLasttime] = useState(1);
 
@@ -76,9 +77,9 @@ const HDashboard = () => {
             {
 
               imagefilename = ret.retParam.LastimageFilename;
-              let fileurl= "/cameraimage/" + myAppGlobal.logindeviceid + "/" +imagefilename;
-              console.log("capture fileurl : " + fileurl );    
-              setImgfileurl(fileurl);
+              imagefileurl= "/cameraimage/" + myAppGlobal.logindeviceid + "/" +imagefilename;
+              console.log("capture fileurl : " + imagefileurl );    
+              setImgfileurl(imagefileurl);
             }
 
             
