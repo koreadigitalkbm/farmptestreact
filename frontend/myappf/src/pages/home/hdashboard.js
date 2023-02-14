@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import Grid from '@mui/material/Grid';
+
+
+
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
 import ActuatorDisplay from "./actuatordisplay";
@@ -187,13 +191,45 @@ const HDashboard = () => {
   }, [mdailysensorarray, msensorlasttime]);
 
   return (
+    
+    <Box sx={{ flexGrow: 1 }}>
+    <Grid container spacing={1} >
+      <Grid item xs={7}  md={8} >
+      <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
+      </Grid>
+      <Grid item xs={3}  md={4} >
+      <Box
+          component="img"
+          src={mimgfileurl}
+         
+        ></Box>
+      </Grid>
+      <Grid item xs={12} md={12}>
+      <Sensordisplay sensors={msensorsarray} />
+        </Grid>
+        <Grid item xs={12} md={12}>
+        <ActuatorDisplay actuators={mactuaotrs} />
+        </Grid>
+        <Grid item xs={12} md={12}>
+        {eventbox}
+        </Grid>
+    </Grid>
+    </Box>
+
+   
+
+  );
+};
+
+export default HDashboard;
+
+/*
+ {
     <Box sx={{ flexDirection: "row" }}>
       {chartbox}
       <Sensordisplay sensors={msensorsarray} />
       <ActuatorDisplay actuators={mactuaotrs} />
       {eventbox}
     </Box>
-  );
-};
-
-export default HDashboard;
+  }
+*/

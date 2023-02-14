@@ -121,7 +121,7 @@ const DashboardChart = (props) => {
   decodeDsensor(props.chartdatas);
 
   return (
-    <div className="dashboardchar">
+    
       <Box sx={{ display: "flex" }}>
         <Box
           sx={{
@@ -135,18 +135,9 @@ const DashboardChart = (props) => {
           {Date(props.lasttime)}
           <Line key="dashboardChart" data={dataChart} options={optionChart} />{" "}
         </Box>
-        <Box
-          component="img"
-          src={props.imgfileurl}
-          sx={{
-            height: 300,
-            width: 300,
-            maxHeight: { xs: 100, md: 167 },
-            minWidth: { xs: 100, md: 250 },
-          }}
-        ></Box>
+        
       </Box>
-    </div>
+    
   );
 };
 
