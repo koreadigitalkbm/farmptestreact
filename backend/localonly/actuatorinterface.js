@@ -12,6 +12,9 @@ const CameraInterface = require("./camerainterface");
 
 
 
+var exec = require("child_process").exec;
+
+
 const color = require('colors');
 
 
@@ -145,36 +148,42 @@ module.exports = class ActuatorInterface {
   {
 
       console.log("cameraoperation  Uid :  " + mops.Uid  + " Opmode:  "+ mops.Opmode + " param: "+mops.Param);
-
-      
+     
       let filename =  mops.Param;
 
+      try {
+
+        if(mops.Opmode === true) {
+
+          let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
+          const lawimg = CameraInterface.Captureimage(this.mMain, filepath, filename);
+  
+          // const lawimg = CameraInterface.Captureimage();
+          // let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
+          // //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
+          // KDCommon.removeallfiles(filepath);
+          // KDCommon.mkdirRecursive(filepath);
+          // filepath = filepath + filename;
+          // KDCommon.WritefileBase64(filepath, lawimg);
+          // /// 썸네일 이미지도 만들자 나중에
+          // filepath=filepath.replace(".jpg", "_thum.jpg");
+          // KDCommon.WritefileBase64(filepath, lawimg);
+  
+          //  //서버로 보냄
+          //  await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
+              
+        }
+        else {
+          // 수동촬영된 사진을  일반사진처럼 저장하고 디비에도 저장하고 서버에도 저장한다.
+          const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
+        }
+  
+      } 
+      catch (error) {
+        console.log( color.bgRed(error) )  
+      }
+
       //사진촬영
-      if(mops.Opmode == true)
-      {
-        const lawimg = CameraInterface.Captureimage();
-        let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
-        //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
-        KDCommon.removeallfiles(filepath);
-        KDCommon.mkdirRecursive(filepath);
-        filepath = filepath + filename;
-        KDCommon.WritefileBase64(filepath, lawimg);
-        /// 썸네일 이미지도 만들자 나중에
-        filepath=filepath.replace(".jpg", "_thum.jpg");
-        KDCommon.WritefileBase64(filepath, lawimg);
-
-         //서버로 보냄
-         await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
-            
-      }
-      else
-      {
-        // 수동촬영된 사진을  일반사진처럼 저장하고 디비에도 저장하고 서버에도 저장한다.
-        const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
-
-
-
-      }
 
   }
 

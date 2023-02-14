@@ -117,10 +117,10 @@ module.exports = class KDCommon {
   static ReadfileBase64(filename) {
     try {
       var rawdata = fs.readFileSync(filename);
+      console.log('----------- ReadfileBase64(filename)', rawdata );
       return rawdata.toString("base64");
     } catch (error) {
       console.log(error);
-
       return null;
     }
   }
@@ -128,6 +128,9 @@ module.exports = class KDCommon {
   //base64 형태로 저장함
   static WritefileBase64(filename, base64str) {
     try {
+
+      console.log('----------- WritefileBase64()', filename);
+
       let datas = Buffer.from(base64str, "base64");
       fs.writeFileSync(filename, datas);
     } catch (error) {
