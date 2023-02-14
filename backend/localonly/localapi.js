@@ -286,7 +286,7 @@ module.exports = class LocalAPI {
     } catch (error) {
       console.log(" setRequestServer error : " + error);
     } finally {
-      console.log(" setRequestServer finally  : ");
+      //console.log(" setRequestServer finally  : ");
       return resdata;
     }
   }

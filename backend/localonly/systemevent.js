@@ -11,7 +11,7 @@ module.exports = class SystemEvent {
     this.EDate = Date.now();
     this.EType = metype; //
     this.EParam = mparams; //이벤트 내용 json 포멧으로 
-    console.log("SystemEvent   EType: " + this.EType + " date:"+ this.EDate);
+//    console.log("SystemEvent   EType: " + this.EType + " date:"+ this.EDate);
 
    }
 
@@ -63,7 +63,7 @@ module.exports = class SystemEvent {
      return newevt;
 
    }
-   
+
    
 
 };

@@ -19,6 +19,7 @@ const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminf
 const SystemEvent = require("./systemevent");
 
 const BackLocalGlobal = require("../backGlobal");
+const KDUtil = require("../../frontend/myappf/src/commonjs/kdutil");
 
 // 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
@@ -134,7 +135,7 @@ async function devicemaintask(mainclass) {
 
               //로컬에 저장
               // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
-              let capfilename = "cameara_" + "BEG" + "_" + 1 + "_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
+              let capfilename = "cameara_" +  1 + "_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
               capfilename = KDCommon.FilenameCheck(capfilename);
 
 

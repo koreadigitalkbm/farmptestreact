@@ -59,7 +59,11 @@ module.exports = class DatabaseInterface {
       this.conn.query(sql, svalues, function (error, result) {
         //console.log("setsensordata........------------------------------------- \n" + slist.length);
         //console.log(svalues);
-        console.log(error);
+        if(error !=null)
+        {
+          console.log(error);
+        }
+        
         //console.log(result);
       });
     } catch (err) {
@@ -99,7 +103,11 @@ module.exports = class DatabaseInterface {
 
       this.conn.query(sql, items, function (error, result) {
         
-        console.log(error);
+        if(error !=null)
+        {
+          console.log(error);
+        }
+        
         //console.log(result);
       });
     } catch (err) {
@@ -116,7 +124,8 @@ module.exports = class DatabaseInterface {
       return;
     } else {
 
-      
+      console.log("setimagetodb start");
+
 
       var sql = "INSERT INTO fjbox.cameraimages (devid, dtime,ctype,filename) VALUES (?,?,?,?)";
       const svalues = [did, dtime, cameratype, filename];

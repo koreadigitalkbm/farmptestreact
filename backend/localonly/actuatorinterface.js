@@ -67,11 +67,7 @@ module.exports = class ActuatorInterface {
     ///
 
 
-    console.log( '       '.bgCyan, actinfolist  )
-    console.log( '       '.bgCyan, actinfolist  )
-    console.log( '       '.bgCyan, actinfolist  )
-
-
+    
     this.mMain.localsysteminformations.Actuators = actinfolist;
     for (const minfo of actinfolist) {
       this.Actuators.push(new Actuatordevice(minfo));
@@ -99,7 +95,7 @@ module.exports = class ActuatorInterface {
             if (newevt != null) {
               
               this.mMain.setSystemevent(newevt);
-              console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
+              //console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
             }
           }
 
