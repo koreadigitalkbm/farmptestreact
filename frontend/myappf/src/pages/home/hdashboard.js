@@ -195,10 +195,10 @@ const HDashboard = () => {
     
     <Box sx={{ flexGrow: 1 }}>
     <Grid container spacing={1} >
-      <Grid item xs={7}  md={8} >
+      <Grid item xs={8} >
       <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
       </Grid>
-      <Grid item xs={3}  md={4} >
+      <Grid item xs={4} >
       <Box
           component="img"
           src={mimgfileurl}

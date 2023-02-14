@@ -17,6 +17,7 @@ let dataChart = {
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const optionChart = {
+  maintainAspectRatio: false,
   scales: {
     x: {
       display: true,
