@@ -134,7 +134,7 @@ async function devicemaintask(mainclass) {
 
                 //로컬에 저장
                 // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
-                let capfilename = "cameara_" +  1 + "_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
+                let capfilename = "cameara_" + "T_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
                 capfilename = KDCommon.FilenameCheck(capfilename);
                 mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg,true);
                 //서버로 보냄

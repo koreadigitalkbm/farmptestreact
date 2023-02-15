@@ -147,7 +147,7 @@ function FarmApp(props) {
 
   return (
     <div className="FarmApp">
-      {/* {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<FMainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> } */}
+      
       {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<Mainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> }
    </div>
   );

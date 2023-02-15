@@ -2,12 +2,22 @@
 import { Box } from "@mui/material";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
+import Grid from '@mui/material/Grid';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import FormLabel from '@mui/material/FormLabel';
 
 
 import Sensordevice from "../../commonjs/sensordevice";
 import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
+
+import blue from '@mui/material/colors/blue';
+
+
 import myAppGlobal from "../../myAppGlobal";
+
 
 let dataChart = {
   labels: [],
@@ -196,20 +206,37 @@ const SensorDataChart = (props) => {
   //optionChart.scales["y-right"].title.text="hahahha";
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Box
-        sx={{
-          height: 300,
-          width: 800,
-          minHeight: { xs: 200, md: 167 },
-          minWidth: { xs: 400, md: 250 },
-          background: "#ffffff",
-        }}
-      >
-  
-        <Line key="sensordataChart" data={dataChart} options={optionChart} />{" "}
+
+
+    <Box sx={{ flexGrow: 1 }}>
+    <Grid container spacing={1} >
+      <Grid item xs={10} >
+      <Line key="sensordataChart" data={dataChart} options={optionChart} />{" "}
+      </Grid>
+      <Grid item xs={2} >
+      <Box     sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          flexDirection: 'column',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          borderRadius: 1,
+        }} >
+           <FormLabel component="legend">센서선택</FormLabel>
+           <FormGroup>
+      <FormControlLabel control={<Checkbox defaultChecked  color="secondary"  />} label="Label"  sx={{  color:'#9c27b0' }} />
+      <FormControlLabel control={<Checkbox />} label="Disabled" />
+    </FormGroup>
       </Box>
+        
+      </Grid>
+      
+    </Grid>
     </Box>
+
+
+    
   );
 };
 

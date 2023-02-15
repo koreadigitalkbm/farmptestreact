@@ -191,7 +191,8 @@ module.exports = class ActuatorInterface {
         }
       } else {
         // 수동촬영된 사진을  일반사진처럼 저장하고 디비에도 저장하고 서버에도 저장한다.
-        const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
+        
+        
       }
     } catch (error) {
       console.log(color.bgRed(error));

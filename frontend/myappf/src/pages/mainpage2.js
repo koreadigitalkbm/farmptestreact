@@ -190,7 +190,7 @@ export default function FMainpage(props) {
         </Toolbar>
       </AppBar>
 
-      <Box component="main" sx={{ mx: "auto", p: 6 }}>
+      <Box component="main" sx={{ mx: "auto", p: 1 }}>
         <Toolbar />
 
         {loadpage()}

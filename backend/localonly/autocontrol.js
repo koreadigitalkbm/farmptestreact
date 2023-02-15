@@ -334,7 +334,8 @@ module.exports = class AutoControl {
             opcmdlist.push(opcmdred);
             opcmdlist.push(opcmdblue);
 
-            this.mState.State = currentstate;
+            this.setUpdatestateWithEvent(currentstate);
+            //this.mState.State = currentstate;
           }
         }
 
@@ -361,7 +362,8 @@ module.exports = class AutoControl {
 
         }
         //현재상태 갱신
-        this.mState.State = currentstate;
+        this.setUpdatestateWithEvent(currentstate);
+        //this.mState.State = currentstate;
 
 
         
@@ -419,7 +421,8 @@ module.exports = class AutoControl {
               opcmdlist.push(opcmdcooler);
   
               //현재상태 갱신
-              this.mState.State = currentstate;
+              this.setUpdatestateWithEvent(currentstate);
+              //this.mState.State = currentstate;
             }
           }
   
@@ -469,12 +472,16 @@ module.exports = class AutoControl {
     this.NewEvent=null;
     if(this.mState.State != newautostate)
     {
+      console.log("setUpdatestateWithEvent lid: " +this.mConfig.Lid+ "  ---------------old:  " + this.mState.State + " new: "+newautostate);
+
       //상태가 유지상태일경우 이벤트 발생안함
       if(newautostate== KDDefine.AUTOStateType.AST_Up_Idle || newautostate== KDDefine.AUTOStateType.AST_Down_Idle  || newautostate== KDDefine.AUTOStateType.AST_IDLE)
       {
 
       }
       else{
+
+        
 
         this.NewEvent=SystemEvent.createAutoControlEvent(this.mConfig.Uid,newautostate);
       }
@@ -542,10 +549,12 @@ module.exports = class AutoControl {
               console.log("-getOperationsByControl new---------------mactid : " + mactid + " cmd:" + opcmd.Opcmd);
             }
           }
+
+          this.setUpdatestateWithEvent(currentstate);
         }
       }
 
-      this.setUpdatestateWithEvent(currentstate);
+      
       
     }
 

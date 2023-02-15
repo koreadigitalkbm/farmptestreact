@@ -27,6 +27,9 @@ const optionChart = {
     x: {
       display: true,
       text: "x title",
+       ticks: {
+            maxTicksLimit: 10,
+        },
     },
 
     "y-left": {

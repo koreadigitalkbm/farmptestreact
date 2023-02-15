@@ -45,9 +45,18 @@ const JukeboxCamera = (props) => {
     const actuid = copycfg.Actlist[0];
     let opcmd = new ActuatorOperation(actuid, istake, 0);
 
+    
+
     if (istake === true) {
+      let timestr=KDUtil.dateTostringforme(new Date(),true, true)
+
+      timestr=timestr.replace(":","_");
+      timestr=timestr.replace(":","_");
+      timestr=timestr.replace(":","_");
+      timestr=timestr.replace(" ","_");
       
-      let capfilename = "cameara_" +  1 + "_manual_"+ KDUtil.GetRandom10() + ".jpg";
+      
+      let capfilename = "cameara_" +"T_"+timestr + "_manual_"+ KDUtil.GetRandom10() + ".jpg";
          
 
       manultakefilename =capfilename;
