@@ -8,7 +8,7 @@ import Systemeventdisplay from "../home/systemeventdisplay";
 import {Buffer}  from "buffer";
 import TitlebarBelowImageList from "./Himagedisplay";
 
-import HorizontalSplitLayout from "./testv1";
+
 
 
 let sevents = [];
@@ -107,7 +107,7 @@ const DataMainPage = (props) => {
 
   return (
     <div>
-        <HorizontalSplitLayout/>
+        
       <div>
         데이터검색
         <button className="" onClick={getdb}>
