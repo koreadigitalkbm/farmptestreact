@@ -1,30 +1,53 @@
-
+import { useState, useEffect, useMemo } from "react";
 import { Box } from "@mui/material";
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
-import Grid from '@mui/material/Grid';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import FormLabel from '@mui/material/FormLabel';
-
+import Grid from "@mui/material/Grid";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import FormLabel from "@mui/material/FormLabel";
 
 import Sensordevice from "../../commonjs/sensordevice";
 import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
 
-import blue from '@mui/material/colors/blue';
-
+import blue from "@mui/material/colors/blue";
 
 import myAppGlobal from "../../myAppGlobal";
 
+let chboxlist = [
+  { label: "l1", color: "#1976d2", key: "0", checked: false ,sensor:null},
+  { label: "l2", color: "#2e7d32", key: "1", checked: false ,sensor:null},
+  { label: "l3", color: "#9c27b0", key: "2", checked: false ,sensor:null},
+  { label: "l4", color: "#d32f2f", key: "3", checked: false ,sensor:null},
+
+  { label: "l4", color: "#ed6c02", key: "4", checked: false ,sensor:null},
+  { label: "l4", color: "#0288d1", key: "5", checked: false ,sensor:null},
+  { label: "l4", color: "#ef5350", key: "6", checked: false ,sensor:null},
+  { label: "l4", color: "#4caf50", key: "7", checked: false ,sensor:null},
+
+  { label: "l4", color: "#000010", key: "8", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "9", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "10", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "11", checked: false ,sensor:null},
+
+  { label: "l4", color: "#000010", key: "12", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "13", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "14", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "15", checked: false ,sensor:null},
+];
+
+let checkflgs = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
 let dataChart = {
   labels: [],
   datasets: [],
 };
 
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+let sensorlistforchart=[];
+
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip );
 
 const optionChart = {
   plugins: {
@@ -37,11 +60,13 @@ const optionChart = {
     x: {
       display: true,
       text: "x title",
+      ticks: {
+        maxTicksLimit: 10,
+      },
     },
 
     "y-left": {
-      min: 10,
-      max: 40,
+    
       type: "linear",
       display: true,
       position: "left",
@@ -69,24 +94,100 @@ const optionChart = {
   },
 };
 
-function decodeDsensor(sdatas) {
+function getsensorfromlist(stype,nodeid,channel)
+{
+  
+
+  for(let i=0;i< sensorlistforchart.length ; i++)
+  {
+    if(sensorlistforchart[i].stype == stype &&  sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel )
+    {
+      return sensorlistforchart[i];
+    }
+
+  }
+  
+  console.log("n :" + stype );   
+
+  let newdatas = {
+    stype:stype,
+    nodeid:nodeid,
+    channel:channel,
+    type: "line",
+    label: "온도",
+    yAxisID: "y-left",
+    pointStyle: "triangle",
+    pointRadius: 0,
+    borderColor: "rgb(24, 112, 235)",
+    borderWidth: 2,
+    data: [],
+  };
+  sensorlistforchart.push(newdatas);
+
+
+  return newdatas;
+
+
+}
+
+function DecodeSensorbyDB(sdatas) {
+ 
+
+
+  
+  sensorlistforchart=[];
+
+
+  console.log("------decodeDsensor sdatas.lenth : " + sdatas.length );
+
+  
+  for(let i=0;i<sdatas.length ;i++)
+  {
+   
+
+         const msensor = getsensorfromlist(sdatas[i].P,sdatas[i].N,sdatas[i].C);
+         let dTime = new Date(sdatas[i].T);
+          let sTime = dTime.getHours() + ":" + dTime.getMinutes();
+
+         const xydata={x:sTime, y:sdatas[i].V};
+
+     msensor.data.push(xydata);
+
+  }
+
+
+  console.log("------------------------sensorlistforchart -------------------- L: "+ sensorlistforchart.length);
+
+  for(let i=0;i<sensorlistforchart.length ;i++)
+  {
+   const newsensor= Sensordevice.createSensor(sensorlistforchart[i].stype,sensorlistforchart[i].nodeid,sensorlistforchart[i].channel, myAppGlobal);
+   
+    chboxlist[i].label = newsensor.Name;
+    chboxlist[i].sensor =newsensor;
+   }
+
+
+
+  return sensorlistforchart.length;
+
+}
+
+function Drawchart()
+{
+  
   dataChart = {
     labels: [],
     datasets: [],
   };
 
-  let xlabels = [];
+  
 
-//데이터없으면 리턴.
-  if( sdatas.length <=0)
-  {
-    return ;
-  }
+  
 
 
   let leftdatas = {
     type: "line",
-    label: "온도",
+    label: "온도ss",
     yAxisID: "y-left",
     pointStyle: "triangle",
     pointRadius: 4,
@@ -105,138 +206,105 @@ function decodeDsensor(sdatas) {
     data: [],
   };
 
+
+  console.log("Drawchart");
+
+
   
-  let leftsensor;
-  let rightsensor;
-  sdatas[0].SLIST.forEach((sitem) => {
-    let sensor = new Sensordevice(sitem, myAppGlobal);
-    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature) {
-      if(leftsensor !=null)
-      {
-        //온도가 여러개이면 채널번호가 낮으것이 내부온도이다.
-         if( leftsensor.channel > sensor.channel)
-         {
-          leftsensor = sensor;
-         }
-      }
-      else{
-        leftsensor = sensor;
-      }
-    }
-
-    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity) {
-      
-      if(rightsensor !=null)
-      {
-         if( rightsensor.channel > sensor.channel)
-         {
-          rightsensor = sensor;
-         }
-      }
-      else{
-        rightsensor = sensor;
-      }
-
-    }
-  });
-
-  //console.log("------decodeDsensor leftsensor : " + leftsensor.Name + " Unit:" + leftsensor.ValueUnit );
-
-  sdatas.forEach((item) => {
-    let dTime = new Date(item.SDate);
-    let sTime = dTime.getHours() + ":" + dTime.getMinutes();
-    let isSensor = false;
-
-    item.SLIST.forEach((sitem) => {
-
-      if(leftsensor !=null )
-      {
-        if( sitem.Uid == leftsensor.UniqID)
-        {
-          leftdatas.data.push(sitem.Val);
-          isSensor = true;
-        }
-      }
-
-      if(rightsensor !=null )
-      {
-        if( sitem.Uid == rightsensor.UniqID)
-        {
-          rightdatas.data.push(sitem.Val);
-          isSensor = true;
-        }
-      }
-
-     
-
-    });
-
-    if (isSensor === true) {
-      xlabels.push(sTime);
-    }
-  });
-
-  console.log("------------------------leftdatas--------------------");
-
-  dataChart.labels = xlabels;
-  //센서값이 많으면 포인터 삭제
-  if (xlabels.length > 30) {
-    leftdatas.pointRadius = 0;
-    rightdatas.pointRadius = 0;
-  }
-  dataChart.datasets.push(leftdatas);
-  dataChart.datasets.push(rightdatas);
-  if(leftsensor !=null )
+  for(let i=0;i<sensorlistforchart.length ; i++)
   {
-    optionChart.scales["y-left"].title.text=leftsensor.Name + " (" + leftsensor.ValueUnit + ")";
+    if(chboxlist[i].checked==true)
+    {
+      dataChart.datasets.push(sensorlistforchart[i]);
+    }
+    
   }
- 
-  if(rightsensor !=null )
-  {
-    optionChart.scales["y-right"].title.text=rightsensor.Name + " (" + rightsensor.ValueUnit + ")";
-  }
+  
+  
+
 
 
 }
 
 const SensorDataChart = (props) => {
+  const [bcheckeds, setCheckeds] = useState(true);
+  
+
   console.log("------------------------SensorDataChart--------------------");
 
-  
+  useEffect(() => {
+    console.log("-------------------------SensorDataChart  useEffect---------------------issetreq:");
+  }, []);
+
   //optionChart.scales["y-right"].title.text="hahahha";
 
+  const handleChange = (event) => {
+    console.log("------------------------handleChange--------------------event : " + event.target.name + ",ch:" + event.target.checked);
+    chboxlist[event.target.name].checked = event.target.checked;
+
+    //그냥 화면 갱신
+    setCheckeds(!bcheckeds);
+  };
+
+
+const scount =   DecodeSensorbyDB(props.datas);
+
+Drawchart();
+
+  //console.log(props.datas);
+
+
+
+
+  let chlist = [];
+
+  for (let i = 0; i < scount; i++) {
+    const chb = (
+      <FormControlLabel
+        control={
+          <Checkbox
+            key={"keych" + chboxlist[i].key}
+            name={chboxlist[i].key}
+            checked={chboxlist[i].checked}
+            onChange={handleChange}
+            sx={{
+              color: chboxlist[i].color,
+              "&.Mui-checked": { color: chboxlist[i].color },
+            }}
+          />
+        }
+        label={chboxlist[i].label}
+      />
+    );
+
+    chlist.push(chb);
+  }
+
   return (
-
-
     <Box sx={{ flexGrow: 1 }}>
-    <Grid container spacing={1} >
-      <Grid item xs={10} >
-      <Line key="sensordataChart" data={dataChart} options={optionChart} />{" "}
+      <Grid container spacing={1}>
+        <Grid item xs={9}>
+          <Line key="sensordataChart" data={dataChart} options={optionChart} />{" "}
+        </Grid>
+        <Grid item xs={3}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+              flexDirection: "column",
+              p: 1,
+              m: 1,
+              bgcolor: "background.paper",
+              borderRadius: 1,
+            }}
+          >
+            <FormLabel component="legend"> 센서를 선택하세요. </FormLabel>
+
+            {chlist}
+          </Box>
+        </Grid>
       </Grid>
-      <Grid item xs={2} >
-      <Box     sx={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          flexDirection: 'column',
-          p: 1,
-          m: 1,
-          bgcolor: 'background.paper',
-          borderRadius: 1,
-        }} >
-           <FormLabel component="legend">센서선택</FormLabel>
-           <FormGroup>
-      <FormControlLabel control={<Checkbox defaultChecked  color="secondary"  />} label="Label"  sx={{  color:'#9c27b0' }} />
-      <FormControlLabel control={<Checkbox />} label="Disabled" />
-    </FormGroup>
-      </Box>
-        
-      </Grid>
-      
-    </Grid>
     </Box>
-
-
-    
   );
 };
 

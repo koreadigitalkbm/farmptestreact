@@ -1,7 +1,7 @@
 
 const  KDDefine= require("./kddefine");
 
-
+const SensorCompact = require("./sensorcompact");
 
     module.exports = class Sensordevice{
         
@@ -97,8 +97,16 @@ const  KDDefine= require("./kddefine");
     
         }
 
+
     //  console.log("SensorDevice  : " + this.value );
 
+    static createSensor(stype, nodeid, channel ,  myGlobal=null)
+    {
+        const sensrcode = ((channel<<8)&0xFF00) +  (stype&0xFF);
+
+        let cmps= new SensorCompact(nodeid,sensrcode,0);
+        return new Sensordevice(cmps,myGlobal);
+    }
 
     //센서값을 문자열로표시 표시
     GetValuestring(isWithname, isWithunit){
