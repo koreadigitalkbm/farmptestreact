@@ -3,8 +3,47 @@ const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const KDCommon = require("../kdcommon");
 
 const os = require("os");
-const color = require('colors');
 
+
+const RasCamera =require("./rasberrypi/cmoscamera");
+const USBCamera = require("./windows/usbcamera");
+
+
+
+module.exports = class CameraInterface {
+  constructor() {
+   
+  }
+  
+
+  static  async Captureimage(main, filepath, filename) {
+
+    let data_img;
+    if (os.platform() === "win32") {
+//      data_img = KDCommon.ReadfileBase64('../common/ctestimage.jpg')
+        data_img = await USBCamera.Captureimage();
+
+
+    } else {
+
+      data_img=await RasCamera.Captureimage();
+    }
+
+    console.log('----------- CameraInterface Captureimage end' );
+
+    return data_img;
+    
+
+  }
+
+
+};
+
+
+
+/*
+
+const color = require('colors');
 const PiCamera = require("pi-camera");
 
 
@@ -39,6 +78,7 @@ const PiCamera = require("pi-camera");
 // ==============================================
 // =======         original code          =======
 // ==============================================
+
 module.exports = class CameraInterface {
   constructor() {
     console.log('======================= start heere'.bgGreen )
@@ -68,17 +108,6 @@ module.exports = class CameraInterface {
   }
 
 
-  /**
-   * 
-   * @param {*} main 
-   * @param {*} filepath 
-   * @param {*} filename 
-   * @returns 
-   * 
-   * TODO. 2023.02.15
-   * 추후 다시 손보는 것으로 
-   * window OS 작동 테스트 필요.
-   */
 
   static Captureimage(main, filepath, filename) {
     // let path = imgPath();
@@ -202,3 +231,4 @@ module.exports = class CameraInterface {
   //   }
   // }
 };
+*/

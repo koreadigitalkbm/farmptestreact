@@ -155,22 +155,29 @@ module.exports = class ActuatorInterface {
 
         if(mops.Opmode === true) {
 
-          let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
-          const lawimg = CameraInterface.Captureimage(this.mMain, filepath, filename);
+          //let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
+        //  const lawimg  =  CameraInterface.Captureimage(this.mMain, filepath, filename);
   
-          // const lawimg = CameraInterface.Captureimage();
-          // let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
-          // //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
-          // KDCommon.removeallfiles(filepath);
-          // KDCommon.mkdirRecursive(filepath);
-          // filepath = filepath + filename;
-          // KDCommon.WritefileBase64(filepath, lawimg);
-          // /// 썸네일 이미지도 만들자 나중에
-          // filepath=filepath.replace(".jpg", "_thum.jpg");
-          // KDCommon.WritefileBase64(filepath, lawimg);
+           const lawimg = await CameraInterface.Captureimage();
+           console.log( "Captureimage ok..") ;
+
+           if(lawimg !=null)
+           {
+            
+
+           let filepath = "../frontend/myappf/public/cameraimage/"+this.mMain.mydeviceuniqid+"/manual/";
+           //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
+           KDCommon.removeallfiles(filepath);
+           KDCommon.mkdirRecursive(filepath);
+           filepath = filepath + filename;
+           KDCommon.WritefileBase64(filepath, lawimg);
+           /// 썸네일 이미지도 만들자 나중에
+           filepath=filepath.replace(".jpg", "_thum.jpg");
+           KDCommon.WritefileBase64(filepath, lawimg);
   
           //  //서버로 보냄
-          //  await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
+            await this.mMain.mAPI.setcameradatatoserver( this.mMain.mydeviceuniqid, "time" , 1, filename, lawimg, false);
+          }
               
         }
         else {

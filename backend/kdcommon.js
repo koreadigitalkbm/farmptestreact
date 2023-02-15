@@ -117,7 +117,7 @@ module.exports = class KDCommon {
   static ReadfileBase64(filename) {
     try {
       var rawdata = fs.readFileSync(filename);
-      console.log('----------- ReadfileBase64(filename)', rawdata );
+    //  console.log('----------- ReadfileBase64(filename)', rawdata );
       return rawdata.toString("base64");
     } catch (error) {
       console.log(error);
