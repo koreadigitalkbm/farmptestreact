@@ -2,6 +2,7 @@
 //구동기 노드  기본 시간(초)으로 on , off  기능만으로 작동하자.
 const ActuatorStatus    = require("../../frontend/myappf/src/commonjs/actuatorstatus.js");
 const KDDefine          = require("../../frontend/myappf/src/commonjs/kddefine");
+const ActuatorOperation = require("../../frontend/myappf/src/commonjs/actuatoroperation");
 
 module.exports = class ActuatorNode {
   static ACTNODEType = Object.freeze({
@@ -87,7 +88,7 @@ module.exports = class ActuatorNode {
       this.modbusMaster.writeFC16(this.SlaveID, Regaddress, RegDatas, function (err, data) {
         resolve(data);
         if (err) {
-         // console.log(err);
+          console.log(err);
         }
       });
     });
@@ -121,7 +122,7 @@ module.exports = class ActuatorNode {
   /// 제어명령어 이함수 하나로만 작동하자
   async ControlNormal(moperation, channel) {
     try {
-       console.log("-ControlNormal-----" + "ID :" + moperation.Uid +" ,cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec);
+       console.log("-ControlNomal-----" + "ID :" + moperation.Uid +" ,cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec);
 
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
@@ -130,16 +131,54 @@ module.exports = class ActuatorNode {
       regdatas[1] = moperation.Opid; //opid
       regdatas[2] = moperation.Timesec & 0xffff;
       regdatas[3] = (moperation.Timesec >> 16) & 0xffff;
-      let rv1 = await this.writeRS485Registers(regaddress, regdatas);
+      return  await this.writeRS485Registers(regaddress, regdatas);
 
-      if (rv1 != undefined) {
-        // console.log("-ControlNorma---lok");
-        return rv1;
-      }
     } catch (e) {
       console.log("-ControlNormal error:" + e.toString());
       return null;
     }
     return null;
   }
+
+  async FixedLEDon()
+  {
+    
+    console.log("FixedLEDon:");
+    const white=100;
+    const  red=100;
+    const blue=100;
+
+
+    const wopcmd = new ActuatorOperation("led", true, ActuatorOperation.Gettimewithparam(30, white));
+    const ropcmd = new ActuatorOperation("led", true, ActuatorOperation.Gettimewithparam(30, red));
+    const bopcmd = new ActuatorOperation("led", true, ActuatorOperation.Gettimewithparam(30, blue));
+
+    
+
+      let regaddress = this.OnOffoperationregstartaddress + 24 * 4;
+      let regdatas = Array();
+
+      regdatas[0] = wopcmd.Opcmd;
+      regdatas[1] = wopcmd.Opid; //opid
+      regdatas[2] = wopcmd.Timesec & 0xffff;
+      regdatas[3] = (wopcmd.Timesec >> 16) & 0xffff;
+
+
+      regdatas[4+0] = ropcmd.Opcmd;
+      regdatas[4+1] = ropcmd.Opid; //opid
+      regdatas[4+2] = ropcmd.Timesec & 0xffff;
+      regdatas[4+3] = (ropcmd.Timesec >> 16) & 0xffff;
+
+
+      
+      regdatas[8+0] = bopcmd.Opcmd;
+      regdatas[8+1] = bopcmd.Opid; //opid
+      regdatas[8+2] = bopcmd.Timesec & 0xffff;
+      regdatas[8+3] = (bopcmd.Timesec >> 16) & 0xffff;
+
+      return  await this.writeRS485Registers(regaddress, regdatas);
+
+
+  }
+
 };

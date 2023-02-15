@@ -123,24 +123,24 @@ async function devicemaintask(mainclass) {
             //카메라 촬영, 카메라 자동제어확인후 시간이 됬으면 촬영후 저장
             const opcmdlist = mainclass.autocontrolinterface.getOpsForCamera();
 
-            if(opcmdlist.length >0)
+           if(opcmdlist.length >0)
             {
-              const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
-              let lawimg = await CameraInterface.Captureimage();
-
+        
+              //LED 명령어 보내고 이미지 촬영될때 까지 기다림.
+              let lawimg = await mainclass.actuatorinterface.CaptureImagewithLED(true);
               if(lawimg !=null)
               {
-              console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
+                console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
 
-              //로컬에 저장
-              // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
-              let capfilename = "cameara_" +  1 + "_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
-              capfilename = KDCommon.FilenameCheck(capfilename);
-              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg,true);
-              //서버로 보냄
-              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg, true);
-              //최근데이터목록 갱신
-              mainclass.dailydatas.updateCaptureimage(capfilename);
+                //로컬에 저장
+                // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
+                let capfilename = "cameara_" +  1 + "_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
+                capfilename = KDCommon.FilenameCheck(capfilename);
+                mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg,true);
+                //서버로 보냄
+                mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg, true);
+                //최근데이터목록 갱신
+                mainclass.dailydatas.updateCaptureimage(capfilename);
               }
             }
             
