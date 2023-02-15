@@ -32,7 +32,7 @@ const HDashboard = () => {
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
   
-  const [msensorlasttime, setLasttime] = useState(1);
+  const [msensorlasttime, setLasttime] = useState(null);
 
   console.log("-------------------------HDashboard  ---------------------");
 
@@ -188,7 +188,7 @@ const HDashboard = () => {
   }, [mevnetarray]);
 
   const chartbox = useMemo(() => {
-    return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} imgfileurl ={mimgfileurl} />;
+    return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime}  />;
   }, [mdailysensorarray, msensorlasttime]);
 
   return (
@@ -196,7 +196,7 @@ const HDashboard = () => {
     <Box sx={{ flexGrow: 1 }}>
     <Grid container spacing={1} >
       <Grid item xs={8} >
-      <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
+      {chartbox}
       </Grid>
       <Grid item xs={4} >
       <Box       component="img"      src={mimgfileurl} />

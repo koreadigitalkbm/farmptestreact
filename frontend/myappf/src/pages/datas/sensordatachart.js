@@ -189,12 +189,10 @@ function decodeDsensor(sdatas) {
 
 }
 
-const DashboardChart = (props) => {
-  console.log("------------------------DashboardChart--------------------");
+const SensorDataChart = (props) => {
+  console.log("------------------------SensorDataChart--------------------");
 
-  //다시 만들어야됨
-  decodeDsensor(props.chartdatas);
-
+  
   //optionChart.scales["y-right"].title.text="hahahha";
 
   return (
@@ -208,12 +206,11 @@ const DashboardChart = (props) => {
           background: "#ffffff",
         }}
       >
-        {"시간: "}
-        { KDUtil.dateTostringforme(props.lasttime,true, true)}
-        <Line key="dashboardChart" data={dataChart} options={optionChart} />{" "}
+  
+        <Line key="sensordataChart" data={dataChart} options={optionChart} />{" "}
       </Box>
     </Box>
   );
 };
 
-export default DashboardChart;
+export default SensorDataChart;

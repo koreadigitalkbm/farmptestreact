@@ -1,12 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 
 import DBQueryParam from "../../commonjs/dbqueryparam";
-import DashboardChart from "../home/dashboardchart";
+
+import SensorDataChart from "./sensordatachart";
 import myAppGlobal from "../../myAppGlobal";
 import Systemeventdisplay from "../home/systemeventdisplay";
 import {Buffer}  from "buffer";
 import TitlebarBelowImageList from "./Himagedisplay";
 
+import HorizontalSplitLayout from "./testv1";
 
 
 let sevents = [];
@@ -105,12 +107,13 @@ const DataMainPage = (props) => {
 
   return (
     <div>
+        <HorizontalSplitLayout/>
       <div>
         데이터검색
         <button className="" onClick={getdb}>
           검색
         </button>
-        <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
+        <SensorDataChart />
       </div>
 
       <div>이미지내용</div>

@@ -126,7 +126,10 @@ async function devicemaintask(mainclass) {
             if(opcmdlist.length >0)
             {
               const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
-              let lawimg = CameraInterface.Captureimage();
+              let lawimg = await CameraInterface.Captureimage();
+
+              if(lawimg !=null)
+              {
               console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
 
               //로컬에 저장
@@ -138,6 +141,7 @@ async function devicemaintask(mainclass) {
               mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg, true);
               //최근데이터목록 갱신
               mainclass.dailydatas.updateCaptureimage(capfilename);
+              }
             }
             
 
