@@ -11,6 +11,7 @@
     "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.9",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "pi-camera": "^1.7.0"
   }
 }
