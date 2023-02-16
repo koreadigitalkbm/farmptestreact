@@ -26,7 +26,7 @@ module.exports = class CameraInterface {
 
     } else {
 
-      data_img=await RasCamera.Captureimage();
+      data_img = await RasCamera.Captureimage();
     }
 
     console.log('----------- CameraInterface Captureimage end' );

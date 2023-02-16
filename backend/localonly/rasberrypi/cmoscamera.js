@@ -20,17 +20,18 @@ module.exports = class RasCamera {
        
         const myCamera = new PiCamera({
           mode: "photo",
-          output: '/home/pi/kd/farmptestreact/common/ctestimage.jpg',
+          output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
           width: 640,
           height: 480,
           nopreview: true,
         });
-        console.log('======================= 1 start pi-camera', '/home/pi/kd/farmptestreact/common/ctestimage.jpg')
+        console.log('======================= 1 start pi-camera', '/home/pi/kd/farmptestreact/common/ctestimage2.jpg')
   
-        return myCamera.snapDataUrl().then((data) => {    // data << 이미지 데이타가 아님... 
-            console.log(" data : " + data);
-            let data_img = KDCommon.ReadfileBase64(data);
-            return data_img;
+        return myCamera.snap()
+          .then((data) => {    // data << 이미지 데이타가 아님... // 2023.02.16 이미지가 맞음... ㅋ
+            console.log(" data : " + data.length);
+            // let data_img = KDCommon.ReadfileBase64( '/home/pi/kd/farmptestreact/common/ctestimage2.jpg' );
+            return data;
    
           })
           .catch((error) => {
