@@ -550,11 +550,11 @@ module.exports = class AutoControl {
             }
           }
 
-          this.setUpdatestateWithEvent(currentstate);
+         
         }
       }
 
-      
+      this.setUpdatestateWithEvent(currentstate);    
       
     }
 

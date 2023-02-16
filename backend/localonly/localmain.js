@@ -64,7 +64,7 @@ async function devicemaintask(mainclass) {
       mainclass.localDBinterface = new DatabaseInterface(mainclass);
       mainclass.dailydatas = new DailyCurrentDatas();
 
-      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup));
+      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup),0,0);
 
 
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
@@ -76,12 +76,14 @@ async function devicemaintask(mainclass) {
         {
           const cursec = date.getSeconds();
           if (last_sec != cursec) {
+              console.log("mainloop  sec_step: " + sec_step);
+
             last_sec = cursec;
             switch (sec_step) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
                 for (const msensor of mainclass.sensorinterface.mSensors) {
-                 //    console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+                     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
                 }
                 sec_step++;
                 break;

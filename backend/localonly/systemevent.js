@@ -16,9 +16,10 @@ module.exports = class SystemEvent {
    }
 
    //이벤트가 추가되면   kdutil EventToString 함수도 추가 
-   static createDevSystemEvent(mcode)
+   static createDevSystemEvent(mcode,p1,p2)
    {
-     let params={"ecode": mcode};
+     let params={"ecode": mcode,"p1": p1,"p2": p2};
+     
      return new SystemEvent(KDDefine.EVENTType.EVT_SYSTEM, params);
    }
    static createActuatorEvent(mactid,mstate)

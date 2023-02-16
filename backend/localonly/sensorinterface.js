@@ -3,6 +3,7 @@
 const SensorNode = require("./sensornode.js");
 const SensorCompact = require("../../frontend/myappf/src/commonjs/sensorcompact.js");
 const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
+const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 
 class SensorInterface {
   constructor(mmain) {
@@ -63,6 +64,8 @@ class SensorInterface {
       // 에러 카운트가 20이상 된다면 센서 끊김상태임 추후 처리
       // 에러 카운트가 1000(10분)이상 된다면 센서 삭제, 삭제해도 되나..
       if (ms.errorcount > 1000) {
+        this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Sensor_error, ms.Name,ms.UniqID));
+
         deleteindex = i;
       }
     }

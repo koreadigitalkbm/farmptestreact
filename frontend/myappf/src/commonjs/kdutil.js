@@ -83,10 +83,20 @@ module.exports = class KDUtil {
         break;
 
       case KDDefine.EVENTType.EVT_SYSTEM:
-        {
+        
+      {
           const strid = "LT_SYSTEM_EVENT_" + mEvent.EParam.ecode;
-          strevent = strevent + myGlobal.langT(strid);
-        }
+          if(mEvent.EParam.ecode == KDDefine.SysEventCode.SEC_Sensor_error)
+          {
+            strevent = strevent + KDUtil.Stringformat(myGlobal.langT(strid), mEvent.EParam.p1);
+          }
+          else
+          {
+            
+            strevent = strevent + myGlobal.langT(strid);
+          }
+          
+        } 
         break;
       case KDDefine.EVENTType.EVT_ACTUATOR:
         let actinfo = KDUtil.GetActuatorinfofromid(myGlobal.systeminformations.Actuators, mEvent.EParam.actid, myGlobal);
