@@ -216,6 +216,27 @@ module.exports = class ServerAPI {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0004";
         }
+        else if (reqmsg.reqParam.loginID === "kd11" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0011";
+        }
+        else if (reqmsg.reqParam.loginID === "kd12" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0012";
+        }
+        else if (reqmsg.reqParam.loginID === "kd13" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0013";
+        }
+        else if (reqmsg.reqParam.loginID === "kd14" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0014";
+        }
+        else if (reqmsg.reqParam.loginID === "kd15" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0015";
+        }
+
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
         if (rspmsg.retMessage != "not") {
