@@ -129,10 +129,11 @@ module.exports = class KDCommon {
   static WritefileBase64(filename, base64str) {
     try {
 
-      console.log('----------- WritefileBase64()', filename);
+      console.log('----------- WritefileBase64()', filename, base64str.length);
 
       let datas = Buffer.from(base64str, "base64");
       fs.writeFileSync(filename, datas);
+
     } catch (error) {
       console.log(error);
 

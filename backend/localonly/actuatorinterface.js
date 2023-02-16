@@ -158,7 +158,7 @@ module.exports = class ActuatorInterface {
     await this.LEDonforcamera(islocal );
     const lawimg = await CameraInterface.Captureimage();
     this.cameracapturecount = 0;
-    console.log("CaptureImagewithLED");
+    console.log("CaptureImagewithLED ", 'size is : ', lawimg.length);
 
     return lawimg;
 

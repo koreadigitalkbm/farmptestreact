@@ -1,6 +1,8 @@
 var config = require("../common/private/dbcon");
 const mariadb = require("mysql");
 const moment = require("moment");
+const colors = require('colors');
+
 const KDCommon = require("./kdcommon");
 const KDUtil = require("../frontend/myappf/src/commonjs/kdutil");
 const SystemEvent = require("./localonly/systemevent")
@@ -136,7 +138,7 @@ module.exports = class DatabaseInterface {
   }
 
   //카메라 촬영된 이미지 정보를 디비에 저장하고 이미지파일은 웹서비스 편하도록 리엑트 pulic 폴더에 이미지폴더에 저장
-  setimagefiledata(did, dtime, cameratype, capturefilename, filedatabase64, isetdb) {
+  async setimagefiledata(did, dtime, cameratype, capturefilename, filedatabase64, isetdb) {
     try {
       let filepath = "../frontend/myappf/public/cameraimage/" + did + "/";
 
@@ -152,7 +154,7 @@ module.exports = class DatabaseInterface {
 
 
       // 디렉토리생성
-      KDCommon.mkdirRecursive(filepath);
+      await KDCommon.mkdirRecursive(filepath);
       
       filepath = filepath + filename;
 

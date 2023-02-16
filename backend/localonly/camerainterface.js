@@ -27,9 +27,12 @@ module.exports = class CameraInterface {
     } else {
 
       data_img = await RasCamera.Captureimage();
+
+      
+
     }
 
-    console.log('----------- CameraInterface Captureimage end' );
+    console.log('----------- CameraInterface Captureimage end', 'size is : ', data_img.length );
 
     return data_img;
     
