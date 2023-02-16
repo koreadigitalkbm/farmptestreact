@@ -11,7 +11,6 @@ import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
 
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
-import ManualControl from "./components/manualControl";
 import TemperatureControl from "./components/temperatureControl"
 import ButtonSave from "./components/btnSave";
 
@@ -98,12 +97,20 @@ export default function ContorlPage() {
         const [expanded, setExpanded] = React.useState(false)
         const [switchWorkmode, setSwitchWorkmode] = React.useState(copyData.Enb);
 
+        function saveConfig() {
+            myAppGlobal.farmapi.saveAutocontrolconfig(copyData).then((ret) => {
+                console.log("setAutocontrolsetup  retMessage: " + ret.retMessage);
+            })
+        }
         function handleExpandClick(e) {
             setExpanded(!expanded);
         }
 
         function handleModeChange(e) {
             e.stopPropagation();
+            copyData.Enb = !switchWorkmode;
+
+            saveConfig();
             setSwitchWorkmode(!switchWorkmode);
         }
 
@@ -140,9 +147,6 @@ export default function ContorlPage() {
         }
 
         function formAutoContent() {
-            if (copyData.Enb === false) {
-                return <ManualControl autoItem={copyData} />
-            } else {
                 switch (copyData.Cat) {
                     case KDDefine.AUTOCategory.ACT_HEATING:
                         return <Typography>난방</Typography>
@@ -160,7 +164,7 @@ export default function ContorlPage() {
                         return <Typography>환기</Typography>
 
                     case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
-                        return <TemperatureControl autoConfiguration={copyData} onChange={handleClickAndChange} />
+                        return <TemperatureControl autoConfiguration={copyData} workMode={switchWorkmode} onChange={handleClickAndChange} />
                     
                     case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
                         return <Typography>3색LED</Typography>
@@ -179,7 +183,6 @@ export default function ContorlPage() {
                             </Box>
                         )
                 }
-            }
         }
 
         function AutoContent() {

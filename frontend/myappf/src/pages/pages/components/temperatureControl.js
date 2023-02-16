@@ -22,14 +22,20 @@ const ExpandMore = styled((props) => {
 export default function TemperatureControl(props) {
 
     let temperatureControlTemplate = undefined;
+    let temperatureManualControlTemplate = undefined;
     const config = props.autoConfiguration;
     const onchange = props.onChange
 
-    const [expanded, setExpanded] = React.useState(false)
+    const [expanded, setExpanded] = React.useState(false);
+    const workMode = React.useState(props.workMode);
 
     function handleExpandClick(e) {
         setExpanded(!expanded);
     }
+
+    temperatureManualControlTemplate = (
+        <Typography>수동제어 모드입니다.</Typography>
+    )
 
     temperatureControlTemplate = (
         <Stack spacing={1}>
@@ -108,6 +114,10 @@ export default function TemperatureControl(props) {
         </Stack>
 
     )
-
-    return temperatureControlTemplate
+    
+    if(workMode === true) {
+        return temperatureManualControlTemplate
+    } else {
+        return temperatureControlTemplate
+    }
 }

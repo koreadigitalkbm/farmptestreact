@@ -178,7 +178,7 @@ export default function Mainpage(props) {
               <Route path="/" element={<HomePage />} />
               <Route path="/Home" element={<HomePage />} />
               <Route path="/Control" element={<ControlPage />} />
-              <Route path="/Data" element={<Devicepage />} />
+              <Route path="/Data" element={<DataPage />} />
               <Route path="/Setting" element={<SettingPage /> } />
               <Route path="/Sensor" element={<Sensorpage />} />
 
