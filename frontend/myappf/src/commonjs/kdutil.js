@@ -83,10 +83,15 @@ module.exports = class KDUtil {
         break;
 
       case KDDefine.EVENTType.EVT_SYSTEM:
-        
+   
       {
           const strid = "LT_SYSTEM_EVENT_" + mEvent.EParam.ecode;
-          if(mEvent.EParam.ecode == KDDefine.SysEventCode.SEC_Sensor_error)
+          
+          if(mEvent.EParam.ecode == KDDefine.SysEventCode.SEC_Message)
+          {
+            strevent = strevent +mEvent.EParam.p1;
+          }
+          else if(mEvent.EParam.ecode == KDDefine.SysEventCode.SEC_Sensor_error)
           {
             strevent = strevent + KDUtil.Stringformat(myGlobal.langT(strid), mEvent.EParam.p1);
           }
