@@ -6,12 +6,21 @@ import { Delete, FilterList } from '@mui/icons-material';
 import muiTheme from '../muiTheme';
 import PropTypes from 'prop-types';
 
+/*
 import img1 from './testImage/img1.png'
 import img2 from './testImage/img2.jpg'
 import img3 from './testImage/img3.jpg'
 import img4 from './testImage/img4.png'
 import img5 from './testImage/img5.jpg'
 import img6 from './testImage/img6.jpg'
+*/
+
+const img1 = "/image/devicon_1.png";
+const img2 = "/image/devicon_2.png";
+const img3 = "/image/devicon_3.png";
+const img4 = "/image/devicon_4.png";
+const img5 = "/image/devicon_5.png";
+const img6 = "/image/devicon_6.png";
 
 
 export default function DataPage(props) {
