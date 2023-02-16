@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 
 import DBQueryParam from "../../commonjs/dbqueryparam";
-import DashboardChart from "../home/dashboardchart";
+
+import SensorDataChart from "./sensordatachart";
 import myAppGlobal from "../../myAppGlobal";
 import Systemeventdisplay from "../home/systemeventdisplay";
 import {Buffer}  from "buffer";
@@ -9,14 +10,16 @@ import TitlebarBelowImageList from "./Himagedisplay";
 
 
 
+
 let sevents = [];
 let cmeraimglist = [];
+let sensordatas = [];
 //홈 메인 대시보드
 const DataMainPage = (props) => {
   const [camimages, setCamimages] = useState(cmeraimglist);
   const [moutdevarray, setActuator] = useState([]);
   const [mevnetarray, setEvents] = useState(sevents);
-  const [mdailysensorarray, setDailysensor] = useState([]);
+  const [sensorarray, setSensorarray] = useState(sensordatas);
   const [msensorlasttime, setLasttime] = useState(1);
 
   console.log("-------------------------DataMainPage  ---------------------");
@@ -39,8 +42,17 @@ const DataMainPage = (props) => {
     let dbq = new DBQueryParam(sday, eday, "sensor");
 
     myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
+
       console.log("-------------------------getdb sensor: " + ret.IsOK);
-      console.log(ret.retMessage);
+      if(ret.IsOK  ==true)
+      {
+        console.log(ret.retMessage);
+        sensordatas=ret.retMessage;
+        setSensorarray(sensordatas);
+
+      }
+      
+
     });
 
     let dbqcam = new DBQueryParam(sday, eday, "camera");
@@ -105,12 +117,13 @@ const DataMainPage = (props) => {
 
   return (
     <div>
+        
       <div>
         데이터검색
         <button className="" onClick={getdb}>
           검색
         </button>
-        <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />
+        <SensorDataChart  datas={sensorarray} />
       </div>
 
       <div>이미지내용</div>

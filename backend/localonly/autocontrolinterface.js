@@ -96,8 +96,8 @@ module.exports = class AutoControlInterface {
     }
 
     ////{{ 자동제어 테스트로 임시로 생성 나중에 지움
-    let t1 = AutoControlUtil.getTestconfig();
-    mcfglist.push(t1);
+    //let t1 = AutoControlUtil.getTestconfig();
+    //mcfglist.push(t1);
     /////}}}}
 
     ///전체 읽어옴

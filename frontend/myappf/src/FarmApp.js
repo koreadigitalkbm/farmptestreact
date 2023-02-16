@@ -8,9 +8,15 @@ import Mainpage from "./pages/mainpage2"
 import myAppGlobal from "./myAppGlobal";
 import MSignIn from "./pages/mlogin";
 import { useTranslation } from "react-i18next";
+import { useCookies } from 'react-cookie';
+
+import KDUtil from "./commonjs/kdutil";
+
+
 
 function FarmApp(props) {
-  const { t} = useTranslation();
+  const { t,i18n} = useTranslation();
+  const [cookies, setCookie] = useCookies(['languageT']);
   const [loginrol, setloginrol] = useState(window.sessionStorage.getItem("login"));
   const [failmsg, setfailmsg] = useState("");
 
@@ -18,7 +24,21 @@ function FarmApp(props) {
   let islogin = false;
 
   console.log("-------------------------FarmAPP start--------------------- loginrol:" + loginrol + " islocal:" + islocal  );
- 
+
+  console.log("-------------------------cookies languageT:"+cookies.languageT + " i18n:"+ i18n.language + " navigator.language:"+ navigator.language);
+  
+  if(cookies.languageT==null)
+  {
+    setCookie('languageT', KDUtil.isSupportLanguage(navigator.language));
+  }
+
+
+  if(cookies.languageT  != i18n.language)
+  {
+    i18n.changeLanguage(cookies.languageT);
+  }
+
+
   myAppGlobal.langT=t;
   
 
@@ -54,7 +74,7 @@ function FarmApp(props) {
     console.log("Hostname : " + window.location.hostname + ",host : " + window.location.protocol);
 
     myAppGlobal.isinitalizeApp = true;
-    if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("15.164.60.217") != -1) {
+    if (window.location.hostname.indexOf("amazonaws.com") != -1 || window.location.hostname.indexOf("15.164.60.217") != -1 || window.location.hostname.indexOf("koreadigital.com") != -1) {
       //서버 IP이거나 도메인이 서버이면 서버접속임.
       myAppGlobal.islocal = false;
       window.sessionStorage.setItem("islocal", false);
@@ -127,7 +147,7 @@ function FarmApp(props) {
 
   return (
     <div className="FarmApp">
-      {/* {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<FMainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> } */}
+      
       {(islogin==false)? <MSignIn islocal={islocal}  loginfailmsg ={failmsg}  mhandler={loginSMHandler} /> :<Mainpage {...props} loginrol={loginrol} mhandler={loginSMHandler}/> }
    </div>
   );

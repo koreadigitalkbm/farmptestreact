@@ -11,14 +11,15 @@ module.exports = class SystemEvent {
     this.EDate = Date.now();
     this.EType = metype; //
     this.EParam = mparams; //이벤트 내용 json 포멧으로 
-    console.log("SystemEvent   EType: " + this.EType + " date:"+ this.EDate);
+//    console.log("SystemEvent   EType: " + this.EType + " date:"+ this.EDate);
 
    }
 
    //이벤트가 추가되면   kdutil EventToString 함수도 추가 
-   static createDevSystemEvent(mcode)
+   static createDevSystemEvent(mcode,p1,p2)
    {
-     let params={"ecode": mcode};
+     let params={"ecode": mcode,"p1": p1,"p2": p2};
+     
      return new SystemEvent(KDDefine.EVENTType.EVT_SYSTEM, params);
    }
    static createActuatorEvent(mactid,mstate)
@@ -63,7 +64,7 @@ module.exports = class SystemEvent {
      return newevt;
 
    }
-   
+
    
 
 };

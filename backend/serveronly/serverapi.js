@@ -82,7 +82,7 @@ module.exports = class ServerAPI {
         console.log("  camera datetime:" + reqmsg.reqParam.datetime);
         console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
 
-        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.platname, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
+        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
         responsemsg.IsOK = true;
 
         break;

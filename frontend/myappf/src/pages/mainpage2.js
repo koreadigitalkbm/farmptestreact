@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink, Routes, Route } from "react-router-dom";
+import { Link as RouterLink, Routes, Route,useNavigate  } from "react-router-dom";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
 
@@ -21,33 +21,18 @@ import { useTranslation } from "react-i18next";
 const navMenu = ["Home", "Autocontrol", "Data"];
 const dropMenu = ["Setting", "Sensor", "Control", "Setup"];
 
+
 export default function FMainpage(props) {
   const { t } = useTranslation();
   const [loadinfo, setLoadinfo] = useState("init");
   const [navItems, setNavItems] = useState({});
   const [dropItems, setDropItems] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+
   const open = Boolean(anchorEl);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
-  let isFarmLang = getCookieLang();
-
-  if (isFarmLang) {
-    console.log("현재 언어는 " + isFarmLang + "입니다.");
-  } else {
-    let date = new Date();
-    date.setDate(date.getDate() + 30);
-    if (navigator.language === "ko-kr") {
-      console.log("시스템 언어를 한국어로 설정합니다.");
-      document.cookie = `lang=ko-KR; expires=${date.toUTCString()}`;
-    } else {
-      console.log("Set the system language to English.");
-      document.cookie = `lang=en-US; expires=${date.toUTCString()}`;
-    }
-  }
-  function getCookieLang() {
-    return document.cookie.match("(^|;)\\s*lang\\s*=\\s*([^;]+)")?.pop() || undefined;
-  }
 
   function logoutbuttonHandler(e) {
     props.mhandler(null, null);
@@ -86,6 +71,9 @@ export default function FMainpage(props) {
     dropMenu.map((e) => (dropItems[e] = t(e)));
     setDropItems(dropItems);
     setNavItems(navItems);
+    // 로그인되면 무조건 홈화면으로 가게
+    navigate("/");
+
 
     console.log("-------------------------FMainpage --------------------- useEffect:");
 
@@ -123,12 +111,15 @@ export default function FMainpage(props) {
     console.log("---------------------------- loadpage loadinfo: " + loadinfo);
     switch (loadinfo) {
       case "init":
+        
         return <div>장치를 정보를 읽어옵니다. </div>;
       case "loadauto":
         return <div>자동제어 정보를 읽어옵니다. </div>;
       case "error":
         return <div>장치에 연결할 수 없습니다. </div>;
       default:
+        
+        
         break;
     }
 
@@ -199,7 +190,7 @@ export default function FMainpage(props) {
         </Toolbar>
       </AppBar>
 
-      <Box component="main" sx={{ mx: "auto", p: 6 }}>
+      <Box component="main" sx={{ mx: "auto", p: 1 }}>
         <Toolbar />
 
         {loadpage()}

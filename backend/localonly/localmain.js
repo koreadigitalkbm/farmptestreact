@@ -19,6 +19,7 @@ const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminf
 const SystemEvent = require("./systemevent");
 
 const BackLocalGlobal = require("../backGlobal");
+const KDUtil = require("../../frontend/myappf/src/commonjs/kdutil");
 
 // 노드 단일쓰레드이기때문에 함수를 여러개 구별할 필요 없음 하나의 루프에서 다 해결해야함.
 //통신포트를 사용하는 함수들은 여기서 호출, 구현이 복잡하니 단일 통신포트롤  모든 기능이 되도록 해보자.
@@ -63,7 +64,7 @@ async function devicemaintask(mainclass) {
       mainclass.localDBinterface = new DatabaseInterface(mainclass);
       mainclass.dailydatas = new DailyCurrentDatas();
 
-      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup));
+      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup),0,0);
 
 
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
@@ -75,12 +76,14 @@ async function devicemaintask(mainclass) {
         {
           const cursec = date.getSeconds();
           if (last_sec != cursec) {
+              console.log("mainloop  sec_step: " + sec_step);
+
             last_sec = cursec;
             switch (sec_step) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
                 for (const msensor of mainclass.sensorinterface.mSensors) {
-                 //    console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+                     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
                 }
                 sec_step++;
                 break;
@@ -120,27 +123,29 @@ async function devicemaintask(mainclass) {
             mainclass.mAPI.setsensordatatoserver(mainclass.mydeviceuniqid, curdatetime, simplesensors);
 
             //카메라 촬영, 카메라 자동제어확인후 시간이 됬으면 촬영후 저장
-            let opcmdlist = mainclass.autocontrolinterface.getOpsForCamera();
+            const opcmdlist = mainclass.autocontrolinterface.getOpsForCamera();
 
-            if(opcmdlist.length >0)
+           if(opcmdlist.length >0)
             {
-              
-              
-              const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
-              let lawimg = CameraInterface.Captureimage();
-              
-              console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
+        
+              //LED 명령어 보내고 이미지 촬영될때 까지 기다림.
+              let lawimg = await mainclass.actuatorinterface.CaptureImagewithLED(true);
+              if(lawimg !=null)
+              {
+                console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
 
-
-              //로컬에 저장
-              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg,true);
-
-              //서버로 보냄
-              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg, true);
-            
-
-
+                //로컬에 저장
+                // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
+                let capfilename = "cameara_" + "T_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
+                capfilename = KDCommon.FilenameCheck(capfilename);
+                mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg,true);
+                //서버로 보냄
+                mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg, true);
+                //최근데이터목록 갱신
+                mainclass.dailydatas.updateCaptureimage(capfilename);
+              }
             }
+            
 
 
           }
@@ -152,13 +157,7 @@ async function devicemaintask(mainclass) {
             if (last_hour != curhour) {
               last_hour = curhour;
               const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
-              let lawimg = CameraInterface.Captureimage();
-
-              //로컬에 저장
-              mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg,true);
-
-              //서버로 보냄
-              mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg,true);
+             
             }
           }
 */
@@ -233,9 +232,6 @@ module.exports = class LocalMain {
      //서버로 보냄
      this.mAPI.seteventdatatoserver(this.mydeviceuniqid, events);
 
-
-     //서버로 보냄
-    // this.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, "BEG", lawimg, true);
 
   }
 

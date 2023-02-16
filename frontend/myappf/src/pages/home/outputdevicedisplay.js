@@ -2,15 +2,7 @@ import React from "react";
 
 import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
-import KDDefine from "../../commonjs/kddefine";
-import ActuatorOperation from "../../commonjs/actuatoroperation";
 
-function manualonoff(actuid, onoff) {
- let opcmd = new ActuatorOperation(actuid, onoff,30);
-  
-
-  myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {});
-}
 
 function outputdevbox(mydata, isonlystatus, index) {
   let ismanual;
@@ -36,18 +28,7 @@ function outputdevbox(mydata, isonlystatus, index) {
   } else if (mydata.Opm == "MA") {
     if (isonlystatus == true) {
       ismanual = <div className="out_result">정지(수동)</div>;
-    } else {
-      ismanual = (
-        <div className="out_button">
-          <button className="button_on" onClick={() => manualonoff(mydata.Uid, true)}>
-            수동 On
-          </button>{" "}
-          <button className="button_off" onClick={() => manualonoff(mydata.Uid, false)}>
-            수동 Off
-          </button>
-        </div>
-      );
-    }
+    } 
   } else {
     ismanual = <div className="out_result">자동제어중</div>;
   }

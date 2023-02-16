@@ -46,7 +46,7 @@ const Autocontrolcard = (props) => {
       if (newstate == null) {
         alert("자동제어설정이 저장되었습니다.");
         //다음페이지이동시에 자동제어 설정을 다시 읽어올수 있도록 전역변수 초기화
-        myAppGlobal.Autocontrolcfg = null;
+        //myAppGlobal.Autocontrolcfg = null;
       } else {
         if (newstate === true) {
           alert("자동제어가 시작되었습니다. 수동으로 제어할 수 없습니다. ");
@@ -106,7 +106,10 @@ const Autocontrolpage = (props) => {
   console.log("----------------------------Autocontrolpage ");
 
   useEffect(() => {
-    console.log("Autocontrolpage useEffect  length: " + mAutolist.length + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
+
+    console.log("----------------------------Autocontrolpage  useEffect : "+ myAppGlobal.Autocontrolcfg);
+
+    //console.log("Autocontrolpage useEffect  length: " + mAutolist.length + " myAppGlobal.systeminformations : " + myAppGlobal.systeminformations);
 
     /*
     if (myAppGlobal.systeminformations != null) {
@@ -126,7 +129,12 @@ const Autocontrolpage = (props) => {
 
   function onAdd() {}
 
-  const autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
+  let autoList =null;
+  if(mAutolist !=null)
+  {
+    autoList = mAutolist.map((localState, index) => <Autocontrolcard key={"autobox" + index} myconfig={localState} />);
+  }
+  
 
   return (
     <div>
