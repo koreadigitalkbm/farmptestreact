@@ -52,6 +52,21 @@ export default function FactorySetup(props) {
         break;
     }
   }
+  
+  
+  function resetConfig() {
+    console.log("resetConfig... "  );
+
+    myAppGlobal.farmapi.resetAutocontrolconfig().then((ret) => {
+      if (ret.IsOK == true) {
+        alert("초기화되었습니다. 장비를 재시작해야 적용됩니다.");
+      } else {
+        alert("실패하였습니다.");
+      }
+      console.log("setDeviceconfigsetup  uid: " + ret);
+    });
+  }
+
 
   function setupSave(mcfg) {
     console.log("setupSave deviceuniqid: " + mcfg.deviceuniqid + " productmodel : " + mcfg.productmodel);
@@ -140,7 +155,18 @@ export default function FactorySetup(props) {
             {" "}
             Save{" "}
           </Button>
+        
         </Stack>
+
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => resetConfig()} endIcon={<SendIcon />}>
+           자동제어초기화 
+          </Button>
+        </Stack>
+
+
+        
+
       </ThemeProvider>
     </Box>
   );

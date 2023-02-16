@@ -153,4 +153,18 @@ module.exports = class KDCommon {
     return rawdata;
   }
 
+   //파일을 삭제함
+   static Deletefile(filename) {
+    try {
+      
+      fs.unlinkSync(filename);
+
+      console.log("Deletefile  : " + filename);
+
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
 };

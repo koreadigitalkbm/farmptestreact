@@ -47,7 +47,14 @@ module.exports = class AutoControlInterface {
 
     return opcmdlist;
   }
+  //자동제어 설정을 리셋하고 초기값으로 되돌린다.
+  async AutocontrolReset() {
 
+    await KDCommon.Deletefile(KDCommon.autocontrolconfigfilename);
+
+    this.Autocontrolload();
+
+  }
 
 
   //자동제어 설정변경저장하고 다시 표시함.
@@ -91,6 +98,8 @@ module.exports = class AutoControlInterface {
     let mcfglist = KDCommon.Readfilejson(KDCommon.autocontrolconfigfilename);
 
     if (mcfglist === null) {
+      console.log("Autocontrollad  default set");
+
       mcfglist = AutoControlUtil.CreateDefaultConfig(this.mMain.localsysteminformations.Systemconfg.productmodel);
       KDCommon.Writefilejson(KDCommon.autocontrolconfigfilename, mcfglist);
     }

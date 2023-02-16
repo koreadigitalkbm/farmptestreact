@@ -4,6 +4,7 @@ const SensorNode = require("./sensornode.js");
 const SensorCompact = require("../../frontend/myappf/src/commonjs/sensorcompact.js");
 const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
+const SystemEvent = require("./systemevent");
 
 class SensorInterface {
   constructor(mmain) {
@@ -47,6 +48,12 @@ class SensorInterface {
       if (isnew === true) {
         let sdev = new Sensordevice(newsensor);
         this.mSensors.push(sdev);
+
+        const msg= "new sensor ID: " + sdev.UniqID + ", name: " + sdev.Name;
+
+        this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Message, msg,0));
+
+
       }
     }
   }

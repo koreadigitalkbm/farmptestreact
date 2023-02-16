@@ -174,6 +174,12 @@ export default class IndoorFarmAPI {
     return await this.setRequestdevice(reqmsg);
   }
 
+  async resetAutocontrolconfig() {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG);
+    reqmsg.reqParam = "";
+    return await this.setRequestdevice(reqmsg);
+  }
+
   async getDataformDB(mdbquery) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETDB_DATAS);
     reqmsg.reqParam = mdbquery;

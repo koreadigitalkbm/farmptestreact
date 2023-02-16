@@ -145,6 +145,8 @@ static PModel = Object.freeze({
     RT_SETMYLOCALPW: 'setmypw',  // 로컬 접속 PW변경
     RT_GETAUTOCONTROLCONFIG: 'getautocontrol',  //자동제어 목록을 가져옴
     RT_SAVEAUTOCONTROLCONFIG: 'saveautocontrol', //자동제어 설정을 저장한다
+    RT_RESETAUTOCONTROLCONFIG: 'resetautocontrol', //자동제어 설정을 리셋하고 초기값으로 되돌린다.
+
 
 
     //클라우드 서버에 데이터 전송관련
@@ -282,6 +284,8 @@ static SysEventCode = Object.freeze({
   SEC_Bootup: 1, //시스템 시작되었습니다.
   SEC_Error: 2, //시스템 장애가 발생하였습니다.
   SEC_Sensor_error: 3, //센서연결이 끊겼습니다.. param1:  센서 이름 ,param2:  센서 ID
+  SEC_Message: 10, //p1: 그냥 메시지 디버깅용으로 중요 정보를 그냥 텍스트로 표시한다.
+
 
       
 });

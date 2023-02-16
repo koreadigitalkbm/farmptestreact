@@ -167,6 +167,13 @@ module.exports = class LocalAPI {
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
+      
+        case KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG:
+          this.mMain.autocontrolinterface.AutocontrolReset();
+          rspmsg.retMessage = "ok";
+          rspmsg.IsOK = true;
+          break;
+        
     }
 
     //console.log("msgprocessing_common   return :  " + rspmsg.IsOK);

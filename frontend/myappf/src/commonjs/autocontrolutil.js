@@ -40,6 +40,8 @@ module.exports = class AutoControlUtil {
     //모델별로 디폴트 자동제어 설정
 
     if ( modelname === "KPC200") {
+
+      //내부온습도 4번 채널, 5번 co2, 6번 외부온습도, 0번 EC, 1번 pH
       //////////////////////////온도제어
       let m1 = new AutoControlconfig();
       m1.Lid = "LT_ANAME_TEMP";
@@ -54,7 +56,7 @@ module.exports = class AutoControlUtil {
       m1.DOffTime = 0;
       m1.STime = 8 * 3600;
       m1.ETime = 18 * 3600;
-      m1.Senlist.push("S01C00T01"); /// 온도센서 지정
+      m1.Senlist.push("S01C04T01"); /// 온도센서 지정
       m1.DTValue = 24.0;
       m1.NTValue = 20.0;
       m1.BValue = 1;
@@ -70,10 +72,10 @@ module.exports = class AutoControlUtil {
       m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
       m1.Actlist.push("N01C04T00"); ///관수 릴레이 장비
-      m1.DOnTime = 30;
-      m1.DOffTime = 120;
-      m1.NOnTime = 10;
-      m1.NOffTime = 120;
+      m1.DOnTime = 60;
+      m1.DOffTime = 1800;
+      m1.NOnTime = 30;
+      m1.NOffTime = 1800;
       m1.STime = 8 * 3600;
       m1.ETime = 20 * 3600;
       m1.TValue = 0;
@@ -119,8 +121,8 @@ module.exports = class AutoControlUtil {
       m1.DOffTime = 3600;
       m1.STime = 8 * 3600;
       m1.ETime = 18 * 3600;
-      m1.Senlist.push("S01C00T02"); /// 습도센서 지정
-      m1.Senlist.push("S01C00T06"); /// Co2센서 지정  센서가 업더라도 지정꼭해야함
+      m1.Senlist.push("S01C04T02"); /// 습도센서 지정
+      m1.Senlist.push("S01C05T06"); /// Co2센서 지정  센서가 업더라도 지정꼭해야함
       m1.DTValue = 85.0; // 습도값
       m1.NTValue = 350.0; // co2 값
       m1.BValue = 1;
