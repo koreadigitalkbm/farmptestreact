@@ -128,7 +128,7 @@ export default function FMainpage(props) {
         <Route path="/" element={<HDashboard />} />
         <Route path="/Home" element={<HDashboard />} />
         <Route path="/Control" element={<ControlPage />} />
-        <Route path="/Data" element={<DataPage />} />
+        <Route path="/Data" element={<DataMainPage />} />
         <Route path="/Setting" element={<SettingPage />} />
 
         
