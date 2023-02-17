@@ -145,8 +145,10 @@ module.exports = class ActuatorNode {
     
     console.log("FixedLEDon:");
     const white=100;
-    const  red=100;
-    const blue=100;
+    const  red=0;
+    const blue=0;
+    // const  red=100;
+    // const blue=100;
 
 
     const wopcmd = new ActuatorOperation("led", true, ActuatorOperation.Gettimewithparam(30, white));
