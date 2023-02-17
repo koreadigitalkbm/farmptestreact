@@ -3,16 +3,11 @@ import {Box, Button, Card, Stack, Typography} from '@mui/material'
 export default function DataVisualization(props) {
     return (
         <Card sx={{ width: 1000, minWidth: 300, m: 3, p: 1, backgroundColor: '#eceff1' }}>
-            <Stack alignItems='center' direction={'row'} justifyContent='center' spacing={3}>
-                <Button>＜시작날짜</Button>
-                <Typography>날짜범위<br />표시공간</Typography>
-                <Button>종료날짜＞</Button>
-                <Box>
-                    <Button>확장</Button>
-                    <Button>Export</Button>
+            <Box>
+                        <Button>확장</Button>
+                        <Button>Export</Button>
 
-                </Box>
-            </Stack>
+                    </Box>
             <Stack direction='row' spacing={3}>
                 <Box width='35em' height='20em' sx={{ backgroundColor: 'black' }}></Box>
                 <Stack spacing={3}>

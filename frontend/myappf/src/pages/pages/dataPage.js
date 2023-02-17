@@ -1,9 +1,12 @@
-import { ThemeProvider} from '@mui/material';
+import { Button, Stack, ThemeProvider, Typography } from '@mui/material';
 import muiTheme from '../muiTheme';
 
+import RadioBtnGenerator from './components/radioBtnGenerator';
+import ConfigurePeriod from './components/configurePeriod';
 import DataVisualization from './components/dataVisualization';
 import TableEventSystem from './components/tableEventSystem'
 import ShowVerticalImages from './components/showVerticalImages';
+import { useState } from 'react';
 
 const img1 = '/image/devicon_1.png'
 const img2 = '/image/devicon_2.png'
@@ -13,6 +16,44 @@ const img5 = '/image/devicon_5.png'
 const img6 = '/image/devicon_6.png'
 
 export default function DataPage(props) {
+    const oneDay = 86400000;
+
+    const [dataInqueryFormat, setDataInqueryFormat] = useState('date');
+    const [targetDate, setTargetDate] = useState(Date.now());
+    const [startDate, setStartDate] = useState(Date.now() - (7 * 86400000));
+
+    const radioButtonOptions = ["date", "period"];
+    const propsForRadioButton = {
+        id: "radio-button-data-inquery-format",
+        defaultValue: dataInqueryFormat,
+        label: "데이터 조회 방식 설정",
+        selectOptions: radioButtonOptions,
+        onChange: handleDataInqueryFormat,
+    }
+    const propsForConfigurePeriod = {
+        format: dataInqueryFormat,
+        targetDate: targetDate,
+        startDate: startDate,
+        onClick: handleDate,
+    }
+
+    function handleDataInqueryFormat(e) {
+        setDataInqueryFormat(e.target.value);
+    }
+
+    function handleDate(e) {
+        switch(e.currentTarget.name) {
+            case 'oneDayAgo': 
+                setTargetDate(targetDate-oneDay);
+                console.log(targetDate);
+                break;
+            case 'oneDayAhead' :
+                setTargetDate(targetDate+oneDay);
+                console.log(targetDate);
+                break;
+            default: return;
+        }
+    }
 
     // 이미지를 {img: url, title: 이름} 으로 정의해서 이미지셋으로 만듦.
     const testImageSet = [{ img: img1, title: '펌프' }, { img: img2, title: '팬' }, { img: img3, title: '밸브' }, { img: img4, title: 'LED' }, { img: img5, title: '에어컨' }, { img: img6, title: '히터' }];
@@ -21,7 +62,7 @@ export default function DataPage(props) {
 
     // 오늘 날짜를 yyyy.m.d로 만듦. 표만드는데 필수가 아님.
     const today = new Date();
-    const endTargetDate= today.getFullYear() + "." + today.getMonth() + "." + today.getDay();
+    const endTargetDate = today.getFullYear() + "." + today.getMonth() + "." + today.getDay();
     // 단순한 치환. 표만드는데 필수가 아님.
     function tableType(type) {
         switch (type) {
@@ -48,6 +89,8 @@ export default function DataPage(props) {
         };
     }
 
+
+
     // 표 내용 정의.
     const dataSet = [
         createData(endTargetDate, tableType('atc'), '펌프 켬'),
@@ -72,9 +115,13 @@ export default function DataPage(props) {
 
     return (
         <ThemeProvider theme={muiTheme}>
+            <Stack alignItems='center' direction='row' justifyContent='center' spacing={5}>
+                <RadioBtnGenerator props={propsForRadioButton} />
+                <ConfigurePeriod props={propsForConfigurePeriod} />
+            </Stack>
             <DataVisualization />
-            <ShowVerticalImages imageSet={testImageSet}/>
-            <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={dataSet}/>
+            <ShowVerticalImages imageSet={testImageSet} />
+            <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={dataSet} />
         </ThemeProvider>
     )
 }
