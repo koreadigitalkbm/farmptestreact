@@ -1,4 +1,5 @@
-import { Button, Stack, ThemeProvider, Typography } from '@mui/material';
+import { Grid, Paper, ThemeProvider } from '@mui/material';
+import { styled } from '@mui/material/styles'
 import muiTheme from '../muiTheme';
 
 import RadioBtnGenerator from './components/radioBtnGenerator';
@@ -14,6 +15,15 @@ const img3 = '/image/devicon_3.png'
 const img4 = '/image/devicon_4.png'
 const img5 = '/image/devicon_5.png'
 const img6 = '/image/devicon_6.png'
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: 15,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    height:80,
+}));
 
 export default function DataPage(props) {
     const oneDay = 86400000;
@@ -34,6 +44,7 @@ export default function DataPage(props) {
         format: dataInqueryFormat,
         targetDate: targetDate,
         startDate: startDate,
+        handleDatePicker: handleDatePicker,
         onClick: handleDate,
     }
 
@@ -42,17 +53,21 @@ export default function DataPage(props) {
     }
 
     function handleDate(e) {
-        switch(e.currentTarget.name) {
-            case 'oneDayAgo': 
-                setTargetDate(targetDate-oneDay);
+        switch (e.currentTarget.name) {
+            case 'oneDayAgo':
+                setTargetDate(targetDate - oneDay);
                 console.log(targetDate);
                 break;
-            case 'oneDayAhead' :
-                setTargetDate(targetDate+oneDay);
+            case 'oneDayAhead':
+                setTargetDate(targetDate + oneDay);
                 console.log(targetDate);
                 break;
             default: return;
         }
+    }
+
+    function handleDatePicker(date) {
+        setStartDate(Date.parse(date))
     }
 
     // 이미지를 {img: url, title: 이름} 으로 정의해서 이미지셋으로 만듦.
@@ -115,10 +130,14 @@ export default function DataPage(props) {
 
     return (
         <ThemeProvider theme={muiTheme}>
-            <Stack alignItems='center' direction='row' justifyContent='center' spacing={5}>
-                <RadioBtnGenerator props={propsForRadioButton} />
-                <ConfigurePeriod props={propsForConfigurePeriod} />
-            </Stack>
+            <Grid container spacing={2}>
+                <Grid item xs={4}>
+                    <Item><RadioBtnGenerator props={propsForRadioButton} /></Item>
+                </Grid>
+                <Grid item xs={8}>
+                    <Item><ConfigurePeriod props={propsForConfigurePeriod} /></Item>
+                </Grid>
+            </Grid>
             <DataVisualization />
             <ShowVerticalImages imageSet={testImageSet} />
             <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={dataSet} />

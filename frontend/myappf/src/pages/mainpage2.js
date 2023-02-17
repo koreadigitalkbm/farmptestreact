@@ -19,7 +19,7 @@ import DataMainPage from "./datas/datamain";
 import { useTranslation } from "react-i18next";
 
 const navMenu = ["Home", "Autocontrol", "Data"];
-const dropMenu = ["Setting", "Sensor", "Control", "Setup"];
+const dropMenu = ["Data2","Setting", "Sensor", "Control", "Setup"];
 
 
 export default function FMainpage(props) {
@@ -128,7 +128,8 @@ export default function FMainpage(props) {
         <Route path="/" element={<HDashboard />} />
         <Route path="/Home" element={<HDashboard />} />
         <Route path="/Control" element={<ControlPage />} />
-        <Route path="/Data" element={<DataPage />} />
+        <Route path="/Data" element={<DataMainPage />} />
+        <Route path="/Data2" element={<DataPage />} />
         <Route path="/Setting" element={<SettingPage />} />
 
         
