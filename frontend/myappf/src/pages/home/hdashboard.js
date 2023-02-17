@@ -199,7 +199,7 @@ const HDashboard = () => {
       {chartbox}
       </Grid>
       <Grid item xs={4} >
-      <Box       component="img"      src={mimgfileurl} />
+      <Box       component="img"      src={mimgfileurl}  sx={{    maxWidth: 400 }}  />
           
         
       </Grid>
