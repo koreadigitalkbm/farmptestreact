@@ -25,6 +25,7 @@ module.exports = class RasCamera {
           // height: 480,
           width: 3280,
           height: 2468,
+          shutter : 3000,
           nopreview: true,
         });
         console.log('======================= 1 start pi-camera', '/home/pi/kd/farmptestreact/common/ctestimage2.jpg')
