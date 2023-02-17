@@ -177,7 +177,7 @@ export default function TableEventSystem(props) {
                                             <TableRow
                                                 hover
                                                 tabIndex={-1}
-                                                key={row.content}
+                                                key={"cnt"+index}
                                                 selected={isItemSelected}
                                             >
                                                 <TableCell

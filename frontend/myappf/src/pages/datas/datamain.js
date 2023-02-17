@@ -4,12 +4,26 @@ import DBQueryParam from "../../commonjs/dbqueryparam";
 
 import SensorDataChart from "./sensordatachart";
 import myAppGlobal from "../../myAppGlobal";
+import KDUtil from "../../commonjs/kdutil";
 import Systemeventdisplay from "../home/systemeventdisplay";
 import {Buffer}  from "buffer";
 import TitlebarBelowImageList from "./Himagedisplay";
+import { ThemeProvider} from '@mui/material';
+import muiTheme from '../muiTheme';
 
 
+import DataVisualization from '../pages/components/dataVisualization';
+import TableEventSystem from '../pages/components/tableEventSystem'
+import ShowVerticalImages from '../pages/components/showVerticalImages';
 
+const img1 = '/image/devicon_1.png'
+const img2 = '/image/devicon_2.png'
+const img3 = '/image/devicon_3.png'
+const img4 = '/image/devicon_4.png'
+const img5 = '/image/devicon_5.png'
+const img6 = '/image/devicon_6.png'
+
+const testImageSet = [{ img: img1, title: '펌프' }, { img: img2, title: '팬' }, { img: img3, title: '밸브' }, { img: img4, title: 'LED' }, { img: img5, title: '에어컨' }, { img: img6, title: '히터' }];
 
 let sevents = [];
 let cmeraimglist = [];
@@ -104,7 +118,8 @@ const DataMainPage = (props) => {
               EType: elist[i].etype,
               EParam: paramobj2,
             };
-            sevents.push(newobj);
+            
+            sevents.push(createData(newobj.EDate,newobj.EType,KDUtil.EventToString(newobj,myAppGlobal,true)));
             // console.log(elist[i]);
             // console.log(newobj);
           }
@@ -114,25 +129,45 @@ const DataMainPage = (props) => {
       setEvents(sevents);
     });
   }
+  
+
+  // 표 헤더 정의. key값으로써 i18n으로 변환될 수 있어야 함.
+  const tableHeader = ['date', 'type', 'content'];
+
+  // 표에서 필터링할 행 정의. 아직 미구현
+  const tableFilter = 'type'
+
+  // 헤더에 맞춰서 표 내용을 Object로 만들어줌.
+  function createData(date, type, content) {
+    return {
+        date,
+        type,
+        content,
+    };
+}
+
+  
+
 
   return (
-    <div>
-        
+
+    <ThemeProvider theme={muiTheme}>
       <div>
         데이터검색
         <button className="" onClick={getdb}>
           검색
         </button>
-        <SensorDataChart  datas={sensorarray} />
+        
       </div>
 
-      <div>이미지내용</div>
-      {TitlebarBelowImageList(camimages) }
-      <div>
-        이벤트내용
-        <Systemeventdisplay mevtlist={mevnetarray} />
-      </div>
-    </div>
+      <SensorDataChart  datas={sensorarray} />
+    <ShowVerticalImages imageSet={camimages}/>
+    <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={mevnetarray}/>
+    
+      </ThemeProvider>
+
+
+    
   );
 };
 

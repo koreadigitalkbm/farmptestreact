@@ -66,10 +66,22 @@ module.exports = class KDUtil {
   }
 
   /// 이벤트 내용을 문자열로 변경함
-  static EventToString(mEvent, myGlobal) {
+  static EventToString(mEvent, myGlobal, isonlycontents=false) {
     let strevent;
-    const today = new Date(mEvent.EDate);
-    strevent = today.toLocaleString() + ": ";
+    
+    if(isonlycontents==true)
+    {
+
+      strevent="";
+    }
+    else
+    {
+      const today = new Date(mEvent.EDate);
+      strevent = today.toLocaleString() + ": ";
+    }
+  
+    
+
     switch (mEvent.EType) {
       case KDDefine.EVENTType.EVT_AUTOCONTROL:
         if (myGlobal.Autocontrolcfg != null) {
