@@ -224,7 +224,7 @@ export default function TableEventSystem(props) {
     }
 
     return (
-        <Card sx={{ width: 1000, minWidth: 300, m: 3, p: 1, backgroundColor: '#eceff1' }}>
+        <Card sx={{  minWidth: 300,  backgroundColor: '#eceff1' }}>
             <CardHeader title={'시스템이벤트'} />
             <EnhancedTable />
         </Card>

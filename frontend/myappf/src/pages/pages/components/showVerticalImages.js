@@ -5,7 +5,7 @@ export default function ShowVerticalImages(props) {
     const imageSet = props.imageSet;
     
     return (
-        <Card sx={{ width: 1000, minWidth: 300, m: 3, p: 1, backgroundColor: '#eceff1' }}>
+        <Card sx={{ width:1000,   maxWidth: '100%',  backgroundColor: '#eceff1' }}>
             <CardHeader title={'식물이미지'} />
             <ImageList sx={{
                 gridAutoFlow: "column",

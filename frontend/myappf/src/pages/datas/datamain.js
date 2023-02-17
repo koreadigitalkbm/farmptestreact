@@ -6,17 +6,16 @@ import SensorDataChart from "./sensordatachart";
 import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 import Systemeventdisplay from "../home/systemeventdisplay";
-import {Buffer}  from "buffer";
+import { Buffer } from "buffer";
 import TitlebarBelowImageList from "./Himagedisplay";
-import { ThemeProvider} from '@mui/material';
-import muiTheme from '../muiTheme';
+import { ThemeProvider } from "@mui/material";
+import muiTheme from "../muiTheme";
+import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
-
-import DataVisualization from '../pages/components/dataVisualization';
-import TableEventSystem from '../pages/components/tableEventSystem'
-import ShowVerticalImages from '../pages/components/showVerticalImages';
-
-
+import DataVisualization from "../pages/components/dataVisualization";
+import TableEventSystem from "../pages/components/tableEventSystem";
+import ShowVerticalImages from "../pages/components/showVerticalImages";
 
 let sevents = [];
 let cmeraimglist = [];
@@ -35,8 +34,6 @@ const DataMainPage = (props) => {
     console.log("-------------------------DataMainPage  useEffect---------------------issetreq:");
   }, []);
 
-
-
   function getdb() {
     let utcnow = new Date();
 
@@ -49,17 +46,12 @@ const DataMainPage = (props) => {
     let dbq = new DBQueryParam(sday, eday, "sensor");
 
     myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
-
       console.log("-------------------------getdb sensor: " + ret.IsOK);
-      if(ret.IsOK  ==true)
-      {
+      if (ret.IsOK == true) {
         console.log(ret.retMessage);
-        sensordatas=ret.retMessage;
+        sensordatas = ret.retMessage;
         setSensorarray(sensordatas);
-
       }
-      
-
     });
 
     let dbqcam = new DBQueryParam(sday, eday, "camera");
@@ -68,28 +60,22 @@ const DataMainPage = (props) => {
       console.log(ret.retMessage);
 
       const imglist = ret.retMessage;
-      cmeraimglist=[];
+      cmeraimglist = [];
       if (imglist != null) {
         for (let i = 0; i < imglist.length; i++) {
-         
-            let fileurl= "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imglist[i].filename ;
-            console.log("fileurl:"+ fileurl);
+          let fileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imglist[i].filename;
+          console.log("fileurl:" + fileurl);
 
-            let newimg= 
-            {
-                img: fileurl,
-                title:imglist[i].dtime,
-                author: imglist[i].ctype,
-            }
-            
-            cmeraimglist.push(newimg);
+          let newimg = {
+            img: fileurl,
+            title: imglist[i].dtime,
+            author: imglist[i].ctype,
+          };
+
+          cmeraimglist.push(newimg);
         }
         setCamimages(cmeraimglist);
-        
       }
-
-
-
     });
 
     let dbevt = new DBQueryParam(sday, eday, "event");
@@ -101,7 +87,7 @@ const DataMainPage = (props) => {
       sevents = [];
       if (elist != null) {
         for (let i = 0; i < elist.length; i++) {
-            const jsonString = Buffer.from(elist[i].edatas, "base64").toString();
+          const jsonString = Buffer.from(elist[i].edatas, "base64").toString();
 
           if (jsonString.length > 10) {
             const paramobj2 = JSON.parse(jsonString);
@@ -111,8 +97,8 @@ const DataMainPage = (props) => {
               EType: elist[i].etype,
               EParam: paramobj2,
             };
-            
-            sevents.push(createData(newobj.EDate,newobj.EType,KDUtil.EventToString(newobj,myAppGlobal,true)));
+
+            sevents.push(createData(newobj.EDate, newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
             // console.log(elist[i]);
             // console.log(newobj);
           }
@@ -122,45 +108,45 @@ const DataMainPage = (props) => {
       setEvents(sevents);
     });
   }
-  
 
   // 표 헤더 정의. key값으로써 i18n으로 변환될 수 있어야 함.
-  const tableHeader = ['date', 'type', 'content'];
+  const tableHeader = ["date", "type", "content"];
 
   // 표에서 필터링할 행 정의. 아직 미구현
-  const tableFilter = 'type'
+  const tableFilter = "type";
 
   // 헤더에 맞춰서 표 내용을 Object로 만들어줌.
   function createData(date, type, content) {
     return {
-        date,
-        type,
-        content,
+      date,
+      type,
+      content,
     };
-}
-
-  
-
+  }
 
   return (
-
     <ThemeProvider theme={muiTheme}>
-      <div>
-        데이터검색
-        <button className="" onClick={getdb}>
-          검색
-        </button>
-        
-      </div>
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} md={12}>
+            <div>
+              데이터검색
+              <button className="" onClick={getdb}>
+                검색
+              </button>
+            </div>
 
-      <SensorDataChart  datas={sensorarray} />
-    <ShowVerticalImages imageSet={camimages}/>
-    <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={mevnetarray}/>
-    
-      </ThemeProvider>
-
-
-    
+            <SensorDataChart datas={sensorarray} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <ShowVerticalImages imageSet={camimages} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={mevnetarray} />
+          </Grid>
+        </Grid>
+      </Box>
+    </ThemeProvider>
   );
 };
 
