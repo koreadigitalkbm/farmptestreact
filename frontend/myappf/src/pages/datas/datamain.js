@@ -16,12 +16,21 @@ import Grid from "@mui/material/Grid";
 import DataVisualization from "../pages/components/dataVisualization";
 import TableEventSystem from "../pages/components/tableEventSystem";
 import ShowVerticalImages from "../pages/components/showVerticalImages";
+import RadioBtnGenerator from "../pages/components/radioBtnGenerator";
+import ConfigurePeriod from "../pages/components/configurePeriod";
+
 
 let sevents = [];
 let cmeraimglist = [];
 let sensordatas = [];
+const oneDay = 86400000;
+
 //홈 메인 대시보드
 const DataMainPage = (props) => {
+  const [dataInqueryFormat, setDataInqueryFormat] = useState('date');
+  const [targetDate, setTargetDate] = useState(Date.now());
+    const [startDate, setStartDate] = useState(Date.now() - (7 * 86400000));
+
   const [camimages, setCamimages] = useState(cmeraimglist);
   const [moutdevarray, setActuator] = useState([]);
   const [mevnetarray, setEvents] = useState(sevents);
@@ -123,6 +132,42 @@ const DataMainPage = (props) => {
       content,
     };
   }
+  function handleDataInqueryFormat(e) {
+    setDataInqueryFormat(e.target.value);
+}
+function handleDate(e) {
+  switch (e.currentTarget.name) {
+      case 'oneDayAgo':
+          setTargetDate(targetDate - oneDay);
+          console.log(targetDate);
+          break;
+      case 'oneDayAhead':
+          setTargetDate(targetDate + oneDay);
+          console.log(targetDate);
+          break;
+      default: return;
+  }
+}
+
+function handleDatePicker(date) {
+  setStartDate(Date.parse(date))
+}
+
+  const propsForRadioButton = {
+      id: "radio-button-data-inquery-format",
+      defaultValue: dataInqueryFormat,
+      label: "데이터 조회 방식 설정",
+      selectOptions: ["date", "period"],
+      onChange: handleDataInqueryFormat,
+  }
+  const propsForConfigurePeriod = {
+    format: dataInqueryFormat,
+    targetDate: targetDate,
+    startDate: startDate,
+    handleDatePicker: handleDatePicker,
+    onClick: handleDate,
+}
+
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -134,7 +179,17 @@ const DataMainPage = (props) => {
               <button className="" onClick={getdb}>
                 검색
               </button>
+
             </div>
+            <Grid container spacing={1}>
+                <Grid item xs={3}>
+                    <RadioBtnGenerator props={propsForRadioButton} />
+                </Grid>
+                <Grid item xs={8}>
+                    <ConfigurePeriod props={propsForConfigurePeriod} />
+                </Grid>
+            </Grid>
+
 
             <SensorDataChart datas={sensorarray} />
           </Grid>
