@@ -142,7 +142,7 @@ module.exports = class ActuatorInterface {
     }
     else{
       /// 메뉴얼 촬영이면 http  콜백함수이므로 메인루프에서 제어되도록 해야함.
-      this.cameracapturecount = 3;
+      this.cameracapturecount = 6;
       timeoutmsec=6000;
     }
     
@@ -157,7 +157,7 @@ module.exports = class ActuatorInterface {
   {
     await this.LEDonforcamera(islocal );
     const lawimg = await CameraInterface.Captureimage();
-    this.cameracapturecount = 0;
+    // this.cameracapturecount = 0;
     console.log("CaptureImagewithLED ", 'size is : ', lawimg.length);
 
     return lawimg;
