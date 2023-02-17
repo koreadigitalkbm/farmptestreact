@@ -30,6 +30,9 @@ module.exports = class ServerAPI {
    }
 
   postapifordatabase(req, rsp) {
+
+    console.log("--------------------------server -postapifordatabase :  ");
+
     const reqmsg = JSON.parse(JSON.stringify(req.body));
 
     let responsemsg = new responseMessage();
@@ -81,6 +84,7 @@ module.exports = class ServerAPI {
         console.log("  camera devid:" + reqmsg.reqParam.devid);
         console.log("  camera datetime:" + reqmsg.reqParam.datetime);
         console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
+        console.log("  camera file length:" + reqmsg.reqParam.imagedatas.length);
 
         this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
         responsemsg.IsOK = true;
