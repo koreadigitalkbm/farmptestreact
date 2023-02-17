@@ -1,5 +1,5 @@
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
-const farmscubeplatformversion = 1.741;
+const farmscubeplatformversion = 1.764;
 
 var express = require("express");
 var cors = require("cors");
@@ -28,9 +28,12 @@ mMainclass.mAPI.firebasedbsetup();
 
 
 const app = express();
-app.use(express.json());
+
 app.use(cors());
 app.use(express.static("./backend/"));
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
 
 
 

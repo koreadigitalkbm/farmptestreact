@@ -6,7 +6,7 @@ const DatabaseInterface = require("../dbinterface");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const Sensordevice = require("../../frontend/myappf/src/commonjs/sensordevice.js");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
-const SystemEvent =require("../localonly/systemevent");
+const SystemEvent = require("../localonly/systemevent");
 
 module.exports = class ServerAPI {
   constructor(fversion, mMain) {
@@ -17,42 +17,33 @@ module.exports = class ServerAPI {
     this.DBInterface = new DatabaseInterface(mMain);
   }
 
-
-   //콜백함수에서 응답해야한다면 이함수를사용하자.
-   callbackreturn(rsp, mparam)
-   {
-     let rspmsg = new responseMessage();
-     rspmsg.retMessage = mparam;
-     rspmsg.IsOK = true;
-      console.log("callbackreturn mparam:"+ mparam.length );
-      return rsp.send(JSON.stringify(rspmsg));
- 
-   }
+  //콜백함수에서 응답해야한다면 이함수를사용하자.
+  callbackreturn(rsp, mparam) {
+    let rspmsg = new responseMessage();
+    rspmsg.retMessage = mparam;
+    rspmsg.IsOK = true;
+    console.log("callbackreturn mparam:" + mparam.length);
+    return rsp.send(JSON.stringify(rspmsg));
+  }
 
   postapifordatabase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
-
     let responsemsg = new responseMessage();
 
-   
-   
-
     switch (reqmsg.reqType) {
-
-
-       //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
+      //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
       case KDDefine.REQType.RT_GETDB_DATAS:
         return this.DBInterface.gettable(rsp, reqmsg, this.callbackreturn);
 
         break;
-      
+
       case KDDefine.REQType.RT_SETDB_EVENT:
         console.log("---------------------------------postapifordatabase :  RT_SETDB_EVENT :");
         console.log("  devid:" + reqmsg.reqParam.devid);
-        
+
         let mevents = [];
         for (const mevt of reqmsg.reqParam.eventlist) {
-          let newev =SystemEvent.Clonbyjsonobj(mevt);
+          let newev = SystemEvent.Clonbyjsonobj(mevt);
           mevents.push(newev);
         }
 
@@ -81,6 +72,7 @@ module.exports = class ServerAPI {
         console.log("  camera devid:" + reqmsg.reqParam.devid);
         console.log("  camera datetime:" + reqmsg.reqParam.datetime);
         console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
+        console.log("  camera file length:" + reqmsg.reqParam.imagedatas.length);
 
         this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
         responsemsg.IsOK = true;
@@ -215,28 +207,22 @@ module.exports = class ServerAPI {
         } else if (reqmsg.reqParam.loginID === "kd4" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0004";
-        }
-        else if (reqmsg.reqParam.loginID === "kd11" && reqmsg.reqParam.loginPW === "1234") {
+        } else if (reqmsg.reqParam.loginID === "kd11" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0011";
-        }
-        else if (reqmsg.reqParam.loginID === "kd12" && reqmsg.reqParam.loginPW === "1234") {
+        } else if (reqmsg.reqParam.loginID === "kd12" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0012";
-        }
-        else if (reqmsg.reqParam.loginID === "kd13" && reqmsg.reqParam.loginPW === "1234") {
+        } else if (reqmsg.reqParam.loginID === "kd13" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0013";
-        }
-        else if (reqmsg.reqParam.loginID === "kd14" && reqmsg.reqParam.loginPW === "1234") {
+        } else if (reqmsg.reqParam.loginID === "kd14" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0014";
-        }
-        else if (reqmsg.reqParam.loginID === "kd15" && reqmsg.reqParam.loginPW === "1234") {
+        } else if (reqmsg.reqParam.loginID === "kd15" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0015";
         }
-
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
         if (rspmsg.retMessage != "not") {
