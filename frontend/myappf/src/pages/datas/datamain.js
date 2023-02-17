@@ -16,14 +16,7 @@ import DataVisualization from '../pages/components/dataVisualization';
 import TableEventSystem from '../pages/components/tableEventSystem'
 import ShowVerticalImages from '../pages/components/showVerticalImages';
 
-const img1 = '/image/devicon_1.png'
-const img2 = '/image/devicon_2.png'
-const img3 = '/image/devicon_3.png'
-const img4 = '/image/devicon_4.png'
-const img5 = '/image/devicon_5.png'
-const img6 = '/image/devicon_6.png'
 
-const testImageSet = [{ img: img1, title: '펌프' }, { img: img2, title: '팬' }, { img: img3, title: '밸브' }, { img: img4, title: 'LED' }, { img: img5, title: '에어컨' }, { img: img6, title: '히터' }];
 
 let sevents = [];
 let cmeraimglist = [];
