@@ -7,6 +7,7 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase-admin": "^11.3.0",
+    "ip": "^1.1.8",
     "modbus-serial": "^8.0.8",
     "moment": "^2.29.4",
     "mysql": "^2.18.1",
@@ -14,7 +15,5 @@
     "nodemon": "^2.0.20",
     "pi-camera": "^1.7.0"
   },
-  "devDependencies": {
-    "ip": "^1.1.8"
-  }
+  "devDependencies": {}
 }
