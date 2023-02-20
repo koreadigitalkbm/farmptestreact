@@ -221,7 +221,7 @@ module.exports = class LocalAPI {
   softwareupdatefromgit() {
     console.log("softwareupdatefromgit  up1:");
 
-    child = exec("git pull ", function (error, stdout, stderr) {
+    child = exec("sudo git pull ", function (error, stdout, stderr) {
       console.log("stdout pull: " + stdout);
       console.log("stderr: " + stderr);
       if (error !== null) {
