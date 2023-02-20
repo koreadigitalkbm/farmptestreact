@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "npm install && nodemon index.js"
   },
   "dependencies": {
     "colors": "^1.4.0",
