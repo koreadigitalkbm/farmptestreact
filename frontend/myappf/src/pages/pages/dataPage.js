@@ -2,12 +2,16 @@ import { Grid, Paper, ThemeProvider } from '@mui/material';
 import { styled } from '@mui/material/styles'
 import muiTheme from '../muiTheme';
 
+import { IconButton, Stack, Typography } from '@mui/material'
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
+
+
 import RadioBtnGenerator from './components/radioBtnGenerator';
-import ConfigurePeriod from './components/configurePeriod';
 import DataVisualization from './components/dataVisualization';
 import TableEventSystem from './components/tableEventSystem'
 import ShowVerticalImages from './components/showVerticalImages';
 import { useState } from 'react';
+import MuiCustomDatePicker from './components/muiDatePicker';
 
 const img1 = '/image/devicon_1.png'
 const img2 = '/image/devicon_2.png'
@@ -22,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
     padding: 15,
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    height:80,
+    height: 80,
 }));
 
 export default function DataPage(props) {
@@ -30,7 +34,9 @@ export default function DataPage(props) {
 
     const [dataInqueryFormat, setDataInqueryFormat] = useState('date');
     const [targetDate, setTargetDate] = useState(Date.now());
-    const [startDate, setStartDate] = useState(Date.now() - (7 * 86400000));
+    let period = [targetDate - (7 * oneDay ), targetDate];
+    const [startDate, endDate] = period;
+
 
     const radioButtonOptions = ["date", "period"];
     const propsForRadioButton = {
@@ -40,14 +46,7 @@ export default function DataPage(props) {
         selectOptions: radioButtonOptions,
         onChange: handleDataInqueryFormat,
     }
-    const propsForConfigurePeriod = {
-        format: dataInqueryFormat,
-        targetDate: targetDate,
-        startDate: startDate,
-        handleDatePicker: handleDatePicker,
-        onClick: handleDate,
-    }
-
+    
     function handleDataInqueryFormat(e) {
         setDataInqueryFormat(e.target.value);
     }
@@ -56,18 +55,30 @@ export default function DataPage(props) {
         switch (e.currentTarget.name) {
             case 'oneDayAgo':
                 setTargetDate(targetDate - oneDay);
-                console.log(targetDate);
                 break;
             case 'oneDayAhead':
                 setTargetDate(targetDate + oneDay);
-                console.log(targetDate);
                 break;
             default: return;
         }
     }
 
-    function handleDatePicker(date) {
-        setStartDate(Date.parse(date))
+    const propsForDatepicker = {
+        endDate: endDate,
+        handleDatePicker: handleDatepicker,
+        locale: 'ko',
+        mode: '',
+        selected: targetDate,
+        startDate: startDate,
+    }
+
+    function handleDatepicker(date) {
+        console.log(date);
+        setTargetDate(Date.parse(date))
+    }
+
+    function handlePeriodpicker(p) {
+        period = p;
     }
 
     // 이미지를 {img: url, title: 이름} 으로 정의해서 이미지셋으로 만듦.
@@ -127,6 +138,31 @@ export default function DataPage(props) {
         createData(endTargetDate, tableType('etc'), '펌프 청소하는 날.'),
     ]
 
+    const ConfigurePeriod = () => {
+        if(dataInqueryFormat === "date"){
+            propsForDatepicker.mode = "date"
+            propsForDatepicker.handleDatePicker = handleDatepicker;
+            return (
+                <Stack direction='row' alignItems='center' justifyContent='center'>
+                    <IconButton name='oneDayAgo' onClick={handleDate}>
+                        <KeyboardArrowLeft />
+                    </IconButton>
+                    <Typography align="center"><MuiCustomDatePicker props={propsForDatepicker} /><br />하루치 데이터를 조회합니다.</Typography>
+                    <IconButton name='oneDayAhead' onClick={handleDate}>
+                        <KeyboardArrowRight />
+                    </IconButton>
+                </Stack>
+            )
+        } else if (dataInqueryFormat === "period") {
+            propsForDatepicker.mode = "period"
+            propsForDatepicker.handleDatePicker = handlePeriodpicker;
+            return (
+                <Stack direction='row' alignItems='center' justifyContent='center'>
+                    <Typography align="center"><MuiCustomDatePicker props={propsForDatepicker} /><br />기간동안의 데이터를 조회합니다.</Typography>
+                </Stack>
+            )
+        }
+    }
 
     return (
         <ThemeProvider theme={muiTheme}>
@@ -135,7 +171,7 @@ export default function DataPage(props) {
                     <Item><RadioBtnGenerator props={propsForRadioButton} /></Item>
                 </Grid>
                 <Grid item xs={8}>
-                    <Item><ConfigurePeriod props={propsForConfigurePeriod} /></Item>
+                    <Item><ConfigurePeriod /></Item>
                 </Grid>
             </Grid>
             <DataVisualization />
