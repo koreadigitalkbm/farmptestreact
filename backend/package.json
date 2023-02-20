@@ -13,5 +13,8 @@
     "node-fetch": "^2.6.9",
     "nodemon": "^2.0.20",
     "pi-camera": "^1.7.0"
+  },
+  "devDependencies": {
+    "ip": "^1.1.8"
   }
 }
