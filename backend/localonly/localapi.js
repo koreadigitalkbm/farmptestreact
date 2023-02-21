@@ -225,7 +225,7 @@ module.exports = class LocalAPI {
     console.log("softwareupdatefromgit  up1:");
 
     let cmdString = 'git pull ';    // 2023.02.20
-    if (os.platform() !== "win32") {
+    if (process.platform !== "win32") {
       cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
     }
     
