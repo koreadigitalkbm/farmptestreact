@@ -247,6 +247,10 @@ module.exports = class AutoControl {
             currentstate = KDDefine.AUTOStateType.AST_Up_Idle;
           }
         }
+
+        //console.log("SCT_DOWNBOTHIDLE  currsensor:" + currsensor.value +",targetvalue: "+targetvalue+  ", upvalue : " + upvalue + " ,downvalue: " + downvalue + " currentstate :"+ currentstate);
+
+
       } else if (KDDefine.SensorConditionType.SCT_UP == this.mConfig.Cdir) {
         if (currsensor.value >= upvalue) {
           currentstate = KDDefine.AUTOStateType.AST_On;
@@ -401,12 +405,13 @@ module.exports = class AutoControl {
               heaterstate = false;
               coollerstate = false;
             } else if (currentstate == KDDefine.AUTOStateType.AST_Up_Idle) {
-              if (this.mState.State == KDDefine.AUTOStateType.AST_On) {
+              //히터가 켜진상태거나 온도가 점점 높아지고 있는 상태
+              if (this.mState.State == KDDefine.AUTOStateType.AST_On  || this.mState.State == KDDefine.AUTOStateType.AST_Down_Idle ) {
                 heaterstate = false;
                 coollerstate = false;
               }
             } else if (currentstate == KDDefine.AUTOStateType.AST_Down_Idle) {
-              if (this.mState.State == KDDefine.AUTOStateType.AST_Off) {
+              if (this.mState.State == KDDefine.AUTOStateType.AST_Off || this.mState.State == KDDefine.AUTOStateType.AST_Up_Idle ) {
                 heaterstate = false;
                 coollerstate = false;
               }

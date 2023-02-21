@@ -76,14 +76,14 @@ async function devicemaintask(mainclass) {
         {
           const cursec = date.getSeconds();
           if (last_sec != cursec) {
-              console.log("mainloop  sec_step: " + sec_step);
+       //       console.log("mainloop  sec_step: " + sec_step);
 
             last_sec = cursec;
             switch (sec_step) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
                 for (const msensor of mainclass.sensorinterface.mSensors) {
-                     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+                //     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
                 }
                 sec_step++;
                 break;
