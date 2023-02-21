@@ -223,7 +223,7 @@ module.exports = class LocalAPI {
 
     let cmdString = 'git pull ';    // 2023.02.20
     if (os.platform() !== "win32") {
-      cmdString = 'git fetch --all && git reset --hard && git pull';
+      cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
     }
     
 
