@@ -33,8 +33,8 @@ const optionChart = {
     },
 
     "y-left": {
-      min: 10,
-      max: 40,
+      min: 0,
+      max: 50,
       type: "linear",
       display: true,
       position: "left",

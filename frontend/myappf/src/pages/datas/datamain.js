@@ -13,107 +13,122 @@ import muiTheme from "../muiTheme";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-
 import TableEventSystem from "../pages/components/tableEventSystem";
 import ShowVerticalImages from "../pages/components/showVerticalImages";
 import DatePickerBar from "./datepickerbar";
 
-let sevents = [];
-let cmeraimglist = [];
-let sensordatas = [];
+let sevents_period = [];
+let cmeraimglist_period = [];
+let sensordatas_period = [];
 
+let sevents_daily = [];
+let cmeraimglist_daily = [];
+let sensordatas_daily = [];
 
 let utcnow = new Date();
-let startday = new Date(utcnow -7*86400000);
-let endday = utcnow;//
-let daydate = utcnow;//
-let isdailyglobal=true;
-
+let startday = new Date(utcnow - 7 * 86400000);
+let endday = utcnow; //
+let daydate = utcnow; //
+let isdailyglobal = true;
 
 //홈 메인 대시보드
 const DataMainPage = (props) => {
-
   const [isdaily, setisdaily] = useState(isdailyglobal);
   const [issearching, setissearching] = useState(false);
-  const [camimages, setCamimages] = useState(cmeraimglist);
-  const [mevnetarray, setEvents] = useState(sevents);
-  const [sensorarray, setSensorarray] = useState(sensordatas);
-  
+  const [camimages, setCamimages] = useState([]);
+  const [mevnetarray, setEvents] = useState([]);
+  const [sensorarray, setSensorarray] = useState([]);
 
   console.log("-------------------------DataMainPage  --------------------- daydate: " + daydate);
 
   useEffect(() => {
-    console.log("-------------------------DataMainPage  useEffect---------------------issetreq:");
-  }, []);
+    console.log("-------------------------DataMainPage  useEffect---------------------isdaily:" + isdaily + ", issearching:" + issearching);
+
+    
+    if (isdaily === true) {
+      console.log("sensordatas_daily length:" + sensordatas_daily.length);
+
+      setSensorarray(sensordatas_daily);
+      setEvents(sevents_daily);
+      setCamimages(cmeraimglist_daily);
+    } else {
+      setSensorarray(sensordatas_period);
+      setEvents(sevents_period);
+      setCamimages(cmeraimglist_period);
+    }
+    
+  }, [issearching]);
 
   function getdbsearch(stday, edday) {
+    console.log("-------------------------getdbsearch  ---------------------");
+    //console.log("stday : "+ stday);
+    //console.log("edday : "+ edday);
 
+    let sevents = [];
+    let cmeraimglist = [];
+    let sensordatas = [];
 
-  console.log("-------------------------getdbsearch  ---------------------");
-  console.log("stday : "+ stday);
-  console.log("edday : "+ edday);
-  if(isdaily ==true)
-  {
-    daydate=stday;
-  }
+    setissearching(true);
 
-
-  setissearching(true);
-    
-    
     //sday = new Date(sday.getTime() - sday.getTimezoneOffset() * 60 * 1000);
-    
-    let stdayonly= new Date(stday.getFullYear(), stday.getMonth(), stday.getDate(), 0, 0, 0, 0); 
-    let eddayonly= new Date(edday.getFullYear(), edday.getMonth(), edday.getDate(), 23, 59, 59, 0);
 
-    console.log("stdayonly : "+ stdayonly);
-  console.log("eddayonly : "+ eddayonly);
+    let stdayonly = new Date(stday.getFullYear(), stday.getMonth(), stday.getDate(), 0, 0, 0, 0);
+    let eddayonly = new Date(edday.getFullYear(), edday.getMonth(), edday.getDate(), 23, 59, 59, 0);
 
+    console.log("stdayonly : " + stdayonly);
+    console.log("eddayonly : " + eddayonly);
 
     let sday = new Date(stdayonly.getTime() - stdayonly.getTimezoneOffset() * 60000);
     let eday = new Date(eddayonly.getTime() - eddayonly.getTimezoneOffset() * 60000);
 
+    //    console.log("sday : "+ sday.toLocaleString());
+    //  console.log("eday : "+ eday.toLocaleDateString());
 
-
-    console.log("sday : "+ sday.toLocaleString());
-  console.log("eday : "+ eday.toLocaleDateString());
-
-
-  
     let dbq = new DBQueryParam(sday, eday, "sensor");
 
     myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
       console.log("-------------------------getdb sensor: " + ret.IsOK);
       if (ret.IsOK == true) {
-        console.log(ret.retMessage);
+        //console.log(ret.retMessage);
         sensordatas = ret.retMessage;
-        setSensorarray(sensordatas);
+        //setSensorarray(sensordatas);
+
+        if (isdaily === true) {
+          sensordatas_daily = sensordatas;
+        } else {
+          sensordatas_period = sensordatas;
+        }
       }
     });
 
     let dbqcam = new DBQueryParam(sday, eday, "camera");
     myAppGlobal.farmapi.getDataformDB(dbqcam).then((ret) => {
       console.log("-------------------------getdb camera: " + ret.IsOK);
-      console.log(ret.retMessage);
+      //console.log(ret.retMessage);
 
       const imglist = ret.retMessage;
       cmeraimglist = [];
       if (imglist != null) {
         for (let i = 0; i < imglist.length; i++) {
           let fileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imglist[i].filename;
-          console.log("fileurl:" + fileurl);
+          //  console.log("fileurl:" + fileurl);
 
           let newimg = {
             img: fileurl,
             title: imglist[i].dtime,
             author: imglist[i].ctype,
           };
-          let timeimg=new Date(imglist[i].dtime);
+          let timeimg = new Date(imglist[i].dtime);
           newimg.title = timeimg.toLocaleString();
 
           cmeraimglist.push(newimg);
         }
-        setCamimages(cmeraimglist);
+        //setCamimages(cmeraimglist);
+        if (isdaily === true) {
+          cmeraimglist_daily = cmeraimglist;
+        } else {
+          cmeraimglist_period = cmeraimglist;
+        }
       }
     });
 
@@ -144,7 +159,13 @@ const DataMainPage = (props) => {
         }
       }
 
-      setEvents(sevents);
+      //setEvents(sevents);
+      if (isdaily === true) {
+        sevents_daily = sevents;
+      } else {
+        sevents_period = sevents;
+      }
+
       setissearching(false);
     });
   }
@@ -163,25 +184,36 @@ const DataMainPage = (props) => {
       content,
     };
   }
-  
 
-    function onChangeDaily()
-    {
+  function onChangeDaily() {
+    isdailyglobal = !isdaily;
 
-      isdailyglobal= !isdaily;
-        setisdaily(isdailyglobal);
+
+    if (isdailyglobal === true) {
+      console.log("sensordatas_daily length:" + sensordatas_daily.length);
+
+      setSensorarray(sensordatas_daily);
+      setEvents(sevents_daily);
+      setCamimages(cmeraimglist_daily);
+    } else {
+      setSensorarray(sensordatas_period);
+      setEvents(sevents_period);
+      setCamimages(cmeraimglist_period);
     }
 
+
+    setisdaily(isdailyglobal);
+  }
 
   return (
     <ThemeProvider theme={muiTheme}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={12}>
-            <DatePickerBar   getdb={getdbsearch}  dayDate ={daydate} startDate ={startday} endDate = {endday}  isdaily ={isdaily} issearching={issearching} onchangedaliy={onChangeDaily} />
+            <DatePickerBar getdb={getdbsearch} dayDate={daydate} startDate={startday} endDate={endday} isdaily={isdaily} issearching={issearching} onchangedaliy={onChangeDaily} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <SensorDataChart datas={sensorarray}  isdaily={isdaily} />
+            <SensorDataChart datas={sensorarray} isdaily={isdaily} />
           </Grid>
           <Grid item xs={12} md={12}>
             <ShowVerticalImages imageSet={camimages} />
