@@ -13,45 +13,73 @@ import muiTheme from "../muiTheme";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-import DataVisualization from "../pages/components/dataVisualization";
+
 import TableEventSystem from "../pages/components/tableEventSystem";
 import ShowVerticalImages from "../pages/components/showVerticalImages";
-import RadioBtnGenerator from "../pages/components/radioBtnGenerator";
-import ConfigurePeriod from "../pages/components/configurePeriod";
-
+import DatePickerBar from "./datepickerbar";
 
 let sevents = [];
 let cmeraimglist = [];
 let sensordatas = [];
-const oneDay = 86400000;
+
+
+let utcnow = new Date();
+let startday = new Date(utcnow -7*86400000);
+let endday = utcnow;//
+let daydate = utcnow;//
+let isdailyglobal=true;
+
 
 //홈 메인 대시보드
 const DataMainPage = (props) => {
-  const [dataInqueryFormat, setDataInqueryFormat] = useState('date');
-  const [targetDate, setTargetDate] = useState(Date.now());
-    const [startDate, setStartDate] = useState(Date.now() - (7 * 86400000));
 
+  const [isdaily, setisdaily] = useState(isdailyglobal);
+  const [issearching, setissearching] = useState(false);
   const [camimages, setCamimages] = useState(cmeraimglist);
-  const [moutdevarray, setActuator] = useState([]);
   const [mevnetarray, setEvents] = useState(sevents);
   const [sensorarray, setSensorarray] = useState(sensordatas);
-  const [msensorlasttime, setLasttime] = useState(1);
+  
 
-  console.log("-------------------------DataMainPage  ---------------------");
+  console.log("-------------------------DataMainPage  --------------------- daydate: " + daydate);
 
   useEffect(() => {
     console.log("-------------------------DataMainPage  useEffect---------------------issetreq:");
   }, []);
 
-  function getdb() {
-    let utcnow = new Date();
+  function getdbsearch(stday, edday) {
 
-    let sday = new Date(utcnow.getFullYear(), utcnow.getMonth(), utcnow.getDate(), 0, 0, 0, 0);
-    sday = new Date(sday.getTime() - sday.getTimezoneOffset() * 60 * 1000);
 
-    let eday = new Date(utcnow.getFullYear(), utcnow.getMonth(), utcnow.getDate(), 23, 59, 59, 0);
-    eday = new Date(eday.getTime() - eday.getTimezoneOffset() * 60 * 1000);
+  console.log("-------------------------getdbsearch  ---------------------");
+  console.log("stday : "+ stday);
+  console.log("edday : "+ edday);
+  if(isdaily ==true)
+  {
+    daydate=stday;
+  }
 
+
+  setissearching(true);
+    
+    
+    //sday = new Date(sday.getTime() - sday.getTimezoneOffset() * 60 * 1000);
+    
+    let stdayonly= new Date(stday.getFullYear(), stday.getMonth(), stday.getDate(), 0, 0, 0, 0); 
+    let eddayonly= new Date(edday.getFullYear(), edday.getMonth(), edday.getDate(), 23, 59, 59, 0);
+
+    console.log("stdayonly : "+ stdayonly);
+  console.log("eddayonly : "+ eddayonly);
+
+
+    let sday = new Date(stdayonly.getTime() - stdayonly.getTimezoneOffset() * 60000);
+    let eday = new Date(eddayonly.getTime() - eddayonly.getTimezoneOffset() * 60000);
+
+
+
+    console.log("sday : "+ sday.toLocaleString());
+  console.log("eday : "+ eday.toLocaleDateString());
+
+
+  
     let dbq = new DBQueryParam(sday, eday, "sensor");
 
     myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
@@ -80,6 +108,8 @@ const DataMainPage = (props) => {
             title: imglist[i].dtime,
             author: imglist[i].ctype,
           };
+          let timeimg=new Date(imglist[i].dtime);
+          newimg.title = timeimg.toLocaleString();
 
           cmeraimglist.push(newimg);
         }
@@ -115,6 +145,7 @@ const DataMainPage = (props) => {
       }
 
       setEvents(sevents);
+      setissearching(false);
     });
   }
 
@@ -132,41 +163,14 @@ const DataMainPage = (props) => {
       content,
     };
   }
-  function handleDataInqueryFormat(e) {
-    setDataInqueryFormat(e.target.value);
-}
-function handleDate(e) {
-  switch (e.currentTarget.name) {
-      case 'oneDayAgo':
-          setTargetDate(targetDate - oneDay);
-          console.log(targetDate);
-          break;
-      case 'oneDayAhead':
-          setTargetDate(targetDate + oneDay);
-          console.log(targetDate);
-          break;
-      default: return;
-  }
-}
+  
 
-function handleDatePicker(date) {
-  setStartDate(Date.parse(date))
-}
+    function onChangeDaily()
+    {
 
-  const propsForRadioButton = {
-      id: "radio-button-data-inquery-format",
-      defaultValue: dataInqueryFormat,
-      label: "데이터 조회 방식 설정",
-      selectOptions: ["date", "period"],
-      onChange: handleDataInqueryFormat,
-  }
-  const propsForConfigurePeriod = {
-    format: dataInqueryFormat,
-    targetDate: targetDate,
-    startDate: startDate,
-    handleDatePicker: handleDatePicker,
-    onClick: handleDate,
-}
+      isdailyglobal= !isdaily;
+        setisdaily(isdailyglobal);
+    }
 
 
   return (
@@ -174,24 +178,10 @@ function handleDatePicker(date) {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={12}>
-            <div>
-              데이터검색
-              <button className="" onClick={getdb}>
-                검색
-              </button>
-
-            </div>
-            <Grid container spacing={1}>
-                <Grid item xs={3}>
-                    <RadioBtnGenerator props={propsForRadioButton} />
-                </Grid>
-                <Grid item xs={8}>
-                    <ConfigurePeriod props={propsForConfigurePeriod} />
-                </Grid>
-            </Grid>
-
-
-            <SensorDataChart datas={sensorarray} />
+            <DatePickerBar   getdb={getdbsearch}  dayDate ={daydate} startDate ={startday} endDate = {endday}  isdaily ={isdaily} issearching={issearching} onchangedaliy={onChangeDaily} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <SensorDataChart datas={sensorarray}  isdaily={isdaily} />
           </Grid>
           <Grid item xs={12} md={12}>
             <ShowVerticalImages imageSet={camimages} />

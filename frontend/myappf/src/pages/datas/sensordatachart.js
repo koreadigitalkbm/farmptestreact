@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box } from "@mui/material";
+import { Box,Typography } from "@mui/material";
+
+
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Grid from "@mui/material/Grid";
@@ -17,25 +19,25 @@ import blue from "@mui/material/colors/blue";
 import myAppGlobal from "../../myAppGlobal";
 
 let chboxlist = [
-  { label: "l1", color: "#1976d2", key: "0", checked: false ,sensor:null},
-  { label: "l2", color: "#2e7d32", key: "1", checked: false ,sensor:null},
-  { label: "l3", color: "#9c27b0", key: "2", checked: false ,sensor:null},
-  { label: "l4", color: "#d32f2f", key: "3", checked: false ,sensor:null},
+  { label: "l1", color: "#1976d2", key: "0", checked: false, sensor: null },
+  { label: "l2", color: "#2e7d32", key: "1", checked: false, sensor: null },
+  { label: "l3", color: "#9c27b0", key: "2", checked: false, sensor: null },
+  { label: "l4", color: "#d32f2f", key: "3", checked: false, sensor: null },
 
-  { label: "l4", color: "#ed6c02", key: "4", checked: false ,sensor:null},
-  { label: "l4", color: "#0288d1", key: "5", checked: false ,sensor:null},
-  { label: "l4", color: "#ef5350", key: "6", checked: false ,sensor:null},
-  { label: "l4", color: "#4caf50", key: "7", checked: false ,sensor:null},
+  { label: "l4", color: "#ed6c02", key: "4", checked: false, sensor: null },
+  { label: "l4", color: "#0288d1", key: "5", checked: false, sensor: null },
+  { label: "l4", color: "#ef5350", key: "6", checked: false, sensor: null },
+  { label: "l4", color: "#4caf50", key: "7", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "8", checked: false ,sensor:null},
-  { label: "l4", color: "#000010", key: "9", checked: false ,sensor:null},
-  { label: "l4", color: "#000010", key: "10", checked: false ,sensor:null},
-  { label: "l4", color: "#000010", key: "11", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "8", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "9", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "10", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "11", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "12", checked: false ,sensor:null},
-  { label: "l4", color: "#000010", key: "13", checked: false ,sensor:null},
-  { label: "l4", color: "#000010", key: "14", checked: false ,sensor:null},
-  { label: "l4", color: "#000010", key: "15", checked: false ,sensor:null},
+  { label: "l4", color: "#000010", key: "12", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "13", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "14", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "15", checked: false, sensor: null },
 ];
 
 let checkflgs = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
@@ -45,9 +47,9 @@ let dataChart = {
   datasets: [],
 };
 
-let sensorlistforchart=[];
+let sensorlistforchart = [];
 
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip );
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 const optionChart = {
   plugins: {
@@ -66,7 +68,6 @@ const optionChart = {
     },
 
     "y-left": {
-    
       type: "linear",
       display: true,
       position: "left",
@@ -94,25 +95,19 @@ const optionChart = {
   },
 };
 
-function getsensorfromlist(stype,nodeid,channel)
-{
-  
-
-  for(let i=0;i< sensorlistforchart.length ; i++)
-  {
-    if(sensorlistforchart[i].stype == stype &&  sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel )
-    {
+function getsensorfromlist(stype, nodeid, channel) {
+  for (let i = 0; i < sensorlistforchart.length; i++) {
+    if (sensorlistforchart[i].stype == stype && sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel) {
       return sensorlistforchart[i];
     }
-
   }
-  
-  console.log("n :" + stype );   
+
+  console.log("n :" + stype);
 
   let newdatas = {
-    stype:stype,
-    nodeid:nodeid,
-    channel:channel,
+    stype: stype,
+    nodeid: nodeid,
+    channel: channel,
     type: "line",
     label: "온도",
     yAxisID: "y-left",
@@ -124,66 +119,46 @@ function getsensorfromlist(stype,nodeid,channel)
   };
   sensorlistforchart.push(newdatas);
 
-
   return newdatas;
-
-
 }
 
-function DecodeSensorbyDB(sdatas) {
- 
+function DecodeSensorbyDB(sdatas, isdaily) {
+  sensorlistforchart = [];
 
+  console.log("------decodeDsensor sdatas.lenth : " + sdatas.length);
 
-  
-  sensorlistforchart=[];
+  for (let i = 0; i < sdatas.length; i++) {
+    const msensor = getsensorfromlist(sdatas[i].P, sdatas[i].N, sdatas[i].C);
+    let dTime = new Date(sdatas[i].T);
+    let sTime;
+    if (isdaily === true) {
+      sTime = dTime.getHours() + ":" + dTime.getMinutes();
+    } else {
+      sTime = dTime.toLocaleString();
+    }
 
+    const xydata = { x: sTime, y: sdatas[i].V };
 
-  console.log("------decodeDsensor sdatas.lenth : " + sdatas.length );
-
-  
-  for(let i=0;i<sdatas.length ;i++)
-  {
-   
-
-         const msensor = getsensorfromlist(sdatas[i].P,sdatas[i].N,sdatas[i].C);
-         let dTime = new Date(sdatas[i].T);
-          let sTime = dTime.getHours() + ":" + dTime.getMinutes();
-
-         const xydata={x:sTime, y:sdatas[i].V};
-
-     msensor.data.push(xydata);
-
+    msensor.data.push(xydata);
   }
 
+  console.log("------------------------sensorlistforchart -------------------- L: " + sensorlistforchart.length);
 
-  console.log("------------------------sensorlistforchart -------------------- L: "+ sensorlistforchart.length);
+  for (let i = 0; i < sensorlistforchart.length; i++) {
+    const newsensor = Sensordevice.createSensor(sensorlistforchart[i].stype, sensorlistforchart[i].nodeid, sensorlistforchart[i].channel, myAppGlobal);
 
-  for(let i=0;i<sensorlistforchart.length ;i++)
-  {
-   const newsensor= Sensordevice.createSensor(sensorlistforchart[i].stype,sensorlistforchart[i].nodeid,sensorlistforchart[i].channel, myAppGlobal);
-   
     chboxlist[i].label = newsensor.Name;
-    chboxlist[i].sensor =newsensor;
-   }
-
-
+    chboxlist[i].sensor = newsensor;
+  }
 
   return sensorlistforchart.length;
-
 }
 
-function Drawchart()
-{
-  
+function Drawchart() {
   dataChart = {
     labels: [],
     datasets: [],
   };
-
-  
-
-  
-
 
   let leftdatas = {
     type: "line",
@@ -206,29 +181,17 @@ function Drawchart()
     data: [],
   };
 
-
   console.log("Drawchart");
 
-
-  
-  for(let i=0;i<sensorlistforchart.length ; i++)
-  {
-    if(chboxlist[i].checked==true)
-    {
+  for (let i = 0; i < sensorlistforchart.length; i++) {
+    if (chboxlist[i].checked == true) {
       dataChart.datasets.push(sensorlistforchart[i]);
     }
-    
   }
-  
-  
-
-
-
 }
 
 const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
-  
 
   console.log("------------------------SensorDataChart--------------------");
 
@@ -246,15 +209,11 @@ const SensorDataChart = (props) => {
     setCheckeds(!bcheckeds);
   };
 
+  const scount = DecodeSensorbyDB(props.datas, props.isdaily);
 
-const scount =   DecodeSensorbyDB(props.datas);
-
-Drawchart();
+  Drawchart();
 
   //console.log(props.datas);
-
-
-
 
   let chlist = [];
 
@@ -298,7 +257,9 @@ Drawchart();
               borderRadius: 1,
             }}
           >
-            <FormLabel component="legend"> 센서를 선택하세요. </FormLabel>
+            <FormLabel component="legend">
+            <Typography variant="body2" color="textSecondary">센서를 선택하세요.</Typography>
+             </FormLabel>
 
             {chlist}
           </Box>

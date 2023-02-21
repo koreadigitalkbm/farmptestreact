@@ -198,6 +198,10 @@ module.exports = class DatabaseInterface {
        sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
       }
 
+      console.log("get table sqlquery : " + sqlquery);
+      
+
+
        this.conn.query(sqlquery, function (error, result) {
         console.log("get table dtata........ \n");
         //console.log(result);
