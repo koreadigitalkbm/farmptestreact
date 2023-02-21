@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box,Typography } from "@mui/material";
-
+import { Box, Typography } from "@mui/material";
 
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "react-chartjs-2";
@@ -40,8 +39,6 @@ let chboxlist = [
   { label: "l4", color: "#000010", key: "15", checked: false, sensor: null },
 ];
 
-let checkflgs = [true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
-
 let dataChart = {
   labels: [],
   datasets: [],
@@ -51,7 +48,7 @@ let sensorlistforchart = [];
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
-const optionChart = {
+let optionChart = {
   plugins: {
     legend: {
       display: false,
@@ -78,8 +75,6 @@ const optionChart = {
       },
     },
     "y-right": {
-      min: 0,
-      max: 100,
       type: "linear",
       display: true,
       position: "right",
@@ -160,46 +155,56 @@ function Drawchart() {
     datasets: [],
   };
 
-  let leftdatas = {
-    type: "line",
-    label: "온도ss",
-    yAxisID: "y-left",
-    pointStyle: "triangle",
-    pointRadius: 4,
-    borderColor: "rgb(24, 112, 235)",
-    borderWidth: 2,
-    data: [],
-  };
-
-  let rightdatas = {
-    type: "line",
-    label: "습도",
-    yAxisID: "y-right",
-    pointRadius: 4,
-    borderColor: "rgb(24, 200, 105)",
-    borderWidth: 2,
-    data: [],
-  };
-
   console.log("Drawchart");
 
+  let isleft = false;
+  let isright = false;
   for (let i = 0; i < sensorlistforchart.length; i++) {
-    if (chboxlist[i].checked == true) {
+    if (chboxlist[i].checked === true) {
+      sensorlistforchart[i].yAxisID = "y-left";
+
+      if (isleft === false) {
+        isleft = true;
+        const msensor = Sensordevice.createSensor(sensorlistforchart[i].stype, sensorlistforchart[i].nodeid, sensorlistforchart[i].channel, myAppGlobal);
+        optionChart.scales["y-left"].title.text = msensor.Name + "(" + msensor.ValueUnit + ")";
+        optionChart.scales["y-left"].title.color = chboxlist[i].color;
+      } else if (isright === false && isleft === true) {
+        isright = true;
+        const msensor = Sensordevice.createSensor(sensorlistforchart[i].stype, sensorlistforchart[i].nodeid, sensorlistforchart[i].channel, myAppGlobal);
+        optionChart.scales["y-right"].title.text = msensor.Name + "(" + msensor.ValueUnit + ")";
+        optionChart.scales["y-right"].title.color = chboxlist[i].color;
+        sensorlistforchart[i].yAxisID = "y-right";
+        optionChart.scales["y-right"].display = true;
+      }
+
+      sensorlistforchart[i].borderColor = chboxlist[i].color;
       dataChart.datasets.push(sensorlistforchart[i]);
     }
+  }
+
+  //차트가 한개라면 오른쪽 축 삭제
+  if (isright == false) {
+    optionChart.scales["y-right"].display = false;
   }
 }
 
 const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
 
-  console.log("------------------------SensorDataChart--------------------");
+  console.log("------------------------SensorDataChart-------------------- length:" + props.datas.length);
 
   useEffect(() => {
     console.log("-------------------------SensorDataChart  useEffect---------------------issetreq:");
   }, []);
 
-  //optionChart.scales["y-right"].title.text="hahahha";
+
+  if (props.datas.length == 0) {
+    return (
+      <Typography variant="body2" fontSize="large" color="secondary">
+                센서데이터가 없습니다.
+              </Typography>
+    );
+  }
 
   const handleChange = (event) => {
     console.log("------------------------handleChange--------------------event : " + event.target.name + ",ch:" + event.target.checked);
@@ -212,8 +217,6 @@ const SensorDataChart = (props) => {
   const scount = DecodeSensorbyDB(props.datas, props.isdaily);
 
   Drawchart();
-
-  //console.log(props.datas);
 
   let chlist = [];
 
@@ -228,6 +231,7 @@ const SensorDataChart = (props) => {
             onChange={handleChange}
             sx={{
               color: chboxlist[i].color,
+
               "&.Mui-checked": { color: chboxlist[i].color },
             }}
           />
@@ -243,7 +247,7 @@ const SensorDataChart = (props) => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
         <Grid item xs={9}>
-          <Line key="sensordataChart" data={dataChart} options={optionChart} />{" "}
+          <Line key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
         <Grid item xs={3}>
           <Box
@@ -258,8 +262,10 @@ const SensorDataChart = (props) => {
             }}
           >
             <FormLabel component="legend">
-            <Typography variant="body2" color="textSecondary">센서를 선택하세요.</Typography>
-             </FormLabel>
+              <Typography variant="body2" color="textSecondary">
+                센서를 선택하세요.
+              </Typography>
+            </FormLabel>
 
             {chlist}
           </Box>
