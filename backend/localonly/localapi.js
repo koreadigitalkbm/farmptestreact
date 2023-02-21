@@ -8,6 +8,9 @@ const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
 var exec = require("child_process").exec;
 
 
+const os = require("os");
+
+
 // import fetch from "node-fetch"; 
 const fetch = require("node-fetch");    // only work on Version2.xx, not working V3.x
 
