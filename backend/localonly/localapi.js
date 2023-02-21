@@ -223,9 +223,12 @@ module.exports = class LocalAPI {
 
     let cmdString = 'git pull ';    // 2023.02.20
     if (os.platform() !== "win32") {
-      cmdString = 'sudo git pull ';
+      cmdString = 'git fetch --all && git reset --hard && git pull';
     }
     
+
+    
+
     child = exec( cmdString, function (error, stdout, stderr) {
       console.log("stdout pull: " + stdout);
       console.log("stderr: " + stderr);
