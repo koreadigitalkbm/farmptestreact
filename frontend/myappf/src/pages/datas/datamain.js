@@ -119,7 +119,17 @@ const DataMainPage = (props) => {
             author: imglist[i].ctype,
           };
           let timeimg = new Date(imglist[i].dtime);
-          newimg.title = timeimg.toLocaleString();
+          if (isdaily === true)
+          {
+            newimg.title = KDUtil.dateTostringshottime(timeimg);
+          }
+          else
+          {
+              newimg.title = timeimg.toLocaleString();
+          }
+
+
+          
 
           cmeraimglist.push(newimg);
         }

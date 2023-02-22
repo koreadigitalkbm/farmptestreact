@@ -10,19 +10,6 @@ import DatePicker from "react-datepicker";
 import { forwardRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import KDUtil from "../../commonjs/kdutil";
-import MuiCustomDatePicker from "../pages/components/muiDatePicker";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
 
 export default function DatePickerBar(props) {
   const oneDay = 86400000;
@@ -31,18 +18,9 @@ export default function DatePickerBar(props) {
   const isdaily = props.isdaily;
   const onChange = props.onchangedaliy;
 
-  const [openDatePicker, setOpenDatePicker] = useState(false);
-
   const [curdate, setcurdate] = useState(props.dayDate);
-
   const [startdate, setStartdate] = useState(props.startDate);
   const [enddate, setEnddate] = useState(props.endDate);
-
-
-  const label = "조회방식 선택하세요.";
-
-
-  const period_string = KDUtil.dateTostringforme(enddate, true, false) + " ~ " + KDUtil.dateTostringforme(startdate, true, false);
 
   function onClickday(e) {
     let curday;
@@ -61,10 +39,10 @@ export default function DatePickerBar(props) {
         break;
       case "startday":
         setStartdate(e.currentTarget.date);
-        break;
+        return;
       case "endday":
         setEnddate(e.currentTarget.date);
-        break;
+        return;
 
       case "searchday":
         onGetdb(startdate, enddate);
@@ -74,14 +52,13 @@ export default function DatePickerBar(props) {
         return;
     }
     let utcnow = new Date();
+    utcnow = new Date(utcnow.getFullYear(), utcnow.getMonth(), utcnow.getDate(), 23, 59, 59);
     //현재날자보다는 작아야함.
-
-    if (curday <= utcnow) {
+    if (curday <= utcnow.getTime()) {
       setcurdate(curday);
       onGetdb(new Date(curday), new Date(curday));
     }
   }
-  function handleDatePicker() {}
 
   function handleDatepicker(dtype, date) {
     console.log(date);

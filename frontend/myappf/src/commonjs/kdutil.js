@@ -139,6 +139,18 @@ module.exports = class KDUtil {
     return "en-US";
   }
 
+  static dateTostringshottime(mdate) 
+  {
+    const d = new Date(mdate);
+    return ( d.getHours() + ":" + d.getMinutes());
+  }
+
+  static dateTostringshotdate(mdate) 
+  {
+    const d = new Date(mdate);
+    return (d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate()+" "+d.getHours() + ":" + d.getMinutes());
+  }
+
   static dateTostringforme(mdate, isdate, istime) {
     let timestr = "";
     if (mdate != null) {
