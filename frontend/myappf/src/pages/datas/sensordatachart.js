@@ -244,9 +244,9 @@ const SensorDataChart = (props) => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1  }}>
       <Grid container spacing={1}>
-        <Grid item xs={9}>
+        <Grid item xs={9} minHeight={300}>
           <Line key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
         <Grid item xs={3}>

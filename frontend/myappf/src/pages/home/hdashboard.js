@@ -9,6 +9,8 @@ import myAppGlobal from "../../myAppGlobal";
 import ActuatorDisplay from "./actuatordisplay";
 import Systemeventdisplay from "./systemeventdisplay";
 import DashboardChart from "./dashboardchart";
+import EventListView from "../datas/eventlistview";
+import KDUtil from "../../commonjs/kdutil";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
@@ -106,14 +108,30 @@ const HDashboard = () => {
                 }
               }
 
+              function createData(date, type, content) {
+                return {
+                  date,
+                  type,
+                  content,
+                };
+              }
+
               if (isupdateevent === true) {
                 lasteventtime = revlasttime;
                 console.log("update event : " + Date(lasteventtime) + " lenth : " + eventlist.length);
                 eventlistTime = [];
                 for (let i = 0; i < eventlist.length; i++) {
-                  eventlistTime.push(eventlist[eventlist.length - i - 1]);
+                  let newobj = eventlist[eventlist.length - i - 1];
+                  const etime= new Date(newobj.EDate);
+                  eventlistTime.push(createData(etime.toLocaleString(), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
+              //    eventlistTime.push(eventlist[eventlist.length - i - 1]);
                   //  console.log(eventlist[eventlist.length - i - 1]);
                 }
+
+                
+
+
+
                 setEvents(eventlistTime);
               }
             }
@@ -184,17 +202,30 @@ const HDashboard = () => {
 
   //이벤트가 변경될때만 렌더링되도록
   const eventbox = useMemo(() => {
-    return <Systemeventdisplay mevtlist={mevnetarray} />;
+    return <EventListView  dataSet={mevnetarray}  isdash={true}/>;
   }, [mevnetarray]);
 
   const chartbox = useMemo(() => {
     return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime}  />;
   }, [mdailysensorarray, msensorlasttime]);
+  const d = new Date(msensorlasttime);
+  const lastime="최근측정시간:   "+ d.toLocaleString();
+
+  
 
   return (
     
     <Box sx={{ flexGrow: 1 }}>
     <Grid container spacing={1} >
+    <Grid item xs={12} md={12}>
+    <Typography variant="body2" fontSize="30" color="#0d47a1">
+    {lastime}
+                    </Typography>
+     
+        
+      </Grid>
+    
+
       <Grid item xs={8} >
       {chartbox}
       </Grid>
@@ -211,6 +242,7 @@ const HDashboard = () => {
         </Grid>
         <Grid item xs={12} md={12}>
         {eventbox}
+        
         </Grid>
     </Grid>
     </Box>

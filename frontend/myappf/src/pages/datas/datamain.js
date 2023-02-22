@@ -226,7 +226,7 @@ const DataMainPage = (props) => {
             <ShowVerticalImages imageSet={camimages} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <EventListView  dataSet={mevnetarray} />
+            <EventListView  dataSet={mevnetarray} isdash={false}/>
           </Grid>
         </Grid>
       </Box>

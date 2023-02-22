@@ -201,20 +201,11 @@ const DashboardChart = (props) => {
   //optionChart.scales["y-right"].title.text="hahahha";
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <Box
-        sx={{
-          height: 300,
-          width: 800,
-          minHeight: { xs: 200, md: 167 },
-          minWidth: { xs: 400, md: 250 },
-          background: "#ffffff",
-        }}
-      >
-        {"시간: "}
-        { KDUtil.dateTostringforme(props.lasttime,true, true)}
+    <Box sx={{ display: "flex" ,  height: 300}}>
+    
+        
         <Line key="dashboardChart" data={dataChart} options={optionChart} />{" "}
-      </Box>
+     
     </Box>
   );
 };

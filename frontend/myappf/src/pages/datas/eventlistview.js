@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { IconButton, Typography, Card, CardHeader, Checkbox, FormControlLabel, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from "@mui/material";
+import React, { useState } from "react";
+import { Box, IconButton, Typography, Card, CardHeader, Checkbox, FormControlLabel, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from "@mui/material";
 
 import AddchartIcon from "@mui/icons-material/Addchart";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -22,10 +22,16 @@ export default function EventListView(props) {
   const [rowsPerPage, setRowsPerPage] = useState(1000);
   const [bcheckeds, setCheckeds] = useState(true);
   const rows = props.dataSet;
+  const isdashpage = props.isdash;
 
-  let htitle = "이벤트 목록입니다.";
+  console.log("------------------------EventListView-------------------- ");
+
   if (rows.length <= 0) {
-    htitle = "이벤트 데이터가 없습니다.";
+    return (
+      <Typography variant="body2" fontSize="large" color="secondary">
+        이벤트 데이터가 없습니다.
+      </Typography>
+    );
   }
 
   const handleChangePage = (event, newPage) => {
@@ -45,35 +51,37 @@ export default function EventListView(props) {
     setCheckeds(!bcheckeds);
   };
 
+  function isdatapage() {
+    if (isdashpage == true) {
+      return null;
+    }
+
+    return (
+      <React.Fragment>
+        <IconButton aria-label="fingerprint" color="secondary">
+          <AddchartIcon />
+        </IconButton>
+        <IconButton aria-label="AddchartIcon" color="secondary">
+          <FileDownloadIcon />
+        </IconButton>
+      </React.Fragment>
+    );
+  }
+
   return (
     <Card sx={{ minWidth: 100, backgroundColor: "#eceff1" }}>
-      <CardHeader
-        title={
-          <Typography variant="body2" fontSize="large" color="secondary">
-            {htitle}
-          </Typography>
-        }
-      />
-
       <Paper sx={{ width: "100%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell align="left" colSpan={1}>
+                <TableCell align="left" colSpan={3} sx={{ backgroundColor: "#eceff1" }}>
                   <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["system"].checked} name={"system"} key="s1" onChange={handleChange} />} label="시스템" />
                   <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["device"].checked} name={"device"} key="s2" onChange={handleChange} />} label="구동장비" />
                   <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["autocontrol"].checked} key="s3" name={"autocontrol"} onChange={handleChange} />} label="자동제어" />
                   <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["etc"].checked} key="s4" name={"etc"} onChange={handleChange} />} label="기타" />
-                </TableCell>
-                <TableCell align="right" colSpan={3}>
-                  <IconButton aria-label="fingerprint" color="secondary">
-                    <AddchartIcon />
-                  </IconButton>
 
-                  <IconButton aria-label="AddchartIcon" color="secondary">
-                    <FileDownloadIcon />
-                  </IconButton>
+                  {isdatapage()}
                 </TableCell>
               </TableRow>
               <TableRow>
