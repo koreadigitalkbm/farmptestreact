@@ -14,7 +14,8 @@
     "node-fetch": "^2.6.9",
     "nodemon": "^2.0.20",
     "os": "^0.1.2",
-    "pi-camera": "^1.7.0"
+    "pi-camera": "^1.7.0",
+    "ping": "^0.4.2"
   },
   "devDependencies": {}
 }
