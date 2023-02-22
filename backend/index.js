@@ -1,9 +1,16 @@
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
-const farmscubeplatformversion = 1.786;
+const farmscubeplatformversion = 1.787;
 
 var express = require("express");
 var cors = require("cors");
 const os = require("os");
+
+
+// npm install 테스트용
+var ping = require('ping');
+var hosts = ['192.168.1.1', 'google.com', 'yahoo.com'];
+
+
 
 const LocalMain = require("./localonly/localmain");
 const ServerMain = require("./serveronly/servermain");
@@ -58,3 +65,13 @@ var server = app.listen(8877, function () {
 
 console.log("islocalconnect : " + mMainclass + ",farmscbeplatformversion : " + farmscubeplatformversion );
 
+setInterval( async () => {
+  console.log( 'current version is : ', farmscubeplatformversion)
+
+  hosts.forEach( async function (host) {
+    await ping.promise.probe(host)
+        .then(function (res) {
+            console.log(res);
+        });
+  });
+}, 5000 );
