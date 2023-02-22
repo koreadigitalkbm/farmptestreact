@@ -7,8 +7,8 @@ const os = require("os");
 
 
 // npm install 테스트용
-var ping = require('ping');
-var hosts = ['192.168.1.1', 'google.com', 'yahoo.com'];
+//var ping = require('ping');
+//var hosts = ['192.168.1.1', 'google.com', 'yahoo.com'];
 
 
 
@@ -64,7 +64,7 @@ var server = app.listen(8877, function () {
 
 
 console.log("islocalconnect : " + mMainclass + ",farmscbeplatformversion : " + farmscubeplatformversion );
-
+/*
 setInterval( async () => {
   console.log( 'current version is : ', farmscubeplatformversion)
 
@@ -75,3 +75,4 @@ setInterval( async () => {
         });
   });
 }, 5000 );
+*/
