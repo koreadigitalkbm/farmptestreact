@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink, Routes, Route,useNavigate  } from "react-router-dom";
-import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography,IconButton } from "@mui/material";
+import { Link as RouterLink, Routes, Route, useNavigate } from "react-router-dom";
+import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography, IconButton } from "@mui/material";
 import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
 
 import HomePage from "./HomePage";
@@ -18,21 +18,18 @@ import DataMainPage from "./datas/datamain";
 
 import { useTranslation } from "react-i18next";
 
-const navMenu = ["Home", "Autocontrol", "Data"];
-const dropMenu = ["Data2","Setting", "Sensor", "Control", "Setup"];
-
+const dropMenu = ["Data2", "Setting", "Sensor", "Control", "Setup"];
 
 export default function FMainpage(props) {
   const { t } = useTranslation();
   const [loadinfo, setLoadinfo] = useState("init");
-  const [navItems, setNavItems] = useState({});
+
   const [dropItems, setDropItems] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
 
   const open = Boolean(anchorEl);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
-
 
   function logoutbuttonHandler(e) {
     props.mhandler(null, null);
@@ -65,15 +62,12 @@ export default function FMainpage(props) {
   }
 
   useEffect(() => {
-    let navItems = {};
     let dropItems = {};
-    navMenu.map((e) => (navItems[e] = t(e)));
     dropMenu.map((e) => (dropItems[e] = t(e)));
     setDropItems(dropItems);
-    setNavItems(navItems);
+
     // 로그인되면 무조건 홈화면으로 가게
     navigate("/");
-
 
     console.log("-------------------------FMainpage --------------------- useEffect:");
 
@@ -112,15 +106,12 @@ export default function FMainpage(props) {
     console.log("---------------------------- loadpage loadinfo: " + loadinfo);
     switch (loadinfo) {
       case "init":
-        
         return <div>장치를 정보를 읽어옵니다. </div>;
       case "loadauto":
         return <div>자동제어 정보를 읽어옵니다. </div>;
       case "error":
         return <div>장치에 연결할 수 없습니다. </div>;
       default:
-        
-        
         break;
     }
 
@@ -133,76 +124,70 @@ export default function FMainpage(props) {
         <Route path="/Data2" element={<DataPage />} />
         <Route path="/Setting" element={<SettingPage />} />
 
-        
         <Route path="/autocontrol" element={<Autocontrolpage />} />
         <Route path="/setup" element={props.loginrol === "factoryadmin" ? <FactorySetup {...props} /> : <SetupPage {...props} />} />
       </Routes>
     );
   }
 
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
       <AppBar component="nav">
-        <Toolbar  >
-          <img src="/image/farmscube_logo_small48.png" ></img>
-           
+        <Toolbar>
+          <img src="/image/farmscube_logo_small48.png"></img>
 
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
-            FamsCube
+            {" "}
+            FamsCube{" "}
           </Typography>
 
-          <Button component={RouterLink} to={"Home"} color="inherit"> <Home />{t("Home")}</Button>
-          <Button component={RouterLink} to={"Autocontrol"} color="inherit"> <LocalFlorist />{t("Autocontrol")}</Button>
-          <Button component={RouterLink} to={"Data"} color="inherit"> <FindInPage />{t("Data")}</Button>
+          <Button component={RouterLink} to={"Home"} color="inherit">
+            <Home />
+            {t("Home")}
+          </Button>
+          <Button component={RouterLink} to={"Autocontrol"} color="inherit">
+            <LocalFlorist />
+            {t("Autocontrol")}
+          </Button>
+          <Button component={RouterLink} to={"Data"} color="inherit"><FindInPage />{t("Data")}</Button>
 
-
-
-          
-
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-          
           <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
-            <Menu
-              elevation={0}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              id="nav-dropmenu-list"
-              MenuListProps={{
-                "aria-labelledby": "nav-dropmenu-button",
-              }}
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleNavmenuClose}
-            >
-              {dropMenu.map((item) => (
-                <MenuItem component={RouterLink} key={item} to={item} onClick={handleNavmenuClose}>
-                  <Navicon id={item} />
-                  &nbsp;{dropItems[item]}
-                </MenuItem>
-              ))}
-              <MenuItem onClick={logoutbuttonHandler}>
-                <Navicon id="Logout" />
-                &nbsp;{t("SignOut")}
+          <Menu
+            elevation={0}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            id="nav-dropmenu-list"
+            MenuListProps={{
+              "aria-labelledby": "nav-dropmenu-button",
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleNavmenuClose}
+          >
+            {dropMenu.map((item) => (
+              <MenuItem component={RouterLink} key={item} to={item} onClick={handleNavmenuClose}>
+                <Navicon id={item} />
+                &nbsp;{dropItems[item]}
               </MenuItem>
-            </Menu>
-          </Box>
-        
-
+            ))}
+            <MenuItem onClick={logoutbuttonHandler}>
+              <Navicon id="Logout" />
+              &nbsp;{t("SignOut")}
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
 
       <Box component="main" sx={{ mx: "auto", p: 1 }}>
         <Toolbar />
-
         {loadpage()}
       </Box>
     </Box>
