@@ -1,5 +1,5 @@
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
-const farmscubeplatformversion = 1.786;
+const farmscubeplatformversion = 1.787;
 
 var express = require("express");
 var cors = require("cors");
@@ -57,4 +57,9 @@ var server = app.listen(8877, function () {
 
 
 console.log("islocalconnect : " + mMainclass + ",farmscbeplatformversion : " + farmscubeplatformversion );
+
+setInterval(() => {
+  console.log( 'current version is : ', farmscubeplatformversion)
+}, 5000 );
+
 
