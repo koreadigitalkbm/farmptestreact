@@ -1,13 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
-import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import {  Box,  Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
-
-
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
 import ActuatorDisplay from "./actuatordisplay";
-import Systemeventdisplay from "./systemeventdisplay";
 import DashboardChart from "./dashboardchart";
 import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";

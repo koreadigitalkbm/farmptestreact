@@ -132,7 +132,7 @@ export default function DatePickerBar(props) {
   }
 
   return (
-    <Grid container spacing={1} sx={{ backgroundColor: "#e3f2fd" }} padding={1}>
+    <Grid container spacing={1} sx={{ backgroundColor: "#eceff1" }} padding={1}>
       <Grid item xs={3}>
         <FormControl>
           <FormLabel id={"f-label"}>

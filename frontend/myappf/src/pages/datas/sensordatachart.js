@@ -249,7 +249,7 @@ const SensorDataChart = (props) => {
         <Grid item xs={9} minHeight={300}>
           <Line key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} padding={1}>
           <Box
             sx={{
               display: "flex",
@@ -257,7 +257,7 @@ const SensorDataChart = (props) => {
               flexDirection: "column",
               p: 1,
               m: 1,
-              bgcolor: "background.paper",
+              bgcolor: "#eceff1",
               borderRadius: 1,
             }}
           >
