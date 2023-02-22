@@ -147,6 +147,7 @@ export default function FMainpage(props) {
 
       <AppBar component="nav">
         <Toolbar align="right" >
+        <Button color="inherit">Login</Button>
             <img src="/image/farmscube_logo_small48.png" width={16} ></img>
            
 
