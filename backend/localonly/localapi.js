@@ -8,6 +8,9 @@ const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
 var exec = require("child_process").exec;
 
 
+const os = require("os");
+
+
 // import fetch from "node-fetch"; 
 const fetch = require("node-fetch");    // only work on Version2.xx, not working V3.x
 
@@ -222,8 +225,8 @@ module.exports = class LocalAPI {
     console.log("softwareupdatefromgit  up1:");
 
     let cmdString = 'git pull ';    // 2023.02.20
-    if (os.platform() !== "win32") {
-      cmdString = 'git fetch --all && git reset --hard && git pull';
+    if (process.platform !== "win32") {
+      cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
     }
     
 
