@@ -154,14 +154,13 @@ export default function FMainpage(props) {
             FamsCube
           </Typography>
 
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-          {navMenu.map((item) => (
-              <Button component={RouterLink} key={item} sx={{ color: "#fff" }} to={item}>
-                <Navicon id={item} />
-                &nbsp;{navItems[item]}
-              </Button>
-            ))}
-            <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
+          <Button component={RouterLink} to={"Home"} color="inherit"> <Home />{t("Home")}</Button>
+          <Button component={RouterLink} to={"Autocontrol"} color="inherit"> <LocalFlorist />{t("Autocontrol")}</Button>
+          <Button component={RouterLink} to={"Data"} color="inherit"> <FindInPage />{t("Data")}</Button>
+
+
+
+          <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
             <Menu
               elevation={0}
               anchorOrigin={{
@@ -191,14 +190,12 @@ export default function FMainpage(props) {
                 &nbsp;{t("SignOut")}
               </MenuItem>
             </Menu>
+            
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          
+            
           </Box>
-          <Button component={RouterLink} to={"Home"} color="inherit">Loginsff
-          <FindInPage />
-          </Button>
-
-          <IconButton aria-label="fingerprint" color="secondary">
-                    <FindInPage />
-                  </IconButton>
+        
 
         </Toolbar>
       </AppBar>
