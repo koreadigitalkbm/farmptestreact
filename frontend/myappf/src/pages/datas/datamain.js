@@ -5,15 +5,16 @@ import DBQueryParam from "../../commonjs/dbqueryparam";
 import SensorDataChart from "./sensordatachart";
 import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
-import Systemeventdisplay from "../home/systemeventdisplay";
+
 import { Buffer } from "buffer";
-import TitlebarBelowImageList from "./Himagedisplay";
+
 import { ThemeProvider } from "@mui/material";
 import muiTheme from "../muiTheme";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-import TableEventSystem from "../pages/components/tableEventSystem";
+
+import EventListView from "./eventlistview";
 import ShowVerticalImages from "../pages/components/showVerticalImages";
 import DatePickerBar from "./datepickerbar";
 
@@ -162,8 +163,9 @@ const DataMainPage = (props) => {
               EParam: paramobj2,
             };
 
-            sevents.push(createData(newobj.EDate, newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
-            // console.log(elist[i]);
+            const etime= new Date(newobj.EDate);
+            sevents.push(createData(etime.toLocaleString(), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
+             //console.log(elist[i]);
             // console.log(newobj);
           }
         }
@@ -180,12 +182,7 @@ const DataMainPage = (props) => {
     });
   }
 
-  // 표 헤더 정의. key값으로써 i18n으로 변환될 수 있어야 함.
-  const tableHeader = ["date", "type", "content"];
-
-  // 표에서 필터링할 행 정의. 아직 미구현
-  const tableFilter = "type";
-
+  
   // 헤더에 맞춰서 표 내용을 Object로 만들어줌.
   function createData(date, type, content) {
     return {
@@ -229,7 +226,7 @@ const DataMainPage = (props) => {
             <ShowVerticalImages imageSet={camimages} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <TableEventSystem tableHeader={tableHeader} tableFilter={tableFilter} dataSet={mevnetarray} />
+            <EventListView  dataSet={mevnetarray} />
           </Grid>
         </Grid>
       </Box>

@@ -95,6 +95,13 @@ static PModel = Object.freeze({
     OPS_Idle: "idle",
   });
 
+  //구동기 자동수동 
+  static OPMode = Object.freeze({
+    OPM_Manual: "ma", //수동
+    OPM_Auto: "at", //자동
+    OPM_Local: "lc", //현장수동
+  });
+
   static OutDeviceTypeEnum = Object.freeze({
     ODT_RELAY: 0, // 단순접점
     ODT_PUMP: 1, //
@@ -214,6 +221,9 @@ static PModel = Object.freeze({
     AST_Up_Idle: 10005, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
     AST_Off_finish: 10010, // 제어종료 장비를 off 하고 끝냄
     AST_Init: 10020, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
+
+    AST_AutoToMa: 20011, //자동제어에서 수동제어 변경
+    AST_MaToAuto: 20022, //수동제어에서 자동제어 변경
         
   });
 

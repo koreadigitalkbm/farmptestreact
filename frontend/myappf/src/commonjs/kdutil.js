@@ -88,7 +88,22 @@ module.exports = class KDUtil {
           let autoinfo = KDUtil.GetAutoconfigfromid(mEvent.EParam.autoid, myGlobal);
           if (autoinfo != null) {
             const statestr = myGlobal.langT(ActuatorStatus.stateToStringID(mEvent.EParam.state));
-            strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_BASIC"), autoinfo.Name, statestr);
+
+            switch(mEvent.EParam.state)
+            {
+              case KDDefine.AUTOStateType.AST_AutoToMa:
+                strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_ATM"), autoinfo.Name, statestr);
+                break;
+            case KDDefine.AUTOStateType.AST_MaToAuto:
+              strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_MTA"), autoinfo.Name, statestr);
+                break;
+
+              default:
+                
+                strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_BASIC"), autoinfo.Name, statestr);
+                break;
+            }
+            
           }
         }
 

@@ -4,6 +4,8 @@ const KDCommon = require("../kdcommon");
 const AutoControlUtil = require("../../frontend/myappf/src/commonjs/autocontrolutil");
 const KDDefine          = require("../../frontend/myappf/src/commonjs/kddefine");
 const AutoControl = require("./autocontrol");
+const SystemEvent = require("./systemevent");
+
 
 
 
@@ -70,7 +72,21 @@ module.exports = class AutoControlInterface {
         //설정이 변경되면 내용만 복사하고 상태는 초기화한다. 다시 제어되도록
         this.mAutoControllist[i] = new AutoControl(isonlyoneitem);
         isnew = false;
-        console.log("AutocontrolUpdat: " + isonlyoneitem.Uid + ",name : " + ma.mConfig.Name);
+        console.log("AutocontrolUpdat: " + isonlyoneitem.Uid + ",name : " + ma.mConfig.Name + "new  enb: "+this.mAutoControllist[i].mConfig.Enb);
+
+        //자동에서 수동으로 바뀌면 구동기를 수동제어로 변경
+        if(ma.mConfig.Enb == true &&   this.mAutoControllist[i].mConfig.Enb ==false)
+        {
+          const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoToMa);
+          this.mMain.setSystemevent(newevent);
+        }
+        if(ma.mConfig.Enb == false &&   this.mAutoControllist[i].mConfig.Enb ==true)
+        {
+          const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_MaToAuto);
+          this.mMain.setSystemevent(newevent);
+        }
+
+
 
         break;
         

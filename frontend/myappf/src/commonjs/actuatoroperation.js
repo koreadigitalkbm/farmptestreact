@@ -7,7 +7,7 @@ module.exports = class ActuatorOperation {
     this.Timesec = ontime;
     this.Param = 0;
     this.Opid = KDUtil.GetOPIDRandom();// 초기화 생성시 OPID 랜덤하게 생성 중복되지않게 중복되면 실행안될수도 있음, 같은값으로 초기화되면 시스템 리셋시 동일한값이므로 명령어 실행안될수 있음.
-    this.Opmode = "MA"; //기본수동
+    this.Opmode = KDDefine.OPMode.OPM_Manual; //기본수동
     this.Uid = mniqid;
     if (ison == true) {
       this.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On;

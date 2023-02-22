@@ -1,15 +1,14 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
-import { Box, Button, IconButton, Modal, Stack, Typography } from "@mui/material";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-
 import Grid from "@mui/material/Grid";
 import DatePicker from "react-datepicker";
 import { forwardRef } from "react";
-import "react-datepicker/dist/react-datepicker.css";
-import KDUtil from "../../commonjs/kdutil";
+
+
 
 export default function DatePickerBar(props) {
   const oneDay = 86400000;
@@ -62,14 +61,12 @@ export default function DatePickerBar(props) {
 
   function handleDatepicker(dtype, date) {
     console.log(date);
-
     const e = {
       currentTarget: {
         name: dtype,
         date: date,
       },
     };
-
     onClickday(e);
   }
 

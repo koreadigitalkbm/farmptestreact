@@ -26,7 +26,9 @@
     "LT_SYSTEM_EVENT_3": "The {0} sensor is disconnected.",
 
     "LT_AUTO_EVENT_BASIC": "The [{0}] Control status changed to {1}.",
-
+    "LT_AUTO_EVENT_ATM": "[{0}] Automatic control mode has been changed from automatic to manual.",
+    "LT_AUTO_EVENT_MTA": "[{0}] Automatic control mode has been changed from manual to automatic.",
+    
 
 
     "LT_ACT_STATE_ON": "On",

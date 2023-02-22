@@ -38,6 +38,8 @@ module.exports = class AutoControl {
     let offsectime;
     let onsectime;
 
+    //console.log("-getStateByTimercondition daytotalsec : " + daytotalsec  + " mConfig Name: "+this.mConfig.Name);
+
     if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
       //주간
       offsectime = this.mConfig.DOffTime;
@@ -50,6 +52,7 @@ module.exports = class AutoControl {
 
     this.OnSecTime = Number(onsectime);
 
+    //off 시간이 0이면 1회만 구동하는 방식임.
     if (offsectime == 0) {
       if (this.PWMonoffstate == false) {
         this.PWMonoffstate = true;
@@ -61,7 +64,7 @@ module.exports = class AutoControl {
 
       //자정이 넘어가면
       if (this.PWMLasttoltalsec > daytotalsec) {
-        this.PWMLasttoltalsec = this.PWMLasttoltalsec - 24 * 3600;
+        this.PWMLasttoltalsec = this.PWMLasttoltalsec - (24 * 3600);
       }
 
       if (this.PWMonoffstate == false) {
@@ -446,11 +449,14 @@ module.exports = class AutoControl {
       let starttimemin = this.mConfig.STime / 60;
       let intervalmin = 1440 / Number(this.mConfig.DTValue);
       intervalmin=intervalmin.toFixed();
+
+      console.log("getOperationsforcamera ---------------intervalmin:  " + intervalmin +" starttimemin:" + starttimemin + " timeminnow:"+ timeminnow);
+
       for (let i = 0; i <= 1440; i += intervalmin) {
         let timestep = starttimemin + i;
         timestep =( timestep >= 1440)?  (timestep - 1440 ): timestep;
         if (timeminnow == timestep) {
-          console.log("getOperationsforcamera ---------------capture:  " + this.mConfig.Actlist[0]);
+           console.log("getOperationsforcamera ---------------timeminnow:  " + timeminnow + " timestep:" + timestep);
            oplist.push(this.mConfig.Actlist[0]);
            return oplist;
         }

@@ -114,7 +114,7 @@ module.exports = class ActuatorInterface {
   setcontrolbychannel(opchannel, mcmd, mtimesec) {
     for (const actd of this.Actuators) {
       if (actd.Basicinfo.Channel === opchannel) {
-        actd.AOperation.setoperation(mcmd, mtimesec, 0, "MA");
+        actd.AOperation.setoperation(mcmd, mtimesec, 0, KDDefine.OPMode.OPM_Manual);
       }
     }
   }
@@ -207,13 +207,13 @@ module.exports = class ActuatorInterface {
     if (manualoperation.Opcmd == KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave) {
       this.cameraoperation(manualoperation);
     } else {
-      this.setACToperation(manualoperation, "MA");
+      this.setACToperation(manualoperation, KDDefine.OPMode.OPM_Manual);
     }
   }
   //자동제어
   setoperationAuto(autooperationlist) {
     for (const mopcmd of autooperationlist) {
-      this.setACToperation(mopcmd, "AT");
+      this.setACToperation(mopcmd, KDDefine.OPMode.OPM_Auto);
     }
   }
 

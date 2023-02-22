@@ -6,7 +6,7 @@ module.exports = class ActuatorStatus{
             this.Rmt = 0;
             this.Opid = 0;
             this.Uid = muid;
-            this.Opm = "MA";// 구동 모두  MA:수동 AT: 자동  LM:현장수동
+            this.Opm = KDDefine.OPMode.OPM_Manual;// 구동 모두  MA:수동 AT: 자동  LM:현장수동
               
         }
         static makeactuatoruniqid(nodeid, channel,hwtype)
@@ -37,6 +37,7 @@ module.exports = class ActuatorStatus{
                 case KDDefine.AUTOStateType.AST_Off_finish:
                     strid="LT_ACT_STATE_OFF";
                 break;
+              
 
 
                 case KDDefine.ONOFFOperationTypeEnum.OPT_Off:

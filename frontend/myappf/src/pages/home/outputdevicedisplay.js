@@ -2,6 +2,7 @@ import React from "react";
 
 import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
+import KDDefine from "../../commonjs/kddefine";
 
 
 function outputdevbox(mydata, isonlystatus, index) {
@@ -25,7 +26,7 @@ function outputdevbox(mydata, isonlystatus, index) {
         <span className="blinking">현장제어중</span>
       </div>
     );
-  } else if (mydata.Opm == "MA") {
+  } else if (mydata.Opm == KDDefine.OPMode.OPM_Manual) {
     if (isonlystatus == true) {
       ismanual = <div className="out_result">정지(수동)</div>;
     } 
