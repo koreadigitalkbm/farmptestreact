@@ -16,7 +16,8 @@ export default function ShowVerticalImages(props) {
     }
     
     return (
-        <Card sx={{ width:800,   maxWidth: '100%',  backgroundColor: '#eceff1' }}>
+        <Card sx={{ width:window.innerWidth,   maxWidth: '100%',  backgroundColor: '#eceff1' }}>
+            
             <ImageList sx={{
                 gridAutoFlow: "column",
                 gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr)) !important",

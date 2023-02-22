@@ -70,6 +70,7 @@ export default function EventListView(props) {
 
   return (
     <Card sx={{ minWidth: 100, backgroundColor: "#eceff1" }}>
+      { window.innerWidth}
       <Paper sx={{ width: "100%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table stickyHeader aria-label="sticky table">
