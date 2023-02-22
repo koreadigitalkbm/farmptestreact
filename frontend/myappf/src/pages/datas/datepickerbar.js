@@ -1,7 +1,7 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import { useState } from "react";
+import React,{ useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Grid from "@mui/material/Grid";
@@ -110,15 +110,22 @@ export default function DatePickerBar(props) {
           </Typography>
 
           {issearching == true ? (
-            <CircularProgress />
+            <React.Fragment>
+            <CircularProgress color="secondary" />
+            <Typography align="center" fontSize="small" color="secondary" >
+            데이터 검색중...
+          </Typography>
+          </React.Fragment>
           ) : (
             <IconButton name="searchday" onClick={onClickday}>
               {issearching == true ? null : <QueryStatsIcon fontSize="large" color="secondary" />}
+              <Typography align="center" fontSize="small" color="secondary" >
+            데이터 검색
+          </Typography>
+
             </IconButton>
           )}
-          <Typography align="center" fontSize="small">
-            데이터를 조회합니다.
-          </Typography>
+          
           <Typography align="center">
             <DatePicker value={enddate} selected={enddate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("endday", date)} />
             <br />{" "}
@@ -135,19 +142,24 @@ export default function DatePickerBar(props) {
     <Grid container spacing={1} sx={{ backgroundColor: "#eceff1" }} padding={1}>
       <Grid item xs={3}>
         <FormControl>
+          
+          <RadioGroup row aria-labelledby={"rg-label"} name={"rg-name"} onChange={onChange}>
+            <FormControlLabel checked={isdaily} value={"하루(1일)"} label={"하루(1일)"} control={<Radio />} />
+            <FormControlLabel checked={!isdaily} value={"기간(60일)"} label={"기간(60일)"} control={<Radio />} />
+          </RadioGroup>
           <FormLabel id={"f-label"}>
             <Typography align="left" fontSize="small">
               {"검색방식을 선택하세요."}
             </Typography>
           </FormLabel>
-          <RadioGroup row aria-labelledby={"rg-label"} name={"rg-name"} onChange={onChange}>
-            <FormControlLabel checked={isdaily} value={"하루(1일)"} label={"하루(1일)"} control={<Radio />} />
-            <FormControlLabel checked={!isdaily} value={"기간(60일)"} label={"기간(60일)"} control={<Radio />} />
-          </RadioGroup>
+
         </FormControl>
       </Grid>
-      <Grid item xs={8} sx={{ backgroundColor: "#ffffff" }}>
+      <Grid item xs={6} sx={{ backgroundColor: "#ffffff" }}>
         {pickertype()}
+      </Grid>
+      <Grid item xs={3} sx={{ backgroundColor: "#ffffff" }}>
+        ---
       </Grid>
     </Grid>
   );
