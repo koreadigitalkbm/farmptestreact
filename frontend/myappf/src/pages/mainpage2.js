@@ -193,6 +193,8 @@ export default function FMainpage(props) {
               </MenuItem>
             </Menu>
           </Box>
+          <Button color="inherit">Logins</Button>
+
         </Toolbar>
       </AppBar>
 
