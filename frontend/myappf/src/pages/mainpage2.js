@@ -90,6 +90,7 @@ export default function FMainpage(props) {
           myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
             if (ret == null) {
               //자동제어가 없다. 이럴경우 어케하지..
+              setLoadinfo("error");
             } else {
               myAppGlobal.Autocontrolcfg = ret.retParam;
               myAppGlobal.Autocontrolcfg.map(function (item) {
@@ -145,14 +146,16 @@ export default function FMainpage(props) {
       <CssBaseline />
 
       <AppBar component="nav">
-        <Toolbar>
-            <img src="/image/farmscube_logo_small48.png"  ></img>
+        <Toolbar align="right" >
+            <img src="/image/farmscube_logo_small48.png" width={16} ></img>
+           
+
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             FamsCube
           </Typography>
 
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navMenu.map((item) => (
+          {navMenu.map((item) => (
               <Button component={RouterLink} key={item} sx={{ color: "#fff" }} to={item}>
                 <Navicon id={item} />
                 &nbsp;{navItems[item]}
