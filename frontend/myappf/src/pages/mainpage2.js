@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink, Routes, Route,useNavigate  } from "react-router-dom";
-import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography,IconButton } from "@mui/material";
 import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
 
 import HomePage from "./HomePage";
@@ -193,7 +193,13 @@ export default function FMainpage(props) {
               </MenuItem>
             </Menu>
           </Box>
-          <Button color="inherit">Logins</Button>
+          <Button color="inherit">Logins
+          <FindInPage />
+          </Button>
+
+          <IconButton aria-label="fingerprint" color="secondary">
+                    <FindInPage />
+                  </IconButton>
 
         </Toolbar>
       </AppBar>
