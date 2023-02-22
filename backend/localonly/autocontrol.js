@@ -440,30 +440,20 @@ module.exports = class AutoControl {
 
   getOperationsforcamera() {
     let oplist = [];
-    //카메라는  촬영확인
+    //카메라는  촬영확인  1분 단위로 함수호출됨. 때문에 촬영해야할 시간(분) 이 되면 한장만 촬영
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
       let timeminnow = KDCommon.getCurrentTotalminute();
-      let iscapture = false;
-
       let starttimemin = this.mConfig.STime / 60;
-
-      let ncount = this.mConfig.DTValue;
-      let intervalmin = 1440 / ncount;
-
+      let intervalmin = 1440 / Number(this.mConfig.DTValue);
+      intervalmin=intervalmin.toFixed();
       for (let i = 0; i <= 1440; i += intervalmin) {
         let timestep = starttimemin + i;
-
-        timestep = timestep >= 1440 ? timestep - 1440 : timestep;
-
+        timestep =( timestep >= 1440)?  (timestep - 1440 ): timestep;
         if (timeminnow == timestep) {
-          iscapture = true;
-          break;
+          console.log("getOperationsforcamera ---------------capture:  " + this.mConfig.Actlist[0]);
+           oplist.push(this.mConfig.Actlist[0]);
+           return oplist;
         }
-      }
-
-      if (iscapture === true) {
-        console.log("getOperationsforcamera ---------------capture:  " + this.mConfig.Actlist[0]);
-        oplist.push(this.mConfig.Actlist[0]);
       }
     }
 
