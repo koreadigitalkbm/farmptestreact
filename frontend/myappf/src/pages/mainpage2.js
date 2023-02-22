@@ -160,6 +160,10 @@ export default function FMainpage(props) {
 
 
 
+          
+
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+          
           <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
             <Menu
               elevation={0}
@@ -190,10 +194,6 @@ export default function FMainpage(props) {
                 &nbsp;{t("SignOut")}
               </MenuItem>
             </Menu>
-            
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-          
-            
           </Box>
         
 
