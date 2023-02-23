@@ -1,8 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useState, useEffect, useMemo } from "react";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { CenterFocusWeak } from "@mui/icons-material";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, Legend, } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { ko } from "date-fns/locale";
+import 'chartjs-adapter-date-fns';
+import zoomPlugin from 'chartjs-plugin-zoom';
 import Grid from "@mui/material/Grid";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -46,18 +50,54 @@ let dataChart = {
 
 let sensorlistforchart = [];
 
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
+
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, zoomPlugin);
+
+const zoomOptions = {
+  action: [
+    {
+      name: 'Reset zoom',
+      handler(chart) {
+        chart.resetZoom();
+      }
+    }
+  ],
+  limits: {
+
+  },
+  pan: {
+    enabled: true
+  },
+  zoom: {
+    wheel: {
+      enabled: true
+    },
+    pinch: {
+      enabled: true
+    },
+    mode: 'xy'
+  }
+}
+
+const zoomActions = [
+  {
+
+  }
+]
 
 let optionChart = {
   plugins: {
     legend: {
       display: false,
     },
+    zoom: zoomOptions
   },
   maintainAspectRatio: false,
   scales: {
     x: {
       display: true,
+      position: 'bottom',
+      type: 'time',
       text: "x title",
       ticks: {
         maxTicksLimit: 10,
@@ -125,12 +165,12 @@ function DecodeSensorbyDB(sdatas, isdaily) {
   for (let i = 0; i < sdatas.length; i++) {
     const msensor = getsensorfromlist(sdatas[i].P, sdatas[i].N, sdatas[i].C);
     let dTime = new Date(sdatas[i].T);
-    let sTime;
-    if (isdaily === true) {
-      sTime = dTime.getHours() + ":" + dTime.getMinutes();
-    } else {
-      sTime = dTime.toLocaleString();
-    }
+    let sTime = dTime;
+    // if (isdaily === true) {
+    //   sTime = dTime.getHours() + ":" + dTime.getMinutes();
+    // } else {
+    //   sTime = dTime.toLocaleString();
+    // }
 
     const xydata = { x: sTime, y: sdatas[i].V };
 
@@ -191,6 +231,13 @@ function Drawchart() {
 const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
 
+  const chartRef = React.useRef(null);
+
+  const resetZoomBtn = () => {
+    if (chartRef && chartRef.current) {
+      chartRef.current.resetZoom();
+    }
+  }
   console.log("------------------------SensorDataChart-------------------- length:" + props.datas.length);
 
   useEffect(() => {
@@ -201,8 +248,8 @@ const SensorDataChart = (props) => {
   if (props.datas.length == 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
-                센서데이터가 없습니다.
-              </Typography>
+        센서데이터가 없습니다.
+      </Typography>
     );
   }
 
@@ -244,10 +291,15 @@ const SensorDataChart = (props) => {
   }
 
   return (
-    <Box sx={{ flexGrow: 1  }}>
+    <Box sx={{ flexGrow: 1 }}>
+          <IconButton onClick={resetZoomBtn}>
+            <CenterFocusWeak />
+          </IconButton>
+
       <Grid container spacing={1}>
-        <Grid item xs={9} minHeight={300}>
-          <Line key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
+        <Grid item xs={8} minHeight={300}>
+
+          <Line ref={chartRef} key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
         <Grid item xs={3} padding={1}>
           <Box
