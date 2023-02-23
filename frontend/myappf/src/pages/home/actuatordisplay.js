@@ -3,19 +3,19 @@ import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 import KDDefine from "../../commonjs/kddefine";
 
-function outputdevbox(mydata, isonlystatus, index) {
+function outputdevbox(mydata, index) {
   let ismanual;
 
   //  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
   if (myAppGlobal.systeminformations == null) {
     return null;
   }
-
+ 
   let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid, myAppGlobal);
   let devicon = "./image/devicon_" + actinfo.DevType + ".png";
   let onofficon = "./image/opstatus_" + mydata.Sat + ".png";
 
-  if (mydata.Opm === "LM") {
+  if (mydata.Opm == KDDefine.OPMode.OPM_Local) {
     ismanual = (
       <div className="man_result">
         <span className="blinking">현장제어중</span>
@@ -28,14 +28,14 @@ function outputdevbox(mydata, isonlystatus, index) {
   }
 
   return (
-    <div className="out_con" key={index}>
-      <div className="out_name">
+    <div className="out_con" key={"outdevi"+index}>
+      <div className="out_name"  >
         <img src={devicon} className="icon" /> {actinfo.Name}{" "}
       </div>
-      <div className="out_value">
+      <div className="out_value" >
         <img src={onofficon} className="onoff" />{" "}
       </div>
-      {ismanual}
+    {ismanual}
     </div>
   );
 }

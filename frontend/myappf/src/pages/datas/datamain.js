@@ -5,6 +5,8 @@ import DBQueryParam from "../../commonjs/dbqueryparam";
 import SensorDataChart from "./sensordatachart";
 import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
+import ChartDataUtil from "./datautil";
+
 
 import { Buffer } from "buffer";
 
@@ -17,6 +19,7 @@ import Grid from "@mui/material/Grid";
 import EventListView from "./eventlistview";
 import ShowVerticalImages from "../pages/components/showVerticalImages";
 import DatePickerBar from "./datepickerbar";
+
 
 let sevents_period = [];
 let cmeraimglist_period = [];
@@ -31,7 +34,7 @@ let startday = new Date(utcnow - 7 * 86400000);
 let endday = utcnow; //
 let daydate = utcnow; //
 let isdailyglobal = true;
-
+let isdailyfirst = true;
 //홈 메인 대시보드
 const DataMainPage = (props) => {
   const [isdaily, setisdaily] = useState(isdailyglobal);
@@ -42,13 +45,11 @@ const DataMainPage = (props) => {
 
   console.log("-------------------------DataMainPage  --------------------- daydate: " + daydate);
 
-  useEffect(() => {
-    console.log("-------------------------DataMainPage  useEffect---------------------isdaily:" + isdaily + ", issearching:" + issearching);
 
-    
-    if (isdaily === true) {
+  function setupdata(isdailys)
+  {
+    if (isdailys === true) {
       console.log("sensordatas_daily length:" + sensordatas_daily.length);
-
       setSensorarray(sensordatas_daily);
       setEvents(sevents_daily);
       setCamimages(cmeraimglist_daily);
@@ -57,9 +58,26 @@ const DataMainPage = (props) => {
       setEvents(sevents_period);
       setCamimages(cmeraimglist_period);
     }
+  }
+
+  useEffect(() => {
+    console.log("-------------------------DataMainPage  useEffect---------------------isdaily:" + isdaily + ", isdailyfirst:" + isdailyfirst);
+
+    if(isdailyfirst ==true && isdaily==true)
+    {
+      const nowdate=new Date();
+      isdailyfirst=false;
+      getdbsearch( nowdate, nowdate);
+
+    }
+    else
+    {
+      setupdata(isdaily);
+    }
     
   }, [issearching]);
 
+  
   function getdbsearch(stday, edday) {
     console.log("-------------------------getdbsearch  ---------------------");
     //console.log("stday : "+ stday);
@@ -92,12 +110,12 @@ const DataMainPage = (props) => {
       if (ret.IsOK == true) {
         //console.log(ret.retMessage);
         sensordatas = ret.retMessage;
-        //setSensorarray(sensordatas);
+
 
         if (isdaily === true) {
-          sensordatas_daily = sensordatas;
+          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas,true) ;
         } else {
-          sensordatas_period = sensordatas;
+          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas,false) ;
         }
       }
     });
@@ -196,17 +214,7 @@ const DataMainPage = (props) => {
     isdailyglobal = !isdaily;
 
 
-    if (isdailyglobal === true) {
-      console.log("sensordatas_daily length:" + sensordatas_daily.length);
-
-      setSensorarray(sensordatas_daily);
-      setEvents(sevents_daily);
-      setCamimages(cmeraimglist_daily);
-    } else {
-      setSensorarray(sensordatas_period);
-      setEvents(sevents_period);
-      setCamimages(cmeraimglist_period);
-    }
+    setupdata(isdailyglobal);
 
 
     setisdaily(isdailyglobal);

@@ -48,7 +48,7 @@ let dataChart = {
   datasets: [],
 };
 
-let sensorlistforchart = [];
+
 
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, zoomPlugin);
@@ -130,12 +130,6 @@ let optionChart = {
   },
 };
 
-function getsensorfromlist(stype, nodeid, channel) {
-  for (let i = 0; i < sensorlistforchart.length; i++) {
-    if (sensorlistforchart[i].stype == stype && sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel) {
-      return sensorlistforchart[i];
-    }
-  }
 
   console.log("n :" + stype);
 
@@ -190,12 +184,13 @@ function DecodeSensorbyDB(sdatas, isdaily) {
 }
 
 function Drawchart() {
+function Drawchart(sensorlistforchart) {
   dataChart = {
     labels: [],
     datasets: [],
   };
 
-  console.log("Drawchart");
+  console.log("Drawchart sensorlistforchart.length: "+ sensorlistforchart.length);
 
   let isleft = false;
   let isright = false;
@@ -231,6 +226,8 @@ function Drawchart() {
 const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
 
+  const sensorchartdatas = props.datas;
+
   const chartRef = React.useRef(null);
 
   const resetZoomBtn = () => {
@@ -245,7 +242,7 @@ const SensorDataChart = (props) => {
   }, []);
 
 
-  if (props.datas.length == 0) {
+  if (sensorchartdatas.length == 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
         센서데이터가 없습니다.
@@ -261,13 +258,18 @@ const SensorDataChart = (props) => {
     setCheckeds(!bcheckeds);
   };
 
-  const scount = DecodeSensorbyDB(props.datas, props.isdaily);
+  
 
-  Drawchart();
+  Drawchart(sensorchartdatas);
 
   let chlist = [];
 
-  for (let i = 0; i < scount; i++) {
+  for (let i = 0; i < sensorchartdatas.length; i++) {
+
+    const newsensor = Sensordevice.createSensor(sensorchartdatas[i].stype, sensorchartdatas[i].nodeid, sensorchartdatas[i].channel, myAppGlobal);
+    chboxlist[i].label = newsensor.Name;
+    chboxlist[i].sensor = newsensor;
+
     const chb = (
       <FormControlLabel
         control={

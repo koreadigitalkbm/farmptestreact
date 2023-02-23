@@ -4,6 +4,7 @@ const path = require('path');
 //백엔드에서 공통으로 사용되는 함수들
 module.exports = class KDCommon {
   static systemconfigfilename = "../common/local_files/systemconfig.json";
+  static systemaliasfilename = "../common/local_files/systemalias.json";
   static autocontrolconfigfilename = "../common/local_files/autocontrolconfig.json";
   static actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
   static actuatorconfigfilename_kpc480 = "../common/local_files/actuatorconfig_kpc480.json";

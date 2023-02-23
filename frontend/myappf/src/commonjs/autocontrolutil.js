@@ -33,6 +33,35 @@ module.exports = class AutoControlUtil {
       }
     }
   }
+  static CreateDefaultAlias(modelname) {
+    let itemlist = [];
+
+    if ( modelname === "KPC200") {
+      const ext_temp={
+        id:'S01C06T01',
+        name:'Ext Temperature'};  //외부온도
+
+      const ext_humi={
+        id:'S01C06T02',
+        name:'Ext Humdity' };      //외부 습도
+
+    
+
+      itemlist.push(ext_temp);
+      itemlist.push(ext_humi);
+    
+    }
+    else
+    {
+      //디폴트로 1개는 더미로 생성 
+      const itmem1={
+        id:'dummyid',
+        name:'dummyname'};  
+        itemlist.push(itmem1);
+    }
+
+    return itemlist;
+  }
 
   static CreateDefaultConfig(modelname) {
     let mcfglist = [];
@@ -255,15 +284,6 @@ module.exports = class AutoControlUtil {
     }
 
     
-    /*
-    else {
-      let m1 = new AutoControlconfig();
-      let m2 = new AutoControlconfig();
-      m1.Actlist.push("N01C00T00");
-      m2.Actlist.push("N01C01T00");
-      mcfglist.push(m1);
-      mcfglist.push(m2);
-    }*/
 
     return mcfglist;
   }

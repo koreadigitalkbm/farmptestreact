@@ -153,6 +153,7 @@ static PModel = Object.freeze({
     RT_GETAUTOCONTROLCONFIG: 'getautocontrol',  //자동제어 목록을 가져옴
     RT_SAVEAUTOCONTROLCONFIG: 'saveautocontrol', //자동제어 설정을 저장한다
     RT_RESETAUTOCONTROLCONFIG: 'resetautocontrol', //자동제어 설정을 리셋하고 초기값으로 되돌린다.
+    RT_SETALIAS: 'setalias', //별칭정보 저장
 
 
 

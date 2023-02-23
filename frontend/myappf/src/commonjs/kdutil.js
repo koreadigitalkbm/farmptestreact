@@ -25,6 +25,13 @@ module.exports = class KDUtil {
         const nameid = "LT_ACTDEVICE_" + actd.Nid;
         const statestr = myGlobal.langT(nameid);
         actd.Name = statestr;
+        const maliasname=KDUtil.getAlias(actd.UniqID,myGlobal);
+             if(maliasname !=null)
+             {
+              actd.Name = maliasname;
+             }
+
+
         return actd;
       }
     }
@@ -184,5 +191,19 @@ module.exports = class KDUtil {
     }
 
     return timestr;
+  }
+
+  static getAlias(mid,myGlobal)
+  {
+    if(myGlobal.systeminformations.Alias !=null)
+    {
+      for(let i=0;i<myGlobal.systeminformations.Alias.length ;i++) {
+        if(myGlobal.systeminformations.Alias[i].id === mid)
+        {
+          return myGlobal.systeminformations.Alias[i].name;
+        }
+    }
+    }
+    return null;
   }
 };

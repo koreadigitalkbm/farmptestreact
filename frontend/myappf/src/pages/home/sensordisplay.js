@@ -2,8 +2,8 @@ import React from "react";
 import Sensordevice from "../../commonjs/sensordevice";
 import myAppGlobal from "../../myAppGlobal";
 
-function SensorBox(msensorcompact,index) {
-  let msensor = new Sensordevice(msensorcompact,myAppGlobal);
+function SensorBox(msensorcompact, index) {
+  let msensor = new Sensordevice(msensorcompact, myAppGlobal);
 
   let cname = "sen_con";
   let svalue;
@@ -13,8 +13,7 @@ function SensorBox(msensorcompact,index) {
     cname = "sen_dis";
     svalue = (
       <div className="sen_result">
-        {" "}
-        <span className="blinking">연결끊김</span>{" "}
+        <span className="blinking">연결끊김</span>
       </div>
     );
   } else {
@@ -27,26 +26,23 @@ function SensorBox(msensorcompact,index) {
   }
 
   return (
-    <div className={cname}>
+    <div className={cname} key={"senbox" + index}>
       <div className="sen_name">
-        {" "}
-        <img src={iconsrc} className="icon" /> {msensor.Name}{" "}
+        <img src={iconsrc} className="icon" /> {msensor.Name}
       </div>
       {svalue}
     </div>
   );
 }
 
-const Sensordisplay = (props)=> {
-
-  const mysensors=props.sensors;
+const Sensordisplay = (props) => {
+  const mysensors = props.sensors;
   console.log("-------------------------Sensordisplay  ---------------------");
-  if(mysensors ==null)
-  {
+  if (mysensors == null) {
     return null;
   }
 
-  return <div className="sensor">{mysensors.map((item, index) => SensorBox(item,index))}</div>;
-}
+  return <div className="sensor">{mysensors.map((item, index) => SensorBox(item, index))}</div>;
+};
 
 export default Sensordisplay;

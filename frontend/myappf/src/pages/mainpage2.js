@@ -19,7 +19,7 @@ import DataMainPage from "./datas/datamain";
 import { useTranslation } from "react-i18next";
 
 const dropMenu = ["Data2", "Setting", "Sensor", "Control", "Setup"];
-
+  
 export default function FMainpage(props) {
   const { t } = useTranslation();
   const [loadinfo, setLoadinfo] = useState("init");

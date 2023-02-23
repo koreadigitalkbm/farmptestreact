@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
-import {  Box,  Typography } from "@mui/material";
-import Grid from '@mui/material/Grid';
+import { Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
@@ -11,7 +11,7 @@ import KDUtil from "../../commonjs/kdutil";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
-let readtimemsec = 1000;
+let readtimemsec = 0;
 let readcallbacktimeout;
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
@@ -20,7 +20,7 @@ let dailysensorlist = [];
 let actuaotrslist = [];
 let sensorlist = [];
 let imagefilename = "";
-let imagefileurl= "image/noimage.png";
+let imagefileurl = "image/noimage.png";
 let isoffscreen = false;
 
 //홈 메인 대시보드
@@ -30,7 +30,7 @@ const HDashboard = () => {
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
-  
+
   const [msensorlasttime, setLasttime] = useState(null);
 
   console.log("-------------------------HDashboard  ---------------------");
@@ -68,28 +68,16 @@ const HDashboard = () => {
           let sysevents = ret.retParam.DEvents;
           let dsensors = ret.retParam.DSensors;
 
-          
-
-          if(ret.retParam.LastimageFilename !=null)
-          {
-            if(imagefilename !=ret.retParam.LastimageFilename)
-            {
-
+          if (ret.retParam.LastimageFilename != null) {
+            if (imagefilename != ret.retParam.LastimageFilename) {
               imagefilename = ret.retParam.LastimageFilename;
-              imagefileurl= "/cameraimage/" + myAppGlobal.logindeviceid + "/" +imagefilename;
-              console.log("capture fileurl : " + imagefileurl );    
+              imagefileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imagefilename;
+              console.log("capture fileurl : " + imagefileurl);
               setImgfileurl(imagefileurl);
             }
-
-            
           }
-          
-
 
           if (sysevents != null) {
-
-            
-
             if (sysevents.length > 0) {
               let revlasttime;
               let isupdateevent = false;
@@ -119,15 +107,11 @@ const HDashboard = () => {
                 eventlistTime = [];
                 for (let i = 0; i < eventlist.length; i++) {
                   let newobj = eventlist[eventlist.length - i - 1];
-                  const etime= new Date(newobj.EDate);
+                  const etime = new Date(newobj.EDate);
                   eventlistTime.push(createData(etime.toLocaleString(), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
-              //    eventlistTime.push(eventlist[eventlist.length - i - 1]);
+                  //    eventlistTime.push(eventlist[eventlist.length - i - 1]);
                   //  console.log(eventlist[eventlist.length - i - 1]);
                 }
-
-                
-
-
 
                 setEvents(eventlistTime);
               }
@@ -157,8 +141,6 @@ const HDashboard = () => {
             }
           }
         }
-
-
       }
       clearTimeout(readcallbacktimeout);
       if (isoffscreen == false) {
@@ -168,12 +150,22 @@ const HDashboard = () => {
   }
 
   useEffect(() => {
-    console.log("-------------------------HDashboard  useEffect---------------------issetreq:");
-    //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
-    if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
-      readtimemsec = 3000;
+    console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +readtimemsec);
+    
+    //맨처음 부조건 한번 읽음.
+    if(readtimemsec ==0)
+    {
+      loaddatas();
     }
 
+
+    //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
+    if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
+      readtimemsec = 10000;
+    } else {
+      readtimemsec = 1000;
+    }
+    
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
@@ -184,70 +176,47 @@ const HDashboard = () => {
       clearTimeout(readcallbacktimeout);
     };
 
-    /*
-    const interval = setInterval(() => {
-     
-      loaddatas();
-
-    }, readtimemsec);
-
-    console.log("-------------------------HDashboard  finish--------------------- out:" + interval);
-    return () => clearInterval(interval);
-
-*/
+    
   }, []);
 
   //이벤트가 변경될때만 렌더링되도록
   const eventbox = useMemo(() => {
-    return <EventListView  dataSet={mevnetarray}  isdash={true}/>;
+    return <EventListView dataSet={mevnetarray} isdash={true} />;
   }, [mevnetarray]);
 
   const chartbox = useMemo(() => {
-    return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime}  />;
+    return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
   }, [mdailysensorarray, msensorlasttime]);
   const d = new Date(msensorlasttime);
-  const lastime="최근측정시간:   "+ d.toLocaleString();
-
-  
+  const lastime = "최근측정시간:   " + d.toLocaleString();
 
   return (
-    
     <Box sx={{ flexGrow: 1 }}>
-    <Grid container spacing={1} >
-    <Grid item xs={12} md={12}>
-    <Typography variant="body2" fontSize="30" color="#0d47a1">
-    {lastime}
-                    </Typography>
-     
-        
-      </Grid>
-    
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={12}>
+          <Typography variant="body2" fontSize="30" color="#0d47a1">
+            {lastime}
+          </Typography>
+        </Grid>
 
-      <Grid item xs={8} >
-      {chartbox}
-      </Grid>
-      <Grid item xs={4} >
-      <Box       component="img"      src={mimgfileurl}  sx={{    maxWidth: 400 }}  />
-          
-        
-      </Grid>
-      <Grid item xs={12} md={12}>
-      <Sensordisplay sensors={msensorsarray} />
+        <Grid item xs={8}>
+          {chartbox}
+        </Grid>
+        <Grid item xs={4}>
+          <Box component="img" src={mimgfileurl} sx={{ maxWidth: 400 }} />
         </Grid>
         <Grid item xs={12} md={12}>
-        <ActuatorDisplay actuators={mactuaotrs} />
+          <Sensordisplay sensors={msensorsarray} />
         </Grid>
         <Grid item xs={12} md={12}>
-        {eventbox}
-        
+          <ActuatorDisplay actuators={mactuaotrs} />
         </Grid>
-    </Grid>
+        <Grid item xs={12} md={12}>
+          {eventbox}
+        </Grid>
+      </Grid>
     </Box>
-
-   
-
   );
 };
 
 export default HDashboard;
-
