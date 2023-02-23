@@ -171,7 +171,11 @@ const HDashboard = () => {
     console.log("-------------------------HDashboard  useEffect---------------------issetreq:");
     //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
-      readtimemsec = 3000;
+      readtimemsec = 10000;
+    }
+    else
+    {
+      readtimemsec=1000;
     }
 
     clearTimeout(readcallbacktimeout);
