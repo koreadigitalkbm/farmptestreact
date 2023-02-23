@@ -83,7 +83,7 @@ const JukeboxCamera = (props) => {
   if (copycfg.Enb === false) {
     return (
       <Stack spacing={1}>
-        <img src={takeimageurl} loading="lazy" />
+        <img src={takeimageurl} loading="lazy" width={400} />
 
         <Button type="submit" variant="contained" onClick={() => manualtake(true)}>
           사진촬영

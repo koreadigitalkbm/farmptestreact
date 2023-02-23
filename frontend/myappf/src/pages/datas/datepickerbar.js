@@ -83,7 +83,9 @@ export default function DatePickerBar(props) {
   function pickertype() {
     const MuiCustomInput = forwardRef(({ value, onClick }, ref) => (
       <Button onClick={onClick} ref={ref}>
+        <Typography align="center" fontSize="large" color="primary">
         {value}
+        </Typography>
       </Button>
     ));
 

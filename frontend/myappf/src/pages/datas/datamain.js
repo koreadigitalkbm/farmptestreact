@@ -113,9 +113,9 @@ const DataMainPage = (props) => {
 
 
         if (isdaily === true) {
-          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas,true) ;
+          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas) ;
         } else {
-          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas,false) ;
+          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas) ;
         }
       }
     });

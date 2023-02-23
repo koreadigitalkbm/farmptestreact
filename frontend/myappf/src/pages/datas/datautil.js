@@ -26,22 +26,16 @@ module.exports = class ChartDataUtil {
         return newdatas;
       }
     
-      static getchartdatafromsensor(sdatas, isdaily) {
+      static getchartdatafromsensor(sdatas) {
         let sensorlistforchart = [];
     
-        console.log("------decodeDsensor sdatas.lenth : " + sdatas.length);
+        console.log("------decodeDsensor sdatas.lenth 2: " + sdatas.length);
     
         for (let i = 0; i < sdatas.length; i++) {
+
           const msensor = ChartDataUtil.getsensorfromlist(sensorlistforchart, sdatas[i].P, sdatas[i].N, sdatas[i].C);
           let dTime = new Date(sdatas[i].T);
-          let sTime = dTime;
-          // if (isdaily === true) {
-          //   sTime = dTime.getHours() + ":" + dTime.getMinutes();
-          // } else {
-          //   sTime = dTime.toLocaleString();
-          // }
-    
-          const xydata = { x: sTime, y: sdatas[i].V };
+          const xydata = { x: dTime, y: sdatas[i].V };
     
           msensor.data.push(xydata);
         }
