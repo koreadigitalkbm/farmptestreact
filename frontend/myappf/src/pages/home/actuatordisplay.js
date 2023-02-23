@@ -10,7 +10,7 @@ function outputdevbox(mydata, isonlystatus, index) {
   if (myAppGlobal.systeminformations == null) {
     return null;
   }
-
+ 
   let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid, myAppGlobal);
   let devicon = "./image/devicon_" + actinfo.DevType + ".png";
   let onofficon = "./image/opstatus_" + mydata.Sat + ".png";
