@@ -11,7 +11,7 @@ import { forwardRef } from "react";
 
 
 export default function DatePickerBar(props) {
-  const oneDay = 86400000;
+  
   const onGetdb = props.getdb;
   const issearching = props.issearching;
   const isdaily = props.isdaily;
@@ -23,15 +23,19 @@ export default function DatePickerBar(props) {
 
   function onClickday(e) {
     let curday;
-    console.log(e);
+
+    //console.log(e.currentTarget);
 
     switch (e.currentTarget.name) {
       case "oneDayAgo":
-        curday = curdate - oneDay;
+        curday = new Date(curdate);
+        curday=curday.setDate(curday.getDate()-1);
+
 
         break;
       case "oneDayAhead":
-        curday = curdate + oneDay;
+        curday = new Date(curdate);
+        curday=curday.setDate(curday.getDate()+1);
         break;
       case "dayselect":
         curday = e.currentTarget.date;
@@ -56,6 +60,12 @@ export default function DatePickerBar(props) {
     if (curday <= utcnow.getTime()) {
       setcurdate(curday);
       onGetdb(new Date(curday), new Date(curday));
+    }
+    else
+    {
+      console.log("time over");
+      console.log(curday);
+      console.log(curdate);
     }
   }
 
@@ -86,11 +96,10 @@ export default function DatePickerBar(props) {
           {issearching == true ? <CircularProgress /> : null}
 
           <Typography align="center">
-            <DatePicker value={curdate} selected={curdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("dayselect", date)} />
-            <br />{" "}
+            <DatePicker disabled={issearching} value={curdate} selected={curdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("dayselect", date)} />
             <Typography align="center" fontSize="small">
-              하루 데이터를 조회합니다.
-            </Typography>{" "}
+              {'하루 데이터를 조회합니다.'}
+            </Typography>
           </Typography>
 
           <IconButton name="oneDayAhead" onClick={onClickday}>

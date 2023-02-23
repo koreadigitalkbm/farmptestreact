@@ -44,7 +44,7 @@ let dataChart = {
   datasets: [],
 };
 
-let sensorlistforchart = [];
+
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
@@ -90,72 +90,14 @@ let optionChart = {
   },
 };
 
-function getsensorfromlist(stype, nodeid, channel) {
-  for (let i = 0; i < sensorlistforchart.length; i++) {
-    if (sensorlistforchart[i].stype == stype && sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel) {
-      return sensorlistforchart[i];
-    }
-  }
 
-  console.log("n :" + stype);
-
-  let newdatas = {
-    stype: stype,
-    nodeid: nodeid,
-    channel: channel,
-    type: "line",
-    label: "온도",
-    yAxisID: "y-left",
-    pointStyle: "triangle",
-    pointRadius: 0,
-    borderColor: "rgb(24, 112, 235)",
-    borderWidth: 2,
-    data: [],
-  };
-  sensorlistforchart.push(newdatas);
-
-  return newdatas;
-}
-
-function DecodeSensorbyDB(sdatas, isdaily) {
-  sensorlistforchart = [];
-
-  console.log("------decodeDsensor sdatas.lenth : " + sdatas.length);
-
-  for (let i = 0; i < sdatas.length; i++) {
-    const msensor = getsensorfromlist(sdatas[i].P, sdatas[i].N, sdatas[i].C);
-    let dTime = new Date(sdatas[i].T);
-    let sTime;
-    if (isdaily === true) {
-      sTime = dTime.getHours() + ":" + dTime.getMinutes();
-    } else {
-      sTime = dTime.toLocaleString();
-    }
-
-    const xydata = { x: sTime, y: sdatas[i].V };
-
-    msensor.data.push(xydata);
-  }
-
-  console.log("------------------------sensorlistforchart -------------------- L: " + sensorlistforchart.length);
-
-  for (let i = 0; i < sensorlistforchart.length; i++) {
-    const newsensor = Sensordevice.createSensor(sensorlistforchart[i].stype, sensorlistforchart[i].nodeid, sensorlistforchart[i].channel, myAppGlobal);
-
-    chboxlist[i].label = newsensor.Name;
-    chboxlist[i].sensor = newsensor;
-  }
-
-  return sensorlistforchart.length;
-}
-
-function Drawchart() {
+function Drawchart(sensorlistforchart) {
   dataChart = {
     labels: [],
     datasets: [],
   };
 
-  console.log("Drawchart");
+  console.log("Drawchart sensorlistforchart.length: "+ sensorlistforchart.length);
 
   let isleft = false;
   let isright = false;
@@ -191,6 +133,8 @@ function Drawchart() {
 const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
 
+  const sensorchartdatas = props.datas;
+
   console.log("------------------------SensorDataChart-------------------- length:" + props.datas.length);
 
   useEffect(() => {
@@ -198,7 +142,7 @@ const SensorDataChart = (props) => {
   }, []);
 
 
-  if (props.datas.length == 0) {
+  if (sensorchartdatas.length == 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
                 센서데이터가 없습니다.
@@ -214,13 +158,18 @@ const SensorDataChart = (props) => {
     setCheckeds(!bcheckeds);
   };
 
-  const scount = DecodeSensorbyDB(props.datas, props.isdaily);
+  
 
-  Drawchart();
+  Drawchart(sensorchartdatas);
 
   let chlist = [];
 
-  for (let i = 0; i < scount; i++) {
+  for (let i = 0; i < sensorchartdatas.length; i++) {
+
+    const newsensor = Sensordevice.createSensor(sensorchartdatas[i].stype, sensorchartdatas[i].nodeid, sensorchartdatas[i].channel, myAppGlobal);
+    chboxlist[i].label = newsensor.Name;
+    chboxlist[i].sensor = newsensor;
+
     const chb = (
       <FormControlLabel
         control={
