@@ -75,7 +75,7 @@ export default function EventListView(props) {
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+              <TableRow key="row1">
                 <TableCell align="left" colSpan={3} sx={{ backgroundColor: "#eceff1" }}>
                   <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["system"].checked} name={"system"} key="s1" onChange={handleChange} />} label="시스템" />
                   <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["device"].checked} name={"device"} key="s2" onChange={handleChange} />} label="구동장비" />
@@ -85,7 +85,7 @@ export default function EventListView(props) {
                   {isdatapage()}
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow key="row2">
                 {columns.map((column) => (
                   <TableCell key={column.id} align={column.align} style={{ top: 57, minWidth: column.minWidth }} sx={{ backgroundColor: "#fce4ec" }}>
                     {column.label}
@@ -94,7 +94,7 @@ export default function EventListView(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
                 if (row["type"] == 1 && chboxlist["system"].checked == false) {
                   return null;
                 }
@@ -109,11 +109,11 @@ export default function EventListView(props) {
                 }
 
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
+                  <TableRow hover role="checkbox" tabIndex={-1} key={"rowkey" + index}>
+                    {columns.map((column,index) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={"evtkey"+index} align={column.align}>
                           {column.format && typeof value === "number" ? column.format(value) : value}
                         </TableCell>
                       );

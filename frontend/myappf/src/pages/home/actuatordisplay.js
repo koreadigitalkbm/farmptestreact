@@ -3,7 +3,7 @@ import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 import KDDefine from "../../commonjs/kddefine";
 
-function outputdevbox(mydata, isonlystatus, index) {
+function outputdevbox(mydata, index) {
   let ismanual;
 
   //  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
@@ -28,14 +28,14 @@ function outputdevbox(mydata, isonlystatus, index) {
   }
 
   return (
-    <div className="out_con" key={index}>
-      <div className="out_name">
+    <div className="out_con" key={"outdevi"+index}>
+      <div className="out_name"  >
         <img src={devicon} className="icon" /> {actinfo.Name}{" "}
       </div>
-      <div className="out_value">
+      <div className="out_value" >
         <img src={onofficon} className="onoff" />{" "}
       </div>
-      {ismanual}
+    {ismanual}
     </div>
   );
 }
