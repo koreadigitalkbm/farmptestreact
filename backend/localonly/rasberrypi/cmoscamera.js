@@ -21,10 +21,13 @@ module.exports = class RasCamera {
         const myCamera = new PiCamera({
           mode: "photo",
           output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
-          // width: 640,
-          // height: 480,
-          width: 3280,
-          height: 2468,
+          width: 640,
+          height: 480,
+          quality : 50,
+          // width: 3280,
+          // height: 2468,
+          // width: 3280,
+          // height: 2468,
           shutter : 3000,
           nopreview: true,
         });
