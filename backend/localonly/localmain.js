@@ -129,7 +129,22 @@ async function devicemaintask(mainclass) {
             {
         
               //LED 명령어 보내고 이미지 촬영될때 까지 기다림.
-              let lawimg = await mainclass.actuatorinterface.CaptureImagewithLED(true);
+              let lawimg=null;
+
+              if(opcmdlist[0]=="manualcapture")
+              {
+                lawimg=KDCommon.ReadfileBase64(mainclass.actuatorinterface.cameramanualcapturefilepath);
+                mainclass.actuatorinterface.cameramanualcapturefilepath=null;
+                console.log("cameramanaul save....");
+
+                
+              }
+              else
+              {
+                lawimg = await mainclass.actuatorinterface.CaptureImagewithLED(true);
+              }
+              
+
               if(lawimg !=null)
               {
                 console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);

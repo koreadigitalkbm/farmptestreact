@@ -7,7 +7,6 @@ import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 import ChartDataUtil from "./datautil";
 
-
 import { Buffer } from "buffer";
 
 import { ThemeProvider } from "@mui/material";
@@ -15,11 +14,9 @@ import muiTheme from "../muiTheme";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
-
 import EventListView from "./eventlistview";
 import ShowVerticalImages from "../pages/components/showVerticalImages";
 import DatePickerBar from "./datepickerbar";
-
 
 let sevents_period = [];
 let cmeraimglist_period = [];
@@ -43,13 +40,10 @@ const DataMainPage = (props) => {
   const [mevnetarray, setEvents] = useState([]);
   const [sensorarray, setSensorarray] = useState([]);
 
-  console.log("-------------------------DataMainPage  --------------------- daydate: " + daydate);
+  console.log("-------------------DataMainPage  ---------------------");
 
-
-  function setupdata(isdailys)
-  {
+  function setupdata(isdailys) {
     if (isdailys === true) {
-      console.log("sensordatas_daily length:" + sensordatas_daily.length);
       setSensorarray(sensordatas_daily);
       setEvents(sevents_daily);
       setCamimages(cmeraimglist_daily);
@@ -61,23 +55,17 @@ const DataMainPage = (props) => {
   }
 
   useEffect(() => {
-    console.log("-------------------------DataMainPage  useEffect---------------------isdaily:" + isdaily + ", isdailyfirst:" + isdailyfirst);
+    console.log("DataMainPage  useEffect-----isdaily:" + isdaily + ", isdailyfirst:" + isdailyfirst);
 
-    if(isdailyfirst ==true && isdaily==true)
-    {
-      const nowdate=new Date();
-      isdailyfirst=false;
-      getdbsearch( nowdate, nowdate);
-
-    }
-    else
-    {
+    if (isdailyfirst == true && isdaily == true) {
+      const nowdate = new Date();
+      isdailyfirst = false;
+      getdbsearch(nowdate, nowdate);
+    } else {
       setupdata(isdaily);
     }
-    
   }, [issearching]);
 
-  
   function getdbsearch(stday, edday) {
     console.log("-------------------------getdbsearch  ---------------------");
     //console.log("stday : "+ stday);
@@ -111,11 +99,10 @@ const DataMainPage = (props) => {
         //console.log(ret.retMessage);
         sensordatas = ret.retMessage;
 
-
         if (isdaily === true) {
-          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas) ;
+          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas);
         } else {
-          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas) ;
+          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas);
         }
       }
     });
@@ -138,17 +125,11 @@ const DataMainPage = (props) => {
             author: imglist[i].ctype,
           };
           let timeimg = new Date(imglist[i].dtime);
-          if (isdaily === true)
-          {
+          if (isdaily === true) {
             newimg.title = KDUtil.dateTostringshottime(timeimg);
+          } else {
+            newimg.title = timeimg.toLocaleString();
           }
-          else
-          {
-              newimg.title = timeimg.toLocaleString();
-          }
-
-
-          
 
           cmeraimglist.push(newimg);
         }
@@ -181,9 +162,9 @@ const DataMainPage = (props) => {
               EParam: paramobj2,
             };
 
-            const etime= new Date(newobj.EDate);
+            const etime = new Date(newobj.EDate);
             sevents.push(createData(etime.toLocaleString(), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
-             //console.log(elist[i]);
+            //console.log(elist[i]);
             // console.log(newobj);
           }
         }
@@ -200,7 +181,6 @@ const DataMainPage = (props) => {
     });
   }
 
-  
   // 헤더에 맞춰서 표 내용을 Object로 만들어줌.
   function createData(date, type, content) {
     return {
@@ -213,9 +193,7 @@ const DataMainPage = (props) => {
   function onChangeDaily() {
     isdailyglobal = !isdaily;
 
-
     setupdata(isdailyglobal);
-
 
     setisdaily(isdailyglobal);
   }
@@ -234,7 +212,7 @@ const DataMainPage = (props) => {
             <ShowVerticalImages imageSet={camimages} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <EventListView  dataSet={mevnetarray} isdash={false}/>
+            <EventListView dataSet={mevnetarray} isdash={false} />
           </Grid>
         </Grid>
       </Box>

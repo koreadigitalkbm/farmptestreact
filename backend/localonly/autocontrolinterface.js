@@ -41,10 +41,19 @@ module.exports = class AutoControlInterface {
   // 카메라 촬영 자동제어
   getOpsForCamera() {
     let opcmdlist = [];
-    const totalsec = KDCommon.getCurrentTotalsec();
-    for (const mactl of this.mAutoControllist) {
-          let mlist = mactl.getOperationsforcamera();
-          opcmdlist.push(...mlist);
+
+    if(this.mMain.actuatorinterface.cameramanualcapturefilepath !=null)
+    {
+      opcmdlist.push("manualcapture");
+    }
+    else
+    {
+      const totalsec = KDCommon.getCurrentTotalsec();
+      for (const mactl of this.mAutoControllist) {
+            let mlist = mactl.getOperationsforcamera();
+            opcmdlist.push(...mlist);
+      }
+
     }
 
     return opcmdlist;

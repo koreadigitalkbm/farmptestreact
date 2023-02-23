@@ -147,7 +147,7 @@ function Drawchart(sensorlistforchart) {
         optionChart.scales["y-right"].display = true;
       }
 
-      console.log(optionChart);
+      //console.log(optionChart);
 
       sensorlistforchart[i].borderColor = chboxlist[i].color;
       dataChart.datasets.push(sensorlistforchart[i]);
@@ -174,9 +174,6 @@ const SensorDataChart = (props) => {
   }
   console.log("------------------------SensorDataChart-------------------- length:" + props.datas.length);
 
-  useEffect(() => {
-    console.log("-------------------------SensorDataChart  useEffect---------------------issetreq:");
-  }, []);
 
 
   if (sensorchartdatas.length === 0) {
@@ -190,7 +187,6 @@ const SensorDataChart = (props) => {
   const handleChange = (event) => {
     console.log("------------------------handleChange--------------------event : " + event.target.name + ",ch:" + event.target.checked);
     chboxlist[event.target.name].checked = event.target.checked;
-
     //그냥 화면 갱신
     setCheckeds(!bcheckeds);
   };

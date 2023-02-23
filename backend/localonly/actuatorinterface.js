@@ -22,6 +22,7 @@ module.exports = class ActuatorInterface {
     this.modbusMaster = this.mMain.ModbusComm; //통신포트
     //카메라 촬영준비 시간 이 변수를 설정하면 카메라 촬영모드로 동작시킴.
     this.cameracapturecount = 0;
+    this.cameramanualcapturefilepath=null;
 
     console.log("       ".bgMagenta, this.mMain.localsysteminformations);
 
@@ -171,12 +172,14 @@ module.exports = class ActuatorInterface {
     let filename = mops.Param;
 
     try {
+      let filepath = "../frontend/myappf/public/cameraimage/" + this.mMain.mydeviceuniqid + "/manual/";
+
       if (mops.Opmode === true) {
         
         const lawimg = await this.CaptureImagewithLED(false);
         
         if (lawimg != null) {
-          let filepath = "../frontend/myappf/public/cameraimage/" + this.mMain.mydeviceuniqid + "/manual/";
+
           //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
           KDCommon.removeallfiles(filepath);
           KDCommon.mkdirRecursive(filepath);
@@ -192,7 +195,9 @@ module.exports = class ActuatorInterface {
       } else {
         // 수동촬영된 사진을  일반사진처럼 저장하고 디비에도 저장하고 서버에도 저장한다.
         
-        
+        this.cameramanualcapturefilepath=filepath + mops.Param;
+        console.log("cameraoperation  manualsave : "+ this.cameramanualcapturefilepath);
+
       }
     } catch (error) {
       console.log(color.bgRed(error));
