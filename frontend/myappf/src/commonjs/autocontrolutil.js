@@ -51,6 +51,14 @@ module.exports = class AutoControlUtil {
       itemlist.push(ext_humi);
     
     }
+    else
+    {
+      //디폴트로 1개는 더미로 생성 
+      const itmem1={
+        id:'dummyid',
+        name:'dummyname'};  
+        itemlist.push(itmem1);
+    }
 
     return itemlist;
   }
@@ -276,15 +284,6 @@ module.exports = class AutoControlUtil {
     }
 
     
-    /*
-    else {
-      let m1 = new AutoControlconfig();
-      let m2 = new AutoControlconfig();
-      m1.Actlist.push("N01C00T00");
-      m2.Actlist.push("N01C01T00");
-      mcfglist.push(m1);
-      mcfglist.push(m2);
-    }*/
 
     return mcfglist;
   }
