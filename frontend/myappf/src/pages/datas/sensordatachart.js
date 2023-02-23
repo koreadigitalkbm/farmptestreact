@@ -131,59 +131,6 @@ let optionChart = {
 };
 
 
-  console.log("n :" + stype);
-
-  let newdatas = {
-    stype: stype,
-    nodeid: nodeid,
-    channel: channel,
-    type: "line",
-    label: "온도",
-    yAxisID: "y-left",
-    pointStyle: "triangle",
-    pointRadius: 0,
-    borderColor: "rgb(24, 112, 235)",
-    borderWidth: 2,
-    data: [],
-  };
-  sensorlistforchart.push(newdatas);
-
-  return newdatas;
-}
-
-function DecodeSensorbyDB(sdatas, isdaily) {
-  sensorlistforchart = [];
-
-  console.log("------decodeDsensor sdatas.lenth : " + sdatas.length);
-
-  for (let i = 0; i < sdatas.length; i++) {
-    const msensor = getsensorfromlist(sdatas[i].P, sdatas[i].N, sdatas[i].C);
-    let dTime = new Date(sdatas[i].T);
-    let sTime = dTime;
-    // if (isdaily === true) {
-    //   sTime = dTime.getHours() + ":" + dTime.getMinutes();
-    // } else {
-    //   sTime = dTime.toLocaleString();
-    // }
-
-    const xydata = { x: sTime, y: sdatas[i].V };
-
-    msensor.data.push(xydata);
-  }
-
-  console.log("------------------------sensorlistforchart -------------------- L: " + sensorlistforchart.length);
-
-  for (let i = 0; i < sensorlistforchart.length; i++) {
-    const newsensor = Sensordevice.createSensor(sensorlistforchart[i].stype, sensorlistforchart[i].nodeid, sensorlistforchart[i].channel, myAppGlobal);
-
-    chboxlist[i].label = newsensor.Name;
-    chboxlist[i].sensor = newsensor;
-  }
-
-  return sensorlistforchart.length;
-}
-
-function Drawchart() {
 function Drawchart(sensorlistforchart) {
   dataChart = {
     labels: [],
