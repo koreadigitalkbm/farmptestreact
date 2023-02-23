@@ -1,7 +1,8 @@
 
 const  KDDefine= require("./kddefine");
-
+const  KDUtil = require("./kdutil");
 const SensorCompact = require("./sensorcompact");
+
 
     module.exports = class Sensordevice{
         
@@ -91,6 +92,12 @@ const SensorCompact = require("./sensorcompact");
              {
                 this.Name = statestr;
              }
+             const maliasname=KDUtil.getAlias(this.UniqID,myGlobal);
+             if(maliasname !=null)
+             {
+                this.Name = maliasname;
+             }
+
             }
 
             this.Setupdatevalue(mcompactsensor.Val);

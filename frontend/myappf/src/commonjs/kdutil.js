@@ -185,4 +185,14 @@ module.exports = class KDUtil {
 
     return timestr;
   }
+
+  static getAlias(mid,myGlobal)
+  {
+    
+    if(myGlobal.systeminformations.Alias !=null)
+    {
+      return myGlobal.systeminformations.Alias[mid];
+    }
+    return null;
+  }
 };

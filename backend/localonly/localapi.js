@@ -158,12 +158,20 @@ module.exports = class LocalAPI {
         rspmsg.IsOK = true;
         break;
 
-      case KDDefine.REQType.RT_SETMYINFO:
-        KDCommon.Writefilejson(KDCommon.systemconfigfilename, reqmsg.reqParam);
+        case KDDefine.REQType.RT_SETMYINFO:
+        
+        this.mMain.savesystemconfig(reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
-
         break;
+      
+
+      case KDDefine.REQType.RT_SETALIAS:
+        this.mMain.savesystemaials(reqmsg.reqParam);
+        rspmsg.retMessage = "ok";
+        rspmsg.IsOK = true;
+        break;
+
 
       case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
         this.mMain.autocontrolinterface.AutocontrolUpdate(reqmsg.reqParam);

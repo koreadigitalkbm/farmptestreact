@@ -12,7 +12,7 @@ const DailyCurrentDatas = require("./dailydatas");
 const DatabaseInterface = require("../dbinterface");
 const devicesystemlog = require("../devicesystemlog");
 const LocalAPI = require("./localapi");
-const CameraInterface = require("./camerainterface");
+const AutoControlUtil = require("../../frontend/myappf/src/commonjs/autocontrolutil");
 const Systemconfig = require("../../frontend/myappf/src/commonjs/devsystemconfig");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const SystemInformations = require("../../frontend/myappf/src/commonjs/systeminformations");
@@ -202,8 +202,19 @@ module.exports = class LocalMain {
   }
 
   
+  savesystemconfig(newconfig)
+  {
+    //저장하고 다시 읽어와 갱신
+    KDCommon.Writefilejson(KDCommon.systemconfigfilename, newconfig);
+    this.localsysteminformations.Systemconfg=KDCommon.Readfilejson(KDCommon.systemconfigfilename);
+  }
 
-
+  savesystemaials(newalias)
+  {
+    //저장하고 다시 읽어와 갱신
+    KDCommon.Writefilejson(KDCommon.systemaliasfilename, newalias);
+    this.localsysteminformations.Alias=KDCommon.Readfilejson(KDCommon.systemaliasfilename);
+  }
 
   deviceInit() {
     console.log("------------deviceInit------------------- ");
@@ -214,6 +225,15 @@ module.exports = class LocalMain {
     }
     this.localsysteminformations = new SystemInformations();
     this.localsysteminformations.Systemconfg = sconfig;
+
+    //별칭파일 
+    let malias = KDCommon.Readfilejson(KDCommon.systemaliasfilename);
+    if (malias === null) {
+      malias = AutoControlUtil.CreateDefaultAlias(sconfig.productmodel);
+      KDCommon.Writefilejson(KDCommon.systemaliasfilename, malias);
+    }
+    this.localsysteminformations.Alias = malias;
+
 
     console.log("deviceuniqid : " + this.mydeviceuniqid+ " comport : " + this.localsysteminformations.Systemconfg.comport);
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);

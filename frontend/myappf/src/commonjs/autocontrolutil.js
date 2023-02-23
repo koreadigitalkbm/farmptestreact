@@ -33,6 +33,23 @@ module.exports = class AutoControlUtil {
       }
     }
   }
+  static CreateDefaultAlias(modelname) {
+    let itemlist = [];
+
+    if ( modelname === "KPC200") {
+      const ext_temp={'S01C06T01':'Ext Temperature' };  //외부온도
+      const ext_humi={'S01C06T02':'Ext Humdity' };      //외부 습도
+
+      //테스트 
+      const coller={'N01C01T00':'Air Cooler' };      //외부 습도
+
+      itemlist.push(ext_temp);
+      itemlist.push(ext_humi);
+      itemlist.push(coller);
+    }
+
+    return itemlist;
+  }
 
   static CreateDefaultConfig(modelname) {
     let mcfglist = [];

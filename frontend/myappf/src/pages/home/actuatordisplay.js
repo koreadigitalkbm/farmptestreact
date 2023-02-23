@@ -15,7 +15,7 @@ function outputdevbox(mydata, isonlystatus, index) {
   let devicon = "./image/devicon_" + actinfo.DevType + ".png";
   let onofficon = "./image/opstatus_" + mydata.Sat + ".png";
 
-  if (mydata.Opm === "LM") {
+  if (mydata.Opm == KDDefine.OPMode.OPM_Local) {
     ismanual = (
       <div className="man_result">
         <span className="blinking">현장제어중</span>
