@@ -53,7 +53,6 @@ export default function SettingPage(props) {
     p: 4,
   };
 
-
   useEffect(() => {
 
     if (myAppGlobal.islocal === false) {
@@ -267,6 +266,7 @@ export default function SettingPage(props) {
           {myNewInfoFrame.map((myNewI) => (
             <Grid item key={myNewI.id + "g"} xs={12} sm={12} md={12} lg={12} xl={12}>
               {getMyNewInfoFrame(myNewI)}
+
             </Grid>
           ))}
         </Grid>

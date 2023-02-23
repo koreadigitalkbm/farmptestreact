@@ -1,23 +1,17 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, IconButton, Typography } from "@mui/material";
 import { CenterFocusWeak } from "@mui/icons-material";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, Legend, } from "chart.js";
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { ko } from "date-fns/locale";
 import 'chartjs-adapter-date-fns';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import Grid from "@mui/material/Grid";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import FormLabel from "@mui/material/FormLabel";
 
 import Sensordevice from "../../commonjs/sensordevice";
-import KDDefine from "../../commonjs/kddefine";
-import KDUtil from "../../commonjs/kdutil";
-
-import blue from "@mui/material/colors/blue";
 
 import myAppGlobal from "../../myAppGlobal";
 
@@ -78,12 +72,6 @@ const zoomOptions = {
     mode: 'xy'
   }
 }
-
-const zoomActions = [
-  {
-
-  }
-]
 
 let optionChart = {
   plugins: {
@@ -159,13 +147,15 @@ function Drawchart(sensorlistforchart) {
         optionChart.scales["y-right"].display = true;
       }
 
+      console.log(optionChart);
+
       sensorlistforchart[i].borderColor = chboxlist[i].color;
       dataChart.datasets.push(sensorlistforchart[i]);
     }
   }
 
   //차트가 한개라면 오른쪽 축 삭제
-  if (isright == false) {
+  if (isright === false) {
     optionChart.scales["y-right"].display = false;
   }
 }
@@ -189,7 +179,7 @@ const SensorDataChart = (props) => {
   }, []);
 
 
-  if (sensorchartdatas.length == 0) {
+  if (sensorchartdatas.length === 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
         센서데이터가 없습니다.

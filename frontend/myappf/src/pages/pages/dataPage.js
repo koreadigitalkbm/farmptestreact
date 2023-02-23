@@ -46,10 +46,12 @@ export default function DataPage(props) {
         selectOptions: radioButtonOptions,
         onChange: handleDataInqueryFormat,
     }
+
     
     function handleDataInqueryFormat(e) {
         setDataInqueryFormat(e.target.value);
     }
+
 
     function handleDate(e) {
         switch (e.currentTarget.name) {

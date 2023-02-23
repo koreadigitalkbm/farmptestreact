@@ -3,7 +3,7 @@ module.exports = class ChartDataUtil {
 
     static getsensorfromlist(sensorlistforchart, stype, nodeid, channel) {
         for (let i = 0; i < sensorlistforchart.length; i++) {
-          if (sensorlistforchart[i].stype == stype && sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel) {
+          if (sensorlistforchart[i].stype === stype && sensorlistforchart[i].nodeid == nodeid && sensorlistforchart[i].channel == channel) {
             return sensorlistforchart[i];
           }
         }
@@ -34,12 +34,12 @@ module.exports = class ChartDataUtil {
         for (let i = 0; i < sdatas.length; i++) {
           const msensor = ChartDataUtil.getsensorfromlist(sensorlistforchart, sdatas[i].P, sdatas[i].N, sdatas[i].C);
           let dTime = new Date(sdatas[i].T);
-          let sTime;
-          if (isdaily === true) {
-            sTime = dTime.getHours() + ":" + dTime.getMinutes();
-          } else {
-            sTime = dTime.toLocaleString();
-          }
+          let sTime = dTime;
+          // if (isdaily === true) {
+          //   sTime = dTime.getHours() + ":" + dTime.getMinutes();
+          // } else {
+          //   sTime = dTime.toLocaleString();
+          // }
     
           const xydata = { x: sTime, y: sdatas[i].V };
     
