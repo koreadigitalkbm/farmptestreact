@@ -7,6 +7,7 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Grid from "@mui/material/Grid";
 import DatePicker from "react-datepicker";
 import { forwardRef } from "react";
+import myAppGlobal from "../../myAppGlobal";
 
 
 
@@ -100,7 +101,7 @@ export default function DatePickerBar(props) {
           <Typography align="center">
             <DatePicker disabled={issearching} value={curdate} selected={curdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("dayselect", date)} />
             <Typography align="center" fontSize="small">
-              {'하루 데이터를 조회합니다.'}
+              {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_DATEEXPLAIN')}
             </Typography>
           </Typography>
 
@@ -116,7 +117,7 @@ export default function DatePickerBar(props) {
             <DatePicker value={startdate} selected={startdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("startday", date)} />
             <br />{" "}
             <Typography align="center" fontSize="small">
-              시작날자
+            {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_START')}
             </Typography>{" "}
           </Typography>
 
@@ -124,14 +125,14 @@ export default function DatePickerBar(props) {
             <React.Fragment>
             <CircularProgress color="secondary" />
             <Typography align="center" fontSize="small" color="secondary" >
-            데이터 검색중...
+            {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_SEARCING')}
           </Typography>
           </React.Fragment>
           ) : (
             <IconButton name="searchday" onClick={onClickday}>
               {issearching == true ? null : <QueryStatsIcon fontSize="large" color="secondary" />}
               <Typography align="center" fontSize="small" color="secondary" >
-            데이터 검색
+              {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_CONFIRM')}
           </Typography>
 
             </IconButton>
@@ -141,7 +142,7 @@ export default function DatePickerBar(props) {
             <DatePicker value={enddate} selected={enddate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("endday", date)} />
             <br />{" "}
             <Typography align="center" fontSize="small">
-              종료날자
+            {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_END')}
             </Typography>{" "}
           </Typography>
         </Stack>
@@ -155,12 +156,12 @@ export default function DatePickerBar(props) {
         <FormControl>
           
           <RadioGroup row aria-labelledby={"rg-label"} name={"rg-name"} onChange={onChange}>
-            <FormControlLabel checked={isdaily} value={"하루(1일)"} label={"하루(1일)"} control={<Radio />} />
-            <FormControlLabel checked={!isdaily} value={"기간(60일)"} label={"기간(60일)"} control={<Radio />} />
+            <FormControlLabel checked={isdaily} value={"하루(1일)"} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_DATE')} control={<Radio />} />
+            <FormControlLabel checked={!isdaily} value={"기간(60일)"} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD')} control={<Radio />} />
           </RadioGroup>
           <FormLabel id={"f-label"}>
             <Typography align="left" fontSize="small">
-              {"검색방식을 선택하세요."}
+              {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_EXPLAIN')}
             </Typography>
           </FormLabel>
 

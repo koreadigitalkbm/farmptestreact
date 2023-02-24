@@ -8,6 +8,7 @@ import ActuatorDisplay from "./actuatordisplay";
 import DashboardChart from "./dashboardchart";
 import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
+import { useTranslation } from "react-i18next";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
@@ -30,6 +31,9 @@ const HDashboard = () => {
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
+
+  const { t, i18n} = useTranslation();
+
 
   const [msensorlasttime, setLasttime] = useState(null);
 
@@ -108,7 +112,7 @@ const HDashboard = () => {
                 for (let i = 0; i < eventlist.length; i++) {
                   let newobj = eventlist[eventlist.length - i - 1];
                   const etime = new Date(newobj.EDate);
-                  eventlistTime.push(createData(etime.toLocaleString(), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
+                  eventlistTime.push(createData(etime.toLocaleString(myAppGlobal.language), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
                   //    eventlistTime.push(eventlist[eventlist.length - i - 1]);
                   //  console.log(eventlist[eventlist.length - i - 1]);
                 }
@@ -188,7 +192,7 @@ const HDashboard = () => {
     return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
   }, [mdailysensorarray, msensorlasttime]);
   const d = new Date(msensorlasttime);
-  const lastime = "최근측정시간:   " + d.toLocaleString();
+  const lastime = myAppGlobal.langT("LT_MAINPAGE_MAIN_LATESTUPDATE")+":   " + d.toLocaleString(myAppGlobal.language);
 
   return (
     <Box sx={{ flexGrow: 1 }}>

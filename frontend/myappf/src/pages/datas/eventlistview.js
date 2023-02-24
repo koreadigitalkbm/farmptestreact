@@ -3,11 +3,12 @@ import { Box, IconButton, Typography, Card, CardHeader, Checkbox, FormControlLab
 
 import AddchartIcon from "@mui/icons-material/Addchart";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import myAppGlobal from "../../myAppGlobal";
 
-const columns = [
-  { id: "date", label: "시간", minWidth: 10 },
-  { id: "type", label: "종류", minWidth: 10 },
-  { id: "content", label: "내용", minWidth: 100 },
+let columns = [
+  { id: "date", label: 'date', minWidth: 10 },
+  { id: "type", label: 'type', minWidth: 10 },
+  { id: "content", label: 'content', minWidth: 100 },
 ];
 
 let chboxlist = {
@@ -29,10 +30,14 @@ export default function EventListView(props) {
   if (rows.length <= 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
-        이벤트 데이터가 없습니다.
+        {myAppGlobal.langT('LT_MAINPAGE_MAIN_EVENT_NODATA')}
       </Typography>
     );
   }
+
+  columns[0].label=myAppGlobal.langT('LT_DATAPAGE_EVENT_DATE');
+  columns[1].label=myAppGlobal.langT('LT_DATAPAGE_EVENT_TYPE');
+  columns[2].label=myAppGlobal.langT('LT_DATAPAGE_EVENT_CONTENT');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -77,10 +82,10 @@ export default function EventListView(props) {
             <TableHead>
               <TableRow key="row1">
                 <TableCell align="left" colSpan={3} sx={{ backgroundColor: "#eceff1" }}>
-                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["system"].checked} name={"system"} key="s1" onChange={handleChange} />} label="시스템(1)" />
-                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["device"].checked} name={"device"} key="s2" onChange={handleChange} />} label="구동장비(2)" />
-                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["autocontrol"].checked} key="s3" name={"autocontrol"} onChange={handleChange} />} label="자동제어(3)" />
-                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["etc"].checked} key="s4" name={"etc"} onChange={handleChange} />} label="기타" />
+                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["system"].checked} name={"system"} key="s1" onChange={handleChange} />} label={myAppGlobal.langT('LT_MAINPAGE_MAIN_EVENT_SYSTEM')} />
+                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["device"].checked} name={"device"} key="s2" onChange={handleChange} />} label={myAppGlobal.langT('LT_MAINPAGE_MAIN_EVENT_ACTUATOR')} />
+                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["autocontrol"].checked} key="s3" name={"autocontrol"} onChange={handleChange} />} label={myAppGlobal.langT('LT_MAINPAGE_MAIN_EVENT_AUTO')} />
+                  <FormControlLabel sx={{ flex: "1 1 100%" }} control={<Checkbox checked={chboxlist["etc"].checked} key="s4" name={"etc"} onChange={handleChange} />} label={myAppGlobal.langT('LT_MAINPAGE_MAIN_EVENT_ETC')} />
 
                   {isdatapage()}
                 </TableCell>
@@ -115,6 +120,7 @@ export default function EventListView(props) {
                       return (
                         <TableCell key={"evtkey"+index} align={column.align}>
                           {column.format && typeof value === "number" ? column.format(value) : value}
+                          {console.log(value)}
                         </TableCell>
                       );
                     })}

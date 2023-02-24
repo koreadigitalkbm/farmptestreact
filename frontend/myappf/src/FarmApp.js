@@ -37,8 +37,7 @@ function FarmApp(props) {
   {
     i18n.changeLanguage(cookies.languageT);
   }
-
-
+  myAppGlobal.language=i18n.language;
   myAppGlobal.langT=t;
   
 

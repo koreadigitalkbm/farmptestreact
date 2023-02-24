@@ -138,9 +138,43 @@
     "LT_SNAME_40": "누적일사량",
     "LT_SNAME_41": "이슬점",
     
-    
-    
+    "LT_LOADINGPAGE_INIT": "장치의 정보를 읽어옵니다.",
+    "LT_LOADINGPAGE_LOADAUTO": "자동제어 정보를 읽어옵니다.",
+    "LT_LOADINGPAGE_ERROR": "장치에 연결할 수 없습니다.",
 
+    "LT_MAINPAGE_NAV_BRAND": "팜스큐브",
+    "LT_MAINPAGE_NAV_HOME": "메인페이지",
+    "LT_MAINPAGE_NAV_GROWPLANTS": "식물키우기",
+    "LT_MAINPAGE_NAV_DATA": "데이터",
+    "LT_MAINPAGE_NAV_SETTING": "설정",
+    "LT_MAINPAGE_NAV_LOGOUT": "로그아웃",
+
+    "LT_MAINPAGE_MAIN_LATESTUPDATE": "최근측정시간",
+    "LT_MAINPAGE_MAIN_SENSOR_DISCONNECTED": "연결해제됨.",
+    "LT_MAINPAGE_MAIN_ACTUATOR_FIELDCONTROL": "현장제어중",
+    "LT_MAINPAGE_MAIN_ACTUATOR_MANUAL": "정지(수동)",
+    "LT_MAINPAGE_MAIN_ACTUATOR_AUTOMATIC": "자동제어중",
+    "LT_MAINPAGE_MAIN_EVENT_NODATA": "데이터가 없습니다.",
+    "LT_MAINPAGE_MAIN_EVENT_SYSTEM": "시스템(1)",
+    "LT_MAINPAGE_MAIN_EVENT_ACTUATOR": "구동기(2)",
+    "LT_MAINPAGE_MAIN_EVENT_AUTO": "자동제어(3)",
+    "LT_MAINPAGE_MAIN_EVENT_ETC": "기타(4)",
+    
+    "LT_DATAPAGE_DATEPICKER_DATE": "하루",
+    "LT_DATAPAGE_DATEPICKER_PERIOD": "기간(60 일)",
+    "LT_DATAPAGE_DATEPICKER_EXPLAIN": "검색방식을 선택하세요.",
+    "LT_DATAPAGE_DATEPICKER_DATEEXPLAIN": "1일 단위로 검색합니다.",
+    "LT_DATAPAGE_DATEPICKER_PERIOD_START": "시작날짜",
+    "LT_DATAPAGE_DATEPICKER_PERIOD_END": "종료날짜",
+    "LT_DATAPAGE_DATEPICKER_PERIOD_CONFIRM": "데이터 검색",
+    "LT_DATAPAGE_DATEPICKER_SEARCING": "데이터 검색중",
+    "LT_DATAPAGE_SENSORCHART_CHECK": "센서를 선택하세요.",
+    "LT_DATAPAGE_NOSENSORDATA": "센서데이터가 없습니다.",
+    "LT_DATAPAGE_NOPHOTODATA": "사진데이터가 없습니다.",
+    "LT_DATAPAGE_NODATA": "데이터가 없습니다.",
+    "LT_DATAPAGE_EVENT_DATE": "시간",
+    "LT_DATAPAGE_EVENT_TYPE": "종류",
+    "LT_DATAPAGE_EVENT_CONTENT": "내용",
     
 
 

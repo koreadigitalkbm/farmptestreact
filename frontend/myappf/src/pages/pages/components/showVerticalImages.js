@@ -1,4 +1,5 @@
 import {Card, CardHeader, ImageList, ImageListItem, ImageListItemBar,Typography }  from '@mui/material';
+import myAppGlobal from '../../../myAppGlobal';
 
 export default function ShowVerticalImages(props) {
     
@@ -8,7 +9,7 @@ export default function ShowVerticalImages(props) {
     {
         return (
             <Typography variant="body2" fontSize="large" color="secondary">
-                      사진 데이터가 없습니다.
+                      {myAppGlobal.langT('LT_DATAPAGE_NOPHOTODATA')}
                     </Typography>
           );
 

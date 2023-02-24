@@ -13,7 +13,7 @@ function SensorBox(msensorcompact, index) {
     cname = "sen_dis";
     svalue = (
       <div className="sen_result">
-        <span className="blinking">연결끊김</span>
+        <span className="blinking">{myAppGlobal.langT('LT_MAINPAGE_MAIN_SENSOR_DISCONNECTED')}</span>
       </div>
     );
   } else {

@@ -18,13 +18,13 @@ function outputdevbox(mydata, index) {
   if (mydata.Opm == KDDefine.OPMode.OPM_Local) {
     ismanual = (
       <div className="man_result">
-        <span className="blinking">현장제어중</span>
+        <span className="blinking">{myAppGlobal.langT('LT_MAINPAGE_MAIN_ACTUATOR_FIELDCONTROL')}</span>
       </div>
     );
   } else if (mydata.Opm == KDDefine.OPMode.OPM_Manual) {
-    ismanual = <div className="out_result">정지(수동)</div>;
+    ismanual = <div className="out_result">{myAppGlobal.langT('LT_MAINPAGE_MAIN_ACTUATOR_MANUAL')}</div>;
   } else {
-    ismanual = <div className="out_result">자동제어중</div>;
+    ismanual = <div className="out_result">{myAppGlobal.langT('LT_MAINPAGE_MAIN_ACTUATOR_AUTOMATIC')}</div>;
   }
 
   return (
@@ -40,7 +40,7 @@ function outputdevbox(mydata, index) {
   );
 }
 
-const  ActuatorDisplay=(props)=> {
+const ActuatorDisplay=(props)=> {
   console.log("------------------------ActuatorDisplay--------------------"  );
   const myactuators = props.actuators;
 

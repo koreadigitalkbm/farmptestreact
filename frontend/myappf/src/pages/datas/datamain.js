@@ -163,7 +163,7 @@ const DataMainPage = (props) => {
             };
 
             const etime = new Date(newobj.EDate);
-            sevents.push(createData(etime.toLocaleString(), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
+            sevents.push(createData(etime.toLocaleString(myAppGlobal.language), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
             //console.log(elist[i]);
             // console.log(newobj);
           }

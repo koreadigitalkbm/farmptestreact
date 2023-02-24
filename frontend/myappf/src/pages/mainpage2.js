@@ -28,6 +28,7 @@ export default function FMainpage(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
 
+  
   const open = Boolean(anchorEl);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
@@ -106,11 +107,11 @@ export default function FMainpage(props) {
     console.log("---------------------------- loadpage loadinfo: " + loadinfo);
     switch (loadinfo) {
       case "init":
-        return <div>장치를 정보를 읽어옵니다. </div>;
+        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_INIT')}</Typography>;
       case "loadauto":
-        return <div>자동제어 정보를 읽어옵니다. </div>;
+        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_LOADAUTO')}</Typography>;
       case "error":
-        return <div>장치에 연결할 수 없습니다. </div>;
+        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_ERROR')}</Typography>;
       default:
         break;
     }
@@ -140,7 +141,7 @@ export default function FMainpage(props) {
 
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {" "}
-            FarmsCube{" "}
+            {myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND")}
           </Typography>
 
           <Button component={RouterLink} to={"Home"} color="inherit">

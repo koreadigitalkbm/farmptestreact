@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { CenterFocusWeak } from "@mui/icons-material";
 
@@ -179,7 +179,7 @@ const SensorDataChart = (props) => {
   if (sensorchartdatas.length === 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
-        센서데이터가 없습니다.
+        {myAppGlobal.langT('LT_DATAPAGE_NOSENSORDATA')}
       </Typography>
     );
   }
@@ -250,7 +250,7 @@ const SensorDataChart = (props) => {
           >
             <FormLabel component="legend">
               <Typography variant="body2" color="textSecondary">
-                센서를 선택하세요.
+                {myAppGlobal.langT('LT_DATAPAGE_SENSORCHART_CHECK')}
               </Typography>
             </FormLabel>
 
