@@ -140,7 +140,7 @@ export default function FMainpage(props) {
 
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {" "}
-            FamsCube{" "}
+            FarmsCube{" "}
           </Typography>
 
           <Button component={RouterLink} to={"Home"} color="inherit">
