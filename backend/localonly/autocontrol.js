@@ -492,6 +492,19 @@ module.exports = class AutoControl {
   }
 
 
+  //자동제어 시간이 끝날경우 필요한 설정 
+  setdaycontroltimeover()
+  {
+
+    currentstate = KDDefine.AUTOStateType.AST_Off_finish;
+    //제어 변수들 초기화 
+    this.PWMonoffstate = false;
+    this.PWMLasttoltalsec = 0; 
+    this.OnSecTime = 0; 
+    
+      //console.log("-getOperationsByControl ---------------AST_Off_finish  " );
+  }
+
   //자동제어 조건을 확인하고 변경이 되면 구동명령어 목록을 리턴한다.
   getOperationsByControl(msensors, mactuators) {
     let oplist = [];
@@ -518,8 +531,8 @@ module.exports = class AutoControl {
       }
     } else {
       //기본조건 안맞음 모두  off
-      currentstate = KDDefine.AUTOStateType.AST_Off_finish;
-      //console.log("-getOperationsByControl ---------------AST_Off_finish  " );
+      this.setdaycontroltimeover();
+      
     }
     //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
