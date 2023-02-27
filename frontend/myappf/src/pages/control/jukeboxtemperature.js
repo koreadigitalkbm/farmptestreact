@@ -13,6 +13,7 @@ import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
+import KDUtil from "../../commonjs/kdutil";
 
 
 const JukeboxTemperatureM1 = (props) => {
@@ -51,7 +52,7 @@ const JukeboxTemperatureM1 = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems=["난방기(히터)","냉방기(쿨러)"];
+    const actitems=[myAppGlobal.langT("LT_GROWPLANTS_HEATER"),myAppGlobal.langT("LT_GROWPLANTS_COOLER")];
     
     return (
       <Stack spacing={1}>
@@ -72,7 +73,7 @@ const JukeboxTemperatureM1 = (props) => {
           <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
         </Stack>
         <Stack direction="row" alignItems="flex-end">
-          <Typography> 온도조절간격 : </Typography>
+          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_TEMPERATUREINTERVAL")}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.BValue} unit="℃" keyname="BValue" onChange={props.inputallchangeHandler} />
         </Stack>
       </Stack>
@@ -82,17 +83,18 @@ const JukeboxTemperatureM1 = (props) => {
   return (
     <Stack spacing={1}>
       <Stack direction="row" alignItems="flex-end">
-        <Typography>내부 온도를 주간(9시~16시)에는</Typography>
+        <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_TEMPERATURE_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="℃" keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TEMPERATURE_DAY2')}</Typography>
       </Stack>
       <Stack direction="row" alignItems="flex-end">
-        <Typography>야간시간동안에는</Typography>
+        <Typography>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT1`)}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="℃" keyname="NTValue" onChange={props.inputallchangeHandler} />
-        <Typography>유지합니다.</Typography>
+        <Typography>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT2`)}</Typography>
       </Stack>
 
       <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label="고급설정" />
+      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
 
       {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
       </Box>

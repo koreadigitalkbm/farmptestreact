@@ -49,7 +49,7 @@ const JukeboxAircirculation = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems=["환기팬,밸브"];
+    const actitems=[myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE')];
     
     return (
       <Stack spacing={1}>
@@ -66,13 +66,13 @@ const JukeboxAircirculation = (props) => {
       
       <Stack spacing={1}>
         <Stack direction="row" alignItems="flex-end">
-          <AutoInputTimeRange initvalue={copycfg}  dispstring ="작동시간 설정:"onChange={props.inputallchangeHandler} />
+          <AutoInputTimeRange initvalue={copycfg}  dispstring ={myAppGlobal.langT('LT_GROWPLANTS_SETTO_OPERATINGTIME')} onChange={props.inputallchangeHandler} />
         </Stack>
         <Stack direction="row" alignItems="flex-end">
-          <Typography> 켜짐시간 : </Typography>
-          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit="초" keyname="DOnTime" onChange={props.inputallchangeHandler} />
-          <Typography> 꺼짐시간 : </Typography>
-          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit="초" keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNONTIME')}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNOFFTIME')}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOffTime" onChange={props.inputallchangeHandler} />
         </Stack>
       </Stack>
     );
@@ -81,17 +81,17 @@ const JukeboxAircirculation = (props) => {
   return (
     <Stack spacing={1}>
       <Stack direction="row" alignItems="flex-end">
-        <Typography>내부 CO2 센서값 </Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={props.inputallchangeHandler} />
-        <Typography> 이하로 낮아질경우, 또는 </Typography>
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1')}</Typography>
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={props.inputallchangeHandler} /> 
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2')}</Typography>
       </Stack>
       <Stack direction="row" alignItems="flex-end">
-        <Typography> 습도센서 값 </Typography>
+      <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3')}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={props.inputallchangeHandler} />
-        <Typography> 이상 높아질경우 환기팬, 환기밸브를 작동시킵니다.</Typography>
-      </Stack>
+      <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4')}</Typography>
+        </Stack>
       <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label=" 고급설정" />
+      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT('LT_GROWPLANTS_ADVANCEDSETTING')} />
       
       {avchecked === true ? <AdvenceSetting  initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
       </Box>

@@ -1,8 +1,9 @@
 import { Stack, Typography } from "@mui/material";
 import AutoInputControl from "./autoinputcontrol";
+import myAppGlobal from "../../myAppGlobal";
 
 const AutoInputTimeRange = (props) => {
-  let dispstr="주간시간설정:";
+  let dispstr=myAppGlobal.langT("LT_GROWPLANTS_SETTO_DAYTIME");
 
   if(props.dispstring != null )
   {

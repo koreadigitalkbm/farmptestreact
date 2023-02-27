@@ -13,6 +13,7 @@ import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
+import KDUtil from "../../commonjs/kdutil";
 
 const JukeboxMultiLED = (props) => {
   const copycfg = props.initvalue;
@@ -68,14 +69,14 @@ const JukeboxMultiLED = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems=["흰색LED","빨강LED","파랑LED"];
+    const actitems=[myAppGlobal.langT('LT_GROWPLANTS_LED_WHITE'),myAppGlobal.langT('LT_GROWPLANTS_LED_RED'),myAppGlobal.langT('LT_GROWPLANTS_LED_BLUE')];
 
     return (
       <Stack spacing={1}>
 
         <AutoManualActuator   initvalue={manualactname}  items={actitems} changehandler={inputchangeHandler}  />
         <Stack direction="row" alignItems="flex-end">
-          <Typography> 밝기 : </Typography>
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_LED_DAY2')}</Typography>
           <AutoInputControl type="number" initvalue={manualdemming} unit="%" keyname="manualdemming" onChange={inputchangeHandler} />
         </Stack>
         <AutoManualCommon initvalue={manualontimesec} inputchangeHandler={inputchangeHandler} manualHandler={manualonoff} />
@@ -92,11 +93,13 @@ const JukeboxMultiLED = (props) => {
           <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
         </Stack>
         <Stack direction="row" alignItems="flex-end">
-          <Typography>흰색LED : </Typography>
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_LED_WHITE')}</Typography>
           <AutoInputControl type="number" initvalue={leddimmingpercent} unit="%" keyname="whiteled" onChange={inputchangeHandler} />
-          <Typography>빨강LED : </Typography>
+          &nbsp;
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_LED_RED')}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.Params[1]} unit="%" keyname="redled" onChange={inputchangeHandler} />
-          <Typography>파랑LED : </Typography>
+          &nbsp;
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_LED_BLUE')}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.Params[2]} unit="%" keyname="blueled" onChange={inputchangeHandler} />
         </Stack>
       </Stack>
@@ -106,12 +109,12 @@ const JukeboxMultiLED = (props) => {
   return (
     <Stack spacing={1}>
       <Stack direction="row" alignItems="flex-end">
-        <Typography>LED 광량을 주간시간동안(9시~16시)에 </Typography>
+        <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_LED_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
         <AutoInputControl type="number" initvalue={leddimmingpercent} unit="%" keyname="leddeming" onChange={inputchangeHandler} />
-        <Typography> 밝기로 켭니다. </Typography>
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_LED_DAY2')}</Typography>
       </Stack>
       <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label="고급설정" />
+      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT('LT_GROWPLANTS_ADVANCEDSETTING')} />
 
       {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
       </Box>

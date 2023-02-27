@@ -17,6 +17,7 @@ import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
 
 import { useTranslation } from "react-i18next";
+import DeviceSystemconfig from "../commonjs/devsystemconfig";
 
 const dropMenu = ["Data2", "Setting", "Sensor", "Control", "Setup"];
   
@@ -140,8 +141,10 @@ export default function FMainpage(props) {
           <img src="/image/farmscube_logo_small48.png"></img>
 
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
-            {" "}
+            &nbsp;
             {myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND")}
+            &nbsp; : &nbsp;
+            {/* {myAppGlobal.systeminformations.Systemconfg.name} */}
           </Typography>
 
           <Button component={RouterLink} to={"Home"} color="inherit">

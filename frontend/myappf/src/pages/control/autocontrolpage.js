@@ -44,14 +44,14 @@ const Autocontrolcard = (props) => {
       console.log("Autocontrolcard  retMessage: " + ret.retMessage);
 
       if (newstate == null) {
-        alert("자동제어설정이 저장되었습니다.");
+        alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED"));
         //다음페이지이동시에 자동제어 설정을 다시 읽어올수 있도록 전역변수 초기화
         //myAppGlobal.Autocontrolcfg = null;
       } else {
         if (newstate === true) {
-          alert("자동제어가 시작되었습니다. 수동으로 제어할 수 없습니다. ");
+          alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTART"));
         } else {
-          alert("자동제어가 중지되었습니다. 수동으로 제어할 수 있습니다. ");
+          alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTOP"));
         }
       }
     });
@@ -76,10 +76,10 @@ const Autocontrolcard = (props) => {
           <Typography variant="h6" sx={{ width: 400 }}>
             {mydata.Name}
           </Typography>
-          <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label="자동제어사용" />
+          <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} />
 
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-            <Typography>{autoenable === true ? "설정변경" : "수동제어"} </Typography>
+            <Typography>{autoenable === true ? myAppGlobal.langT("LT_GROWPLANTS_AUTO") : myAppGlobal.langT("LT_GROWPLANTS_MANUAL")} </Typography>
             {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
           </ExpandMore>
         </CardActions>
@@ -91,7 +91,7 @@ const Autocontrolcard = (props) => {
         <div>
           
           <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig(mydata, null)} endIcon={<SaveAltIcon fontSize="large" />}>
-            저장
+            {myAppGlobal.langT('LT_GROWPLANTS_SAVE')}
           </Button>
         </div>
       ) : null}
@@ -140,10 +140,10 @@ const Autocontrolpage = (props) => {
     <div>
       <ThemeProvider theme={muiTheme}>
         <Card sx={{ minWidth: 300, m: 3, backgroundColor: "#fff3e0" }}>
-          <CardHeader title={"자동 제어 목록입니다."} />
+          <CardHeader title={myAppGlobal.langT('LT_GROWPLANTS_TITLE')} />
           <Stack direction="column">{autoList}</Stack>
 
-          <Button endIcon={<AddCardIcon fontSize="large" />}>자동제어 추가</Button>
+          <Button endIcon={<AddCardIcon fontSize="large" />}>{myAppGlobal.langT('LT_GROWPLANTS_ADDAUTOCONTROL')}</Button>
         </Card>
       </ThemeProvider>
     </div>

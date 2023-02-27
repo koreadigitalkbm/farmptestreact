@@ -14,6 +14,7 @@ import myAppGlobal from "../../myAppGlobal";
 import AutoControlUtil from "../../commonjs/autocontrolutil";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
+import KDUtil from "../../commonjs/kdutil";
 
 const JukeboxWatersupplyM1 = (props) => {
   const copycfg = props.initvalue;
@@ -77,7 +78,7 @@ const JukeboxWatersupplyM1 = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems = ["관수펌프"];
+    const actitems = [myAppGlobal.langT('LT_GROWPLANTS_WATERSUPPLY_IRRIGATIONPUMP')];
     return (
       <Stack spacing={1}>
         <AutoManualActuator initvalue={manualactname} items={actitems} changehandler={inputchangeHandler} />
@@ -102,20 +103,21 @@ const JukeboxWatersupplyM1 = (props) => {
   return (
     <Stack spacing={1}>
       <Stack direction="row" alignItems="flex-end">
-        <Typography>물을 주간(9시~16시)에는</Typography>
-        <AutoInputControl type="number" initvalue={dayintervaltime} unit="분" keyname="DOffTime" onChange={inputchangeHandler} />
-        <Typography>간격으로 </Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit="초간" keyname="DOnTime" onChange={inputchangeHandler} />
+        <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_WATERSUPPLY_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
+        <AutoInputControl type="number" initvalue={dayintervaltime} unit={myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_INTERVALUNIT")} keyname="DOffTime" onChange={inputchangeHandler} />
+        <Typography>{myAppGlobal.langT(`LT_GROWPLANTS_WATERSUPPLY_DAY2`)}</Typography>
+        <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_OPERATETIMEUNIT")} keyname="DOnTime" onChange={inputchangeHandler} />
+        <Typography>{myAppGlobal.langT(`LT_GROWPLANTS_WATERSUPPLY_DAY3`)}</Typography>
       </Stack>
       <Stack direction="row" alignItems="flex-end">
-        <Typography> 공급하고 야간에는</Typography>
-        <AutoInputControl type="number" initvalue={nightintervaltime} unit="분" keyname="NOffTime" onChange={inputchangeHandler} />
-        <Typography>간격으로 </Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NOnTime} unit="초간" keyname="NOnTime" onChange={inputchangeHandler} />
-        <Typography>공급 합니다.</Typography>
+        <Typography>{myAppGlobal.langT(`LT_GROWPLANTS_WATERSUPPLY_NIGHT1`)}</Typography>
+        <AutoInputControl type="number" initvalue={nightintervaltime} unit={myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_INTERVALUNIT")} keyname="NOffTime" onChange={inputchangeHandler} />
+        <Typography>{myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_NIGHT2")} </Typography>
+        <AutoInputControl type="number" initvalue={copycfg.NOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_OPERATETIMEUNIT")} keyname="NOnTime" onChange={inputchangeHandler} />
+        <Typography>{myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_NIGHT3")} </Typography>
       </Stack>
       <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label="고급설정" />
+      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT('LT_GROWPLANTS_ADVANCEDSETTING')} />
 
       {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
       </Box>

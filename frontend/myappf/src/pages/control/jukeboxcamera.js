@@ -86,16 +86,16 @@ const JukeboxCamera = (props) => {
         <img src={takeimageurl} loading="lazy" width={400} />
 
         <Button type="submit" variant="contained" onClick={() => manualtake(true)}>
-          사진촬영
+          {myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_SHOOT')}
         </Button>
 
         <Button type="submit" variant="contained" onClick={() =>manualreload()}>
-          최근사진불러오기
+        {myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_LOADRECENTLYPICTURE')}
         </Button>
         
 
         <Button type="submit" variant="contained" onClick={() => manualtake(false)}>
-          사진저장
+        {myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_SAVEPICTURE')}
         </Button>
       </Stack>
     );
@@ -105,12 +105,12 @@ const JukeboxCamera = (props) => {
   return (
     <Stack spacing={1}>
       <Stack direction="row" alignItems="flex-end">
-        <Typography>매일 </Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="회" keyname="DTValue" onChange={props.inputallchangeHandler} />
-        <Typography> 사진을 촬영합니다. </Typography>
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_EVERYDAY1')}</Typography>
+        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit={myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_NUMBEROFTIMES')} keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_EVERYDAY2')}</Typography>
       </Stack>
       <Stack direction="row" alignItems="flex-end">
-        <Typography> 활영시작시간: </Typography>
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_STARTTIME')}</Typography>
         <AutoInputControl type="time" initvalue={copycfg.STime} unit="" keyname="STime" onChange={props.inputallchangeHandler} />
       </Stack>
     </Stack>
