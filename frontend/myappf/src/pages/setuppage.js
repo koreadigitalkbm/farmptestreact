@@ -65,7 +65,9 @@ export default function SetupPage(props) {
     }
     langstr= KDUtil.isSupportLanguage(langstr);
     i18n.changeLanguage(langstr);
-     setCookie('languageT', langstr);
+    var nextyear = new Date();
+    nextyear.setFullYear(nextyear.getFullYear()+2);
+         setCookie('languageT', langstr, { expires:  nextyear});
     console.log("-------------------------SetupPage cookies:"+cookies.languageT);
 
   };

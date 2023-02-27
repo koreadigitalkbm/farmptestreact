@@ -29,7 +29,9 @@ function FarmApp(props) {
   
   if(cookies.languageT==null)
   {
-    setCookie('languageT', KDUtil.isSupportLanguage(navigator.language));
+    var nextyear = new Date();
+    nextyear.setFullYear(nextyear.getFullYear()+2);
+    setCookie('languageT', KDUtil.isSupportLanguage(navigator.language), { expires:  nextyear});
   }
 
 
