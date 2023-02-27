@@ -65,7 +65,7 @@ export default function FMainpage(props) {
 
   useEffect(() => {
     let dropItems = {};
-    dropMenu.map((e) => (dropItems[e] = t(e)));
+    dropMenu.map((e) => (dropItems[e] = myAppGlobal.langT(e)));
     setDropItems(dropItems);
 
     // 로그인되면 무조건 홈화면으로 가게
@@ -91,7 +91,7 @@ export default function FMainpage(props) {
               myAppGlobal.Autocontrolcfg = ret.retParam;
               myAppGlobal.Autocontrolcfg.map(function (item) {
                 if (item.Lid != null) {
-                  item.Name = t(item.Lid);
+                  item.Name = myAppGlobal.langT(item.Lid);
                 }
               });
             }
@@ -113,14 +113,16 @@ export default function FMainpage(props) {
         return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_LOADAUTO')}</Typography>;
       case "error":
         return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_ERROR')}</Typography>;
+      case "otherlogin":
+        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_OTHLOGIN')}</Typography>;
       default:
         break;
     }
 
     return (
       <Routes>
-        <Route path="/" element={<HDashboard />} />
-        <Route path="/Home" element={<HDashboard />} />
+        <Route path="/" element={<HDashboard  otherlogin={setLoadinfo} />} />
+        <Route path="/Home" element={<HDashboard  otherlogin={setLoadinfo} />} />
         <Route path="/Control" element={<ControlPage />} />
         <Route path="/Data" element={<DataMainPage />} />
         <Route path="/Data2" element={<DataPage />} />
@@ -149,13 +151,13 @@ export default function FMainpage(props) {
 
           <Button component={RouterLink} to={"Home"} color="inherit">
             <Home />
-            {t("Home")}
+            {myAppGlobal.langT("Home")}
           </Button>
           <Button component={RouterLink} to={"Autocontrol"} color="inherit">
             <LocalFlorist />
-            {t("Autocontrol")}
+            {myAppGlobal.langT("Autocontrol")}
           </Button>
-          <Button component={RouterLink} to={"Data"} color="inherit"><FindInPage />{t("Data")}</Button>
+          <Button component={RouterLink} to={"Data"} color="inherit"><FindInPage />{myAppGlobal.langT("Data")}</Button>
 
           <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
           <Menu
@@ -184,7 +186,7 @@ export default function FMainpage(props) {
             ))}
             <MenuItem onClick={logoutbuttonHandler}>
               <Navicon id="Logout" />
-              &nbsp;{t("SignOut")}
+              &nbsp;{myAppGlobal.langT("SignOut")}
             </MenuItem>
           </Menu>
         </Toolbar>

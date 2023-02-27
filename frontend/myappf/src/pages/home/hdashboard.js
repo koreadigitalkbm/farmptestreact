@@ -25,7 +25,7 @@ let imagefileurl = "image/noimage.png";
 let isoffscreen = false;
 
 //홈 메인 대시보드
-const HDashboard = () => {
+const HDashboard = (props) => {
   const [msensorsarray, setSensors] = useState(sensorlist);
   const [mactuaotrs, setActuator] = useState(actuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
@@ -34,7 +34,7 @@ const HDashboard = () => {
   const [msensorlasttime, setLasttime] = useState(null);
 
   console.log("-------------------------HDashboard  ---------------------");
-
+  
   function loaddatas() {
     let nowdate = new Date();
     console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec);
@@ -51,6 +51,8 @@ const HDashboard = () => {
           if(ret.retMessage ==="unotherslogin")
           {
             console.log("un other login:" + ret.retMessage );  
+            props.otherlogin("otherlogin");
+            
           }
         }
         if (sensors != null) {
