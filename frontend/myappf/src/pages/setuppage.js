@@ -67,7 +67,7 @@ export default function SetupPage(props) {
     i18n.changeLanguage(langstr);
     var nextyear = new Date();
     nextyear.setFullYear(nextyear.getFullYear()+2);
-         setCookie('languageT', langstr, { expires:  nextyear});
+    setCookie('languageT', langstr, { expires:  nextyear});
     console.log("-------------------------SetupPage cookies:"+cookies.languageT);
 
   };

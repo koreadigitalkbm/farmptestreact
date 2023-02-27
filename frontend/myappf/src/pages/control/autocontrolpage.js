@@ -15,12 +15,13 @@ import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import AddCardIcon from "@mui/icons-material/AddCard";
+import Grid from "@mui/material/Grid";
 
-import { useTranslation } from "react-i18next";
+
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
-  margin: "6px",
-  width: "50rem",
+  margin: "4px",
+  minWidth: "45rem",
   backgroundColor: theme.palette.mode === "dark" ? "#ffe0b2" : "#ffe0b2",
 }));
 
@@ -71,9 +72,9 @@ const Autocontrolcard = (props) => {
 
   return (
     <CardFarmsCube>
-      <ThemeProvider theme={muiTheme}>
+      
         <CardActions disableSpacing>
-          <Typography variant="h6" sx={{ width: 400 }}>
+          <Typography variant="h6" sx={{ minWidth: 300 }}>
             {mydata.Name}
           </Typography>
           <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} />
@@ -83,7 +84,7 @@ const Autocontrolcard = (props) => {
             {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
           </ExpandMore>
         </CardActions>
-      </ThemeProvider>
+      
 
       <div>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} /> : ""}</div>
 
@@ -100,7 +101,7 @@ const Autocontrolcard = (props) => {
 };
 
 const Autocontrolpage = (props) => {
-  const { t } = useTranslation();
+  
   const [mAutolist, setUpdateauto] = useState(myAppGlobal.Autocontrolcfg);
 
   console.log("----------------------------Autocontrolpage ");
@@ -127,7 +128,7 @@ const Autocontrolpage = (props) => {
     */
   }, []);
 
-  function onAdd() {}
+  
 
   let autoList =null;
   if(mAutolist !=null)
@@ -137,16 +138,21 @@ const Autocontrolpage = (props) => {
   
 
   return (
-    <div>
-      <ThemeProvider theme={muiTheme}>
-        <Card sx={{ minWidth: 300, m: 3, backgroundColor: "#fff3e0" }}>
-          <CardHeader title={myAppGlobal.langT('LT_GROWPLANTS_TITLE')} />
+    <Box sx={{ flexGrow: 1 }}>
+    <Grid container spacing={1}>
+      
+      <Grid item xs={12} md={12}>
+      
+        <Card sx={{  backgroundColor: "#fff3e0" }}>
+          <CardHeader  titleTypographyProps={{variant:'h7' }} title={myAppGlobal.langT('LT_GROWPLANTS_TITLE')} />
           <Stack direction="column">{autoList}</Stack>
-
           <Button endIcon={<AddCardIcon fontSize="large" />}>{myAppGlobal.langT('LT_GROWPLANTS_ADDAUTOCONTROL')}</Button>
         </Card>
-      </ThemeProvider>
-    </div>
+      
+      
+      </Grid>
+      </Grid>
+      </Box>
   );
 };
 

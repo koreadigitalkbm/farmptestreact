@@ -107,6 +107,10 @@ module.exports = class ServerAPI {
 
     if (sid != msgisd) {
       console.log("session not same ....");
+      responsemsg.IsOK = true;
+      responsemsg.retMessage="unotherslogin"
+      rsp.send(JSON.stringify(responsemsg));
+
     } else {
       const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
       const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);

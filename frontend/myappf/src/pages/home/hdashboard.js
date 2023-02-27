@@ -32,7 +32,7 @@ const HDashboard = () => {
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
 
-  const { t, i18n} = useTranslation();
+  
 
 
   const [msensorlasttime, setLasttime] = useState(null);
