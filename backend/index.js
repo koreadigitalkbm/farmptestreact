@@ -1,6 +1,6 @@
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
 //버전업 로그 1.801 장비 별칭기능 추가 파일새로 생성됨.
-const farmscubeplatformversion = 1.801;
+const farmscubeplatformversion = 1.802;
 
 var express = require("express");
 var cors = require("cors");
