@@ -8,7 +8,7 @@ import ActuatorDisplay from "./actuatordisplay";
 import DashboardChart from "./dashboardchart";
 import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
-import { useTranslation } from "react-i18next";
+
 
 let lasteventtime = 1;
 let lastsensortime = 1;
@@ -31,10 +31,6 @@ const HDashboard = () => {
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
-
-  
-
-
   const [msensorlasttime, setLasttime] = useState(null);
 
   console.log("-------------------------HDashboard  ---------------------");
@@ -50,6 +46,13 @@ const HDashboard = () => {
         let sensors = ret.Sensors;
         let actuators = ret.Outputs;
 
+        if( ret.retMessage!=null)
+        {
+          if(ret.retMessage ==="unotherslogin")
+          {
+            console.log("un other login:" + ret.retMessage );  
+          }
+        }
         if (sensors != null) {
           console.log("sensors length:" + sensors.length);
           if (sensors.length > 0) {
