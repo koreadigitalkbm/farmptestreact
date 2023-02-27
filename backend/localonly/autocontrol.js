@@ -496,7 +496,7 @@ module.exports = class AutoControl {
   setdaycontroltimeover()
   {
 
-    currentstate = KDDefine.AUTOStateType.AST_Off_finish;
+    
     //제어 변수들 초기화 
     this.PWMonoffstate = false;
     this.PWMLasttoltalsec = 0; 
@@ -532,6 +532,8 @@ module.exports = class AutoControl {
     } else {
       //기본조건 안맞음 모두  off
       this.setdaycontroltimeover();
+      currentstate = KDDefine.AUTOStateType.AST_Off_finish;
+      
       
     }
     //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
