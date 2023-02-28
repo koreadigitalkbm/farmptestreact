@@ -61,6 +61,12 @@ module.exports = class AutoControlInterface {
   //자동제어 설정을 리셋하고 초기값으로 되돌린다.
   async AutocontrolReset() {
 
+
+    //구동기 설정도 초기화 
+  await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc480);
+  await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc200);
+  await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_VFC3300);
+
     await KDCommon.Deletefile(KDCommon.autocontrolconfigfilename);
 
     this.Autocontrolload();

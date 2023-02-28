@@ -73,13 +73,13 @@ module.exports = class ActuatorInterface {
           //console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.Basicinfo.Channel);
           //현장수동모드이면
           if (readactdev.Sat === 299) {
-            actd.AStatus.Opm = "LM";
+            actd.AStatus.Opm = KDDefine.OPMode.OPM_Local;
           } else {
             // 기존값 유지, 자동,수동 변경
             actd.AStatus.Opm = actd.AOperation.Opmode;
           }
           //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
-          if (actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !== "LM") {
+          if (actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !== KDDefine.OPMode.OPM_Local) {
             await curactnode.ControlNormal(actd.AOperation, actd.Basicinfo.Channel);
           } else {
             let newevt = actd.getEventwithCheck();
@@ -88,6 +88,7 @@ module.exports = class ActuatorInterface {
               //console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
             }
           }
+
 
           break;
         }
