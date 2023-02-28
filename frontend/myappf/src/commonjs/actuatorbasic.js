@@ -19,7 +19,7 @@ module.exports = class ActuatorBasic {
   }
 
   /// 구동기목록 모델별로 디폴트 생성 json 파일에서 편집할경우 구조체가 변경되면  귀찮음.. 코드로 추가하고 파일삭제하면 자동생성되게 하자.
-  static CreateDefaultConfig(modelname) {
+  static CreateDefaultActuator(modelname) {
     let mcfglist = [];
 
     console.log("CreateDefaultConfig modelname:"+modelname + " KDDefine.PModel.KPC200:"+ KDDefine.PModel.KPC200 );
@@ -104,6 +104,12 @@ module.exports = class ActuatorBasic {
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ACTUATOR, 0, KDDefine.OutDeviceTypeEnum.ODT_RELAY));
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ACTUATOR, 1, KDDefine.OutDeviceTypeEnum.ODT_RELAY));
     }
+
+
+
+
+
+
     return mcfglist;
   }
 };

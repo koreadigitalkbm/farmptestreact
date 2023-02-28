@@ -53,7 +53,7 @@ module.exports = class ActuatorInterface {
     let actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     ////설정파일이 없으면 디폴트로 생성
     if (actinfolist === null) {
-      actinfolist = ActuatorBasic.CreateDefaultConfig(this.mMain.localsysteminformations.Systemconfg.productmodel);
+      actinfolist = ActuatorBasic.CreateDefaultActuator(this.mMain.localsysteminformations.Systemconfg.productmodel);
       KDCommon.Writefilejson(actuatorconfigfilename, actinfolist);
       actinfolist = KDCommon.Readfilejson(actuatorconfigfilename);
     }

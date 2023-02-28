@@ -16,20 +16,15 @@ import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
 
-import { useTranslation } from "react-i18next";
-import DeviceSystemconfig from "../commonjs/devsystemconfig";
-
 const dropMenu = ["Data2", "Setting", "Sensor", "Control", "Setup"];
-  
+
 export default function FMainpage(props) {
-  const { t } = useTranslation();
   const [loadinfo, setLoadinfo] = useState("init");
 
   const [dropItems, setDropItems] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
 
-  
   const open = Boolean(anchorEl);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
@@ -81,7 +76,13 @@ export default function FMainpage(props) {
           console.log(ret);
           myAppGlobal.systeminformations = ret.retParam;
           console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
-          setLoadinfo("loadauto");
+
+          if (props.loginrol === "factoryadmin") {
+            //공장설정 계정이면 자동제어필요 없이 바로 설정되도록 건너뜀.
+            setLoadinfo("loadok");
+          } else {
+            setLoadinfo("loadauto");
+          }
 
           myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
             if (ret == null) {
@@ -108,21 +109,21 @@ export default function FMainpage(props) {
     console.log("---------------------------- loadpage loadinfo: " + loadinfo);
     switch (loadinfo) {
       case "init":
-        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_INIT')}</Typography>;
+        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_INIT")}</Typography>;
       case "loadauto":
-        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_LOADAUTO')}</Typography>;
+        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_LOADAUTO")}</Typography>;
       case "error":
-        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_ERROR')}</Typography>;
+        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_ERROR")}</Typography>;
       case "otherlogin":
-        return <Typography>{myAppGlobal.langT('LT_LOADINGPAGE_OTHLOGIN')}</Typography>;
+        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_OTHLOGIN")}</Typography>;
       default:
         break;
     }
 
     return (
       <Routes>
-        <Route path="/" element={<HDashboard  otherlogin={setLoadinfo} />} />
-        <Route path="/Home" element={<HDashboard  otherlogin={setLoadinfo} />} />
+        <Route path="/" element={<HDashboard otherlogin={setLoadinfo} />} />
+        <Route path="/Home" element={<HDashboard otherlogin={setLoadinfo} />} />
         <Route path="/Control" element={<ControlPage />} />
         <Route path="/Data" element={<DataMainPage />} />
         <Route path="/Data2" element={<DataPage />} />
@@ -157,7 +158,10 @@ export default function FMainpage(props) {
             <LocalFlorist />
             {myAppGlobal.langT("Autocontrol")}
           </Button>
-          <Button component={RouterLink} to={"Data"} color="inherit"><FindInPage />{myAppGlobal.langT("Data")}</Button>
+          <Button component={RouterLink} to={"Data"} color="inherit">
+            <FindInPage />
+            {myAppGlobal.langT("Data")}
+          </Button>
 
           <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
           <Menu

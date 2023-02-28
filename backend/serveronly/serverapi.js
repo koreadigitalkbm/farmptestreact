@@ -211,6 +211,24 @@ module.exports = class ServerAPI {
         } else if (reqmsg.reqParam.loginID === "kd4" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0004";
+        } else if (reqmsg.reqParam.loginID === "kd5" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0005";
+        } else if (reqmsg.reqParam.loginID === "kd6" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0006";
+        } else if (reqmsg.reqParam.loginID === "kd7" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0007";
+        } else if (reqmsg.reqParam.loginID === "kd8" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0008";
+        } else if (reqmsg.reqParam.loginID === "kd9" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0009";
+        } else if (reqmsg.reqParam.loginID === "kd10" && reqmsg.reqParam.loginPW === "1234") {
+          rspmsg.retMessage = "user";
+          rspmsg.retParam = "IF0010";
         } else if (reqmsg.reqParam.loginID === "kd11" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0011";

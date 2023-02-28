@@ -76,7 +76,7 @@ module.exports = class AutoControlUtil {
       m1.Lid = "LT_ANAME_TEMP";
       m1.Name = "온도제어(냉난방)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-      m1.Enb = true;
+      m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX; //  자동제어 분류
       m1.Actlist.push("N01C00T00"); ///히터 릴레이 장비
@@ -97,7 +97,7 @@ module.exports = class AutoControlUtil {
       m1.Lid = "LT_ANAME_WATER";
       m1.Name = "관수제어(타이머)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-      m1.Enb = true;
+      m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
       m1.Actlist.push("N01C04T00"); ///관수 릴레이 장비
@@ -117,7 +117,7 @@ module.exports = class AutoControlUtil {
       m1.Lid = "LT_ANAME_LED";
       m1.Name = "광량제어(3LED)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-      m1.Enb = true;
+      m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_TIMER_ONLY_DAY;
       m1.Cat = KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX; //  자동제어 분류
       m1.Actlist.push("N01C24T02"); ///
@@ -142,7 +142,7 @@ module.exports = class AutoControlUtil {
       m1.Lid = "LT_ANAME_AIR";
       m1.Name = "환기제어(CO2,습도)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-      m1.Enb = true;
+      m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
       m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
       m1.Actlist.push("N01C06T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
@@ -169,7 +169,7 @@ module.exports = class AutoControlUtil {
      m1.Lid = "LT_ANAME_TEMP";
      m1.Name = "온도제어(냉난방)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-     m1.Enb = true;
+     m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
      m1.Cat = KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX; //  자동제어 분류
      m1.Actlist.push("N01C00T00"); ///히터 릴레이 장비
@@ -190,7 +190,7 @@ module.exports = class AutoControlUtil {
      m1.Lid = "LT_ANAME_WATER";
      m1.Name = "관수제어(타이머)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-     m1.Enb = true;
+     m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
      m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
      m1.Actlist.push("N01C16T00"); ///관수 릴레이 장비
@@ -210,7 +210,7 @@ module.exports = class AutoControlUtil {
      m1.Lid = "LT_ANAME_LED";
      m1.Name = "광량제어(3LED)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-     m1.Enb = true;
+     m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_TIMER_ONLY_DAY;
      m1.Cat = KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX; //  자동제어 분류
      m1.Actlist.push("N01C24T02"); ///
@@ -235,7 +235,7 @@ module.exports = class AutoControlUtil {
      m1.Lid = "LT_ANAME_AIR";
      m1.Name = "환기제어(CO2,습도)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-     m1.Enb = true;
+     m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
      m1.Actlist.push("N01C05T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자

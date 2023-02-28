@@ -12,14 +12,18 @@ import KDUtil from "../../commonjs/kdutil";
 
 let lasteventtime = 1;
 let lastsensortime = 1;
-let readtimemsec = 0;
-let readcallbacktimeout;
+
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
 let actuaotrslist = [];
 let sensorlist = [];
+
+
+let readtimemsec = 0;
+let readcallbacktimeout;
+
 let imagefilename = "";
 let imagefileurl = "image/noimage.png";
 let isoffscreen = false;
@@ -52,7 +56,7 @@ const HDashboard = (props) => {
           {
             console.log("un other login:" + ret.retMessage );  
             props.otherlogin("otherlogin");
-            
+
           }
         }
         if (sensors != null) {
