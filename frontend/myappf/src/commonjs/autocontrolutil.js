@@ -18,6 +18,8 @@ module.exports = class AutoControlUtil {
       }
     }
 
+    console.log(" GetActuatorbyUid null= "+mUid);
+    
     return null;
   }
 
@@ -193,7 +195,7 @@ module.exports = class AutoControlUtil {
      m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
      m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
-     m1.Actlist.push("N01C16T00"); ///관수 릴레이 장비
+     m1.Actlist.push("N01C15T00"); ///관수 릴레이 장비
      m1.DOnTime = 30;
      m1.DOffTime = 120;
      m1.NOnTime = 10;
@@ -238,7 +240,7 @@ module.exports = class AutoControlUtil {
      m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
-     m1.Actlist.push("N01C05T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
+     m1.Actlist.push("N01C06T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
      m1.DOnTime = 3600;
      m1.DOffTime = 3600;
      m1.STime = 8 * 3600;

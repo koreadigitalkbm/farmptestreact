@@ -351,6 +351,9 @@ module.exports = class AutoControl {
 
         for (const mactid of this.mConfig.Actlist) {
           let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+
+          if(actd !=null)
+          {
           let onoffstate = null;
           if (currentstate == KDDefine.AUTOStateType.AST_On) {
             onoffstate = true;
@@ -365,7 +368,7 @@ module.exports = class AutoControl {
             console.log("-getOperationsBySpcify ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
             opcmdlist.push(opcmd);
           }
-          
+        }
 
         }
         //현재상태 갱신
@@ -533,7 +536,7 @@ module.exports = class AutoControl {
       //기본조건 안맞음 모두  off
       this.setdaycontroltimeover();
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
-      
+
       
     }
     //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
@@ -569,6 +572,9 @@ module.exports = class AutoControl {
          
         }
       }
+
+
+      
 
       this.setUpdatestateWithEvent(currentstate);    
       
