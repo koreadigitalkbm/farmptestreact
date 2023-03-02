@@ -17,13 +17,13 @@ module.exports = class RasCamera {
     static async Captureimage() {
       
         const PiCamera = require("pi-camera");
-       
+       //kbm 카메라 해상도 조정 
         const myCamera = new PiCamera({
           mode: "photo",
           output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
-          width: 640,
-          height: 480,
-          quality : 50,
+          width: 1600,
+          height: 1200,
+          quality : 70,
           // width: 3280,
           // height: 2468,
           // width: 3280,
