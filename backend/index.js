@@ -2,7 +2,8 @@
 //버전업 로그 1.801 장비 별칭기능 추가 파일새로 생성됨.
 //1.814 : KPC480 연구용장비 기능업데이트
 //1.815 : 카메라 촬영 버그 수정
-const farmscubeplatformversion = 1.815;
+//1.816 : 자동제어 Number() 적용
+const farmscubeplatformversion = 1.816;
 
 var express = require("express");
 var cors = require("cors");

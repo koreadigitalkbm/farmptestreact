@@ -23,8 +23,12 @@ module.exports = class AutoControlUtil {
     return null;
   }
 
-  static IsIncludeTime(starttime, endtime, currenttime) {
+  static IsIncludeTime(mstarttime, mendtime, mcurrenttime) {
     //시작시간이 더크면 자정포함임.
+    let starttime = Number(mstarttime);
+    let endtime = Number(mendtime);
+    let currenttime = Number(mcurrenttime);
+
     if (starttime > endtime) {
       if (currenttime >= starttime || currenttime <= endtime) {
         return true;
