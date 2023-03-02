@@ -1,6 +1,12 @@
 import {createTheme} from '@mui/material/styles'
+import { blue, blueGrey } from '@mui/material/colors';
 
 const muiTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: blue,
+    secondary: blueGrey
+  },
     typography: {
       fontFamily: [
 
