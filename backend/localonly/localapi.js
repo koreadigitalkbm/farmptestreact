@@ -18,6 +18,40 @@ const fetch = require("node-fetch");    // only work on Version2.xx, not working
 
 const SERVERAPI_URL = "http://15.164.60.217/api/";
 
+
+
+
+function softwarenpminstall(isbackend) {
+  console.log("softwarenpminstall  isbackend: " + isbackend);
+
+  let cmdString = 'npm install '; 
+  let cmdpath="./";
+  if(isbackend==false )
+  {
+    cmdpath="../frontend/myappf/";
+  }
+  else{
+    cmdpath="../backend/";
+  }
+  
+  
+  if (process.platform !== "win32") {
+    cmdString = 'sudo npm install';
+  }
+  
+  console.log("softwarenpminstall  cmdString: " + cmdString);
+  
+  const child = exec( cmdString, {cwd: cmdpath},function (error, stdout, stderr) {
+    console.log("stdout install: " + stdout);
+    console.log("stderr: " + stderr);
+    if (error !== null) {
+      console.log("exec error: " + error);
+    }
+  });
+}
+
+
+
 module.exports = class LocalAPI {
   constructor(fversion, mmain) {
     this.mMain = mmain;
@@ -98,7 +132,7 @@ module.exports = class LocalAPI {
         break;
 
       case KDDefine.REQType.RT_SWUPDATE:
-        this.softwareupdatefromgit();
+        this.softwareupdatefromgit(reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
@@ -229,8 +263,40 @@ module.exports = class LocalAPI {
     });
   }
 
-  softwareupdatefromgit() {
-    console.log("softwareupdatefromgit  up1:");
+
+
+  softwareupdatefromgit(mupdateversion) {
+    console.log("softwareupdatefromgit  mupdateversion: " + mupdateversion + " myversion:"+this.platformversion);
+    let isbacknpminstall=null;;
+
+    if(mupdateversion !=null)
+    {
+      let upversionnum = Number(mupdateversion);
+      let myversionnum = Number(this.platformversion);
+      let bnumup=Math.floor(upversionnum%10);
+      let bnummy=Math.floor(myversionnum%10);
+
+
+      let fnumup=Math.floor((upversionnum*10)%10);
+      let fnummy=Math.floor((myversionnum*10)%10);
+
+      console.log("bnumup: " + bnumup + " bnummy:"+bnummy);
+      console.log("fnumup: " + fnumup + " fnummy:"+fnummy);
+
+      if(bnumup > bnummy)
+      {
+        isbacknpminstall=true;
+      }
+      else{
+        if(fnumup > fnummy)
+        {
+          isbacknpminstall=false;
+        }
+      }
+
+        console.log("isbacknpminstall: " + isbacknpminstall);
+
+    }
 
     let cmdString = 'git pull ';    // 2023.02.20
     if (process.platform !== "win32") {
@@ -238,16 +304,21 @@ module.exports = class LocalAPI {
     }
     
 
-    
-
-    child = exec( cmdString, function (error, stdout, stderr) {
+    const child = exec( cmdString, function (error, stdout, stderr) {
       console.log("stdout pull: " + stdout);
       console.log("stderr: " + stderr);
       if (error !== null) {
         console.log("exec error: " + error);
       }
+      else{
+        if(isbacknpminstall !=null)
+        {
+          softwarenpminstall(isbacknpminstall);
+        }
+      }
     });
   }
+
 
   async setsensordatatoserver(did, dtime, slist) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_SENSOR);

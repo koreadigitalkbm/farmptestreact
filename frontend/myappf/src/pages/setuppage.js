@@ -137,7 +137,7 @@ export default function SetupPage(props) {
   function updateforlocaldevice(e) {
     console.log("updateforlocaldevice : " + e.target.name);
 
-    myAppGlobal.farmapi.setsoftwareupdate(true).then((ret) => {
+    myAppGlobal.farmapi.setsoftwareupdate(true, serverversion).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
     });
   }
