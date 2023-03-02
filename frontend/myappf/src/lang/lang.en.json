@@ -134,6 +134,14 @@
     "LT_SNAME_40": "누적일사량",
     "LT_SNAME_41": "Dew point",
 
+    "LT_SNAME_42": "Fire Detector",
+    "LT_SNAME_43": "Humidity Deficit",
+    "LT_SNAME_44": "Differential Pressure",
+    "LT_SNAME_45": "Quantum",
+    "LT_SNAME_46": "Salinity",
+
+
+
     "LT_LOADINGPAGE_INIT": "Loading to device information.",
     "LT_LOADINGPAGE_LOADAUTO": "Loading to automatic control information.",
     "LT_LOADINGPAGE_ERROR": "Can't connect to device.",
