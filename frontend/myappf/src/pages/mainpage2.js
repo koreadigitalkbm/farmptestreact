@@ -152,7 +152,7 @@ export default function FMainpage(props) {
 
       <AppBar component="nav">
         <Toolbar>
-          <img src="/image/farmscube_logo_small48.png"></img>
+          <img src="/image/farmscube_logo_small48.png"   ></img>
 
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {NameT}
