@@ -13,8 +13,8 @@ import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
 
 
-let lasteventtime = 1;
-let lastsensortime = 1;
+//let lasteventtime = 1;
+//let lastsensortime = 1;
 
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
@@ -27,8 +27,8 @@ let sensorlist = [];
 let readtimemsec = 0;
 let readcallbacktimeout;
 
-let imagefilename = "";
-let imagefileurl = "image/noimage.png";
+//let imagefilename = "";
+//let imagefileurl = "image/noimage.png";
 let isoffscreen = false;
 
 //홈 메인 대시보드
@@ -37,7 +37,7 @@ const HDashboard = (props) => {
   const [mactuaotrs, setActuator] = useState(actuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
-  const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
+  const [mimgfileurl, setImgfileurl] = useState("image/noimage.png");
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(true);
 
@@ -49,7 +49,7 @@ const HDashboard = (props) => {
     console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec);
 
     setDataloading(true);
-    myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
+    myAppGlobal.farmapi.getDeviceStatus(true, true, false, myAppGlobal.dashboardlastsensortime, myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
       setDataloading(false);
       if (ret == null) {
@@ -88,12 +88,15 @@ const HDashboard = (props) => {
           let sysevents = ret.retParam.DEvents;
           let dsensors = ret.retParam.DSensors;
 
+          //console.log("capture LastimageFilename : " + ret.retParam.LastimageFilename);
+
+
           if (ret.retParam.LastimageFilename != null) {
-            if (imagefilename != ret.retParam.LastimageFilename) {
-              imagefilename = ret.retParam.LastimageFilename;
-              imagefileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imagefilename;
-              console.log("capture fileurl : " + imagefileurl);
-              setImgfileurl(imagefileurl);
+            if (myAppGlobal.dashboardimagefileurl != ret.retParam.LastimageFilename) {
+              myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
+              const imagefilename = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + myAppGlobal.dashboardimagefileurl;
+              console.log("capture fileurl : " + imagefilename);
+              setImgfileurl(imagefilename);
             }
           }
 
@@ -102,14 +105,14 @@ const HDashboard = (props) => {
               let revlasttime;
               let isupdateevent = false;
 
-              console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(lasteventtime));
+              console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(myAppGlobal.dashboardlasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
                 revlasttime = sysevents[i].EDate;
-                if (revlasttime > lasteventtime) {
+                if (revlasttime > myAppGlobal.dashboardlasteventtime) {
                   eventlist.push(sysevents[i]);
                   isupdateevent = true;
-                  //   console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + lasteventtime);
+                  //   console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + myAppGlobal.dashboardlasteventtime);
                 }
               }
 
@@ -122,8 +125,8 @@ const HDashboard = (props) => {
               }
 
               if (isupdateevent === true) {
-                lasteventtime = revlasttime;
-                console.log("update event : " + Date(lasteventtime) + " lenth : " + eventlist.length);
+                myAppGlobal.dashboardlasteventtime = revlasttime;
+                console.log("update event : " + Date(myAppGlobal.dashboardlasteventtime) + " lenth : " + eventlist.length);
                 eventlistTime = [];
                 for (let i = 0; i < eventlist.length; i++) {
                   let newobj = eventlist[eventlist.length - i - 1];
@@ -146,18 +149,18 @@ const HDashboard = (props) => {
 
               for (let i = 0; i < dsensors.length; i++) {
                 recivelasttime = dsensors[i].SDate;
-                if (recivelasttime > lastsensortime) {
+                if (recivelasttime > myAppGlobal.dashboardlastsensortime) {
                   dailysensorlist.push(dsensors[i]);
                   isupdate = true;
                 }
               }
               if (isupdate === true) {
-                lastsensortime = recivelasttime;
+                myAppGlobal.dashboardlastsensortime = recivelasttime;
                 setDailysensor(dailysensorlist);
                 setLasttime(recivelasttime);
                 
 
-                console.log("update sensor : " + Date(lastsensortime) + " lenth : " + dailysensorlist.length);
+                console.log("update sensor : " + Date(myAppGlobal.dashboardlastsensortime) + " lenth : " + dailysensorlist.length);
                 // console.log(dailysensorlist);
               }
             }
