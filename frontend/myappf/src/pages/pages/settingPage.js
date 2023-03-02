@@ -356,7 +356,7 @@ export default function SettingPage(props) {
 
   
 
-    myAppGlobal.farmapi.setsoftwareupdate(true,2.936).then((ret) => {
+    myAppGlobal.farmapi.setsoftwareupdate(true,2.216).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
     });
   }
