@@ -39,14 +39,14 @@ module.exports = class KDCommon {
   static getCurrentTotalsec() {
     const clocknow = new Date();
     const totalsec = clocknow.getHours() * 3600 + clocknow.getMinutes() * 60 + clocknow.getSeconds();
-    return totalsec;
+    return Number(totalsec);
   }
 
     //현재시간 분단위로
     static getCurrentTotalminute() {
       const clocknow = new Date();
       const totalmin = clocknow.getHours() * 60 + clocknow.getMinutes() ;
-      return totalmin;
+      return Number(totalmin);
     }
 
   static removeallfiles(dirPath)

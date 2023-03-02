@@ -285,6 +285,8 @@ static  ActuatorNameID= Object.freeze({
   NID_ECVALVED_PH: 38, // D액밸브(산)
   NID_ECVALVEE_PH: 39, // E액밸브(산)
 
+  NID_HUMI_HEATER: 40, // 가습기
+  NID_CO2_VALVE: 41, // co2 공급밸브
 
 });
 

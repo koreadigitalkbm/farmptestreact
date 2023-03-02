@@ -69,7 +69,7 @@ module.exports = class ActuatorNode {
     }
   }
 
-  readRS485Registers(Regaddress, Reglength) {
+  async readRS485Registers(Regaddress, Reglength) {
     return new Promise((resolve, reject) => {
       this.modbusMaster.writeFC3(this.SlaveID, Regaddress, Reglength, function (err, data) {
         resolve(data);
@@ -83,11 +83,12 @@ module.exports = class ActuatorNode {
     });
   }
 
-  writeRS485Registers(Regaddress, RegDatas) {
+  async writeRS485Registers(Regaddress, RegDatas) {
     return new Promise((resolve, reject) => {
       this.modbusMaster.writeFC16(this.SlaveID, Regaddress, RegDatas, function (err, data) {
         resolve(data);
         if (err) {
+          console.log("ActuatorNode write error:" );
           console.log(err);
         }
       });
@@ -123,6 +124,9 @@ module.exports = class ActuatorNode {
   async ControlNormal(moperation, channel) {
     try {
        console.log("-ControlNomal-----" + "ID :" + moperation.Uid +" ,cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec);
+     //  let nowt=new Date();
+     //  console.log("tick : " + nowt.getSeconds()  +": "   + nowt.getMilliseconds());
+
 
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();
