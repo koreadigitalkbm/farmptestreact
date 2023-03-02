@@ -236,6 +236,14 @@
     "LT_DATAPAGE_EVENT_DATE": "시간",
     "LT_DATAPAGE_EVENT_TYPE": "종류",
     "LT_DATAPAGE_EVENT_CONTENT": "내용",
+
+    "LT_SETTING_TITLE": "환경설정",
+    "LT_SETTING_MYDINFO_TITLE": "나의 기기 정보",
+    "LT_SETTING_NAME": "기기 이름",
+    "LT_SETTING_DEVICEID": "기기 ID",
+    "LT_SETTING_COMPORT": "포트 번호",
+    "LT_SETTING_PRODUCTNAME": "브랜드 이름",
+    "LT_SETTING_PRODUCTMODEL": "모델 이름",
     
 
 

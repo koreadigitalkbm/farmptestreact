@@ -230,6 +230,14 @@
     "LT_DATAPAGE_EVENT_TYPE": "Type",
     "LT_DATAPAGE_EVENT_CONTENT": "Content",
 
+    "LT_SETTING_TITLE": "SETTINGS",
+    "LT_SETTING_MYDINFO_TITLE": "my device's information",
+    "LT_SETTING_NAME": "Device name",
+    "LT_SETTING_DEVICEID": "Device ID",
+    "LT_SETTING_COMPORT": "Number of port",
+    "LT_SETTING_PRODUCTNAME": "Brand name",
+    "LT_SETTING_PRODUCTMODEL": "Model name",
+
     "Autocontrol": "Grow Plants",
     "BrandName": "Brand name",
     "Cancel": "Cancel",

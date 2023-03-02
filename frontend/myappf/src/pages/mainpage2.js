@@ -146,7 +146,7 @@ export default function FMainpage(props) {
             &nbsp;
             {myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND")}
             &nbsp; : &nbsp;
-            {/* {myAppGlobal.systeminformations.Systemconfg.name} */}
+            {myAppGlobal.systeminformations.Systemconfg.deviceuniqid}
           </Typography>
 
           <Button component={RouterLink} to={"Home"} color="inherit">
