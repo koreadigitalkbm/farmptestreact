@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Stack,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 
 import Sensordisplay from "./sensordisplay";
@@ -219,12 +220,23 @@ const HDashboard = (props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
+      
+      
+      
         <Grid item xs={12} md={12}>
+        <Stack direction="row" spacing={1}>
+
+          
+          {isdataloading === true ? <CircularProgress size="1.2rem"  /> : <AccessTimeIcon size="1rem" />}  
+    
+    
+
           <Typography variant="body2" fontSize="30" color="#0d47a1">
-            
-            {isdataloading === true ? <CircularProgress size="1rem" /> : null}
+           
             {lastime}
           </Typography>
+    
+          </Stack>
         </Grid>
 
         <Grid item xs={8}>

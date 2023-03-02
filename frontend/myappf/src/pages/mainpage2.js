@@ -135,6 +135,17 @@ export default function FMainpage(props) {
     );
   }
 
+
+  let  NameT=myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND");
+  if(myAppGlobal.systeminformations !=null)
+ {
+  if(myAppGlobal.systeminformations.Systemconfg.name != "unknown")
+  {
+    NameT = myAppGlobal.systeminformations.Systemconfg.name;
+  }
+    
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -144,10 +155,7 @@ export default function FMainpage(props) {
           <img src="/image/farmscube_logo_small48.png"></img>
 
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
-            &nbsp;
-            {myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND")}
-            &nbsp; : &nbsp;
-            {/* {myAppGlobal.systeminformations.Systemconfg.name} */}
+            {NameT}
           </Typography>
 
           <Button component={RouterLink} to={"Home"} color="inherit">
