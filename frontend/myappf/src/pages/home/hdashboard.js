@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
@@ -36,6 +38,8 @@ const HDashboard = (props) => {
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
   const [msensorlasttime, setLasttime] = useState(null);
+  const [isdataloading, setDataloading] = useState(true);
+
 
   console.log("-------------------------HDashboard  ---------------------");
   
@@ -43,8 +47,10 @@ const HDashboard = (props) => {
     let nowdate = new Date();
     console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec);
 
+    setDataloading(true);
     myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
       //console.log(ret);
+      setDataloading(false);
       if (ret == null) {
       } else if (ret.IsOK == true) {
         let sensors = ret.Sensors;
@@ -148,6 +154,8 @@ const HDashboard = (props) => {
                 lastsensortime = recivelasttime;
                 setDailysensor(dailysensorlist);
                 setLasttime(recivelasttime);
+                
+
                 console.log("update sensor : " + Date(lastsensortime) + " lenth : " + dailysensorlist.length);
                 // console.log(dailysensorlist);
               }
@@ -174,9 +182,9 @@ const HDashboard = (props) => {
 
     //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
-      readtimemsec = 10000;
+      readtimemsec = 20000;
     } else {
-      readtimemsec = 1000;
+      readtimemsec = 3000;
     }
     
     clearTimeout(readcallbacktimeout);
@@ -200,14 +208,21 @@ const HDashboard = (props) => {
   const chartbox = useMemo(() => {
     return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
   }, [mdailysensorarray, msensorlasttime]);
-  const d = new Date(msensorlasttime);
-  const lastime = myAppGlobal.langT("LT_MAINPAGE_MAIN_LATESTUPDATE")+":   " + d.toLocaleString(myAppGlobal.language);
+  const ldate = new Date(msensorlasttime);
+  let lastime ="...";
+
+  if(ldate.getFullYear() >2000)
+  {
+  lastime = myAppGlobal.langT("LT_MAINPAGE_MAIN_LATESTUPDATE")+":   " + ldate.toLocaleString(myAppGlobal.language);
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Typography variant="body2" fontSize="30" color="#0d47a1">
+            
+            {isdataloading === true ? <CircularProgress size="1rem" /> : null}
             {lastime}
           </Typography>
         </Grid>
