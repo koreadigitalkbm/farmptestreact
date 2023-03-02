@@ -3,7 +3,8 @@
 //1.814 : KPC480 연구용장비 기능업데이트
 //1.815 : 카메라 촬영 버그 수정
 //1.816 : 자동제어 Number() 적용
-const farmscubeplatformversion = 1.816;
+//1.817 : 프론트엔드  UI 개선
+const farmscubeplatformversion = 1.817;
 
 var express = require("express");
 var cors = require("cors");

@@ -28,7 +28,7 @@ let readtimemsec = 0;
 let readcallbacktimeout;
 
 //let imagefilename = "";
-//let imagefileurl = "image/noimage.png";
+let lastfileurl = "image/noimage.png";
 let isoffscreen = false;
 
 //홈 메인 대시보드
@@ -37,12 +37,12 @@ const HDashboard = (props) => {
   const [mactuaotrs, setActuator] = useState(actuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
-  const [mimgfileurl, setImgfileurl] = useState("image/noimage.png");
+  const [mimgfileurl, setImgfileurl] = useState(lastfileurl);
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(true);
 
 
-  console.log("-------------------------HDashboard  ---------------------");
+  console.log("-------------------------HDashboard  ---------------------lastfileurl : "+ lastfileurl);
   
   function loaddatas() {
     let nowdate = new Date();
@@ -88,15 +88,17 @@ const HDashboard = (props) => {
           let sysevents = ret.retParam.DEvents;
           let dsensors = ret.retParam.DSensors;
 
-          //console.log("capture LastimageFilename : " + ret.retParam.LastimageFilename);
-
-
+         
           if (ret.retParam.LastimageFilename != null) {
-            if (myAppGlobal.dashboardimagefileurl != ret.retParam.LastimageFilename) {
-              myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
-              const imagefilename = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + myAppGlobal.dashboardimagefileurl;
-              console.log("capture fileurl : " + imagefilename);
-              setImgfileurl(imagefilename);
+            myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
+            lastfileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + myAppGlobal.dashboardimagefileurl;
+
+            if (mimgfileurl != lastfileurl) {
+              
+            
+              console.log("capture fileurl : " + lastfileurl);
+              console.log("capture fileurl mimgfileurl: " + mimgfileurl);
+              setImgfileurl(lastfileurl);
             }
           }
 
