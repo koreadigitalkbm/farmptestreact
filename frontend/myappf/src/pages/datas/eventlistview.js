@@ -120,7 +120,6 @@ export default function EventListView(props) {
                       return (
                         <TableCell key={"evtkey"+index} align={column.align}>
                           {column.format && typeof value === "number" ? column.format(value) : value}
-                          {console.log(value)}
                         </TableCell>
                       );
                     })}
