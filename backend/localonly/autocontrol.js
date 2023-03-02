@@ -451,13 +451,17 @@ module.exports = class AutoControl {
       let timeminnow = KDCommon.getCurrentTotalminute();
       let starttimemin = this.mConfig.STime / 60;
       let intervalmin = 1440 / Number(this.mConfig.DTValue);
-      intervalmin=intervalmin.toFixed();
+      intervalmin=Number(intervalmin.toFixed());
 
-      console.log("getOperationsforcamera ---------------intervalmin:  " + intervalmin +" starttimemin:" + starttimemin + " timeminnow:"+ timeminnow);
+//      console.log("getOperationsforcamera ---------------intervalmin:  " + intervalmin +" starttimemin:" + starttimemin + " timeminnow:"+ timeminnow);
 
       for (let i = 0; i <= 1440; i += intervalmin) {
-        let timestep = starttimemin + i;
+        let timestep = Number(starttimemin + i);
         timestep =( timestep >= 1440)?  (timestep - 1440 ): timestep;
+
+  //      console.log("getOperationsforcamera i:"+ i +" -------timeminnow:  " + timeminnow + " timestep:" + timestep);
+
+
         if (timeminnow == timestep) {
            console.log("getOperationsforcamera ---------------timeminnow:  " + timeminnow + " timestep:" + timestep);
            oplist.push(this.mConfig.Actlist[0]);

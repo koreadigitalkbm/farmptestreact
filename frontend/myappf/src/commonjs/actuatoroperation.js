@@ -21,7 +21,7 @@ module.exports = class ActuatorOperation {
   static Gettimewithparam(ontime,param)
   {
     let timeparam = Number(ontime) + (Number(param) * 10000000);
-    return timeparam;
+    return Number(timeparam);
   }
   //구동기 동작시  opid를 갱신
   setoperation(mcmd, mtime, mparam, opmode) {

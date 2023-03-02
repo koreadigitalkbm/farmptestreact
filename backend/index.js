@@ -1,7 +1,8 @@
 //플랫폼 버전 백엔드 프론트엔드가 변경되면  업데이트 주석
 //버전업 로그 1.801 장비 별칭기능 추가 파일새로 생성됨.
 //1.814 : KPC480 연구용장비 기능업데이트
-const farmscubeplatformversion = 1.814;
+//1.815 : 카메라 촬영 버그 수정
+const farmscubeplatformversion = 1.815;
 
 var express = require("express");
 var cors = require("cors");
