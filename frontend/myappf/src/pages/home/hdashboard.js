@@ -227,12 +227,14 @@ const HDashboard = (props) => {
         <Stack direction="row" spacing={1}>
 
           
-          {isdataloading === true ? <CircularProgress size="1.2rem"  /> : <AccessTimeIcon size="1rem" />}  
-    
-    
 
-          <Typography variant="body2" fontSize="30" color="#0d47a1">
-           
+    
+          <Typography component="div" size="1rem"  color="#0d47a1"  sx={{width:24, height:24 }}>
+          {isdataloading === true ? <CircularProgress  size="1rem"  /> : <AccessTimeIcon  />}             
+          </Typography>
+
+          <Typography component="div" variant="body2" fontSize="32" color="#0d47a1"  style={{ verticalAlign: "middle" }}>
+          
             {lastime}
           </Typography>
     
