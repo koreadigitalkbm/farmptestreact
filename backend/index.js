@@ -11,7 +11,6 @@ var express = require("express");
 var cors = require("cors");
 const os = require("os");
 
-
 // npm install 테스트용
 //var ping = require('ping');
 //var hosts = ['192.168.1.1', 'google.com', 'yahoo.com'];

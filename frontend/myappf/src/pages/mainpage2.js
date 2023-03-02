@@ -3,13 +3,13 @@ import { Link as RouterLink, Routes, Route, useNavigate } from "react-router-dom
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography, IconButton } from "@mui/material";
 import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
 
-import HomePage from "./HomePage";
+
 import ControlPage from "./pages/controlPage";
 import DataPage from "./pages/dataPage";
 import SettingPage from "./pages/settingPage";
 
-import SetupPage from "./setuppage";
-import FactorySetup from "./factorysetup";
+import SetupPage from "./etc/setuppage";
+import FactorySetup from "./etc/factorysetup";
 import HDashboard from "./home/hdashboard";
 
 import Autocontrolpage from "./control/autocontrolpage";

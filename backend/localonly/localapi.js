@@ -132,6 +132,8 @@ module.exports = class LocalAPI {
         break;
 
       case KDDefine.REQType.RT_SWUPDATE:
+        console.log("softwareupdatefromgit  RT_SWUPDATE");
+
         this.softwareupdatefromgit(reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
@@ -235,15 +237,17 @@ module.exports = class LocalAPI {
 
     console.log("---------------------------------firebasedbsetup  mylocaldeviceid: " + this.mylocaldeviceid);
 
+
     this.fbdatabase = admin.database();
     const reqkeystr = "IFDevices/" + this.mylocaldeviceid + "/request";
     const fblocalrequst = this.fbdatabase.ref(reqkeystr);
+    //값 초기화  이전 데이터가 남아있을수 있음
+    fblocalrequst.set("");
 
     fblocalrequst.on("value", (snapshot) => {
       const data = snapshot.val();
-      //console.log("frebase frrequest local on event... data: " + data);
 
-      try {
+      try { 
         const decodedStr = Buffer.from(data, "base64");
         const reqmsg = JSON.parse(decodedStr);
         const rspmsg = this.messageprocessing(reqmsg);
