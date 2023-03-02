@@ -4,7 +4,7 @@
 //1.815 : 카메라 촬영 버그 수정
 //1.816 : 자동제어 Number() 적용
 //1.817 : 프론트엔드  UI 개선
-const farmscubeplatformversion = 1.817;
+const farmscubeplatformversion = 1.417;
 
 var express = require("express");
 var cors = require("cors");
