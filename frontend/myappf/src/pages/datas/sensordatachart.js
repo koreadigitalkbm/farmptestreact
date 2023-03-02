@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { CenterFocusWeak } from "@mui/icons-material";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, } from "chart.js";
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
-import 'chartjs-adapter-date-fns';
-import zoomPlugin from 'chartjs-plugin-zoom';
+import "chartjs-adapter-date-fns";
+import zoomPlugin from "chartjs-plugin-zoom";
 import Grid from "@mui/material/Grid";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import FormLabel from "@mui/material/FormLabel";
-
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import Sensordevice from "../../commonjs/sensordevice";
 
 import myAppGlobal from "../../myAppGlobal";
@@ -42,50 +43,45 @@ let dataChart = {
   datasets: [],
 };
 
-
-
-
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, zoomPlugin);
 
 const zoomOptions = {
   action: [
     {
-      name: 'Reset zoom',
+      name: "Reset zoom",
       handler(chart) {
         chart.resetZoom();
-      }
-    }
+      },
+    },
   ],
-  limits: {
-
-  },
+  limits: {},
   pan: {
-    enabled: true
+    enabled: true,
   },
   zoom: {
     wheel: {
-      enabled: true
+      enabled: true,
     },
     pinch: {
-      enabled: true
+      enabled: true,
     },
-    mode: 'xy'
-  }
-}
+    mode: "xy",
+  },
+};
 
 let optionChart = {
   plugins: {
     legend: {
       display: false,
     },
-    zoom: zoomOptions
+    zoom: zoomOptions,
   },
   maintainAspectRatio: false,
   scales: {
     x: {
       display: true,
-      position: 'bottom',
-      type: 'time',
+      position: "bottom",
+      type: "time",
       text: "x title",
       ticks: {
         maxTicksLimit: 10,
@@ -118,14 +114,13 @@ let optionChart = {
   },
 };
 
-
 function Drawchart(sensorlistforchart) {
   dataChart = {
     labels: [],
     datasets: [],
   };
 
-  console.log("Drawchart sensorlistforchart.length: "+ sensorlistforchart.length);
+  console.log("Drawchart sensorlistforchart.length: " + sensorlistforchart.length);
 
   let isleft = false;
   let isright = false;
@@ -171,15 +166,13 @@ const SensorDataChart = (props) => {
     if (chartRef && chartRef.current) {
       chartRef.current.resetZoom();
     }
-  }
+  };
   console.log("------------------------SensorDataChart-------------------- length:" + props.datas.length);
-
-
 
   if (sensorchartdatas.length === 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
-        {myAppGlobal.langT('LT_DATAPAGE_NOSENSORDATA')}
+        {myAppGlobal.langT("LT_DATAPAGE_NOSENSORDATA")}
       </Typography>
     );
   }
@@ -191,20 +184,18 @@ const SensorDataChart = (props) => {
     setCheckeds(!bcheckeds);
   };
 
-  
-
   Drawchart(sensorchartdatas);
 
   let chlist = [];
 
   for (let i = 0; i < sensorchartdatas.length; i++) {
-
     const newsensor = Sensordevice.createSensor(sensorchartdatas[i].stype, sensorchartdatas[i].nodeid, sensorchartdatas[i].channel, myAppGlobal);
     chboxlist[i].label = newsensor.Name;
     chboxlist[i].sensor = newsensor;
 
     const chb = (
       <FormControlLabel
+        key={"keylabel" + chboxlist[i].key}
         control={
           <Checkbox
             key={"keych" + chboxlist[i].key}
@@ -227,15 +218,25 @@ const SensorDataChart = (props) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-          <IconButton onClick={resetZoomBtn}>
-            <CenterFocusWeak />
-          </IconButton>
-
       <Grid container spacing={1}>
         <Grid item xs={8} minHeight={300}>
-
           <Line ref={chartRef} key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
+
+        <Grid item xs={0} minWidth={48}>
+          <React.Fragment>
+            <Grid item xs={0}>
+              <IconButton onClick={resetZoomBtn}><CenterFocusWeak /></IconButton>
+            </Grid>
+            <Grid item xs={0}>
+              <IconButton onClick={resetZoomBtn}><BookmarkAddedIcon /></IconButton>
+            </Grid>
+            <Grid item xs={0}>
+              <IconButton onClick={resetZoomBtn}><ZoomInIcon /></IconButton>
+            </Grid>
+          </React.Fragment>
+        </Grid>
+
         <Grid item xs={3} padding={1}>
           <Box
             sx={{
@@ -250,7 +251,7 @@ const SensorDataChart = (props) => {
           >
             <FormLabel component="legend">
               <Typography variant="body2" color="textSecondary">
-                {myAppGlobal.langT('LT_DATAPAGE_SENSORCHART_CHECK')}
+                {myAppGlobal.langT("LT_DATAPAGE_SENSORCHART_CHECK")}
               </Typography>
             </FormLabel>
 
