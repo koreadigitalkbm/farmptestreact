@@ -352,9 +352,11 @@ export default function SettingPage(props) {
   }
 
   function updateServercode(e) {
-    console.log("updateServercode : " + e.target.name);
+    console.log("updateServercode : " + e.target.name + "  serverversion:"+ serverversion);
 
-    myAppGlobal.farmapi.setsoftwareupdate(false).then((ret) => {
+  
+
+    myAppGlobal.farmapi.setsoftwareupdate(true,2.216).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
     });
   }

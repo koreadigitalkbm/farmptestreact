@@ -111,8 +111,10 @@ export default class IndoorFarmAPI {
     }
   }
 
-  async setsoftwareupdate(islocal) {
+  async setsoftwareupdate(islocal,upversion) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SWUPDATE);
+
+    reqmsg.reqParam = upversion;
 
     if (islocal === true) {
       //장비 업데이트

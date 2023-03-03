@@ -2,39 +2,40 @@ import React, { useState } from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import { CenterFocusWeak } from "@mui/icons-material";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, } from "chart.js";
+import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
-import 'chartjs-adapter-date-fns';
-import zoomPlugin from 'chartjs-plugin-zoom';
+import "chartjs-adapter-date-fns";
+import zoomPlugin from "chartjs-plugin-zoom";
 import Grid from "@mui/material/Grid";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import FormLabel from "@mui/material/FormLabel";
-
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import Sensordevice from "../../commonjs/sensordevice";
 
 import myAppGlobal from "../../myAppGlobal";
 
 let chboxlist = [
-  { label: "l1", color: "#1976d2", key: "0", checked: false, sensor: null },
-  { label: "l2", color: "#2e7d32", key: "1", checked: false, sensor: null },
-  { label: "l3", color: "#9c27b0", key: "2", checked: false, sensor: null },
-  { label: "l4", color: "#d32f2f", key: "3", checked: false, sensor: null },
+  { label: "l1", color: "#1976d2", key: "0",pstyle:"circle", checked: false, sensor: null },
+  { label: "l2", color: "#2e7d32", key: "1",pstyle:"triangle", checked: false, sensor: null },
+  { label: "l3", color: "#9c27b0", key: "2",pstyle:"star", checked: false, sensor: null },
+  { label: "l4", color: "#d32f2f", key: "3",pstyle:"rect", checked: false, sensor: null },
 
-  { label: "l4", color: "#ed6c02", key: "4", checked: false, sensor: null },
-  { label: "l4", color: "#0288d1", key: "5", checked: false, sensor: null },
-  { label: "l4", color: "#ef5350", key: "6", checked: false, sensor: null },
-  { label: "l4", color: "#4caf50", key: "7", checked: false, sensor: null },
+  { label: "l4", color: "#ed6c02", key: "4",pstyle:"crossRot", checked: false, sensor: null },
+  { label: "l4", color: "#0288d1", key: "5",pstyle:"dash", checked: false, sensor: null },
+  { label: "l4", color: "#ef5350", key: "6",pstyle:"rectRounded", checked: false, sensor: null },
+  { label: "l4", color: "#4caf50", key: "7",pstyle:"rectRot", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "8", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "9", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "10", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "11", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "8",pstyle:"cross", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "9",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "10",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "11",pstyle:"circle", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "12", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "13", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "14", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "15", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "12",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "13",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "14",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "15",pstyle:"circle", checked: false, sensor: null },
 ];
 
 let dataChart = {
@@ -42,50 +43,37 @@ let dataChart = {
   datasets: [],
 };
 
-
-
-
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, zoomPlugin);
 
-const zoomOptions = {
-  action: [
-    {
-      name: 'Reset zoom',
-      handler(chart) {
-        chart.resetZoom();
-      }
-    }
-  ],
-  limits: {
 
-  },
-  pan: {
-    enabled: true
-  },
-  zoom: {
-    wheel: {
-      enabled: true
-    },
-    pinch: {
-      enabled: true
-    },
-    mode: 'xy'
-  }
-}
 
 let optionChart = {
   plugins: {
     legend: {
       display: false,
     },
-    zoom: zoomOptions
+    zoom: {
+        limits: {},
+      pan: {
+        enabled: true,
+      },
+      zoom: {
+        wheel: {
+          enabled: true,
+        },
+        pinch: {
+          enabled: true,
+        },
+        mode: "xy",
+      },
+    },
   },
   maintainAspectRatio: false,
   scales: {
     x: {
       display: true,
-      position: 'bottom',
-      type: 'time',
+      position: "bottom",
+      type: "time",
       text: "x title",
       ticks: {
         maxTicksLimit: 10,
@@ -118,14 +106,13 @@ let optionChart = {
   },
 };
 
-
-function Drawchart(sensorlistforchart) {
+function Drawchart(zmode,bmark, sensorlistforchart) {
   dataChart = {
     labels: [],
     datasets: [],
   };
 
-  console.log("Drawchart sensorlistforchart.length: "+ sensorlistforchart.length);
+  console.log("Drawchart sensorlistforchart.length: " + sensorlistforchart.length);
 
   let isleft = false;
   let isright = false;
@@ -148,8 +135,17 @@ function Drawchart(sensorlistforchart) {
       }
 
       //console.log(optionChart);
-
+      
+      optionChart.plugins.zoom.zoom.mode= zmode;
+      sensorlistforchart[i].pointStyle = chboxlist[i].pstyle;
       sensorlistforchart[i].borderColor = chboxlist[i].color;
+      if(bmark === true)
+      {
+        sensorlistforchart[i].pointRadius=6;
+      }
+      else{
+        sensorlistforchart[i].pointRadius=0;
+      }
       dataChart.datasets.push(sensorlistforchart[i]);
     }
   }
@@ -162,6 +158,8 @@ function Drawchart(sensorlistforchart) {
 
 const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
+  const [bcheckmark, setChartmark] = useState(false);
+  const [zoomaxis, setZoomaxis] = useState("xy");
 
   const sensorchartdatas = props.datas;
 
@@ -171,15 +169,39 @@ const SensorDataChart = (props) => {
     if (chartRef && chartRef.current) {
       chartRef.current.resetZoom();
     }
-  }
+  };
+
+
+  
+  const changezoomaxis = () => {
+    let newax="xy"
+    if(zoomaxis==="xy")
+    {
+      newax="x";
+    }
+    else if(zoomaxis==="x")
+    {
+      newax="y";
+    }
+    else{
+      newax="xy";
+    }
+    setZoomaxis(newax);
+  };
+
+
+  const chartmarkenb = () => {
+    
+    setChartmark(!bcheckmark);
+  };
+
+
   console.log("------------------------SensorDataChart-------------------- length:" + props.datas.length);
-
-
 
   if (sensorchartdatas.length === 0) {
     return (
       <Typography variant="body2" fontSize="large" color="secondary">
-        {myAppGlobal.langT('LT_DATAPAGE_NOSENSORDATA')}
+        {myAppGlobal.langT("LT_DATAPAGE_NOSENSORDATA")}
       </Typography>
     );
   }
@@ -191,20 +213,18 @@ const SensorDataChart = (props) => {
     setCheckeds(!bcheckeds);
   };
 
-  
-
-  Drawchart(sensorchartdatas);
+  Drawchart(zoomaxis,bcheckmark,sensorchartdatas);
 
   let chlist = [];
 
   for (let i = 0; i < sensorchartdatas.length; i++) {
-
     const newsensor = Sensordevice.createSensor(sensorchartdatas[i].stype, sensorchartdatas[i].nodeid, sensorchartdatas[i].channel, myAppGlobal);
     chboxlist[i].label = newsensor.Name;
     chboxlist[i].sensor = newsensor;
 
     const chb = (
       <FormControlLabel
+        key={"keylabel" + chboxlist[i].key}
         control={
           <Checkbox
             key={"keych" + chboxlist[i].key}
@@ -227,15 +247,30 @@ const SensorDataChart = (props) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-          <IconButton onClick={resetZoomBtn}>
-            <CenterFocusWeak />
-          </IconButton>
-
       <Grid container spacing={1}>
         <Grid item xs={8} minHeight={300}>
-
           <Line ref={chartRef} key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
+
+        <Grid item xs={0} minWidth={48}>
+          <React.Fragment>
+            <Grid item xs={0}>
+              <IconButton onClick={resetZoomBtn}><CenterFocusWeak /></IconButton>
+            </Grid>
+            <Grid item xs={0}>
+              <IconButton onClick={chartmarkenb}><BookmarkAddedIcon  color={bcheckmark=== true? "primary":"disabled"} /></IconButton>
+            </Grid>
+            <Grid item xs={0}>
+              <IconButton onClick={changezoomaxis} sx={{ display: 'flex', flexDirection: 'column'}}><ZoomInIcon />
+              {zoomaxis}
+              </IconButton>
+              
+            </Grid>
+            
+
+          </React.Fragment>
+        </Grid>
+
         <Grid item xs={3} padding={1}>
           <Box
             sx={{
@@ -250,7 +285,7 @@ const SensorDataChart = (props) => {
           >
             <FormLabel component="legend">
               <Typography variant="body2" color="textSecondary">
-                {myAppGlobal.langT('LT_DATAPAGE_SENSORCHART_CHECK')}
+                {myAppGlobal.langT("LT_DATAPAGE_SENSORCHART_CHECK")}
               </Typography>
             </FormLabel>
 

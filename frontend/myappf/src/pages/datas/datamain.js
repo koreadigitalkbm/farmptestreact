@@ -40,7 +40,34 @@ const DataMainPage = (props) => {
   const [mevnetarray, setEvents] = useState([]);
   const [sensorarray, setSensorarray] = useState([]);
 
+  const [enbsensor, setenbsensor] = useState(true);
+  const [enbimage, setenbimage] = useState(true);
+  const [enbevent, setenbevent] = useState(true);
+
   console.log("-------------------DataMainPage  ---------------------");
+
+
+  
+  function onChangeEnable(ename) {
+    
+    if(ename ===  "keychs" )
+    {
+      setenbsensor(!enbsensor);
+    }
+    if(ename ===  "keychi" )
+    {
+      setenbimage(!enbimage);
+    }
+
+    if(ename ===  "keyche" )
+    {
+      setenbevent(!enbevent);
+    }
+
+
+  }
+
+
 
   function setupdata(isdailys) {
     if (isdailys === true) {
@@ -203,16 +230,18 @@ const DataMainPage = (props) => {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1}>
           <Grid item xs={12} md={12}>
-            <DatePickerBar getdb={getdbsearch} dayDate={daydate} startDate={startday} endDate={endday} isdaily={isdaily} issearching={issearching} onchangedaliy={onChangeDaily} />
+            <DatePickerBar getdb={getdbsearch} dayDate={daydate} startDate={startday} endDate={endday} isdaily={isdaily} issearching={issearching} onchangedaliy={onChangeDaily}  onChenb={onChangeEnable} enbs={enbsensor} enbi={enbimage} enbe={enbevent} />
           </Grid>
           <Grid item xs={12} md={12}>
-            <SensorDataChart datas={sensorarray} isdaily={isdaily} />
+            {enbsensor=== true? <SensorDataChart datas={sensorarray} isdaily={isdaily} />:null}
+            
           </Grid>
           <Grid item xs={12} md={12}>
-            <ShowVerticalImages imageSet={camimages} />
+          {enbimage=== true? <ShowVerticalImages imageSet={camimages} />:null}
           </Grid>
           <Grid item xs={12} md={12}>
-            <EventListView dataSet={mevnetarray} isdash={false} />
+          {enbevent=== true? <EventListView dataSet={mevnetarray} isdash={false} />:null}
+            
           </Grid>
         </Grid>
       </Box>

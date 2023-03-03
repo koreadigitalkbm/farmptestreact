@@ -6,6 +6,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Grid from "@mui/material/Grid";
 import DatePicker from "react-datepicker";
+import Checkbox from "@mui/material/Checkbox";
+
 import { forwardRef } from "react";
 import myAppGlobal from "../../myAppGlobal";
 
@@ -17,6 +19,14 @@ export default function DatePickerBar(props) {
   const issearching = props.issearching;
   const isdaily = props.isdaily;
   const onChange = props.onchangedaliy;
+  const onChangeEnb = props.onChenb;
+
+  const isenbsensor = props.enbs;
+  const isenbimage = props.enbi;
+  const isenbevent = props.enbe;
+
+  
+
 
   const [curdate, setcurdate] = useState(props.dayDate);
   const [startdate, setStartdate] = useState(props.startDate);
@@ -80,6 +90,16 @@ export default function DatePickerBar(props) {
     };
     onClickday(e);
   }
+
+  const handleChange = (event) => {
+    console.log("------------------------handleChange--------------------event : " + event.target.name + ",ch:" + event.target.checked);
+    
+    onChangeEnb(event.target.name);
+    //그냥 화면 갱신
+    //setCheckeds(!bcheckeds);
+  };
+
+
 
   function pickertype() {
     const MuiCustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -167,11 +187,14 @@ export default function DatePickerBar(props) {
 
         </FormControl>
       </Grid>
-      <Grid item xs={6} sx={{ backgroundColor: "#ffffff" }}>
+      <Grid item xs={5} sx={{ backgroundColor: "#ffffff" }}>
         {pickertype()}
       </Grid>
-      <Grid item xs={3} sx={{ backgroundColor: "#ffffff" }}>
-        ---
+      <Grid item xs={4} sx={{ backgroundColor: "#ffffff" }}>
+      <FormControlLabel key={"keysensor"} control={ <Checkbox  name={"keychs"}  checked={isenbsensor}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label="sensor"  />
+      <FormControlLabel key={"keyimage"} control={ <Checkbox  name={"keychi"}  checked={isenbimage}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label="image"  />
+      <FormControlLabel key={"keyevent"} control={ <Checkbox  name={"keyche"}  checked={isenbevent}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label="event"  />
+ 
       </Grid>
     </Grid>
   );

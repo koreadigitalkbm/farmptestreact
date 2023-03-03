@@ -47,6 +47,10 @@ function FarmApp(props) {
     myAppGlobal.loginrole = "logout";
     //로그아웃이면 삭제 시스템정보를 다시가져오도록 onSetSysteminfo 초기화
     myAppGlobal.systeminformations = null;
+    myAppGlobal.dashboardimagefileurl="image/noimage.png";
+    myAppGlobal.dashboardlasteventtime=1;
+    myAppGlobal.dashboardlastsensortime=1;
+
     let ssid = Math.floor(Math.random() * 100000 + 100);
     window.sessionStorage.setItem("msessionid", ssid);
     window.sessionStorage.setItem("login", myAppGlobal.loginrole);

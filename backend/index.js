@@ -3,12 +3,13 @@
 //1.814 : KPC480 연구용장비 기능업데이트
 //1.815 : 카메라 촬영 버그 수정
 //1.816 : 자동제어 Number() 적용
-const farmscubeplatformversion = 1.816;
+//1.817 : 프론트엔드  UI 개선
+//2.101 : 프로그램 업데이트기능 추가  1자리수 변경시 백엔드 npm install 실행,  소수점 첫번째 자리 숫자 변경시  frontend  install 실행, 
+const farmscubeplatformversion = 2.102;
 
 var express = require("express");
 var cors = require("cors");
 const os = require("os");
-
 
 // npm install 테스트용
 //var ping = require('ping');

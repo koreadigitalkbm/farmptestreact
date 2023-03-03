@@ -13,8 +13,8 @@ import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
 
 
-let lasteventtime = 1;
-let lastsensortime = 1;
+//let lasteventtime = 1;
+//let lastsensortime = 1;
 
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
@@ -27,8 +27,8 @@ let sensorlist = [];
 let readtimemsec = 0;
 let readcallbacktimeout;
 
-let imagefilename = "";
-let imagefileurl = "image/noimage.png";
+//let imagefilename = "";
+let lastfileurl = "image/noimage.png";
 let isoffscreen = false;
 
 //홈 메인 대시보드
@@ -37,19 +37,19 @@ const HDashboard = (props) => {
   const [mactuaotrs, setActuator] = useState(actuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
-  const [mimgfileurl, setImgfileurl] = useState(imagefileurl);
+  const [mimgfileurl, setImgfileurl] = useState(lastfileurl);
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(true);
 
 
-  console.log("-------------------------HDashboard  ---------------------");
+  console.log("-------------------------HDashboard  ---------------------lastfileurl : "+ lastfileurl);
   
   function loaddatas() {
     let nowdate = new Date();
     console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec);
 
     setDataloading(true);
-    myAppGlobal.farmapi.getDeviceStatus(true, true, false, lastsensortime, lasteventtime).then((ret) => {
+    myAppGlobal.farmapi.getDeviceStatus(true, true, false, myAppGlobal.dashboardlastsensortime, myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
       setDataloading(false);
       if (ret == null) {
@@ -88,12 +88,17 @@ const HDashboard = (props) => {
           let sysevents = ret.retParam.DEvents;
           let dsensors = ret.retParam.DSensors;
 
+         
           if (ret.retParam.LastimageFilename != null) {
-            if (imagefilename != ret.retParam.LastimageFilename) {
-              imagefilename = ret.retParam.LastimageFilename;
-              imagefileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + imagefilename;
-              console.log("capture fileurl : " + imagefileurl);
-              setImgfileurl(imagefileurl);
+            myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
+            lastfileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + myAppGlobal.dashboardimagefileurl;
+
+            if (mimgfileurl != lastfileurl) {
+              
+            
+              console.log("capture fileurl : " + lastfileurl);
+              console.log("capture fileurl mimgfileurl: " + mimgfileurl);
+              setImgfileurl(lastfileurl);
             }
           }
 
@@ -102,14 +107,14 @@ const HDashboard = (props) => {
               let revlasttime;
               let isupdateevent = false;
 
-              console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(lasteventtime));
+              console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(myAppGlobal.dashboardlasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
                 revlasttime = sysevents[i].EDate;
-                if (revlasttime > lasteventtime) {
+                if (revlasttime > myAppGlobal.dashboardlasteventtime) {
                   eventlist.push(sysevents[i]);
                   isupdateevent = true;
-                  //   console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + lasteventtime);
+                  //   console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + myAppGlobal.dashboardlasteventtime);
                 }
               }
 
@@ -122,8 +127,8 @@ const HDashboard = (props) => {
               }
 
               if (isupdateevent === true) {
-                lasteventtime = revlasttime;
-                console.log("update event : " + Date(lasteventtime) + " lenth : " + eventlist.length);
+                myAppGlobal.dashboardlasteventtime = revlasttime;
+                console.log("update event : " + Date(myAppGlobal.dashboardlasteventtime) + " lenth : " + eventlist.length);
                 eventlistTime = [];
                 for (let i = 0; i < eventlist.length; i++) {
                   let newobj = eventlist[eventlist.length - i - 1];
@@ -146,18 +151,18 @@ const HDashboard = (props) => {
 
               for (let i = 0; i < dsensors.length; i++) {
                 recivelasttime = dsensors[i].SDate;
-                if (recivelasttime > lastsensortime) {
+                if (recivelasttime > myAppGlobal.dashboardlastsensortime) {
                   dailysensorlist.push(dsensors[i]);
                   isupdate = true;
                 }
               }
               if (isupdate === true) {
-                lastsensortime = recivelasttime;
+                myAppGlobal.dashboardlastsensortime = recivelasttime;
                 setDailysensor(dailysensorlist);
                 setLasttime(recivelasttime);
                 
 
-                console.log("update sensor : " + Date(lastsensortime) + " lenth : " + dailysensorlist.length);
+                console.log("update sensor : " + Date(myAppGlobal.dashboardlastsensortime) + " lenth : " + dailysensorlist.length);
                 // console.log(dailysensorlist);
               }
             }
@@ -227,12 +232,14 @@ const HDashboard = (props) => {
         <Stack direction="row" spacing={1}>
 
           
-          {isdataloading === true ? <CircularProgress size="1.2rem"  /> : <AccessTimeIcon size="1rem" />}  
-    
-    
 
-          <Typography variant="body2" fontSize="30" color="#0d47a1">
-           
+    
+          <Typography component="div" size="1rem"  color="#0d47a1"  sx={{width:24, height:24 }}>
+          {isdataloading === true ? <CircularProgress  size="1rem"  /> : <AccessTimeIcon  />}             
+          </Typography>
+
+          <Typography component="div" variant="body2" fontSize="32" color="#0d47a1"  style={{ verticalAlign: "middle" }}>
+          
             {lastime}
           </Typography>
     
