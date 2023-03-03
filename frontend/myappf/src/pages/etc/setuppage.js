@@ -5,70 +5,119 @@ import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, MenuI
 import { styled } from "@mui/material/styles";
 
 import CardActions from "@mui/material/CardActions";
+import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 import IconButton from "@mui/material/IconButton";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Container from "@mui/material/Container";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoIcon from "@mui/icons-material/Info";
 import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "../muiTheme";
 import myAppGlobal from "../../myAppGlobal";
 
 import KDUtil from "../../commonjs/kdutil";
 import CreateModal from "../pages/components/createModal";
+import AlertDialog from "../uicomponent/basicalert";
 
 const theme = muiTheme;
 
 const commonStyles = {
   bgcolor: "background.paper",
-  borderColor: "info.main",
+  borderColor: "#82b1ff",
   m: 1,
   border: 1,
-  width: "50rem",
-  height: "5rem",
+  minWidth: "40rem",
+  borderRadius: "12px",
 };
 
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
 export default function SetupPage(props) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
   const [langstr, setlangstr] = React.useState("");
   const [deviceversion, setDeviceversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
-  const [expanded, setExpanded] = React.useState(false);
+
+  const closeDialog = () => {
+    setAlert(null);
+  };
+
+
+  let alertparams = {                   // type all the fields you need
+    message:null,
+    type:"success",
+    title:"Sucess",
+    onClose:closeDialog,
+    };
+  
+  const [alertmssage, setAlert] = useState(alertparams);
+
 
   const [handleChangeNameModal, setHandleChangeNameModal] = useState(false);
   const handleOpenChangeNameModal = () => setHandleChangeNameModal(true);
   const handleCloseChangeNameModal = () => setHandleChangeNameModal(false);
   let isupdate = false;
+  let newDevicename = "";
+  let newlocalpassword = "";
+
+
+ 
+  
+
+
+
+  function applyhandler() {
+    let langstrchange = "en-US";
+
+    if (langstr == 1) {
+      langstrchange = "ko-KR";
+    }
+
+    if (i18n.language != langstrchange) {
+      i18n.changeLanguage(langstrchange);
+      var nextyear = new Date();
+      nextyear.setFullYear(nextyear.getFullYear() + 2);
+      setCookie("languageT", langstrchange, { expires: nextyear });
+    }
+
+    let isupdate = false;
+    let newMyInfo = myAppGlobal.systeminformations.Systemconfg;
+    if (newDevicename != myAppGlobal.systeminformations.Systemconfg.name && newDevicename.length > 0) {
+      newMyInfo.name = newDevicename;
+      isupdate = true;
+    }
+    if (newlocalpassword != myAppGlobal.systeminformations.Systemconfg.password && newlocalpassword.length > 0) {
+      newMyInfo.password = newlocalpassword;
+      isupdate = true;
+    }
+
+    if (isupdate == true) {
+      console.log(newMyInfo);
+      
+
+      myAppGlobal.farmapi.setMyInfo(newMyInfo).then((ret) => {
+        if (ret) {
+          if (ret.IsOK === true) {
+            if (ret.retMessage === "ok") {
+
+              alertparams.type = "success";
+              alertparams.title = "성공"
+              alertparams.message = "시스템 설정을 저장하였습니다.";
+              
+              setAlert(alertparams);
+
+
+            } else {
+            }
+          }
+        }
+      });
+
+    }
+  }
 
   const handleChange = (event) => {
     setlangstr(event.target.value);
-    let langstr = "en-US";
-    if (event.target.value == 0) {
-    } else {
-      langstr = "ko-KR";
-    }
-    langstr = KDUtil.isSupportLanguage(langstr);
-    i18n.changeLanguage(langstr);
-    var nextyear = new Date();
-    nextyear.setFullYear(nextyear.getFullYear() + 2);
-    setCookie("languageT", langstr, { expires: nextyear });
-    console.log("-------------------------SetupPage cookies:" + cookies.languageT);
-  };
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+    console.log("-------------------------SetupPage cookies:" + cookies.languageT);
   };
 
   useEffect(() => {
@@ -95,7 +144,7 @@ export default function SetupPage(props) {
     } else {
       setlangstr(0);
     }
-  });
+  }, []);
 
   if (serverversion >= deviceversion && deviceversion > 0) {
     isupdate = true;
@@ -115,7 +164,7 @@ export default function SetupPage(props) {
     if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true") {
       return (
         <Typography variant="subtitle1" sx={{ pl: 2 }}>
-          {t("WhenLocal")}
+          {myAppGlobal.langT("WhenLocal")}
         </Typography>
       );
     }
@@ -137,12 +186,20 @@ export default function SetupPage(props) {
         </Stack>
 
         <Button onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
-          {t("Update") + "(" + serverversion + ")"}
+          {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
     );
   }
 
+  const handleNewpword = (e) => {
+    if (e.target.value.length >= 4) {
+      newlocalpassword = e.target.value;
+    }
+  };
+  const handleNewname = (e) => {
+    newDevicename = e.target.value;
+  };
   function inputonchangeHandler(e) {
     console.log("inputallchangeHandler name: " + e.target.id + " type : " + e.target.type);
     switch (e.target.id) {
@@ -155,88 +212,129 @@ export default function SetupPage(props) {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        <Typography id="setting_title" variant="h2" sx={{ mt: 4, mb: 5 }}>
-          {myAppGlobal.langT("LT_SETTING_TITLE")}
-        </Typography>
-        <Box sx={{ ...commonStyles, borderRadius: "16px" }}>
-          <ThemeProvider theme={theme}>
-            <CardActions disableSpacing>
-              <UpgradeIcon color="action" fontSize="large" />
-              <Typography variant="h5">{t("LT_SOFTWAREUPDATE")}</Typography>
-              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-                <ExpandMoreIcon color="success" fontSize="large" />
-              </ExpandMore>
-            </CardActions>
-          </ThemeProvider>
+        <Box sx={{ ...commonStyles }}>
+          <CardActions disableSpacing>
+            <UpgradeIcon color="action" fontSize="large" />
+            <Typography variant="h5">{myAppGlobal.langT("LT_SOFTWAREUPDATE")}</Typography>
+          </CardActions>
         </Box>
-        {expanded === true ? (
-          <Container maxWidth="sm">
-            {" "}
-            <Box sx={{ bgcolor: "#cfe8fc", height: "50vh" }} />{" "}
-          </Container>
-        ) : null}
 
-        <Stack spacing={0} direction="row" justifyContent="space-between">
-          <Typography variant="subtitle1" sx={{ pl: 2 }}>
-            {" "}
-            {t("DeviceVersion")}{" "}
-          </Typography>
-          <Typography variant="body1" sx={{ pr: 2 }}>
-            {deviceversion}
-          </Typography>
-        </Stack>
-        {frameUpdateInfo()}
+        <CardContent>
+          <Stack spacing={0} direction="row" justifyContent="space-between">
+            <Typography variant="subtitle1" sx={{ pl: 2 }}>
+              {" "}
+              {myAppGlobal.langT("DeviceVersion")}{" "}
+            </Typography>
+            <Typography variant="body1" sx={{ pr: 2 }}>
+              {deviceversion}
+            </Typography>
+          </Stack>
 
-        <Box sx={{ ...commonStyles, borderRadius: "16px" }}>
+          {frameUpdateInfo()}
+        </CardContent>
+
+        <Box sx={{ ...commonStyles }}>
           <ThemeProvider theme={theme}>
             <CardActions disableSpacing>
-              <UpgradeIcon color="action" fontSize="large" />
-              <Typography variant="h5">{t("LT_SYSTEMSETUP")}</Typography>
+              <SettingsIcon color="action" fontSize="large" />
+              <Typography variant="h5">{myAppGlobal.langT("LT_SYSTEMSETUP")}</Typography>
             </CardActions>
           </ThemeProvider>
         </Box>
 
-        <Typography id="modal-configure-title" variant="h6" component="h2">
-          {t("LT_CHANGELANGUAGE")}{" "}
-        </Typography>
+        <CardContent>
+          <Box m={1} display="flex" alignItems="left" flexDirection="column">
+            <Typography id="modal-configure-title" variant="subtitle1">
+              {myAppGlobal.langT("LT_CHANGELANGUAGE")}{" "}
+            </Typography>
 
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-          <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={langstr} onChange={handleChange} label="language">
-            <MenuItem value={0}>English</MenuItem>
-            <MenuItem value={1}>한국어</MenuItem>
-          </Select>
-        </FormControl>
+            <FormControl variant="standard" sx={{ m: 1, width: 200 }}>
+              <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={langstr} onChange={handleChange} label="language">
+                <MenuItem value={0}>English</MenuItem>
+                <MenuItem value={1}>한국어</MenuItem>
+              </Select>
+            </FormControl>
 
-        <Typography id="modal-configure-title" variant="h6" component="h2">
-          {t("LT_CHANGEPASSWORD")}
-        </Typography>
-        <TextField id="password" defaultValue={1234} type="text" variant="outlined" onChange={inputonchangeHandler} sx={{ "& .MuiOutlinedInput-input": { border: 0 } }} />
+            <Typography id="modal-configure-title" variant="subtitle1">
+              {myAppGlobal.langT("LT_CHANGEPASSWORD")}
+            </Typography>
 
-        <Card variant="outlined" sx={{ borderRadius: 5, mt: 2 }}>
-          <CardHeader title={myAppGlobal.langT("LT_SETTING_MYDINFO_TITLE")} />
+            <TextField
+              required
+              id={"newName"}
+              label={"new password"}
+              type="text"
+              variant="standard"
+              onChange={handleNewpword}
+              sx={{
+                width: 200,
+                mt: 2,
+                mb: 3,
+                "& .MuiInputBase-input": {
+                  border: 0,
+                },
+              }}
+            />
 
-          <CardContent>
-            <Button onClick={handleOpenChangeNameModal} sx={{ width: '100%' }}>
-              <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
-                <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_NAME")}</Typography>
-                <Typography >{myAppGlobal.systeminformations.Systemconfg.name}</Typography>
-              </Stack>
+            <Typography id="modal-configure-title" variant="subtitle1">
+              {myAppGlobal.langT("LT_SETTING_NAME_CHANGE")}
+            </Typography>
+
+            <TextField
+              required
+              id={"newName"}
+              label={myAppGlobal.langT("LT_SETTING_MODAL_NEWNAME_LABEL")}
+              type="text"
+              variant="standard"
+              onChange={handleNewname}
+              sx={{
+                width: 200,
+                mt: 2,
+                mb: 3,
+                "& .MuiInputBase-input": {
+                  border: 0,
+                },
+              }}
+            />
+
+            <Button onClick={applyhandler} endIcon={<LibraryAddCheckIcon />}>
+              {myAppGlobal.langT("LT_SETTING_MODAL_APPLY")}
             </Button>
-            <hr />
-            <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
-              <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_DEVICEID")}</Typography>
-              <Typography >{myAppGlobal.systeminformations.Systemconfg.deviceuniqid}</Typography>
+          </Box>
+        </CardContent>
+
+        <Box sx={{ ...commonStyles }}>
+          <ThemeProvider theme={theme}>
+            <CardActions disableSpacing>
+              <InfoIcon color="action" fontSize="large" />
+              <Typography variant="h5">{myAppGlobal.langT("LT_SETTING_MYDINFO_TITLE")}</Typography>
+            </CardActions>
+          </ThemeProvider>
+        </Box>
+
+        <Card variant="outlined" sx={{ borderRadius: 5, mt: 1 }}>
+          <CardContent>
+            <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+              <Typography variant="h7">{myAppGlobal.langT("LT_SETTING_NAME")}</Typography>
+              <Typography>{myAppGlobal.systeminformations.Systemconfg.name}</Typography>
             </Stack>
             <hr />
-            <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
-            <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_PRODUCTNAME")}</Typography>
-              <Typography >{myAppGlobal.systeminformations.Systemconfg.productname}</Typography>
+            <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+              <Typography variant="h7">{myAppGlobal.langT("LT_SETTING_DEVICEID")}</Typography>
+              <Typography>{myAppGlobal.systeminformations.Systemconfg.deviceuniqid}</Typography>
             </Stack>
             <hr />
-            <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
-            <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_PRODUCTMODEL")}</Typography>
-              <Typography >{myAppGlobal.systeminformations.Systemconfg.productmodel}</Typography>
+            <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+              <Typography variant="h7">{myAppGlobal.langT("LT_SETTING_PRODUCTNAME")}</Typography>
+              <Typography>{myAppGlobal.systeminformations.Systemconfg.productname}</Typography>
             </Stack>
+            <hr />
+            <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+              <Typography variant="h7">{myAppGlobal.langT("LT_SETTING_PRODUCTMODEL")}</Typography>
+              <Typography>{myAppGlobal.systeminformations.Systemconfg.productmodel}</Typography>
+            </Stack>
+            <AlertDialog  params={alertmssage}  />
+
             <CreateModal handleModal={handleChangeNameModal} handleClose={handleCloseChangeNameModal} />
           </CardContent>
         </Card>
