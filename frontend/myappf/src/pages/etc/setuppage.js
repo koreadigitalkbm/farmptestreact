@@ -52,7 +52,7 @@ export default function SetupPage(props) {
 
 
   
-  let isupdate = false;
+  let isswupdate = false;
   let newDevicename = "";
   let newlocalpassword = "";
 
@@ -144,8 +144,8 @@ export default function SetupPage(props) {
     }
   }, []);
 
-  if (serverversion >= deviceversion && deviceversion > 0) {
-    isupdate = true;
+  if (serverversion > deviceversion && deviceversion > 0) {
+    isswupdate = true;
   }
 
   function updateforlocaldevice(e) {
@@ -167,7 +167,7 @@ export default function SetupPage(props) {
       );
     }
 
-    if (isupdate == false) {
+    if (isswupdate == false) {
       return (
         <Typography variant="subtitle1" sx={{ pl: 2 }}>
           최신버전입니다.
