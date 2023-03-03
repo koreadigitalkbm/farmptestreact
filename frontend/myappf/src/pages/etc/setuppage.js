@@ -51,9 +51,7 @@ export default function SetupPage(props) {
   const [alertmssage, setAlert] = useState(alertparams);
 
 
-  const [handleChangeNameModal, setHandleChangeNameModal] = useState(false);
-  const handleOpenChangeNameModal = () => setHandleChangeNameModal(true);
-  const handleCloseChangeNameModal = () => setHandleChangeNameModal(false);
+  
   let isupdate = false;
   let newDevicename = "";
   let newlocalpassword = "";
@@ -335,7 +333,7 @@ export default function SetupPage(props) {
             </Stack>
             <AlertDialog  params={alertmssage}  />
 
-            <CreateModal handleModal={handleChangeNameModal} handleClose={handleCloseChangeNameModal} />
+            
           </CardContent>
         </Card>
       </Box>
