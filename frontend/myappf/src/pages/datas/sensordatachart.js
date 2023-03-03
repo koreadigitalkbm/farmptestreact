@@ -20,14 +20,14 @@ let chboxlist = [
   { label: "l1", color: "#1976d2", key: "0",pstyle:"circle", checked: false, sensor: null },
   { label: "l2", color: "#2e7d32", key: "1",pstyle:"triangle", checked: false, sensor: null },
   { label: "l3", color: "#9c27b0", key: "2",pstyle:"star", checked: false, sensor: null },
-  { label: "l4", color: "#d32f2f", key: "3",pstyle:"cross", checked: false, sensor: null },
+  { label: "l4", color: "#d32f2f", key: "3",pstyle:"rect", checked: false, sensor: null },
 
   { label: "l4", color: "#ed6c02", key: "4",pstyle:"crossRot", checked: false, sensor: null },
   { label: "l4", color: "#0288d1", key: "5",pstyle:"dash", checked: false, sensor: null },
   { label: "l4", color: "#ef5350", key: "6",pstyle:"rectRounded", checked: false, sensor: null },
   { label: "l4", color: "#4caf50", key: "7",pstyle:"rectRot", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "8",pstyle:"rect", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "8",pstyle:"cross", checked: false, sensor: null },
   { label: "l4", color: "#000010", key: "9",pstyle:"circle", checked: false, sensor: null },
   { label: "l4", color: "#000010", key: "10",pstyle:"circle", checked: false, sensor: null },
   { label: "l4", color: "#000010", key: "11",pstyle:"circle", checked: false, sensor: null },
