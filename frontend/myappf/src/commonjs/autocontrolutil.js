@@ -49,7 +49,7 @@ module.exports = class AutoControlUtil {
 
       const ext_humi={
         id:'S01C06T02',
-        name:'Ext Humdity' };      //외부 습도
+        name:'Ext Humidity' };      //외부 습도
 
     
 

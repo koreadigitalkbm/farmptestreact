@@ -200,7 +200,10 @@ module.exports = class KDUtil {
       for(let i=0;i<myGlobal.systeminformations.Alias.length ;i++) {
         if(myGlobal.systeminformations.Alias[i].id === mid)
         {
+          if(myGlobal.systeminformations.Alias[i].name.length >=1)
+          {
           return myGlobal.systeminformations.Alias[i].name;
+          }
         }
     }
     }
