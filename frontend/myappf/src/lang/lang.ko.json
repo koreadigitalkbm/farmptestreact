@@ -245,9 +245,14 @@
     "LT_SETTING_COMPORT": "포트 번호",
     "LT_SETTING_PRODUCTNAME": "브랜드 이름",
     "LT_SETTING_PRODUCTMODEL": "모델 이름",
-    
-
-
+    "LT_SETTING_MODAL_CHAGENAME": "기기 이름바꾸기",
+    "LT_SETTING_MODAL_CURRENTNAME": "현재 기기 이름",
+    "LT_SETTING_MODAL_NEWNAME_LABEL": "새 기기 이름",
+    "LT_SETTING_MODAL_CONFIRM": "확인",
+    "LT_SETTING_MODAL_CANCEL": "취소",
+    "LT_SETTING_MODAL_CONFIRMED": "변경사항을 적용했습니다.",
+    "LT_SETTING_MODAL_FAILED": "요청한 작업이 실패했습니다.",
+    "LT_SETTING_MODAL_NOSPACEALLOW": "공백은 기기이름으로 사용할 수 없습니다.",
 
     "Autocontrol": "식물키우기",
     "BrandName": "브랜드명",

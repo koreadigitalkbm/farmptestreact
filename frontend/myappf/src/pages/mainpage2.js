@@ -16,7 +16,7 @@ import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
 
-const dropMenu = ["Data2", "Setting", "Sensor", "Control", "Setup"];
+const dropMenu = ["Setting"];
 
 export default function FMainpage(props) {
   const [loadinfo, setLoadinfo] = useState("init");
@@ -124,26 +124,21 @@ export default function FMainpage(props) {
       <Routes>
         <Route path="/" element={<HDashboard otherlogin={setLoadinfo} />} />
         <Route path="/Home" element={<HDashboard otherlogin={setLoadinfo} />} />
-        <Route path="/Control" element={<ControlPage />} />
-        <Route path="/Data" element={<DataMainPage />} />
-        <Route path="/Data2" element={<DataPage />} />
-        <Route path="/Setting" element={<SettingPage />} />
-
         <Route path="/autocontrol" element={<Autocontrolpage />} />
-        <Route path="/setup" element={props.loginrol === "factoryadmin" ? <FactorySetup {...props} /> : <SetupPage {...props} />} />
+        <Route path="/Data" element={<DataMainPage />} />
+
+        <Route path="/Setting" element={props.loginrol === "factoryadmin" ? <FactorySetup {...props} /> : <SetupPage {...props} />} />
       </Routes>
     );
   }
 
 
-  let  NameT=myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND");
-  if(myAppGlobal.systeminformations !=null)
- {
-  if(myAppGlobal.systeminformations.Systemconfg.name != "unknown")
-  {
-    NameT = myAppGlobal.systeminformations.Systemconfg.name;
-  }
-    
+  let NameT = myAppGlobal.langT("LT_MAINPAGE_NAV_BRAND");
+  if (myAppGlobal.systeminformations != null) {
+    if (myAppGlobal.systeminformations.Systemconfg.name != "unknown") {
+      NameT = myAppGlobal.systeminformations.Systemconfg.name;
+    }
+
   }
 
   return (
@@ -153,7 +148,6 @@ export default function FMainpage(props) {
       <AppBar component="nav">
         <Toolbar>
           <img src="/image/farmscube_logo_small48.png"></img>
-
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {NameT}
           </Typography>

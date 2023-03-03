@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Box, Button, Card, CardContent, CardHeader, Divider, Modal, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, Divider, Stack, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import CardActions from "@mui/material/CardActions";
@@ -10,7 +10,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "./muiTheme";
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -21,6 +20,7 @@ import myAppGlobal from "../myAppGlobal";
 import { useTranslation } from "react-i18next";
 import { useCookies } from 'react-cookie';
 import KDUtil from "../commonjs/kdutil";
+import CreateModal from "./pages/components/createModal";
 
 const theme = muiTheme;
 
@@ -44,18 +44,6 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 export default function SetupPage(props) {
   const { t, i18n } = useTranslation();
   const [cookies, setCookie] = useCookies(['languageT']);
@@ -64,9 +52,9 @@ export default function SetupPage(props) {
   const [serverversion, setServerversion] = useState(0);
   const [expanded, setExpanded] = React.useState(false);
 
-  const [configureResult, setConfigureResult] = useState(false);
-  const handleOpen = () => setConfigureResult(true);
-  const handleClose = () => setConfigureResult(false);
+  const [handleChangeNameModal, setHandleChangeNameModal] = useState(false);
+  const handleOpenChangeNameModal = () => setHandleChangeNameModal(true);
+  const handleCloseChangeNameModal = () => setHandleChangeNameModal(false);
   let isupdate = false;
 
   const handleChange = (event) => {
@@ -186,7 +174,6 @@ export default function SetupPage(props) {
   }
 
 
-
   return (
     <ThemeProvider theme={theme}>
       <Box>
@@ -196,7 +183,6 @@ export default function SetupPage(props) {
             <CardActions disableSpacing>
               <UpgradeIcon color="action" fontSize="large" />
               <Typography variant="h5">{t("LT_SOFTWAREUPDATE")}</Typography>
-
               <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                 <ExpandMoreIcon color="success" fontSize="large" />
               </ExpandMore>
@@ -247,41 +233,34 @@ export default function SetupPage(props) {
         <Typography id="modal-configure-title" variant="h6" component="h2">{t("LT_CHANGEPASSWORD")}</Typography>
         <TextField id="password" defaultValue={1234} type="text" variant="outlined" onChange={inputonchangeHandler} sx={{ "& .MuiOutlinedInput-input": { border: 0 } }} />
 
-        <Card secondary sx={{ mt: 2 }}>
+        <Card variant="outlined" sx={{ borderRadius: 5, mt: 2 }}>
           <CardHeader title={myAppGlobal.langT("LT_SETTING_MYDINFO_TITLE")} />
 
           <CardContent>
-
-            <Button color={"primary"} onClick={handleOpen} variant="contained">테스트중2</Button>
-            <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_NAME")}</Typography>
-            {myAppGlobal.systeminformations.Systemconfg.name}
-            <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_DEVICEID")}</Typography>
-            {myAppGlobal.systeminformations.Systemconfg.deviceuniqid}
-            <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_COMPORT")}</Typography>
-            {myAppGlobal.systeminformations.Systemconfg.comport}
+            <Button onClick={handleOpenChangeNameModal} sx={{ width: '100%' }}>
+              <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
+                <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_NAME")}</Typography>
+                <Typography >{myAppGlobal.systeminformations.Systemconfg.name}</Typography>
+              </Stack>
+            </Button>
+            <hr />
+            <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
+              <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_DEVICEID")}</Typography>
+              <Typography >{myAppGlobal.systeminformations.Systemconfg.deviceuniqid}</Typography>
+            </Stack>
+            <hr />
+            <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
             <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_PRODUCTNAME")}</Typography>
-            {myAppGlobal.systeminformations.Systemconfg.productname}
+              <Typography >{myAppGlobal.systeminformations.Systemconfg.productname}</Typography>
+            </Stack>
+            <hr />
+            <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ width: '100%' }}>
             <Typography variant="h6">{myAppGlobal.langT("LT_SETTING_PRODUCTMODEL")}</Typography>
-            {myAppGlobal.systeminformations.Systemconfg.productmodel}
-            <Modal
-              open={configureResult}
-              onClose={handleClose}
-              aria-labelledby="modal-configure-title"
-              aria-describedby="modal-configure-description"
-            >
-              <Box sx={modalStyle}>
-                <Typography id="modal-configure-title" variant="h6" component="h2">
-                  {myAppGlobal.langT('LT_SETTING_MODAL_TITLE')}
-                </Typography>
-                <Typography id="modal-configure-description" sx={{ mt: 2 }}>
-                  {myAppGlobal.langT('LT_SETTING_MODAL_DESCRIPTION')}
-                </Typography>
-              </Box>
-            </Modal>
+              <Typography >{myAppGlobal.systeminformations.Systemconfg.productmodel}</Typography>
+            </Stack>
+            <CreateModal handleModal={handleChangeNameModal} handleClose={handleCloseChangeNameModal} />
           </CardContent>
         </Card>
-
-        {console.log(myAppGlobal.systeminformations.Systemconfg)}
       </Box>
     </ThemeProvider>
   );
