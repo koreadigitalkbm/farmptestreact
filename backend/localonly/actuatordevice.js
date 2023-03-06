@@ -26,12 +26,22 @@ module.exports = class Actuatordevice {
       
       let isevent = false;
       if (this.AOperation.Opid != this.LastCompleteOPID) {
+
+        console.log("getEventwithCheck UniqID:" + this.UniqID+" , LastCompleteState: " + this.LastCompleteState +  " ,sta:" + this.AStatus.Sat);
+        //상태가 다를경우만 이벤트 기록 
+        if(this.LastCompleteState != this.AStatus.Sat)
+        {
+          isevent = true;
+        }
+
         this.LastCompleteOPID = this.AOperation.Opid;
         this.LastCompleteState = this.AStatus.Sat;
-        isevent = true;
+
+        
       } else {
         //OPID 은 같지만 상태가 다르다 : 타임드온 방식이면 지정시간동안 켜있다가 꺼짐으로 상태변경될수 있음.
         if (this.AStatus.Sat != this.LastCompleteState) {
+
           this.LastCompleteState = this.AStatus.Sat;
           isevent = true;
         }

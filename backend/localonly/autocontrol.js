@@ -16,6 +16,7 @@ module.exports = class AutoControl {
     this.PWMLasttoltalsec = Number(0); // 마지막 명령어 전송시점.
     this.OnSecTime = 0; //켜짐시간(초), 모드에 따라 변경됨으로
     this.NewEvent = null; //이벤트 발생하면 여기에
+    this.IsPWMcontrol=false;
   }
   static Clonbyjsonobj(mobj) {
     return new AutoControl(mobj.mConfig);
@@ -62,6 +63,7 @@ module.exports = class AutoControl {
     } else {
       //PWM 제어
 
+      this.IsPWMcontrol=true;
       //자정이 넘어가면
       if (this.PWMLasttoltalsec > daytotalsec) {
         this.PWMLasttoltalsec = this.PWMLasttoltalsec - 86400;
@@ -432,12 +434,19 @@ module.exports = class AutoControl {
   setUpdatestateWithEvent(newautostate) {
     this.NewEvent = null;
     if (this.mState.State != newautostate) {
-      console.log("setUpdatestateWithEvent lid: " + this.mConfig.Lid + "  ---------------old:  " + this.mState.State + " new: " + newautostate);
+      //console.log("setUpdatestateWithEvent lid: " + this.mConfig.Lid + "  ---------------old:  " + this.mState.State + " new: " + newautostate);
 
       //상태가 유지상태일경우 이벤트 발생안함
       if (newautostate == KDDefine.AUTOStateType.AST_Up_Idle || newautostate == KDDefine.AUTOStateType.AST_Down_Idle || newautostate == KDDefine.AUTOStateType.AST_IDLE) {
       } else {
-        this.NewEvent = SystemEvent.createAutoControlEvent(this.mConfig.Uid, newautostate);
+        if(this.IsPWMcontrol == true && this.mState.State == KDDefine.AUTOStateType.AST_IDLE && newautostate == KDDefine.AUTOStateType.AST_On )
+        {
+            //관수제어시 PWM 주기적 제어일경우 이벤트 계속발생되지 않도록 
+        }
+        else
+        {
+          this.NewEvent = SystemEvent.createAutoControlEvent(this.mConfig.Uid, newautostate);
+        }
       }
       this.mState.State = newautostate;
     }
