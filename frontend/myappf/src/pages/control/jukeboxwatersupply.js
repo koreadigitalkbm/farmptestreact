@@ -2,12 +2,10 @@ import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 import { Button, Stack, Typography } from "@mui/material";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
+
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import Box from '@mui/material/Box';
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
@@ -18,7 +16,8 @@ import KDUtil from "../../commonjs/kdutil";
 
 const JukeboxWatersupplyM1 = (props) => {
   const copycfg = props.initvalue;
-  const [avchecked, setAVChecked] = React.useState(false);
+  const saveconfig = props.savecfg;
+  const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
 
@@ -117,9 +116,19 @@ const JukeboxWatersupplyM1 = (props) => {
         <Typography>{myAppGlobal.langT("LT_GROWPLANTS_WATERSUPPLY_NIGHT3")} </Typography>
       </Stack>
       <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT('LT_GROWPLANTS_ADVANCEDSETTING')} />
+      <Stack direction="column" alignItems="flex-end">
+          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+        </Stack>
 
       {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+      <hr/>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+            {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
+          </Button>
+          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+        </Stack>
+
       </Box>
     </Stack>
   );

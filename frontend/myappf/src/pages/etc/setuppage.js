@@ -99,7 +99,6 @@ export default function SetupPage(props) {
               alertparams.type = "success";
               alertparams.title = "성공"
               alertparams.message = "시스템 설정을 저장하였습니다.";
-              
               setAlert(alertparams);
 
 

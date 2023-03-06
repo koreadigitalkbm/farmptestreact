@@ -1,11 +1,11 @@
 import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
-import { Stack, Typography } from "@mui/material";
+import {Button, Stack, Typography } from "@mui/material";
 import Box from '@mui/material/Box';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
@@ -14,10 +14,11 @@ import AutoManualActuator from "../uicomponent/automanualactuator";
 
 
 const JukeboxAircirculation = (props) => {
-  const [avchecked, setAVChecked] = React.useState(false);
+  const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
   const copycfg = props.initvalue;
+  const saveconfig = props.savecfg;
 
   const inputchangeHandler = (event) => {
 
@@ -62,6 +63,7 @@ const JukeboxAircirculation = (props) => {
   //자동 고급설정 따로
   const AdvenceSetting = (props) => {
     const copycfg = props.initvalue;
+
     return (
       
       <Stack spacing={1}>
@@ -91,9 +93,18 @@ const JukeboxAircirculation = (props) => {
       <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4')}</Typography>
         </Stack>
       <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT('LT_GROWPLANTS_ADVANCEDSETTING')} />
+      <Stack direction="column" alignItems="flex-end">
+          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+        </Stack>
       
       {avchecked === true ? <AdvenceSetting  initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+      <hr/>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+            {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
+          </Button>
+          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+        </Stack>
       </Box>
       
     </Stack>

@@ -50,6 +50,8 @@ function FarmApp(props) {
     myAppGlobal.dashboardimagefileurl="image/noimage.png";
     myAppGlobal.dashboardlasteventtime=1;
     myAppGlobal.dashboardlastsensortime=1;
+    myAppGlobal.Autocontrolcfg=null;
+    
 
     let ssid = Math.floor(Math.random() * 100000 + 100);
     window.sessionStorage.setItem("msessionid", ssid);

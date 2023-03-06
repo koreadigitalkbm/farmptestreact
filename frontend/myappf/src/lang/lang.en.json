@@ -173,7 +173,7 @@
     "LT_GROWPLANTS_PHOTO": "Photo",
     "LT_GROWPLANTS_UNKNOWN": "User option",
     "LT_GROWPLANTS_ADDAUTOCONTROL": "Add automatic control",
-    "LT_GROWPLANTS_AUTOCONTROLUSING": "It's running auto control.",
+    "LT_GROWPLANTS_AUTOCONTROLUSING": "Enable auto control.",
     "LT_GROWPLANTS_AUTO": "Change settings",
     "LT_GROWPLANTS_MANUAL": "Manual control",
     "LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED": "Automatic control settings have benn saved.",
@@ -202,7 +202,7 @@
     "LT_GROWPLANTS_WATERSUPPLY_NIGHT3": "",
     "LT_GROWPLANTS_WATERSUPPLY_INTERVALUNIT": "min",
     "LT_GROWPLANTS_WATERSUPPLY_OPERATETIMEUNIT": "sec",
-    "LT_GROWPLANTS_LED_DAY1": "During the day[{0}], turn the LED light on to",
+    "LT_GROWPLANTS_LED_DAY1": "During the day({0}), turn the LED light on to",
     "LT_GROWPLANTS_LED_DAY2": "brightness.",
     "LT_GROWPLANTS_LED_WHITE": "White",
     "LT_GROWPLANTS_LED_RED": "Red",
@@ -222,8 +222,9 @@
     "LT_GROWPLANTS_TAKEPICTURE_STARTTIME": "Shooting start time",
     "LT_GROWPLANTS_TAKEPICTURE_SHOOT": "photo shoot",
     "LT_GROWPLANTS_TAKEPICTURE_LOADRECENTLYPICTURE": "load to recently picture",
-    "LT_GROWPLANTS_TAKEPICTURE_SAVEPICTURE": "save picture",
-    "LT_GROWPLANTS_SAVE": "save",
+    "LT_GROWPLANTS_TAKEPICTURE_SAVEPICTURE": "Save picture",
+    "LT_GROWPLANTS_SAVE": "Save",
+    "LT_GROWPLANTS_SAVE_NOTI": "Save the modified control settings to the equipment.",
     
     "LT_DATAPAGE_DATEPICKER_DATE": "Daily(1)",
     "LT_DATAPAGE_DATEPICKER_PERIOD": "Period(60)",
@@ -256,6 +257,9 @@
     "LT_SETTING_MODAL_CONFIRMED": "Your changes have been applied.",
     "LT_SETTING_MODAL_FAILED": "The requested operation failed.",
     "LT_SETTING_MODAL_NOSPACEALLOW": "Spaces cannot be used as device name.",
+
+    "LT_ALERT_SUCESS": "Sucess",
+
 
     "Autocontrol": "Grow Plants",
     "BrandName": "Brand name",

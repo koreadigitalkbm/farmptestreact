@@ -25,6 +25,7 @@ const JukeboxCamera = (props) => {
   
   const [takeimageurl, settakeimageurl] = useState(manultakefilename);
   const copycfg = props.initvalue;
+  const saveconfig = props.savecfg;
 
   console.log("JukeboxCamera recenturl:" + recenturl + ' togleflg:'+ togleflg + "takeimageurl : " +takeimageurl);
 
