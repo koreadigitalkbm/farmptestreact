@@ -110,15 +110,15 @@ const HDashboard = (props) => {
 
          
           if (ret.retParam.LastimageFilename != null) {
-            myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
-            lastfileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + myAppGlobal.dashboardimagefileurl;
+            //myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
+            myAppGlobal.dashboardimagefileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + ret.retParam.LastimageFilename;
 
-            if (mimgfileurl != lastfileurl) {
+            if (mimgfileurl != myAppGlobal.dashboardimagefileurl) {
               
             
-              console.log("capture fileurl : " + lastfileurl);
-              console.log("capture fileurl mimgfileurl: " + mimgfileurl);
-              setImgfileurl(lastfileurl);
+              //console.log("capture fileurl : " + lastfileurl);
+              //console.log("capture fileurl mimgfileurl: " + mimgfileurl);
+              setImgfileurl(myAppGlobal.dashboardimagefileurl);
             }
           }
 
@@ -201,7 +201,7 @@ const HDashboard = (props) => {
     
     init_count=0;    
     readtimemsec = 1000;
-    setImgfileurl("image/noimage.png");
+    setImgfileurl(myAppGlobal.dashboardimagefileurl);
     
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
