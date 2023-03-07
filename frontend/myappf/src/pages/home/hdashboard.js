@@ -199,7 +199,7 @@ const HDashboard = (props) => {
   useEffect(() => {
     console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +readtimemsec);
     
-    
+    init_count=0;    
     readtimemsec = 1000;
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
@@ -208,7 +208,7 @@ const HDashboard = (props) => {
     return () => {
       console.log("컴포넌트가 화면에서 사라짐 isoffscreen: " + isoffscreen);
       isoffscreen = true;
-      init_count=0;
+
       clearTimeout(readcallbacktimeout);
     };
 
