@@ -1,7 +1,7 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
-import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Grid from "@mui/material/Grid";
@@ -10,11 +10,11 @@ import Checkbox from "@mui/material/Checkbox";
 
 import { forwardRef } from "react";
 import myAppGlobal from "../../myAppGlobal";
-
+import "react-datepicker/dist/react-datepicker.css";
 
 
 export default function DatePickerBar(props) {
-  
+
   const onGetdb = props.getdb;
   const issearching = props.issearching;
   const isdaily = props.isdaily;
@@ -25,7 +25,7 @@ export default function DatePickerBar(props) {
   const isenbimage = props.enbi;
   const isenbevent = props.enbe;
 
-  
+
 
 
   const [curdate, setcurdate] = useState(props.dayDate);
@@ -40,13 +40,13 @@ export default function DatePickerBar(props) {
     switch (e.currentTarget.name) {
       case "oneDayAgo":
         curday = new Date(curdate);
-        curday=curday.setDate(curday.getDate()-1);
+        curday = curday.setDate(curday.getDate() - 1);
 
 
         break;
       case "oneDayAhead":
         curday = new Date(curdate);
-        curday=curday.setDate(curday.getDate()+1);
+        curday = curday.setDate(curday.getDate() + 1);
         break;
       case "dayselect":
         curday = e.currentTarget.date;
@@ -72,8 +72,7 @@ export default function DatePickerBar(props) {
       setcurdate(curday);
       onGetdb(new Date(curday), new Date(curday));
     }
-    else
-    {
+    else {
       console.log("time over");
       console.log(curday);
       console.log(curdate);
@@ -93,7 +92,7 @@ export default function DatePickerBar(props) {
 
   const handleChange = (event) => {
     console.log("------------------------handleChange--------------------event : " + event.target.name + ",ch:" + event.target.checked);
-    
+
     onChangeEnb(event.target.name);
     //그냥 화면 갱신
     //setCheckeds(!bcheckeds);
@@ -105,7 +104,7 @@ export default function DatePickerBar(props) {
     const MuiCustomInput = forwardRef(({ value, onClick }, ref) => (
       <Button onClick={onClick} ref={ref}>
         <Typography align="center" fontSize="large" color="primary">
-        {value}
+          {value}
         </Typography>
       </Button>
     ));
@@ -137,32 +136,32 @@ export default function DatePickerBar(props) {
             <DatePicker value={startdate} selected={startdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("startday", date)} />
             <br />{" "}
             <Typography align="center" fontSize="small">
-            {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_START')}
+              {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_START')}
             </Typography>{" "}
           </Typography>
 
           {issearching == true ? (
             <React.Fragment>
-            <CircularProgress color="secondary" />
-            <Typography align="center" fontSize="small" color="secondary" >
-            {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_SEARCING')}
-          </Typography>
-          </React.Fragment>
+              <CircularProgress color="secondary" />
+              <Typography align="center" fontSize="small" color="secondary" >
+                {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_SEARCING')}
+              </Typography>
+            </React.Fragment>
           ) : (
             <IconButton name="searchday" onClick={onClickday}>
               {issearching == true ? null : <QueryStatsIcon fontSize="large" color="secondary" />}
               <Typography align="center" fontSize="small" color="secondary" >
-              {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_CONFIRM')}
-          </Typography>
+                {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_CONFIRM')}
+              </Typography>
 
             </IconButton>
           )}
-          
+
           <Typography align="center">
             <DatePicker value={enddate} selected={enddate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("endday", date)} />
             <br />{" "}
             <Typography align="center" fontSize="small">
-            {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_END')}
+              {myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD_END')}
             </Typography>{" "}
           </Typography>
         </Stack>
@@ -174,7 +173,7 @@ export default function DatePickerBar(props) {
     <Grid container spacing={1} sx={{ backgroundColor: "#eceff1" }} padding={1}>
       <Grid item xs={3}>
         <FormControl>
-          
+
           <RadioGroup row aria-labelledby={"rg-label"} name={"rg-name"} onChange={onChange}>
             <FormControlLabel checked={isdaily} value={"하루(1일)"} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_DATE')} control={<Radio />} />
             <FormControlLabel checked={!isdaily} value={"기간(60일)"} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_PERIOD')} control={<Radio />} />
@@ -191,10 +190,10 @@ export default function DatePickerBar(props) {
         {pickertype()}
       </Grid>
       <Grid item xs={4} sx={{ backgroundColor: "#ffffff" }}>
-      <FormControlLabel key={"keysensor"} control={ <Checkbox  name={"keychs"}  checked={isenbsensor}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label="sensor"  />
-      <FormControlLabel key={"keyimage"} control={ <Checkbox  name={"keychi"}  checked={isenbimage}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label="image"  />
-      <FormControlLabel key={"keyevent"} control={ <Checkbox  name={"keyche"}  checked={isenbevent}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label="event"  />
- 
+        <FormControlLabel key={"keysensor"} control={<Checkbox name={"keychs"} checked={isenbsensor} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" }, }} />} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_SENSOR')} />
+        <FormControlLabel key={"keyimage"} control={<Checkbox name={"keychi"} checked={isenbimage} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" }, }} />} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_IMAGE')} />
+        <FormControlLabel key={"keyevent"} control={<Checkbox name={"keyche"} checked={isenbevent} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" }, }} />} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_EVENT')} />
+
       </Grid>
     </Grid>
   );

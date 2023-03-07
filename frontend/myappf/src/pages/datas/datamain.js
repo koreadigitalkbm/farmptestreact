@@ -1,4 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { Box, Grid } from "@mui/material";
+import { Buffer } from "buffer";
 
 import DBQueryParam from "../../commonjs/dbqueryparam";
 
@@ -7,12 +9,8 @@ import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 import ChartDataUtil from "./datautil";
 
-import { Buffer } from "buffer";
-
 import { ThemeProvider } from "@mui/material";
 import muiTheme from "../muiTheme";
-import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
 
 import EventListView from "./eventlistview";
 import ShowVerticalImages from "../pages/components/showVerticalImages";

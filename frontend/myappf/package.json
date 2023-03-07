@@ -17,6 +17,8 @@
         "chartjs-adapter-date-fns": "^3.0.0",
         "chartjs-plugin-zoom": "^2.0.0",
         "date-fns": "^2.29.3",
+        "exceljs": "^4.3.0",
+        "file-saver": "^2.0.5",
         "gsap": "^3.11.4",
         "i18next": "^22.4.9",
         "react": "^18.2.0",

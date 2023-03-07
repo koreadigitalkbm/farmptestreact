@@ -2,20 +2,15 @@ import React, { useState, useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 import Autocontroleditbox from "./autocontroleditbox";
 
-import { Box, Button, Card, CardHeader, Divider, Modal, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardHeader, Grid, IconButton, Stack, Switch, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Switch from "@mui/material/Switch";
 import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "../muiTheme";
-import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import AddCardIcon from "@mui/icons-material/AddCard";
-import Grid from "@mui/material/Grid";
 
 
 
@@ -72,7 +67,6 @@ const Autocontrolcard = (props) => {
 
   return (
     <CardFarmsCube>
-      
         <CardActions disableSpacing>
           <Typography variant="h6" sx={{ minWidth: 300 }}>
             {mydata.Name}

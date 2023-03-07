@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink, Routes, Route, useNavigate } from "react-router-dom";
-import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography, IconButton } from "@mui/material";
-import { Dataset, Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
-
-
-import ControlPage from "./pages/controlPage";
-import DataPage from "./pages/dataPage";
-import SettingPage from "./pages/settingPage";
+import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
 
 import SetupPage from "./etc/setuppage";
 import FactorySetup from "./etc/factorysetup";
@@ -44,15 +39,14 @@ export default function FMainpage(props) {
     switch (props.id) {
       case "Home":
         return <Home />;
-      case "Data":
-        return <FindInPage />;
       case "Autocontrol":
         return <LocalFlorist />;
+      case "Data":
+        return <FindInPage />;
       case "Setting":
         return <Settings />;
       case "Logout":
         return <Logout />;
-
       default:
         return <QuestionMark />;
     }
@@ -147,7 +141,7 @@ export default function FMainpage(props) {
 
       <AppBar component="nav">
         <Toolbar>
-          <img src="/image/farmscube_logo_small48.png"></img>
+          <img src="/image/farmscube_logo_small48.png" alt="farmscube_logo"></img>
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {NameT}
           </Typography>

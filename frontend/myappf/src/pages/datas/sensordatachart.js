@@ -1,41 +1,36 @@
 import React, { useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
-import { CenterFocusWeak } from "@mui/icons-material";
+import { Box, Checkbox, FormControlLabel, FormLabel, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { BookmarkAdded, CenterFocusWeak, FileDownload, ZoomIn } from "@mui/icons-material";
 
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip } from "chart.js";
+import { CategoryScale, Chart, LinearScale, PointElement, LineElement, TimeScale, Title } from "chart.js";
 import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
 import zoomPlugin from "chartjs-plugin-zoom";
-import Grid from "@mui/material/Grid";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import FormLabel from "@mui/material/FormLabel";
-import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import Sensordevice from "../../commonjs/sensordevice";
 
+import Sensordevice from "../../commonjs/sensordevice";
 import myAppGlobal from "../../myAppGlobal";
+import Makexlsx from "./makexlsx";
 
 let chboxlist = [
-  { label: "l1", color: "#1976d2", key: "0",pstyle:"circle", checked: false, sensor: null },
-  { label: "l2", color: "#2e7d32", key: "1",pstyle:"triangle", checked: false, sensor: null },
-  { label: "l3", color: "#9c27b0", key: "2",pstyle:"star", checked: false, sensor: null },
-  { label: "l4", color: "#d32f2f", key: "3",pstyle:"rect", checked: false, sensor: null },
+  { label: "l1", color: "#1976d2", key: "0", pstyle: "circle", checked: false, sensor: null },
+  { label: "l2", color: "#2e7d32", key: "1", pstyle: "triangle", checked: false, sensor: null },
+  { label: "l3", color: "#9c27b0", key: "2", pstyle: "star", checked: false, sensor: null },
+  { label: "l4", color: "#d32f2f", key: "3", pstyle: "rect", checked: false, sensor: null },
 
-  { label: "l4", color: "#ed6c02", key: "4",pstyle:"crossRot", checked: false, sensor: null },
-  { label: "l4", color: "#0288d1", key: "5",pstyle:"dash", checked: false, sensor: null },
-  { label: "l4", color: "#ef5350", key: "6",pstyle:"rectRounded", checked: false, sensor: null },
-  { label: "l4", color: "#4caf50", key: "7",pstyle:"rectRot", checked: false, sensor: null },
+  { label: "l4", color: "#ed6c02", key: "4", pstyle: "crossRot", checked: false, sensor: null },
+  { label: "l4", color: "#0288d1", key: "5", pstyle: "dash", checked: false, sensor: null },
+  { label: "l4", color: "#ef5350", key: "6", pstyle: "rectRounded", checked: false, sensor: null },
+  { label: "l4", color: "#4caf50", key: "7", pstyle: "rectRot", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "8",pstyle:"cross", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "9",pstyle:"circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "10",pstyle:"circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "11",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "8", pstyle: "cross", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "9", pstyle: "circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "10", pstyle: "circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "11", pstyle: "circle", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "12",pstyle:"circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "13",pstyle:"circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "14",pstyle:"circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "15",pstyle:"circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "12", pstyle: "circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "13", pstyle: "circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "14", pstyle: "circle", checked: false, sensor: null },
+  { label: "l4", color: "#000010", key: "15", pstyle: "circle", checked: false, sensor: null },
 ];
 
 let dataChart = {
@@ -43,7 +38,7 @@ let dataChart = {
   datasets: [],
 };
 
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, Tooltip, zoomPlugin);
+Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale, Title, zoomPlugin);
 
 
 
@@ -53,7 +48,7 @@ let optionChart = {
       display: false,
     },
     zoom: {
-        limits: {},
+      limits: {},
       pan: {
         enabled: true,
       },
@@ -106,7 +101,7 @@ let optionChart = {
   },
 };
 
-function Drawchart(zmode,bmark, sensorlistforchart) {
+function Drawchart(zmode, bmark, sensorlistforchart) {
   dataChart = {
     labels: [],
     datasets: [],
@@ -135,16 +130,15 @@ function Drawchart(zmode,bmark, sensorlistforchart) {
       }
 
       //console.log(optionChart);
-      
-      optionChart.plugins.zoom.zoom.mode= zmode;
+
+      optionChart.plugins.zoom.zoom.mode = zmode;
       sensorlistforchart[i].pointStyle = chboxlist[i].pstyle;
       sensorlistforchart[i].borderColor = chboxlist[i].color;
-      if(bmark === true)
-      {
-        sensorlistforchart[i].pointRadius=6;
+      if (bmark === true) {
+        sensorlistforchart[i].pointRadius = 6;
       }
-      else{
-        sensorlistforchart[i].pointRadius=0;
+      else {
+        sensorlistforchart[i].pointRadius = 0;
       }
       dataChart.datasets.push(sensorlistforchart[i]);
     }
@@ -172,26 +166,24 @@ const SensorDataChart = (props) => {
   };
 
 
-  
+
   const changezoomaxis = () => {
-    let newax="xy"
-    if(zoomaxis==="xy")
-    {
-      newax="x";
+    let newax = "xy"
+    if (zoomaxis === "xy") {
+      newax = "x";
     }
-    else if(zoomaxis==="x")
-    {
-      newax="y";
+    else if (zoomaxis === "x") {
+      newax = "y";
     }
-    else{
-      newax="xy";
+    else {
+      newax = "xy";
     }
     setZoomaxis(newax);
   };
 
 
   const chartmarkenb = () => {
-    
+
     setChartmark(!bcheckmark);
   };
 
@@ -213,7 +205,7 @@ const SensorDataChart = (props) => {
     setCheckeds(!bcheckeds);
   };
 
-  Drawchart(zoomaxis,bcheckmark,sensorchartdatas);
+  Drawchart(zoomaxis, bcheckmark, sensorchartdatas);
 
   let chlist = [];
 
@@ -221,6 +213,7 @@ const SensorDataChart = (props) => {
     const newsensor = Sensordevice.createSensor(sensorchartdatas[i].stype, sensorchartdatas[i].nodeid, sensorchartdatas[i].channel, myAppGlobal);
     chboxlist[i].label = newsensor.Name;
     chboxlist[i].sensor = newsensor;
+    sensorchartdatas[i].label = newsensor.Name;
 
     const chb = (
       <FormControlLabel
@@ -245,6 +238,31 @@ const SensorDataChart = (props) => {
     chlist.push(chb);
   }
 
+  const tooltipText = (type) => {
+    switch (type) {
+      case 'tooltip':
+        return myAppGlobal.langT("LT_DATAPAGE_CHART_ZOOMFIT");
+      
+      case 'largeMarker':
+        if (bcheckmark) return myAppGlobal.langT("LT_DATAPAGE_CHART_LARGEMARKERABLED");
+        else return myAppGlobal.langT("LT_DATAPAGE_CHART_LARGEMARKERUNABLED");
+
+      case 'zoomAxis':
+        if (zoomaxis === 'xy') return myAppGlobal.langT("LT_DATAPAGE_CHART_FIXEDZOOMAXISUNABLED");
+        else if (zoomaxis === 'x') return myAppGlobal.langT("LT_DATAPAGE_CHART_FIXEDZOOMAXISY");
+        else if (zoomaxis === 'y') return myAppGlobal.langT("LT_DATAPAGE_CHART_FIXEDZOOMAXISX");
+        else return "unknwon";
+
+      case 'export':
+        return myAppGlobal.langT("LT_DATAPAGE_CHART_EXPORTCHARTDATA")
+
+      default: return "unknown";
+    }
+  }
+
+  const makexlsx = () => {
+    Makexlsx(sensorchartdatas);
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={1}>
@@ -255,18 +273,28 @@ const SensorDataChart = (props) => {
         <Grid item xs={0} minWidth={48}>
           <React.Fragment>
             <Grid item xs={0}>
-              <IconButton onClick={resetZoomBtn}><CenterFocusWeak /></IconButton>
+              <Tooltip title={tooltipText('tooltip')}>
+                <IconButton onClick={resetZoomBtn}><CenterFocusWeak /></IconButton>
+              </Tooltip>
             </Grid>
             <Grid item xs={0}>
-              <IconButton onClick={chartmarkenb}><BookmarkAddedIcon  color={bcheckmark=== true? "primary":"disabled"} /></IconButton>
+              <Tooltip title={tooltipText('largeMarker')}>
+                <IconButton onClick={chartmarkenb}><BookmarkAdded color={bcheckmark === true ? "primary" : "disabled"} /></IconButton>
+              </Tooltip>
             </Grid>
             <Grid item xs={0}>
-              <IconButton onClick={changezoomaxis} sx={{ display: 'flex', flexDirection: 'column'}}><ZoomInIcon />
-              {zoomaxis}
-              </IconButton>
-              
+              <Tooltip title={tooltipText('zoomAxis')}>
+                <IconButton onClick={changezoomaxis} sx={{ display: 'flex', flexDirection: 'column' }}><ZoomIn />
+                  {zoomaxis}
+                </IconButton>
+              </Tooltip>
             </Grid>
-            
+            <Grid item xs={0}>
+              <Tooltip title={tooltipText('export')}>
+                <IconButton onClick={makexlsx}><FileDownload /></IconButton>
+              </Tooltip>
+            </Grid>
+
 
           </React.Fragment>
         </Grid>

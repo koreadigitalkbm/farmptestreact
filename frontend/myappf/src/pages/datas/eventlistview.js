@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, IconButton, Typography, Card, CardHeader, Checkbox, FormControlLabel, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Toolbar } from "@mui/material";
+import { IconButton, Typography, Card, Checkbox, FormControlLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
 
 import AddchartIcon from "@mui/icons-material/Addchart";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -35,9 +35,9 @@ export default function EventListView(props) {
     );
   }
 
-  columns[0].label=myAppGlobal.langT('LT_DATAPAGE_EVENT_DATE');
-  columns[1].label=myAppGlobal.langT('LT_DATAPAGE_EVENT_TYPE');
-  columns[2].label=myAppGlobal.langT('LT_DATAPAGE_EVENT_CONTENT');
+  columns[0].label = myAppGlobal.langT('LT_DATAPAGE_EVENT_DATE');
+  columns[1].label = myAppGlobal.langT('LT_DATAPAGE_EVENT_TYPE');
+  columns[2].label = myAppGlobal.langT('LT_DATAPAGE_EVENT_CONTENT');
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -63,19 +63,23 @@ export default function EventListView(props) {
 
     return (
       <React.Fragment>
-        <IconButton aria-label="fingerprint" color="secondary">
-          <AddchartIcon />
-        </IconButton>
-        <IconButton aria-label="AddchartIcon" color="secondary">
-          <FileDownloadIcon />
-        </IconButton>
+        <Tooltip title={myAppGlobal.langT('LT_DATAPAGE_LOG_DRAWCHART')}>
+          <IconButton aria-label="fingerprint" color="secondary">
+            <AddchartIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title={myAppGlobal.langT('LT_DATAPAGE_LOG_DOWNLOAD')}>
+          <IconButton aria-label="AddchartIcon" color="secondary">
+            <FileDownloadIcon />
+          </IconButton>
+        </Tooltip>
       </React.Fragment>
     );
   }
 
   return (
     <Card sx={{ minWidth: 100, backgroundColor: "#eceff1" }}>
-      
+
       <Paper sx={{ width: "100%" }}>
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -99,7 +103,7 @@ export default function EventListView(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+              {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 if (row["type"] == 1 && chboxlist["system"].checked == false) {
                   return null;
                 }
@@ -115,10 +119,10 @@ export default function EventListView(props) {
 
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={"rowkey" + index}>
-                    {columns.map((column,index) => {
+                    {columns.map((column, index) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={"evtkey"+index} align={column.align}>
+                        <TableCell key={"evtkey" + index} align={column.align}>
                           {column.format && typeof value === "number" ? column.format(value) : value}
                         </TableCell>
                       );
