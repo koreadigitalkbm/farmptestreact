@@ -52,6 +52,22 @@ const HDashboard = (props) => {
     init_count++;
     console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec + " init_count = " +init_count);
 
+
+
+      //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
+      if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
+        readtimemsec = 30000;
+      } else {
+        readtimemsec = 3000;
+      }
+  
+      if(init_count <10)
+      {
+        readtimemsec = 3000;
+      }
+
+
+
     setDataloading(true);
     myAppGlobal.farmapi.getDeviceStatus(true, true, false, myAppGlobal.dashboardlastsensortime, myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
@@ -190,17 +206,7 @@ const HDashboard = (props) => {
     }
 
 
-    //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
-    if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
-      readtimemsec = 20000;
-    } else {
-      readtimemsec = 3000;
-    }
-
-    if(init_count <10)
-    {
-      readtimemsec = 3000;
-    }
+  
     
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
