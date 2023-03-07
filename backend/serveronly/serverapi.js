@@ -207,7 +207,7 @@ module.exports = class ServerAPI {
         for(let i=0;i<this.userinfos.length;i++)
         {
           console.log("i :" +i);
-          console.log(this.userinfos[i]);
+          console.log(this.userinfos[i].RowDataPacket.userid);
         }
 
         if (reqmsg.reqParam.loginID === "kd1" && reqmsg.reqParam.loginPW === "1234") {
