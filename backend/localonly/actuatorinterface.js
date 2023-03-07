@@ -24,7 +24,7 @@ module.exports = class ActuatorInterface {
     this.cameracapturecount = 0;
     this.cameramanualcapturefilepath=null;
 
-    console.log("       ".bgMagenta, this.mMain.localsysteminformations);
+    //console.log("       ".bgMagenta, this.mMain.localsysteminformations);
 
     //
     let actuatorconfigfilename = KDCommon.actuatorconfigfilename;

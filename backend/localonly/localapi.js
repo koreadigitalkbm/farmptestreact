@@ -248,6 +248,8 @@ module.exports = class LocalAPI {
       const data = snapshot.val();
 
       try { 
+        if(data.length >4)
+        {
         const decodedStr = Buffer.from(data, "base64");
         const reqmsg = JSON.parse(decodedStr);
         const rspmsg = this.messageprocessing(reqmsg);
@@ -257,6 +259,7 @@ module.exports = class LocalAPI {
         const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
         const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         fblocalresponse.set(objJsonB64encode);
+        }
 
         //console.log("frebase response set: " +objJsonB64encode);
       } catch (e) {
