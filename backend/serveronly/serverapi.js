@@ -15,8 +15,9 @@ module.exports = class ServerAPI {
     this.fbdatabase = null;
     this.sessionmap = new Map();
     this.DBInterface = new DatabaseInterface(mMain);
-
-    this.userinfos= this.DBInterface.getusersinfo(this.callbackresult);
+    this.userinfos=[];
+    
+    this.DBInterface.getusersinfo(this.callbackresult);
   }
 
   callbackresult(mparam) {
