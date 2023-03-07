@@ -16,7 +16,14 @@ module.exports = class ServerAPI {
     this.sessionmap = new Map();
     this.DBInterface = new DatabaseInterface(mMain);
 
-    this.userinfos= this.DBInterface.getusersinfo();
+    this.userinfos= this.DBInterface.getusersinfo(this.callbackresult);
+  }
+
+  callbackresult(mparam) {
+    this.userinfos= mparam;
+    console.log("callbackresult");
+    console.log(this.userinfos);
+
   }
 
   //콜백함수에서 응답해야한다면 이함수를사용하자.

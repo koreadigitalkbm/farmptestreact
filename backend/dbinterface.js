@@ -219,7 +219,7 @@ module.exports = class DatabaseInterface {
   }
 
 
-  getusersinfo() {
+   getusersinfo(callbackresult) {
     
     try {
 
@@ -233,11 +233,10 @@ module.exports = class DatabaseInterface {
       
 
 
-       this.conn.query(sqlquery, function (error, result) {
+        this.conn.query(sqlquery, function (error, result) {
         console.log("getusersinfo........ \n");
-        console.log(result);
-       // returncallback(rsp,result);
-  
+         callbackresult(result) 
+       
         
       });
     } catch (err) {
