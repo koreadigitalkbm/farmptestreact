@@ -97,8 +97,8 @@ export default function SetupPage(props) {
             if (ret.retMessage === "ok") {
 
               alertparams.type = "success";
-              alertparams.title = "성공"
-              alertparams.message = "시스템 설정을 저장하였습니다.";
+              alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+              alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
               setAlert(alertparams);
 
 

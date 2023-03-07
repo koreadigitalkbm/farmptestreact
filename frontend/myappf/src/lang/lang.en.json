@@ -180,7 +180,7 @@
     "LT_GROWPLANTS_AUTOCONTROLSTART": "Automatic control has started.\nYou cannot control it manually.",
     "LT_GROWPLANTS_AUTOCONTROLSTOP": "Automatic control has stopped.\nYou can control it manually.",
     "LT_GROWPLANTS_ADVANCEDSETTING": "Advanced setting",
-    "LT_GROWPLANTS_SELECTHOC": "Select the actuator",
+    "LT_GROWPLANTS_SELECTHOC": "Choose an actuator.",
     "LT_GROWPLANTS_HEATER": "Heater",
     "LT_GROWPLANTS_COOLER": "Cooler",
     "LT_GROWPLANTS_OPERATINGTIME": "Operating time",
@@ -239,6 +239,10 @@
     "LT_DATAPAGE_EVENT_DATE": "Date",
     "LT_DATAPAGE_EVENT_TYPE": "Type",
     "LT_DATAPAGE_EVENT_CONTENT": "Content",
+    "LT_DATAPAGE_SEL_SENSOR": "Sensor",
+    "LT_DATAPAGE_SEL_IMAGE": "Image",
+    "LT_DATAPAGE_SEL_EVENT": "Event",
+
 
     "LT_SETTING_TITLE": "SETTINGS",
     "LT_SETTING_MYDINFO_TITLE": "Device Information",
@@ -257,6 +261,8 @@
     "LT_SETTING_MODAL_CONFIRMED": "Your changes have been applied.",
     "LT_SETTING_MODAL_FAILED": "The requested operation failed.",
     "LT_SETTING_MODAL_NOSPACEALLOW": "Spaces cannot be used as device name.",
+    "LT_SETTING_SAVE_CONFIG": "System settings saved.",
+
 
     "LT_ALERT_SUCESS": "Sucess",
 

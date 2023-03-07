@@ -246,6 +246,11 @@
     "LT_DATAPAGE_EVENT_DATE": "시간",
     "LT_DATAPAGE_EVENT_TYPE": "종류",
     "LT_DATAPAGE_EVENT_CONTENT": "내용",
+    "LT_DATAPAGE_SEL_SENSOR": "센서",
+    "LT_DATAPAGE_SEL_IMAGE": "이미지",
+    "LT_DATAPAGE_SEL_EVENT": "이벤트",
+
+
 
     "LT_SETTING_TITLE": "환경설정",
     "LT_SETTING_MYDINFO_TITLE": "시스템 정보",
@@ -264,6 +269,7 @@
     "LT_SETTING_MODAL_CONFIRMED": "변경사항을 적용했습니다.",
     "LT_SETTING_MODAL_FAILED": "요청한 작업이 실패했습니다.",
     "LT_SETTING_MODAL_NOSPACEALLOW": "공백은 기기이름으로 사용할 수 없습니다.",
+    "LT_SETTING_SAVE_CONFIG": "시스템 설정을 저장하였습니다.",
 
     "LT_ALERT_SUCESS": "성공",
 

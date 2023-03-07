@@ -136,7 +136,7 @@ function FarmApp(props) {
       myAppGlobal.farmapi.setLoginDevice(loginid, loginpw, myAppGlobal.sessionid).then((ret) => {
         if (ret) {
           if (ret.IsOK == true) {
-            console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);
+//            console.log(" login ret msg: " + ret.retMessage + " ,param:" + ret.retParam);
             if (ret.retMessage === undefined || ret.retMessage === "not" || ret.retMessage === "notid" || ret.retMessage === "notpw") {
               console.log("로그인 실패.. ");
               setfailmsg("LT_LOGINFAIL_NO");
