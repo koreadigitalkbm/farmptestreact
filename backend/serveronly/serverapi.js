@@ -121,6 +121,8 @@ module.exports = class ServerAPI {
       const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+
+      repskey.set("");
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
