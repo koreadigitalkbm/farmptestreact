@@ -70,31 +70,35 @@ const JukeboxAircirculation = (props) => {
         <Stack direction="row" alignItems="flex-end">
           <AutoInputTimeRange initvalue={copycfg}  dispstring ={myAppGlobal.langT('LT_GROWPLANTS_SETTO_OPERATINGTIME')} onChange={props.inputallchangeHandler} />
         </Stack>
+        <Stack direction="column" alignItems="flex-start">
         <Stack direction="row" alignItems="flex-end">
           <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNONTIME')}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          </Stack>
+          <Stack direction="row" alignItems="flex-end">
           <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNOFFTIME')}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          </Stack>
         </Stack>
       </Stack>
     );
   };
   //자동제어 일반
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" alignItems="flex-end">
+    <Stack spacing={0}>
+      <Stack direction="row" alignItems="flex-end"  sx={{ m: 2 }} >
         <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1')}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={props.inputallchangeHandler} /> 
         <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2')}</Typography>
       </Stack>
-      <Stack direction="row" alignItems="flex-end">
+      <Stack direction="row" alignItems="flex-end"  sx={{ m: 2 }} >
       <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3')}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={props.inputallchangeHandler} />
       <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4')}</Typography>
         </Stack>
-      <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
+      <Box sx={{bgcolor: '#c5e1a5', boxShadow: 1, borderRadius: 2, p: 2, }}>
       <Stack direction="column" alignItems="flex-end">
-          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
         </Stack>
       
       {avchecked === true ? <AdvenceSetting  initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
@@ -103,7 +107,7 @@ const JukeboxAircirculation = (props) => {
           <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
-          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+          <Typography color={"#1b5e20"} >{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
         </Stack>
       </Box>
       

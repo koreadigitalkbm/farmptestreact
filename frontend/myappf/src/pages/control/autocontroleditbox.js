@@ -53,11 +53,11 @@ export default function Autocontroleditbox(props) {
   };
 
   return (
-    <div>
-      <Box  sx={{   backgroundColor: '#fffce0' }} >
+    
+      <Box  sx={{   backgroundColor: '#f1f8e9' }} >
         {formAutoContent()}
         </Box>
       
-    </div>
+    
   );
 }

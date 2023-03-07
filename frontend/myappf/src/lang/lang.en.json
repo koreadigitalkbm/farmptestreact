@@ -207,6 +207,7 @@
     "LT_GROWPLANTS_LED_WHITE": "White",
     "LT_GROWPLANTS_LED_RED": "Red",
     "LT_GROWPLANTS_LED_BLUE": "Blue",
+    "LT_GROWPLANTS_LED_BRIGHT": "Brightness",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1": "Operate the ventilation fan, valve when the internal CO₂ concentration is less than ",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2": "",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3": "\nor humidity is greater than ",

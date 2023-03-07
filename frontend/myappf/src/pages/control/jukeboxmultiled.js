@@ -79,7 +79,7 @@ const JukeboxMultiLED = (props) => {
       <Stack spacing={1}>
         <AutoManualActuator initvalue={manualactname} items={actitems} changehandler={inputchangeHandler} />
         <Stack direction="row" alignItems="flex-end">
-          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_LED_DAY2")}</Typography>
+          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_LED_BRIGHT")}</Typography>
           <AutoInputControl type="number" initvalue={manualdemming} unit="%" keyname="manualdemming" onChange={inputchangeHandler} />
         </Stack>
         <AutoManualCommon initvalue={manualontimesec} inputchangeHandler={inputchangeHandler} manualHandler={manualonoff} />
@@ -112,15 +112,15 @@ const JukeboxMultiLED = (props) => {
   };
   //자동제어 일반
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" alignItems="flex-end">
+    <Stack spacing={0}>
+      <Stack direction="row" alignItems="flex-end"  sx={{ m: 2 }}>
         <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_LED_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
         <AutoInputControl type="number" initvalue={leddimmingpercent} unit="%" keyname="leddeming" onChange={inputchangeHandler} />
         <Typography>{myAppGlobal.langT("LT_GROWPLANTS_LED_DAY2")}</Typography>
       </Stack>
-      <Box sx={{ bgcolor: "#fef0e0", boxShadow: 1, borderRadius: 2, p: 2 }}>
+      <Box sx={{ bgcolor: "#c5e1a5", boxShadow: 1, borderRadius: 2, p: 2 }}>
         <Stack direction="column" alignItems="flex-end">
-          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+          <FormControlLabel  control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck"  color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
         </Stack>
 
         {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
@@ -130,7 +130,7 @@ const JukeboxMultiLED = (props) => {
           <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
-          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+          <Typography color={"#1b5e20"} >{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
         </Stack>
 
       </Box>
