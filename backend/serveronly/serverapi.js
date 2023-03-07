@@ -201,6 +201,11 @@ module.exports = class ServerAPI {
           rspmsg.retParam = "IF0000";
         }
 
+        for(let i=0;i<this.userinfos.length;i++)
+        {
+          console.log(this.userinfos[i]);
+        }
+
         if (reqmsg.reqParam.loginID === "kd1" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0001";
