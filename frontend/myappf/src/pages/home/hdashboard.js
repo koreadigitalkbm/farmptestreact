@@ -201,6 +201,8 @@ const HDashboard = (props) => {
     
     init_count=0;    
     readtimemsec = 1000;
+    setImgfileurl("image/noimage.png");
+    
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
