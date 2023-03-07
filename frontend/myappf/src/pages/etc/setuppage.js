@@ -182,7 +182,7 @@ export default function SetupPage(props) {
           </Typography>
         </Stack>
 
-        <Button onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
+        <Button  size="large" variant="contained"  onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
@@ -294,7 +294,7 @@ export default function SetupPage(props) {
               }}
             />
 
-            <Button onClick={applyhandler} endIcon={<LibraryAddCheckIcon />}>
+            <Button onClick={applyhandler} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />}>
               {myAppGlobal.langT("LT_SETTING_MODAL_APPLY")}
             </Button>
           </Box>
