@@ -237,6 +237,7 @@
     "LT_DATAPAGE_DATEPICKER_SENSOR": "Sensor",
     "LT_DATAPAGE_DATEPICKER_IMAGE": "Image",
     "LT_DATAPAGE_DATEPICKER_EVENT": "Event",
+    "LT_DATAPAGE_DATEPICKER_SEARCING": "Data Searching...",
     "LT_DATAPAGE_SENSORCHART_CHECK": "Check the sensor",
     "LT_DATAPAGE_NOSENSORDATA": "No sensor data",
     "LT_DATAPAGE_NOPHOTODATA": "No photo data",
