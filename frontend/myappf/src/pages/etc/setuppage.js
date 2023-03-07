@@ -169,7 +169,7 @@ export default function SetupPage(props) {
     if (isswupdate == false) {
       return (
         <Typography variant="subtitle1" sx={{ pl: 2 }}>
-          최신버전입니다.
+          {myAppGlobal.langT("LT_SETTING_NEW_VERSION")}
         </Typography>
       );
     }
@@ -178,7 +178,7 @@ export default function SetupPage(props) {
       <Stack spacing={0} direction="column" divider={<Divider orientation="horizontal" flexItem />} justifyContent="center" sx={{ mt: 5 }}>
         <Stack spacing={0} direction="row" justifyContent="space-between">
           <Typography variant="subtitle1" sx={{ pl: 2 }}>
-            새로운 버전이 있습니다. 업데이트를 진행하세요.{" "}
+            {myAppGlobal.langT("LT_SETTING_NEW_UPDATE")}
           </Typography>
         </Stack>
 

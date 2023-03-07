@@ -263,10 +263,10 @@
     "LT_SETTING_MODAL_FAILED": "The requested operation failed.",
     "LT_SETTING_MODAL_NOSPACEALLOW": "Spaces cannot be used as device name.",
     "LT_SETTING_SAVE_CONFIG": "System settings saved.",
-
+    "LT_SETTING_NEW_VERSION": "This is the latest version.",
+    "LT_SETTING_NEW_UPDATE": "There is a new version. Please proceed with the update.",
 
     "LT_ALERT_SUCESS": "Sucess",
-
 
     "Autocontrol": "Grow Plants",
     "BrandName": "Brand name",
