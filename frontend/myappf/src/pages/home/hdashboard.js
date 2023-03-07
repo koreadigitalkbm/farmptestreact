@@ -24,8 +24,8 @@ let actuaotrslist = [];
 let sensorlist = [];
 
 
-let readtimemsec = 0;
-let readcallbacktimeout;
+let readtimemsec = 1000;
+let readcallbacktimeout=null;
 
 //let imagefilename = "";
 let lastfileurl = "image/noimage.png";
@@ -61,7 +61,7 @@ const HDashboard = (props) => {
         readtimemsec = 3000;
       }
   
-      if(init_count <10)
+      if(init_count <20)
       {
         readtimemsec = 3000;
       }
@@ -199,14 +199,7 @@ const HDashboard = (props) => {
   useEffect(() => {
     console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +readtimemsec);
     
-    //맨처음 부조건 한번 읽음.
-    if(readtimemsec ==0)
-    {
-      loaddatas();
-    }
-
-
-  
+    
     
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
