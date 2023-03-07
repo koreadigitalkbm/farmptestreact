@@ -16,13 +16,15 @@ module.exports = class ServerAPI {
     this.sessionmap = new Map();
     this.DBInterface = new DatabaseInterface(mMain);
     this.userinfos=[];
-    
+
     this.DBInterface.getusersinfo(this.callbackresult);
   }
 
   callbackresult(mparam) {
-    this.userinfos= mparam;
+    
     console.log("callbackresult");
+    console.log(mparam);
+    this.userinfos= mparam;
     //console.log(this.userinfos);
 
   }
