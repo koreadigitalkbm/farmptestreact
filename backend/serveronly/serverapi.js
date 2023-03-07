@@ -15,6 +15,8 @@ module.exports = class ServerAPI {
     this.fbdatabase = null;
     this.sessionmap = new Map();
     this.DBInterface = new DatabaseInterface(mMain);
+
+    this.userinfos= this.DBInterface.getusersinfo();
   }
 
   //콜백함수에서 응답해야한다면 이함수를사용하자.

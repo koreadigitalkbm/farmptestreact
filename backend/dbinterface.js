@@ -217,4 +217,38 @@ module.exports = class DatabaseInterface {
       
     }
   }
+
+
+  getusersinfo() {
+    
+    try {
+
+      
+      let sqlquery ;
+       
+       sqlquery = "SELECT distinct userid,userpw,usertype,deviceid FROM  users ";
+      
+
+      
+      
+
+
+       this.conn.query(sqlquery, function (error, result) {
+        console.log("getusersinfo........ \n");
+        console.log(result);
+       // returncallback(rsp,result);
+  
+        
+      });
+    } catch (err) {
+      console.log("get table eror \n");
+
+      console.log(err);
+    } finally {
+      
+    }
+  }
+
+
+
 };
