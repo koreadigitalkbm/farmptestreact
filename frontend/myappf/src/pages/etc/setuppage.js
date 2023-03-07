@@ -97,9 +97,8 @@ export default function SetupPage(props) {
             if (ret.retMessage === "ok") {
 
               alertparams.type = "success";
-              alertparams.title = "성공"
-              alertparams.message = "시스템 설정을 저장하였습니다.";
-              
+              alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+              alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
               setAlert(alertparams);
 
 
@@ -170,7 +169,7 @@ export default function SetupPage(props) {
     if (isswupdate == false) {
       return (
         <Typography variant="subtitle1" sx={{ pl: 2 }}>
-          최신버전입니다.
+          {myAppGlobal.langT("LT_SETTING_NEW_VERSION")}
         </Typography>
       );
     }
@@ -179,11 +178,11 @@ export default function SetupPage(props) {
       <Stack spacing={0} direction="column" divider={<Divider orientation="horizontal" flexItem />} justifyContent="center" sx={{ mt: 5 }}>
         <Stack spacing={0} direction="row" justifyContent="space-between">
           <Typography variant="subtitle1" sx={{ pl: 2 }}>
-            새로운 버전이 있습니다. 업데이트를 진행하세요.{" "}
+            {myAppGlobal.langT("LT_SETTING_NEW_UPDATE")}
           </Typography>
         </Stack>
 
-        <Button onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
+        <Button  size="large" variant="contained"  onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
@@ -242,16 +241,21 @@ export default function SetupPage(props) {
 
         <CardContent>
           <Box m={1} display="flex" alignItems="left" flexDirection="column">
+            <Stack direction="column" alignItems="flex-start" >
+
             <Typography id="modal-configure-title" variant="subtitle1">
               {myAppGlobal.langT("LT_CHANGELANGUAGE")}{" "}
             </Typography>
 
-            <FormControl variant="standard" sx={{ m: 1, width: 200 }}>
+            <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
               <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={langstr} onChange={handleChange} label="language">
                 <MenuItem value={0}>English</MenuItem>
                 <MenuItem value={1}>한국어</MenuItem>
               </Select>
             </FormControl>
+            </Stack>
+
+            <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
 
             <Typography id="modal-configure-title" variant="subtitle1">
               {myAppGlobal.langT("LT_CHANGEPASSWORD")}
@@ -264,16 +268,11 @@ export default function SetupPage(props) {
               type="text"
               variant="standard"
               onChange={handleNewpword}
-              sx={{
-                width: 200,
-                mt: 2,
-                mb: 3,
-                "& .MuiInputBase-input": {
-                  border: 0,
-                },
-              }}
+              sx={{ width: 200,    ml: 1,  mt:0,  mb: 0,    "& .MuiInputBase-input": {   border: 0},   }}
             />
+             </Stack>
 
+             <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
             <Typography id="modal-configure-title" variant="subtitle1">
               {myAppGlobal.langT("LT_SETTING_NAME_CHANGE")}
             </Typography>
@@ -285,17 +284,12 @@ export default function SetupPage(props) {
               type="text"
               variant="standard"
               onChange={handleNewname}
-              sx={{
-                width: 200,
-                mt: 2,
-                mb: 3,
-                "& .MuiInputBase-input": {
-                  border: 0,
-                },
-              }}
+              sx={{ width: 200, ml: 1,       mb: 3,   "& .MuiInputBase-input": {  border: 0,    },        }}
             />
+            </Stack>
 
-            <Button onClick={applyhandler} endIcon={<LibraryAddCheckIcon />}>
+
+            <Button onClick={applyhandler} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />}>
               {myAppGlobal.langT("LT_SETTING_MODAL_APPLY")}
             </Button>
           </Box>

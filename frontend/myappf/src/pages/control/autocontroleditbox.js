@@ -13,7 +13,7 @@ import JukeboxCamera from "./jukeboxcamera";
 
 export default function Autocontroleditbox(props) {
   const copycfg = props.myconfig;
-
+  const saveconfig = props.savecfg;
   console.log("Autocontroleditbox  name : " + copycfg.Name);
 
   function inputallchangeHandler(e) {
@@ -28,31 +28,36 @@ export default function Autocontroleditbox(props) {
     }
   }
 
+  function Msavecfg() {
+    saveconfig(copycfg,null);
+  }
+
+
   const formAutoContent = () => {
     console.log("formAutoContent Cat: " + copycfg.Cat);
     switch (copycfg.Cat) {
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
-        return <JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} />;
+        return <JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler}  savecfg={Msavecfg} />;
       case KDDefine.AUTOCategory.ATC_WATER:
-        return <JukeboxWatersupplyM1 keyname="watersuply" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} />;
+        return <JukeboxWatersupplyM1 keyname="watersuply" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler}  savecfg={Msavecfg}/>;
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
-        return <JukeboxMultiLED keyname="multiled" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} />;
+        return <JukeboxMultiLED keyname="multiled" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler}  savecfg={Msavecfg}/>;
       case KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX:
-        return <JukeboxAircirculation keyname="aricirc" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} />;
+        return <JukeboxAircirculation keyname="aricirc" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg}  />;
         case KDDefine.AUTOCategory.ACT_CAMERA_FJBOX:
-          return <JukeboxCamera keyname="camera" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} />;
+          return <JukeboxCamera keyname="camera" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler}  savecfg={Msavecfg} />;
         
       default:
-        return <JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} />;
+        return <JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler}  savecfg={Msavecfg} />;
     }
   };
 
   return (
-    <div>
-      <Box  sx={{   backgroundColor: '#fffce0' }} >
+    
+      <Box  sx={{   backgroundColor: '#f1f8e9' }} >
         {formAutoContent()}
         </Box>
       
-    </div>
+    
   );
 }

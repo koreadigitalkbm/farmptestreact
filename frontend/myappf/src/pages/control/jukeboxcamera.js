@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Box,Stack, Typography } from "@mui/material";
 
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -10,7 +10,7 @@ import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
-
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import KDDefine from "../../commonjs/kddefine";
 import KDUtil from "../../commonjs/kdutil";
 
@@ -25,6 +25,7 @@ const JukeboxCamera = (props) => {
   
   const [takeimageurl, settakeimageurl] = useState(manultakefilename);
   const copycfg = props.initvalue;
+  const saveconfig = props.savecfg;
 
   console.log("JukeboxCamera recenturl:" + recenturl + ' togleflg:'+ togleflg + "takeimageurl : " +takeimageurl);
 
@@ -103,16 +104,25 @@ const JukeboxCamera = (props) => {
 
   //자동제어 일반
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" alignItems="flex-end">
+    <Stack spacing={0}>
+      <Stack direction="row" alignItems="flex-end" sx={{ m: 2 }}>
         <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_EVERYDAY1')}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit={myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_NUMBEROFTIMES')} keyname="DTValue" onChange={props.inputallchangeHandler} />
         <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_EVERYDAY2')}</Typography>
       </Stack>
-      <Stack direction="row" alignItems="flex-end">
+      <Stack direction="row" alignItems="flex-end" sx={{ m: 2 }}>
         <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TAKEPICTURE_STARTTIME')}</Typography>
         <AutoInputControl type="time" initvalue={copycfg.STime} unit="" keyname="STime" onChange={props.inputallchangeHandler} />
       </Stack>
+      <Box sx={{ bgcolor: "#c5e1a5", boxShadow: 1, borderRadius: 2, p: 2 }}>
+      <hr/>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+            {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
+          </Button>
+          <Typography color={"#1b5e20"} >{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+        </Stack>
+        </Box>
     </Stack>
   );
 };

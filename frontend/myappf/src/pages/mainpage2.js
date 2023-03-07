@@ -67,9 +67,10 @@ export default function FMainpage(props) {
         if (ret == null) {
           setLoadinfo("error");
         } else {
-          console.log(ret);
+          //console.log(ret);
           myAppGlobal.systeminformations = ret.retParam;
-          console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
+          
+          //console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
 
           if (props.loginrol === "factoryadmin") {
             //공장설정 계정이면 자동제어필요 없이 바로 설정되도록 건너뜀.

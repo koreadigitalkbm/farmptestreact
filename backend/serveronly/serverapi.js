@@ -15,7 +15,12 @@ module.exports = class ServerAPI {
     this.fbdatabase = null;
     this.sessionmap = new Map();
     this.DBInterface = new DatabaseInterface(mMain);
+    this.userinfos=[];
+
+    this.DBInterface.getusersinfo(this.userinfos);
   }
+
+
 
   //콜백함수에서 응답해야한다면 이함수를사용하자.
   callbackreturn(rsp, mparam) {
@@ -199,51 +204,20 @@ module.exports = class ServerAPI {
           rspmsg.retParam = "IF0000";
         }
 
-        if (reqmsg.reqParam.loginID === "kd1" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0001";
-        } else if (reqmsg.reqParam.loginID === "kd2" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0002";
-        } else if (reqmsg.reqParam.loginID === "kd3" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0003";
-        } else if (reqmsg.reqParam.loginID === "kd4" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0004";
-        } else if (reqmsg.reqParam.loginID === "kd5" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0005";
-        } else if (reqmsg.reqParam.loginID === "kd6" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0006";
-        } else if (reqmsg.reqParam.loginID === "kd7" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0007";
-        } else if (reqmsg.reqParam.loginID === "kd8" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0008";
-        } else if (reqmsg.reqParam.loginID === "kd9" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0009";
-        } else if (reqmsg.reqParam.loginID === "kd10" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0010";
-        } else if (reqmsg.reqParam.loginID === "kd11" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0011";
-        } else if (reqmsg.reqParam.loginID === "kd12" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0012";
-        } else if (reqmsg.reqParam.loginID === "kd13" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0013";
-        } else if (reqmsg.reqParam.loginID === "kd14" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0014";
-        } else if (reqmsg.reqParam.loginID === "kd15" && reqmsg.reqParam.loginPW === "1234") {
-          rspmsg.retMessage = "user";
-          rspmsg.retParam = "IF0015";
+        //DB 에서 검색해서 확인함.
+        for(let i=0;i<this.userinfos.length;i++)
+        {
+          //console.log("i :" +i);
+          //console.log(this.userinfos[i]);
+          if(this.userinfos[i].userid === reqmsg.reqParam.loginID && this.userinfos[i].userpw === reqmsg.reqParam.loginPW  && this.userinfos[i].usertype==0)
+          {
+            if(this.userinfos[i].deviceid.length ==6)
+            {
+              rspmsg.retMessage = "user";
+              rspmsg.retParam = this.userinfos[i].deviceid;    
+              break;
+            }
+          }
         }
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답

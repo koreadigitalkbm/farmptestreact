@@ -190,10 +190,10 @@ export default function DatePickerBar(props) {
         {pickertype()}
       </Grid>
       <Grid item xs={4} sx={{ backgroundColor: "#ffffff" }}>
-        <FormControlLabel key={"keysensor"} control={<Checkbox name={"keychs"} checked={isenbsensor} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" }, }} />} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_SENSOR')} />
-        <FormControlLabel key={"keyimage"} control={<Checkbox name={"keychi"} checked={isenbimage} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" }, }} />} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_IMAGE')} />
-        <FormControlLabel key={"keyevent"} control={<Checkbox name={"keyche"} checked={isenbevent} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" }, }} />} label={myAppGlobal.langT('LT_DATAPAGE_DATEPICKER_EVENT')} />
-
+      <FormControlLabel key={"keysensor"} control={ <Checkbox  name={"keychs"}  checked={isenbsensor}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label={myAppGlobal.langT('LT_DATAPAGE_SEL_SENSOR')} />
+      <FormControlLabel key={"keyimage"} control={ <Checkbox  name={"keychi"}  checked={isenbimage}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label={myAppGlobal.langT('LT_DATAPAGE_SEL_IMAGE')} />
+      <FormControlLabel key={"keyevent"} control={ <Checkbox  name={"keyche"}  checked={isenbevent}   onChange={handleChange}          sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" },  }} />  }  label={myAppGlobal.langT('LT_DATAPAGE_SEL_EVENT')}  />
+ 
       </Grid>
     </Grid>
   );

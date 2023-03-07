@@ -2,12 +2,11 @@ import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 import { Stack, Typography } from "@mui/material";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
+import { Button } from "@mui/material";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import Box from '@mui/material/Box';
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
@@ -17,16 +16,14 @@ import KDUtil from "../../commonjs/kdutil";
 
 
 const JukeboxTemperatureM1 = (props) => {
-  const [avchecked, setAVChecked] = React.useState(false);
+  const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
   const copycfg = props.initvalue;
+  const saveconfig = props.savecfg;
 
   const inputchangeHandler = (event) => {
-
-    console.log("inputchangeHandler event.target.name:" +event.target.name);
-
-
+    //console.log("inputchangeHandler event.target.name:" +event.target.name);
     switch (event.target.name) {
       case "avencheck":
         setAVChecked(event.target.checked);
@@ -55,10 +52,8 @@ const JukeboxTemperatureM1 = (props) => {
     const actitems=[myAppGlobal.langT("LT_GROWPLANTS_HEATER"),myAppGlobal.langT("LT_GROWPLANTS_COOLER")];
     
     return (
-      <Stack spacing={1}>
-      
+      <Stack spacing={0}>
         <AutoManualActuator   initvalue={manualactname}  items={actitems} changehandler={inputchangeHandler}  />
-       
         <AutoManualCommon initvalue={manualontimesec} inputchangeHandler={inputchangeHandler} manualHandler={manualonoff} />
       </Stack>
     );
@@ -81,22 +76,32 @@ const JukeboxTemperatureM1 = (props) => {
   };
   //자동제어 일반
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" alignItems="flex-end">
+    <Stack spacing={0}>
+      <Stack direction="row" alignItems="flex-end"   sx={{ m: 2 }}>
         <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_TEMPERATURE_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="℃" keyname="DTValue" onChange={props.inputallchangeHandler} />
         <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TEMPERATURE_DAY2')}</Typography>
       </Stack>
-      <Stack direction="row" alignItems="flex-end">
+      <Stack direction="row" alignItems="flex-end"    sx={{ m: 2 }}>
         <Typography>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT1`)}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="℃" keyname="NTValue" onChange={props.inputallchangeHandler} />
         <Typography>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT2`)}</Typography>
       </Stack>
 
-      <Box sx={{bgcolor: '#fef0e0', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+      <Box sx={{bgcolor: '#c5e1a5', boxShadow: 1, borderRadius: 2, p: 2, }}>
+      <Stack direction="column" alignItems="flex-end">
+          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+        </Stack>
 
       {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+      <hr/>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+            {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
+          </Button>
+          <Typography color={"#1b5e20"}>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+        </Stack>
+
       </Box>
     </Stack>
   );

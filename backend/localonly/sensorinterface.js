@@ -69,8 +69,12 @@ class SensorInterface {
       let ms = this.mSensors[i];
       ms.errorcount++;
       // 에러 카운트가 20이상 된다면 센서 끊김상태임 추후 처리
-      // 에러 카운트가 1000(10분)이상 된다면 센서 삭제, 삭제해도 되나..
-      if (ms.errorcount > 1000) {
+      // 에러 카운트가 100(10분)이상 된다면 센서 삭제, 삭제해도 되나..
+
+//      console.log("-SensorInterface ReadSensorAll- UniqID: " + ms.UniqID +" --------------errorcount :" + ms.errorcount);
+
+
+      if (ms.errorcount > 100) {
         this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Sensor_error, ms.Name,ms.UniqID));
 
         deleteindex = i;
