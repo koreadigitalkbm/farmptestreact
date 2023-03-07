@@ -206,6 +206,7 @@ module.exports = class ServerAPI {
 
         for(let i=0;i<this.userinfos.length;i++)
         {
+          console.log("i :" +i);
           console.log(this.userinfos[i]);
         }
 
