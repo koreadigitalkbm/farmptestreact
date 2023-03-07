@@ -207,9 +207,18 @@ module.exports = class ServerAPI {
         for(let i=0;i<this.userinfos.length;i++)
         {
           console.log("i :" +i);
-          console.log(this.userinfos[i].userid);
+          console.log(this.userinfos[i]);
+          if(this.userinfos[i].userid === reqmsg.reqParam.loginID && this.userinfos[i].userpw === reqmsg.reqParam.loginPW  && this.userinfos[i].usertype==0)
+          {
+            if(this.userinfos[i].deviceid.length ==6)
+            {
+              rspmsg.retMessage = "user";
+              rspmsg.retParam = this.userinfos[i].deviceid;    
+              break;
+            }
+          }
         }
-
+/*
         if (reqmsg.reqParam.loginID === "kd1" && reqmsg.reqParam.loginPW === "1234") {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0001";
@@ -256,7 +265,7 @@ module.exports = class ServerAPI {
           rspmsg.retMessage = "user";
           rspmsg.retParam = "IF0015";
         }
-
+*/
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
         if (rspmsg.retMessage != "not") {
           this.sessionmap.set(rspmsg.retParam, reqmsg.reqParam.SessionID);
