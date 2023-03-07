@@ -31,6 +31,8 @@ let readcallbacktimeout;
 let lastfileurl = "image/noimage.png";
 let isoffscreen = false;
 
+let init_count=0;
+
 //홈 메인 대시보드
 const HDashboard = (props) => {
   const [msensorsarray, setSensors] = useState(sensorlist);
@@ -46,7 +48,9 @@ const HDashboard = (props) => {
   
   function loaddatas() {
     let nowdate = new Date();
-    console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec);
+
+    init_count++;
+    console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec + " init_count = " +init_count);
 
     setDataloading(true);
     myAppGlobal.farmapi.getDeviceStatus(true, true, false, myAppGlobal.dashboardlastsensortime, myAppGlobal.dashboardlasteventtime).then((ret) => {
@@ -192,6 +196,11 @@ const HDashboard = (props) => {
     } else {
       readtimemsec = 3000;
     }
+
+    if(init_count <10)
+    {
+      readtimemsec = 3000;
+    }
     
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
@@ -200,6 +209,7 @@ const HDashboard = (props) => {
     return () => {
       console.log("컴포넌트가 화면에서 사라짐 isoffscreen: " + isoffscreen);
       isoffscreen = true;
+      init_count=0;
       clearTimeout(readcallbacktimeout);
     };
 
