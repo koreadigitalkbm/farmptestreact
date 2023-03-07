@@ -200,7 +200,7 @@ const HDashboard = (props) => {
     console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +readtimemsec);
     
     
-    
+    readtimemsec = 1000;
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
