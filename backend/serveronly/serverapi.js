@@ -122,7 +122,7 @@ module.exports = class ServerAPI {
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
 
-      repskey.set("");
+      
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
@@ -131,10 +131,14 @@ module.exports = class ServerAPI {
         //        console.log(repsdata);
 
         if (repsdata != null) {
+          if(repsdata.length>4)
+          {
           const decodedStr = Buffer.from(repsdata, "base64");
           responsemsg = JSON.parse(decodedStr);
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
           rsp.send(JSON.stringify(responsemsg));
+          repskey.set("");
+          }
         }
       });
 
