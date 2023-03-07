@@ -5,12 +5,8 @@ import { Stack, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import Box from '@mui/material/Box';
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
@@ -27,10 +23,7 @@ const JukeboxTemperatureM1 = (props) => {
   const saveconfig = props.savecfg;
 
   const inputchangeHandler = (event) => {
-
-    console.log("inputchangeHandler event.target.name:" +event.target.name);
-
-
+    //console.log("inputchangeHandler event.target.name:" +event.target.name);
     switch (event.target.name) {
       case "avencheck":
         setAVChecked(event.target.checked);
@@ -60,9 +53,7 @@ const JukeboxTemperatureM1 = (props) => {
     
     return (
       <Stack spacing={0}>
-      
         <AutoManualActuator   initvalue={manualactname}  items={actitems} changehandler={inputchangeHandler}  />
-       
         <AutoManualCommon initvalue={manualontimesec} inputchangeHandler={inputchangeHandler} manualHandler={manualonoff} />
       </Stack>
     );

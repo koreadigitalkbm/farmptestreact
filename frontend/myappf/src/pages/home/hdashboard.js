@@ -42,7 +42,7 @@ const HDashboard = (props) => {
   const [isdataloading, setDataloading] = useState(true);
 
 
-  console.log("-------------------------HDashboard  ---------------------lastfileurl : "+ lastfileurl);
+  console.log("-------------------------HDashboard  --------------------- : ");
   
   function loaddatas() {
     let nowdate = new Date();

@@ -16,8 +16,9 @@ const AutoInputControl = (props) => {
   return (
     <React.Fragment>
       <TextField type={inputtype} defaultValue={initvalue} name={controlkeyname} onChange={props.onChange} variant="standard" 
-      InputProps={{ endAdornment: <InputAdornment position="start"> {unitstring} </InputAdornment> }} 
-      sx={{ mt: 3, border: 0, "& .MuiInputBase-input": { border: 0 } }} />
+      inputProps={{min: 0, style: { textAlign: 'right' }}}
+      InputProps={{  endAdornment: <InputAdornment position="end" > {unitstring} </InputAdornment> }} 
+      sx={{ml:1, mt: 1, mr:1, border: 0, "& .MuiInputBase-input": { border: 0 , minWidth: '8ch'} }} />
     </React.Fragment>
   );
 };
