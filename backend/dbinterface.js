@@ -235,7 +235,8 @@ module.exports = class DatabaseInterface {
 
         this.conn.query(sqlquery, function (error, result) {
         console.log("getusersinfo........ \n");
-         callbackresult(result) 
+         //callbackresult(result) 
+         callbackresult.push(...result);
        
         
       });

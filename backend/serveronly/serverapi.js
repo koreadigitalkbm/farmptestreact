@@ -17,17 +17,10 @@ module.exports = class ServerAPI {
     this.DBInterface = new DatabaseInterface(mMain);
     this.userinfos=[];
 
-    this.DBInterface.getusersinfo(this.callbackresult);
+    this.DBInterface.getusersinfo(this.userinfos);
   }
 
-  callbackresult(mparam) {
-    
-    console.log("callbackresult");
-    console.log(mparam);
-    this.userinfos= mparam;
-    //console.log(this.userinfos);
 
-  }
 
   //콜백함수에서 응답해야한다면 이함수를사용하자.
   callbackreturn(rsp, mparam) {
