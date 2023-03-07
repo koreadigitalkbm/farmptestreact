@@ -241,16 +241,21 @@ export default function SetupPage(props) {
 
         <CardContent>
           <Box m={1} display="flex" alignItems="left" flexDirection="column">
+            <Stack direction="column" alignItems="flex-start" >
+
             <Typography id="modal-configure-title" variant="subtitle1">
               {myAppGlobal.langT("LT_CHANGELANGUAGE")}{" "}
             </Typography>
 
-            <FormControl variant="standard" sx={{ m: 1, width: 200 }}>
+            <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
               <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={langstr} onChange={handleChange} label="language">
                 <MenuItem value={0}>English</MenuItem>
                 <MenuItem value={1}>한국어</MenuItem>
               </Select>
             </FormControl>
+            </Stack>
+
+            <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
 
             <Typography id="modal-configure-title" variant="subtitle1">
               {myAppGlobal.langT("LT_CHANGEPASSWORD")}
@@ -263,16 +268,11 @@ export default function SetupPage(props) {
               type="text"
               variant="standard"
               onChange={handleNewpword}
-              sx={{
-                width: 200,
-                mt: 2,
-                mb: 3,
-                "& .MuiInputBase-input": {
-                  border: 0,
-                },
-              }}
+              sx={{ width: 200,    ml: 1,  mt:0,  mb: 0,    "& .MuiInputBase-input": {   border: 0},   }}
             />
+             </Stack>
 
+             <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
             <Typography id="modal-configure-title" variant="subtitle1">
               {myAppGlobal.langT("LT_SETTING_NAME_CHANGE")}
             </Typography>
@@ -284,15 +284,10 @@ export default function SetupPage(props) {
               type="text"
               variant="standard"
               onChange={handleNewname}
-              sx={{
-                width: 200,
-                mt: 2,
-                mb: 3,
-                "& .MuiInputBase-input": {
-                  border: 0,
-                },
-              }}
+              sx={{ width: 200, ml: 1,       mb: 3,   "& .MuiInputBase-input": {  border: 0,    },        }}
             />
+            </Stack>
+
 
             <Button onClick={applyhandler} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />}>
               {myAppGlobal.langT("LT_SETTING_MODAL_APPLY")}
