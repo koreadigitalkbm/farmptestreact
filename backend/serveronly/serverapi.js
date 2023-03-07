@@ -22,7 +22,7 @@ module.exports = class ServerAPI {
   callbackresult(mparam) {
     this.userinfos= mparam;
     console.log("callbackresult");
-    console.log(this.userinfos);
+    //console.log(this.userinfos);
 
   }
 
