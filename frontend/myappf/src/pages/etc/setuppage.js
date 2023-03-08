@@ -146,7 +146,7 @@ export default function SetupPage(props) {
   if (serverversion > deviceversion && deviceversion > 0) {
     isswupdate = true;
   }
-  isswupdate = true;
+
   function updateforlocaldevice(e) {
     console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
 
