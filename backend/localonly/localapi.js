@@ -62,6 +62,9 @@ module.exports = class LocalAPI {
     this.mylocaldeviceid = this.mMain.mydeviceuniqid;
   }
 
+  postapiforfirebase(req, rsp) {
+  }
+
   postapifordatabase(req, rsp) {
     let reqmsg = JSON.parse(JSON.stringify(req.body));
     console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
@@ -262,6 +265,10 @@ module.exports = class LocalAPI {
         const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
         const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         fblocalresponse.set(objJsonB64encode);
+
+        this.setRequestServerforfirebase(rspmsg);
+
+
         }
 
         //console.log("frebase response set: " +objJsonB64encode);
@@ -395,4 +402,23 @@ module.exports = class LocalAPI {
       return resdata;
     }
   }
+
+  // 서버 에 파이어베이스 응답
+  async setRequestServerforfirebase(mReqmsg) {
+    let resdata;
+
+    try {
+      resdata = await this.postData(SERVERAPI_URL + "firebasersp", mReqmsg);
+      //      console.log(" setRequest rsp : " + resdata.IsOK);
+    } catch (error) {
+      console.log(" setRequestServer error : " + error);
+    } finally {
+      //console.log(" setRequestServer finally  : ");
+      return resdata;
+    }
+  }
+
+
+
+
 };

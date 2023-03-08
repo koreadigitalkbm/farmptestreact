@@ -63,6 +63,14 @@ app.use("/api/dbrequest", function (req, res) {
   mMainclass.mAPI.postapifordatabase(req, res);
 });
 
+// 파이어베이스 요청에 대한 디바이스 응답 
+app.use("/api/firebasersp", function (req, res) {
+  mMainclass.mAPI.postapiforfirebase(req, res);
+});
+
+
+
+
 var server = app.listen(8877, function () {
   console.log("Node server is running ...");
   console.log("Hostname : " + os.hostname() + ",Platform : " + os.platform());
