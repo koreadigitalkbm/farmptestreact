@@ -126,7 +126,7 @@ module.exports = class ServerAPI {
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
-      repskey.once("value", (snapshot) => {
+      repskey.on("value", (snapshot) => {
         const repsdata = snapshot.val();
         //        console.log(repsdata);
 
