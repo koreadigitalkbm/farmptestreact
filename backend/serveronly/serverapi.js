@@ -122,9 +122,7 @@ module.exports = class ServerAPI {
 
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
 
-      repskey.set("");
-      await KDCommon.delay(200);
-      console.log("repskey ....wait 200");
+      
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
@@ -140,7 +138,7 @@ module.exports = class ServerAPI {
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
           rsp.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
-          //repskey.set("");
+          repskey.set("");
           }
         }
       });
