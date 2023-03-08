@@ -1,7 +1,7 @@
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
-export default async function Makexlsx(data) {
+export default async function Makexlsx(data, checkList) {
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sensor data');
@@ -18,8 +18,17 @@ export default async function Makexlsx(data) {
             excelData[index + 1].values.push(sData.y)
         })
     })
-    console.log(excelData);
 
+    for( let i = 0; i < excelData.length; i++) {
+        checkList.forEach((check) => {
+            if(check.label == excelData[i].column){
+                if(check.checked == false) {
+                    excelData.splice(i, 1);
+                    i--;
+                }
+            }
+        })
+    }
 
     excelData.forEach(({ column, values }, index) => {
         worksheet.getColumn(index + 1).values = [column, ...values];

@@ -261,7 +261,7 @@ const SensorDataChart = (props) => {
   }
 
   const makexlsx = () => {
-    Makexlsx(sensorchartdatas);
+    Makexlsx(sensorchartdatas, chboxlist);
   }
   return (
     <Box sx={{ flexGrow: 1 }}>
