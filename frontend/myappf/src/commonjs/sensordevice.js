@@ -10,6 +10,7 @@ const SensorCompact = require("./sensorcompact");
         constructor(mcompactsensor, myGlobal=null)  {
                 
             this.Name = "sensor";
+            this.OName = "sensor"; //오리지널 네임 별칭아님
             this.ValueUnit = " ";
             this.SignificantDigit = 3;
 
@@ -92,6 +93,8 @@ const SensorCompact = require("./sensorcompact");
             }
 
             // 센서종류로 이름 리턴 다국어 지원
+
+            this.OName =this.Name ;
             if(myGlobal !=null)
             {
                 const tid="LT_SNAME_"+this.Sensortype;
@@ -99,6 +102,7 @@ const SensorCompact = require("./sensorcompact");
              if(statestr !=null)
              {
                 this.Name = statestr;
+                this.OName =this.Name ;
              }
 
              const maliasname=KDUtil.getAlias(this.UniqID,myGlobal);

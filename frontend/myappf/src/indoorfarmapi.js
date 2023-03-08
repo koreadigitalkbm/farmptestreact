@@ -176,6 +176,12 @@ export default class IndoorFarmAPI {
     return await this.setRequestdevice(reqmsg);
   }
 
+  async saveAliasconfig(aliascfg) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SETALIAS);
+    reqmsg.reqParam = aliascfg;
+    return await this.setRequestdevice(reqmsg);
+  }
+
   async resetAutocontrolconfig() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG);
     reqmsg.reqParam = "";
