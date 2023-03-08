@@ -47,11 +47,10 @@ const HDashboard = (props) => {
   console.log("-------------------------HDashboard  --------------------- : ");
   
   function loaddatas() {
-    let nowdate = new Date();
+    
 
-    init_count++;
-    console.log("-------------------------loaddata date: " + nowdate + " readtimemsec: " + readtimemsec + " init_count = " +init_count);
-
+    
+    console.log("-------loaddata date: " + myAppGlobal.dashboardlastsensortime + " readtimemsec: " + readtimemsec + " init_count = " +init_count);
 
 
       //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
@@ -61,6 +60,7 @@ const HDashboard = (props) => {
         readtimemsec = 3000;
       }
   
+      init_count++;
       if(init_count <20)
       {
         readtimemsec = 3000;
