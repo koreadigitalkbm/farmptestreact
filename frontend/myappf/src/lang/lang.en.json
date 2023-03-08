@@ -165,7 +165,8 @@
     "LT_MAINPAGE_MAIN_EVENT_AUTO": "Automatic control(3)",
     "LT_MAINPAGE_MAIN_EVENT_ETC": "etc.(4)",
 
-    "LT_GROWPLANTS_TITLE": "Automatic control list",
+    "LT_GROWPLANTS_ALIAS_TITLE": "A list of device aliases.",
+    "LT_GROWPLANTS_TITLE": "Automatic control list.",
     "LT_GROWPLANTS_TEMPERAUTRE": "Temperature control",
     "LT_GROWPLANTS_WATERSUPPLY": "Water supply",
     "LT_GROWPLANTS_LIGHT": "LED control",
