@@ -142,7 +142,7 @@ module.exports = class ServerAPI {
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
-      /*
+      
       repskey.once("value", (snapshot) => {
         const repsdata = snapshot.val();
         //        console.log(repsdata);
@@ -155,11 +155,11 @@ module.exports = class ServerAPI {
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
           rep.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
-          repskey.set("");
+          //repskey.set("");
           }
         }
       });
-*/
+
 
       /*
       //2초간 기다림
