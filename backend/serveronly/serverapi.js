@@ -14,6 +14,8 @@ module.exports = class ServerAPI {
     this.servermain = mMain;
     this.fbdatabase = null;
     this.sessionmap = new Map();
+    this.messagequeuemap = new Map();
+
     this.DBInterface = new DatabaseInterface(mMain);
     this.userinfos=[];
 
@@ -123,6 +125,8 @@ module.exports = class ServerAPI {
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
 
       
+      this.messagequeuemap.set(reqmsg.uqid, rsp);
+
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
@@ -136,7 +140,11 @@ module.exports = class ServerAPI {
           const decodedStr = Buffer.from(repsdata, "base64");
           responsemsg = JSON.parse(decodedStr);
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
-          rsp.send(JSON.stringify(responsemsg));
+
+
+          let respp = this.sessionmap.get(reqmsg.uqid);
+
+          respp.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
           repskey.set("");
           }
