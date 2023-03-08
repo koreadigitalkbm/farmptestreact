@@ -123,6 +123,8 @@ module.exports = class ServerAPI {
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
 
       repskey.set("");
+      await KDCommon.delay(200);
+      console.log("repskey ....wait 200");
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
