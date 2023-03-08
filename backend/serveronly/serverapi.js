@@ -108,7 +108,7 @@ module.exports = class ServerAPI {
 
     let sid = this.sessionmap.get(reqmsg.uqid);
     let msgisd = req.header("Session-ID");
-    console.log("---------------------------------sever sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
+    console.log("-------------sever uqid:"+ reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
 
     if (sid != msgisd) {
       console.log("session not same ....");
