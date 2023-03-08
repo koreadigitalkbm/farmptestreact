@@ -153,7 +153,7 @@ module.exports = class ServerAPI {
           const decodedStr = Buffer.from(repsdata, "base64");
           responsemsg = JSON.parse(decodedStr);
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
-          rep.send(JSON.stringify(responsemsg));
+          rsp.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
           //repskey.set("");
           }
