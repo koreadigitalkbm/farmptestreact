@@ -142,7 +142,7 @@ module.exports = class ServerAPI {
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
 
 
-          let respp = this.sessionmap.get(reqmsg.uqid);
+          let respp = this.messagequeuemap.get(reqmsg.uqid);
 
           respp.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
