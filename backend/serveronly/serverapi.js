@@ -35,12 +35,14 @@ module.exports = class ServerAPI {
 
   postapiforfirebase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
-    let responsemsg = new responseMessage();
-    console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.devID);
+    console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.devID + " time: " +reqmsg.Time);
+
     let respp = this.messagequeuemap.get(reqmsg.devID);
-    respp.send(JSON.stringify(reqmsg));
-          
-    rsp.send("ok");
+    if(respp !=null)
+    {
+      respp.send(JSON.stringify(reqmsg));
+    }
+    //rsp.send("ok");
 
   }
 
@@ -133,14 +135,14 @@ module.exports = class ServerAPI {
       const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
       const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
 
-      let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
-
       
-      this.messagequeuemap.set(reqmsg.uqid, rsp);
 
+      this.messagequeuemap.set(reqmsg.uqid, rsp);
+      let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       reqkey.set(objJsonB64encode);
 
       // 이벤트 리스너 한번만
+      /*
       repskey.once("value", (snapshot) => {
         const repsdata = snapshot.val();
         //        console.log(repsdata);
@@ -151,16 +153,13 @@ module.exports = class ServerAPI {
           const decodedStr = Buffer.from(repsdata, "base64");
           responsemsg = JSON.parse(decodedStr);
           console.log("responsemsg success................ :" + ", msgisd :" + msgisd + " reqtime:" + reqmsg.Time + " reptime:" + responsemsg.Time);
-
-
-          let respp = this.messagequeuemap.get(reqmsg.uqid);
-
-          respp.send(JSON.stringify(responsemsg));
+          rep.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
           repskey.set("");
           }
         }
       });
+*/
 
       /*
       //2초간 기다림
