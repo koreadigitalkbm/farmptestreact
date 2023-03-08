@@ -164,7 +164,7 @@ const Autocontrolpage = (props) => {
               ))}
             </Stack>
             <Stack direction="column" alignItems="flex-end">
-              <Button size="large" endIcon={<AddCardIcon fontSize="large" />}>
+              <Button size="large" endIcon={<AddCardIcon  />}>
                 {myAppGlobal.langT("LT_GROWPLANTS_ADDAUTOCONTROL")}
               </Button>
             </Stack>
