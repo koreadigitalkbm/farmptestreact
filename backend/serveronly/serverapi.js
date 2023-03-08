@@ -160,7 +160,7 @@ module.exports = class ServerAPI {
 
           //rsp.send(JSON.stringify(responsemsg));
           //받은 데이터는 지운다. 다시응답하지 않게
-          //repskey.set("");
+          repskey.set("");
           }
         }
       });
