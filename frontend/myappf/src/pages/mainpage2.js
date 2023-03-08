@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link as RouterLink, Routes, Route, useNavigate } from "react-router-dom";
 import { AppBar, Box, Button, CssBaseline, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { Home, Logout, Menu as MenuIcon, QuestionMark, Settings, FindInPage, LocalFlorist } from "@mui/icons-material";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import SetupPage from "./etc/setuppage";
 import FactorySetup from "./etc/factorysetup";
 import HDashboard from "./home/hdashboard";
@@ -104,9 +104,9 @@ export default function FMainpage(props) {
     console.log("---------------------------- loadpage loadinfo: " + loadinfo);
     switch (loadinfo) {
       case "init":
-        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_INIT")}</Typography>;
+        return  <div><CircularProgress  size="2rem"  /> <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_INIT")}</Typography></div>;
       case "loadauto":
-        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_LOADAUTO")}</Typography>;
+        return <div><CircularProgress  size="2rem"  /> <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_LOADAUTO")}</Typography></div>;
       case "error":
         return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_ERROR")}</Typography>;
       case "otherlogin":
