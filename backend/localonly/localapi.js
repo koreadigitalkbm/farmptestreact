@@ -253,6 +253,9 @@ module.exports = class LocalAPI {
         const decodedStr = Buffer.from(data, "base64");
         const reqmsg = JSON.parse(decodedStr);
         const rspmsg = this.messageprocessing(reqmsg);
+
+        console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time);
+
         const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
 
         //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
