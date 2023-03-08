@@ -20,8 +20,8 @@ import KDUtil from "../../commonjs/kdutil";
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
-let actuaotrslist = [];
-let sensorlist = [];
+//let actuaotrslist = [];
+//let sensorlist = [];
 
 
 let readtimemsec = 1000;
@@ -35,13 +35,13 @@ let init_count=0;
 
 //홈 메인 대시보드
 const HDashboard = (props) => {
-  const [msensorsarray, setSensors] = useState(sensorlist);
-  const [mactuaotrs, setActuator] = useState(actuaotrslist);
+  const [msensorsarray, setSensors] = useState(myAppGlobal.gsensorlist);
+  const [mactuaotrs, setActuator] = useState(myAppGlobal.gactuaotrslist);
   const [mevnetarray, setEvents] = useState(eventlistTime);
   const [mdailysensorarray, setDailysensor] = useState(dailysensorlist);
   const [mimgfileurl, setImgfileurl] = useState(lastfileurl);
   const [msensorlasttime, setLasttime] = useState(null);
-  const [isdataloading, setDataloading] = useState(true);
+  const [isdataloading, setDataloading] = useState(false);
 
 
   console.log("-------------------------HDashboard  --------------------- : ");
@@ -89,18 +89,20 @@ const HDashboard = (props) => {
         if (sensors != null) {
           console.log("sensors length:" + sensors.length);
           if (sensors.length > 0) {
-            sensorlist = [];
-            sensorlist.push(...sensors);
-            setSensors(sensorlist);
+            myAppGlobal.gsensorlist = [];
+            myAppGlobal.gsensorlist.push(...sensors);
+            
+
+            setSensors(myAppGlobal.gsensorlist);
           }
         }
 
         if (actuators != null) {
           console.log("actuators : " + actuators.length);
           if (actuators.length > 0) {
-            actuaotrslist = [];
-            actuaotrslist.push(...actuators);
-            setActuator(actuaotrslist);
+            myAppGlobal.gactuaotrslist = [];
+            myAppGlobal.gactuaotrslist.push(...actuators);
+            setActuator(myAppGlobal.gactuaotrslist);
           }
         }
 

@@ -17,6 +17,8 @@ var myAppGlobal = {
     dashboardimagefileurl:"image/noimage.png",
     dashboardlasteventtime: 1,
     dashboardlastsensortime: 1,
+    gsensorlist:[],
+    gactuaotrslist:[],
     ncount:0
   }
   
