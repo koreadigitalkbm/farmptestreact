@@ -266,6 +266,7 @@ module.exports = class LocalAPI {
         const fblocalresponse = this.fbdatabase.ref(responsekeystr);
         fblocalresponse.set(objJsonB64encode);
 
+        rspmsg.devID = this.mylocaldeviceid;
         this.setRequestServerforfirebase(rspmsg);
 
 

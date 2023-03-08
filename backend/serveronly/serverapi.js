@@ -36,9 +36,9 @@ module.exports = class ServerAPI {
   postapiforfirebase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
     let responsemsg = new responseMessage();
-    console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.reqParam.devid);
+    console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.devID);
     rsp.send("ok");
-    
+
   }
 
   postapifordatabase(req, rsp) {
