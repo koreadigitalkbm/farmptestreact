@@ -6,7 +6,8 @@
 //1.817 : 프론트엔드  UI 개선
 //2.101 : 프로그램 업데이트기능 추가  1자리수 변경시 백엔드 npm install 실행,  소수점 첫번째 자리 숫자 변경시  frontend  install 실행, 
 //2.201 : 데이터차트 엑셀파일로 저장기능추가, 프론트엔드 패키지 설치필요.
-const farmscubeplatformversion = 2.201;
+//2.213 : 서버 통신 방식을 변경함. 요청메시지만 파이어베이스사용 응답은 서버로 직접보냄
+const farmscubeplatformversion = 2.213;
 
 var express = require("express");
 var cors = require("cors");
