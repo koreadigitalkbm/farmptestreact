@@ -35,7 +35,7 @@ module.exports = class ServerAPI {
 
   postapiforfirebase(req, rsp) {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
-    console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.devID + " time: " +reqmsg.Time);
+    console.log("-------------------postfirebase :  reqmsg devid :"+reqmsg.devID + " time: " +reqmsg.Time);
 
     let mapid=reqmsg.devID;
     if(reqmsg.reqType !=null)
@@ -61,6 +61,8 @@ module.exports = class ServerAPI {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
     let responsemsg = new responseMessage();
 
+    console.log("----postapiforDB :  DID :" +reqmsg.reqParam.devid + " type:" + reqmsg.reqType );
+
     switch (reqmsg.reqType) {
       //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
       case KDDefine.REQType.RT_GETDB_DATAS:
@@ -69,8 +71,8 @@ module.exports = class ServerAPI {
         break;
 
       case KDDefine.REQType.RT_SETDB_EVENT:
-        console.log("---------------------------------postapifordatabase :  RT_SETDB_EVENT :");
-        console.log("  devid:" + reqmsg.reqParam.devid);
+        
+//        console.log("  devid:" + reqmsg.reqParam.devid);
 
         let mevents = [];
         for (const mevt of reqmsg.reqParam.eventlist) {
@@ -84,8 +86,7 @@ module.exports = class ServerAPI {
         break;
 
       case KDDefine.REQType.RT_SETDB_SENSOR:
-        console.log("---------------------------------postapifordatabase :  reqmsg :");
-        console.log("  sensor devid:" + reqmsg.reqParam.devid);
+        
         //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
         //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
 
@@ -110,6 +111,8 @@ module.exports = class ServerAPI {
 
         break;
     }
+
+    console.log("---------------------------------postapiforDB END:");
 
     rsp.send(JSON.stringify(responsemsg));
   }
