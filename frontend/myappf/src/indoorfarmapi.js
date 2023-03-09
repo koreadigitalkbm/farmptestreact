@@ -25,7 +25,7 @@ export default class IndoorFarmAPI {
       },
       body: JSON.stringify(data), //
     },30000);
-    return response.json();
+    return await response.json();
   }
 
   // 서버, 또는장비에 데이터 저장 요청
