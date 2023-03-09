@@ -24,7 +24,7 @@ export default class IndoorFarmAPI {
         "Session-ID": myAppGlobal.sessionid,
       },
       body: JSON.stringify(data), //
-    });
+    },30000);
     return response.json();
   }
 
