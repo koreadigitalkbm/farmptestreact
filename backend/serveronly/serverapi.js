@@ -37,12 +37,18 @@ module.exports = class ServerAPI {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
     console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.devID + " time: " +reqmsg.Time);
 
+    let mapid=reqmsg.devID;
     if(reqmsg.reqType !=null)
     {
+      mapid=reqmsg.devID+ reqmsg.reqType;
       console.log("-------------------type :  reqmsg devid :"+reqmsg.devID + " reqType: " +reqmsg.reqType);
     }
+    else
+    {
+      mapid=reqmsg.devID;
+    }
 
-    let respp = this.messagequeuemap.get(reqmsg.devID);
+    let respp = this.messagequeuemap.get(mapid);
     if(respp !=null)
     {
       respp.send(JSON.stringify(reqmsg));
@@ -143,6 +149,9 @@ module.exports = class ServerAPI {
       
 
       this.messagequeuemap.set(reqmsg.uqid, rsp);
+      let idtype=reqmsg.uqid + reqmsg.reqType;
+      this.messagequeuemap.set(idtype, rsp);
+
       let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
       reqkey.set(objJsonB64encode);
 
