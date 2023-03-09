@@ -195,7 +195,9 @@ const HDashboard = (props) => {
       if (isoffscreen == false) {
         readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
       }
-    });
+    }).catch((e) => {
+      console.log("-------------------------time out....:" +readtimemsec);
+  });
   }
 
   useEffect(() => {
