@@ -37,6 +37,11 @@ module.exports = class ServerAPI {
     const reqmsg = JSON.parse(JSON.stringify(req.body));
     console.log("-------------------postapiforfirebase :  reqmsg devid :"+reqmsg.devID + " time: " +reqmsg.Time);
 
+    if(reqmsg.reqType !=null)
+    {
+      console.log("-------------------type :  reqmsg devid :"+reqmsg.devID + " reqType: " +reqmsg.reqType);
+    }
+
     let respp = this.messagequeuemap.get(reqmsg.devID);
     if(respp !=null)
     {

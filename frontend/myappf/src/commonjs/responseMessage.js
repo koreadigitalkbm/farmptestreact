@@ -8,6 +8,7 @@
         const d = new Date();
         this.Time=d.toLocaleTimeString();
         this.devID="";
+        this.reqType="";
         this.Sensors=[];    /// 센서상태값
         this.Outputs=[];    /// 구동기 상태값
         this.AutoStatus=[]; //자동제어 상태값
