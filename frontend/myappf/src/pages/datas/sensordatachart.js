@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Checkbox, FormControlLabel, FormLabel, Grid, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormLabel, Grid, IconButton, Modal, Tooltip, Typography } from "@mui/material";
 import { BookmarkAdded, CenterFocusWeak, FileDownload, ZoomIn } from "@mui/icons-material";
 
 import { CategoryScale, Chart, LinearScale, PointElement, LineElement, TimeScale, Title } from "chart.js";
@@ -154,10 +154,26 @@ const SensorDataChart = (props) => {
   const [bcheckeds, setCheckeds] = useState(true);
   const [bcheckmark, setChartmark] = useState(false);
   const [zoomaxis, setZoomaxis] = useState("xy");
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+  const [successSave, setSuccessSave] = useState(false);
 
   const sensorchartdatas = props.datas;
 
   const chartRef = React.useRef(null);
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
   const resetZoomBtn = () => {
     if (chartRef && chartRef.current) {
@@ -242,7 +258,7 @@ const SensorDataChart = (props) => {
     switch (type) {
       case 'tooltip':
         return myAppGlobal.langT("LT_DATAPAGE_CHART_ZOOMFIT");
-      
+
       case 'largeMarker':
         if (bcheckmark) return myAppGlobal.langT("LT_DATAPAGE_CHART_LARGEMARKERABLED");
         else return myAppGlobal.langT("LT_DATAPAGE_CHART_LARGEMARKERUNABLED");
@@ -261,7 +277,22 @@ const SensorDataChart = (props) => {
   }
 
   const makexlsx = () => {
-    Makexlsx(sensorchartdatas, chboxlist);
+    Makexlsx(sensorchartdatas, chboxlist, handleOpenModal, setSuccessSave);
+  }
+  const modalMessage = (td) => {
+    if (successSave) {
+      if (td == 't') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVESUCCESS_MODALTITLE"))
+      } else if (td == 'd') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVESUCCESS_MODALDESCRIPTION"))
+      }
+    } else {
+      if (td == 't') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVEFAIL_MODALTITLE"))
+      } else if (td == 'd') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVEFAIL_MODALDESCRIPTION"))
+      }
+    }
   }
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -294,7 +325,21 @@ const SensorDataChart = (props) => {
                 <IconButton onClick={makexlsx}><FileDownload /></IconButton>
               </Tooltip>
             </Grid>
-
+            <Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="modal-makexlsx-title"
+              aria-describedby="modal-makexlsx-description"
+            >
+              <Box sx={modalStyle}>
+                <Typography id="modal-makexlsx-title" variant="h6" component="h2">
+                  {modalMessage('t')}
+                </Typography>
+                <Typography id="modal-makexlsx-description" sx={{ mt: 2 }}>
+                  {modalMessage('d')}
+                </Typography>
+              </Box>
+            </Modal>
 
           </React.Fragment>
         </Grid>
