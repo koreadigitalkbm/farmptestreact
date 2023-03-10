@@ -78,8 +78,8 @@ const JukeboxMultiLED = (props) => {
     return (
       <Stack spacing={1}>
         <AutoManualActuator initvalue={manualactname} items={actitems} changehandler={inputchangeHandler} />
-        <Stack direction="row" alignItems="flex-end">
-          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_LED_BRIGHT")}</Typography>
+        <Stack direction="row" alignItems="flex-end" sx={{ml:2 }}>
+          <Typography sx={{ml:2, mb:1 }} >{myAppGlobal.langT("LT_GROWPLANTS_LED_BRIGHT")}</Typography>
           <AutoInputControl type="number" initvalue={manualdemming} unit="%" keyname="manualdemming" onChange={inputchangeHandler} />
         </Stack>
         <AutoManualCommon initvalue={manualontimesec} inputchangeHandler={inputchangeHandler} manualHandler={manualonoff} />

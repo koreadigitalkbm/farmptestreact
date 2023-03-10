@@ -24,8 +24,8 @@ export default class IndoorFarmAPI {
         "Session-ID": myAppGlobal.sessionid,
       },
       body: JSON.stringify(data), //
-    });
-    return response.json();
+    },30000);
+    return await response.json();
   }
 
   // 서버, 또는장비에 데이터 저장 요청

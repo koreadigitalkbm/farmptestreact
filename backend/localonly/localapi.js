@@ -266,6 +266,7 @@ module.exports = class LocalAPI {
 //        fblocalresponse.set(objJsonB64encode);
 
         rspmsg.devID = this.mylocaldeviceid;
+        rspmsg.reqType = reqmsg.reqType;
         this.setRequestServerforfirebase(rspmsg);
 
 

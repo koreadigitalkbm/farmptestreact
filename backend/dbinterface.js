@@ -175,6 +175,8 @@ module.exports = class DatabaseInterface {
     }
   }
 
+
+  
   // 그냥테스트 함수
    gettable(rsp, reqmsg, returncallback) {
     
@@ -198,7 +200,7 @@ module.exports = class DatabaseInterface {
        sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
       }
 
-      console.log("get table sqlquery : " + sqlquery);
+//      console.log("get table sqlquery : " + sqlquery);
       
 
 
