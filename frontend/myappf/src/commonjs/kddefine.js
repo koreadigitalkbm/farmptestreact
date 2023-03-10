@@ -162,6 +162,7 @@ module.exports = class KDDefine {
 
     ACM_SENSOR_ONLY_DAY: 10, // 주간시간만  센서모드
     ACM_SENSOR_DAY_NIGHT: 11, //주간야간모드
+    
   });
 
   //자동제어 우선순위
@@ -185,6 +186,8 @@ module.exports = class KDDefine {
     ACT_LED_MULTI_FOR_FJBOX: 101, // 3색LED
     ACT_AIR_CO2_FOR_FJBOX: 102, // Co2 공급
     ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX: 103, // 환기제어, co2, 습도센서 사용
+    ACT_HEATER_HUMIDITY_FOR_FJBOX: 104, // 습도제어,  습도센서 사용
+    ACT_NUTRIENT_SOL3_FOR_FJBOX: 105, // 양액제어, 3개 솔밸브 사용
 
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 

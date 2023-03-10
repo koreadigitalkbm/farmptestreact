@@ -8,7 +8,8 @@
 //2.201 : 데이터차트 엑셀파일로 저장기능추가, 프론트엔드 패키지 설치필요.
 //2.213 : 서버 통신 방식을 변경함. 요청메시지만 파이어베이스사용 응답은 서버로 직접보냄
 //2.214 : 서버 통신 응답시 해당 요청타입에 맞게 응답되도록 수정.
-const farmscubeplatformversion = 2.214;
+//2.215 : 화화이 최종출시 버전 
+const farmscubeplatformversion = 2.215;
 
 var express = require("express");
 var cors = require("cors");

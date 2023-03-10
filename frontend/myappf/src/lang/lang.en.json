@@ -15,6 +15,9 @@
     "LT_ANAME_WATER": "Water Supply(Timer)",
     "LT_ANAME_LED": "LED Control(3Color)",
     "LT_ANAME_AIR": "Air Circulation",
+    "LT_ANAME_HUMIDITY": "Humidity Control",
+    "LT_ANAME_CO2": "CO2 Control",
+    "LT_ANAME_NUTRIENT": "Nutrient Control(pH,EC)",
     "LT_ANAME_CAMERA": "Taking Pictures(RGB)",
 
 
@@ -202,8 +205,24 @@
     "LT_GROWPLANTS_TEMPERATURE_DAY2": "",
     "LT_GROWPLNATS_TEMPERAUTRE_NIGHT1": "During the night, the internal temperature is kept at",
     "LT_GROWPLNATS_TEMPERAUTRE_NIGHT2": "",
-    "LT_GROWPLANTS_SETTO_DAYTIME": "Set to daytime",
     "LT_GROWPLANTS_TEMPERATUREINTERVAL": "Temperature control interval",
+
+    "LT_GROWPLANTS_HUMIDITY_DAY1": "During the day[{0}], the internal humidity is kept at",
+    "LT_GROWPLANTS_HUMIDITY_DAY2": "",
+    "LT_GROWPLNATS_HUMIDITY_NIGHT1": "During the night, the internal humidity is kept at",
+    "LT_GROWPLNATS_HUMIDITY_NIGHT2": "",
+    "LT_GROWPLANTS_HUMIDITY_INTERVAL": "Humidity control interval",
+    
+
+    "LT_GROWPLANTS_CO2_DAY1": "During the day[{0}], the internal Co2 is kept at",
+    "LT_GROWPLANTS_CO2_DAY2": "",
+    "LT_GROWPLNATS_CO2_NIGHT1": "During the night, the internal Co2 is kept at",
+    "LT_GROWPLNATS_CO2_NIGHT2": "",
+    "LT_GROWPLANTS_CO2_INTERVAL": "Co2 control interval",
+    
+
+
+    "LT_GROWPLANTS_SETTO_DAYTIME": "Set to daytime",
     "LT_GROWPLANTS_WATERSUPPLY_IRRIGATIONPUMP": "Water pump",
     "LT_GROWPLANTS_WATERSUPPLY_DAY1": "During the day[{0}], water is supplied every",
     "LT_GROWPLANTS_WATERSUPPLY_DAY2": "for",
@@ -224,6 +243,8 @@
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3": "\nor humidity is greater than ",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4": "",
     "LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE": "ventilation fan & valve",
+    "LT_GROWPLANTS_HUMIDITY_HEATER": "Humidity Heater",
+    "LT_GROWPLANTS_CO2_VALVE": "CO2 Valve",
     "LT_GROWPLANTS_SETTO_OPERATINGTIME": "Set to operating time",
     "LT_GROWPLANTS_TURNONTIME": "Turn on time",
     "LT_GROWPLANTS_TURNOFFTIME": "Turn off time",

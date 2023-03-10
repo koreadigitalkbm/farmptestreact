@@ -236,7 +236,7 @@ module.exports = class AutoControlUtil {
      m1.Params.push(50);
      mcfglist.push(m1);
      
-     ///환기 제어
+     ///환기 제어 습도를 낮춤
      m1 = new AutoControlconfig();
      m1.Lid = "LT_ANAME_AIR";
      m1.Name = "환기제어(CO2,습도)";
@@ -257,8 +257,69 @@ module.exports = class AutoControlUtil {
      m1.Cdir = KDDefine.SensorConditionType.SCT_UP;
      mcfglist.push(m1);
 
+    ///습도제어 습도를 높임
+    m1 = new AutoControlconfig();
+    m1.Lid = "LT_ANAME_HUMIDITY";
+    m1.Name = "습도제어";
+    m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+    m1.Enb = false;
+    m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+    m1.Cat = KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX; //  자동제어 분류
+    m1.Actlist.push("N01C03T00"); ///습도 히터  장비가 여려개이면 장비종류로 구별하자
+    m1.DOnTime = 600;
+    m1.DOffTime = 600;
+    m1.STime = 8 * 3600;
+    m1.ETime = 18 * 3600;
+    m1.Senlist.push("S01C00T02"); /// 습도센서 지정
+    m1.DTValue = 35.0; // 습도값
+    m1.NTValue = 30.0; // 
+    m1.BValue = 10;
+    m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+    mcfglist.push(m1);
 
-      
+     ///co2제어 co2  공급해서 높임
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_CO2";
+     m1.Name = "CO2제어";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+     m1.Cat = KDDefine.AUTOCategory.ACT_AIR_CO2_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C04T00"); /// co2밸브  장비가 여려개이면 장비종류로 구별하자
+     m1.DOnTime = 10;
+     m1.DOffTime = 600;
+     m1.STime = 8 * 3600;
+     m1.ETime = 18 * 3600;
+     m1.Senlist.push("S01C00T06"); /// CO2센서 지정
+     m1.DTValue = 350.0; // CO2값
+     m1.NTValue = 300.0; // 
+     m1.BValue = 50;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+     mcfglist.push(m1);
+
+    ///PH ec 양액 공급
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_NUTRIENT";
+     m1.Name = "양액제어";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+     m1.Cat = KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C17T00"); /// 양액 솔밸브 
+     m1.Actlist.push("N01C18T00");
+     m1.Actlist.push("N01C19T00");
+     m1.DOnTime = 10;
+     m1.DOffTime = 600;
+     m1.STime = 8 * 3600;
+     m1.ETime = 18 * 3600;
+     m1.Senlist.push("S01C00T16"); /// ph센서 지정
+     m1.Senlist.push("S01C00T17"); /// ec센서 지정
+     m1.DTValue = 6.0; //  pH
+     m1.NTValue = 1.0; // EC
+     m1.BValue = 0;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+     mcfglist.push(m1);
+
 
 
     } 
