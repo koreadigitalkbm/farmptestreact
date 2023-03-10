@@ -74,6 +74,15 @@ const JukeboxAirhumidity = (props) => {
           <Typography>{myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_INTERVAL")}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.BValue} unit="%" keyname="BValue" onChange={props.inputallchangeHandler} />
         </Stack>
+        <Stack direction="row" alignItems="flex-end">
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNONTIME')}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          </Stack>
+          <Stack direction="row" alignItems="flex-end">
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNOFFTIME')}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          </Stack>
+          
       </Stack>
     );
   };

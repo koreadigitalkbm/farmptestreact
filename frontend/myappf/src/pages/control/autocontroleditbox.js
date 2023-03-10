@@ -10,6 +10,7 @@ import JukeboxAircirculation from "./jukeboxaircirculation";
 import JukeboxCamera from "./jukeboxcamera";
 import JukeboxAirhumidity from "./jukeboxairhumidity";
 import JukeboxCo2Supply from "./jukeboxco2supply";
+import JukeboxNutrientSupply from "./jukeboxnuient";
 
 
 export default function Autocontroleditbox(props) {
@@ -49,9 +50,9 @@ export default function Autocontroleditbox(props) {
       case KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX:
         return <JukeboxAirhumidity keyname="airhumidity" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} />;
       case KDDefine.AUTOCategory.ACT_AIR_CO2_FOR_FJBOX:
-        return <JukeboxCo2Supply keyname="airhumidity" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} />;
+        return <JukeboxCo2Supply keyname="co2supply" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} />;
       case KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX:
-          return <JukeboxAirhumidity keyname="airhumidity" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} />;
+          return <JukeboxNutrientSupply keyname="netrient" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} />;
   
         
       default:

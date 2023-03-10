@@ -44,12 +44,12 @@ module.exports = class ActuatorBasic {
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 15, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
 
       //양액A  DC 17번
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEA, 17, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEA, 17, KDDefine.OutDeviceTypeEnum.ODT_SOL_A));
 
       //양액B  DC 18번
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEB, 18, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEB, 18, KDDefine.OutDeviceTypeEnum.ODT_SOL_B));
       //양액C  DC 19번
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEC, 19, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEC_PH, 19, KDDefine.OutDeviceTypeEnum.ODT_SOL_C));
 
       //환기솔밸브  DC 20번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 20, KDDefine.OutDeviceTypeEnum.ODT_VALVE));

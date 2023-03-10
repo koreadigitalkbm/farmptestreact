@@ -219,7 +219,19 @@
     "LT_GROWPLNATS_CO2_NIGHT1": "During the night, the internal Co2 is kept at",
     "LT_GROWPLNATS_CO2_NIGHT2": "",
     "LT_GROWPLANTS_CO2_INTERVAL": "Co2 control interval",
+
+    "LT_GROWPLANTS_CO2_HELP1": "10초이내 짧게 설정하세요.(Co2공급)",
+    "LT_GROWPLANTS_CO2_HELP2": "Co2 확산될만큼 충분히 길게 설정하세요.",
+
+
+    "LT_GROWPLANTS_NUTI_TXT1": "양액의 pH  농도를",
+    "LT_GROWPLANTS_NUTI_TXT2": "보다 낮게 유지하고,",
+    "LT_GROWPLANTS_NUTI_TXT3": "EC 농도를",
+    "LT_GROWPLANTS_NUTI_TXT4": "보다 높게 유지합니다.",
     
+    "LT_GROWPLANTS_NUTI_HELP1": "10초이내 짧게 설정하세요.(양액공급)",
+    "LT_GROWPLANTS_NUTI_HELP2": "물 공급간격보다 길게 설정하세요.",
+
 
 
     "LT_GROWPLANTS_SETTO_DAYTIME": "Set to daytime",
@@ -245,6 +257,14 @@
     "LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE": "ventilation fan & valve",
     "LT_GROWPLANTS_HUMIDITY_HEATER": "Humidity Heater",
     "LT_GROWPLANTS_CO2_VALVE": "CO2 Valve",
+    "LT_GROWPLANTS_NUTI_SOL1": "EC Sol1",
+    "LT_GROWPLANTS_NUTI_SOL2": "EC Sol2",
+    "LT_GROWPLANTS_NUTI_SOL3": "EC Sol3",
+
+    "LT_GROWPLANTS_VALVEONTIME":  "Valve   open time",
+    "LT_GROWPLANTS_VALVEOFFTIME": "Idle time(closed)",
+    
+
     "LT_GROWPLANTS_SETTO_OPERATINGTIME": "Set to operating time",
     "LT_GROWPLANTS_TURNONTIME": "Turn on time",
     "LT_GROWPLANTS_TURNOFFTIME": "Turn off time",

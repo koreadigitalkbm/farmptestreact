@@ -10,10 +10,10 @@ import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
+import KDUtil from "../../commonjs/kdutil";
 
 
-
-const JukeboxAircirculation = (props) => {
+const JukeboxNutrientSupply = (props) => {
   const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
@@ -41,8 +41,9 @@ const JukeboxAircirculation = (props) => {
   };
 
   function manualonoff(isSetOn) {
-    const actindex = manualactname === "selitem0" ? 0 : 1;
+    const actindex = manualactname === "selitem0" ? 0 : manualactname === "selitem1" ? 1 : 2;
     const actuid = copycfg.Actlist[actindex];
+
     console.log("manualonoff name:  manualontimesec:" + manualontimesec + " manualactname:" + manualactname + ",actuid : " + actuid);
     let opcmd = new ActuatorOperation(actuid, isSetOn, manualontimesec);
     myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {});
@@ -50,7 +51,7 @@ const JukeboxAircirculation = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems=[myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE')];
+    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL1"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL2"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL3")];
     
     return (
       <Stack spacing={1}>
@@ -66,52 +67,54 @@ const JukeboxAircirculation = (props) => {
 
     return (
       
-      <Stack spacing={1}>
+        <Stack spacing={1}>
+        
+        
         <Stack direction="row" alignItems="flex-end">
-          <AutoInputTimeRange initvalue={copycfg}  dispstring ={myAppGlobal.langT('LT_GROWPLANTS_SETTO_OPERATINGTIME')} onChange={props.inputallchangeHandler} />
-        </Stack>
-        <Stack direction="column" alignItems="flex-start">
-          <Stack direction="row" alignItems="flex-end">
-          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNONTIME')}</Typography>
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_VALVEONTIME')}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          <Typography color={"#fb8c00"} ml={3} fontSize={15} >{"※ "+myAppGlobal.langT('LT_GROWPLANTS_NUTI_HELP1')}</Typography>
           </Stack>
           <Stack direction="row" alignItems="flex-end">
-          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TURNOFFTIME')}</Typography>
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_VALVEOFFTIME')}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          <Typography color={"#fb8c00"} ml={3} fontSize={15} >{"※ "+myAppGlobal.langT('LT_GROWPLANTS_NUTI_HELP2')}</Typography>
           </Stack>
-        </Stack>
+
+        
       </Stack>
     );
   };
   //자동제어 일반
   return (
     <Stack spacing={0}>
-      <Stack direction="row" alignItems="flex-end"  sx={{ m: 2 }} >
-        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1')}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={props.inputallchangeHandler} /> 
-        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2')}</Typography>
+      <Stack direction="row" alignItems="flex-end"   sx={{ m: 2 }}>
+        <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
+        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="pH" keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_NUTI_TXT2')}</Typography>
       </Stack>
-      <Stack direction="row" alignItems="flex-end"  sx={{ m: 2 }} >
-      <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3')}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={props.inputallchangeHandler} />
-      <Typography>{myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4')}</Typography>
-        </Stack>
+      <Stack direction="row" alignItems="flex-end"    sx={{ m: 2 }}>
+        <Typography>{myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT3`)}</Typography>
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="mS" keyname="NTValue" onChange={props.inputallchangeHandler} />
+        <Typography>{myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT4`)}</Typography>
+      </Stack>
+
       <Box sx={{bgcolor: '#c5e1a5', boxShadow: 1, borderRadius: 2, p: 2, }}>
       <Stack direction="column" alignItems="flex-end">
           <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
         </Stack>
-      
-      {avchecked === true ? <AdvenceSetting  initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+
+      {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
       <hr/>
         <Stack direction="row" alignItems="center" spacing={2}>
           <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
-          <Typography color={"#1b5e20"} >{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+          <Typography color={"#1b5e20"}>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
         </Stack>
+
       </Box>
-      
     </Stack>
   );
 };
-export default JukeboxAircirculation;
+export default JukeboxNutrientSupply;

@@ -71,9 +71,20 @@ const JukeboxCo2Supply = (props) => {
           <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
         </Stack>
         <Stack direction="row" alignItems="flex-end">
-          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_INTERVAL")}</Typography>
+          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_CO2_INTERVAL")}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.BValue} unit="ppm" keyname="BValue" onChange={props.inputallchangeHandler} />
         </Stack>
+        <Stack direction="row" alignItems="flex-end">
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_VALVEONTIME')}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          <Typography color={"#fb8c00"} ml={3} fontSize={15} >{"※ "+myAppGlobal.langT('LT_GROWPLANTS_CO2_HELP1')}</Typography>
+          </Stack>
+          <Stack direction="row" alignItems="flex-end">
+          <Typography>{myAppGlobal.langT('LT_GROWPLANTS_VALVEOFFTIME')}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT('LT_GROWPLANTS_OPERATEUNIT')} keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          <Typography color={"#fb8c00"} ml={3} fontSize={15} >{"※ "+myAppGlobal.langT('LT_GROWPLANTS_CO2_HELP2')}</Typography>
+          </Stack>
+        
       </Stack>
     );
   };

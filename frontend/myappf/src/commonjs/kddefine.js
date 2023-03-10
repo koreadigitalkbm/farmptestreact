@@ -115,6 +115,13 @@ module.exports = class KDDefine {
     ODT_LED_UVA: 35,
     ODT_LED_UVB: 36,
 
+    ODT_SOL_A: 40, //양액제어용 솔밸브
+    ODT_SOL_B: 41,
+    ODT_SOL_C: 42,
+    ODT_SOL_D: 43,
+    ODT_SOL_E: 44,
+    
+
     ODT_ETC: 99,
     ODT_DELETE: 9999, //장치삭제
   });
