@@ -21,8 +21,16 @@ const SERVERAPI_URL = "http://15.164.60.217/api/";
 
 
 
-function softwarenpminstall(isbackend) {
-  console.log("softwarenpminstall  isbackend: " + isbackend);
+
+
+
+
+
+
+
+
+function softwarenpminstall(mMain, isbackend) {
+  console.log("softwarenpminstal  isbackend: " + isbackend);
 
   let cmdString = 'npm install '; 
   let cmdpath="./";
@@ -39,16 +47,80 @@ function softwarenpminstall(isbackend) {
     cmdString = 'sudo npm install';
   }
   
-  console.log("softwarenpminstall  cmdString: " + cmdString);
+  console.log("softwarenpminstll  cmdString: " + cmdString);
   
   const child = exec( cmdString, {cwd: cmdpath},function (error, stdout, stderr) {
     console.log("stdout install: " + stdout);
     console.log("stderr: " + stderr);
+    mMain.systemlog.memlog(" softwarenpminstll  stdout : " + stdout.toString());
+
     if (error !== null) {
-      console.log("exec error: " + error);
+      //console.log("exec error: " + error);
+      mMain.systemlog.memlog(" softwarenpminstll  catch error : " + error.toString());
+
     }
   });
 }
+
+
+
+  function softwareupdatefromgit(mMain, mupdateversion, platformversion) {
+    console.log("softwareupdatefromgt  mupdateversion: " + mupdateversion + " myversion:"+this.platformversion);
+    let isbacknpminstall=null;;
+
+    if(mupdateversion !=null)
+    {
+      let upversionnum = Number(mupdateversion);
+      let myversionnum = Number(platformversion);
+      let bnumup=Math.floor(upversionnum%10);
+      let bnummy=Math.floor(myversionnum%10);
+
+
+      let fnumup=Math.floor((upversionnum*10)%10);
+      let fnummy=Math.floor((myversionnum*10)%10);
+
+      console.log("bnumup: " + bnumup + " bnummy:"+bnummy);
+      console.log("fnumup: " + fnumup + " fnummy:"+fnummy);
+
+      if(bnumup > bnummy)
+      {
+        isbacknpminstall=true;
+      }
+      else{
+        if(fnumup > fnummy)
+        {
+          isbacknpminstall=false;
+        }
+      }
+
+        console.log("isbacknpminstall: " + isbacknpminstall);
+
+    }
+
+    let cmdString = 'git pull ';    // 2023.02.20
+    if (process.platform !== "win32") {
+      cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
+    }
+    
+
+    const child = exec( cmdString, function (error, stdout, stderr) {
+      console.log("stdout pull: " + stdout);
+      console.log("stderr: " + stderr);
+      mMain.systemlog.memlog(" softwareupdatefromgt  stdout : " + stdout.toString());
+
+      if (error !== null) {
+        //console.log("exec error: " + error);
+        mMain.systemlog.memlog(" softwareupdatefromgt  catch error : " + error.toString());
+
+      }
+      else{
+        if(isbacknpminstall !=null)
+        {
+          softwarenpminstall(mMain, isbacknpminstall);
+        }
+      }
+    });
+  }
 
 
 
@@ -61,6 +133,13 @@ module.exports = class LocalAPI {
     this.platformversion = fversion;
     this.mylocaldeviceid = this.mMain.mydeviceuniqid;
   }
+
+
+
+  
+
+
+
 
   postapiforfirebase(req, rsp) {
   }
@@ -135,9 +214,9 @@ module.exports = class LocalAPI {
         break;
 
       case KDDefine.REQType.RT_SWUPDATE:
-        console.log("softwareupdatefromgit  RT_SWUPDATE");
+        console.log("softwareupdatefromgt  RT_SWUPDATE");
 
-        this.softwareupdatefromgit(reqmsg.reqParam);
+        softwareupdatefromgit(this.mMain, reqmsg.reqParam, this.platformversion);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
@@ -282,60 +361,7 @@ module.exports = class LocalAPI {
   }
 
 
-
-  softwareupdatefromgit(mupdateversion) {
-    console.log("softwareupdatefromgit  mupdateversion: " + mupdateversion + " myversion:"+this.platformversion);
-    let isbacknpminstall=null;;
-
-    if(mupdateversion !=null)
-    {
-      let upversionnum = Number(mupdateversion);
-      let myversionnum = Number(this.platformversion);
-      let bnumup=Math.floor(upversionnum%10);
-      let bnummy=Math.floor(myversionnum%10);
-
-
-      let fnumup=Math.floor((upversionnum*10)%10);
-      let fnummy=Math.floor((myversionnum*10)%10);
-
-      console.log("bnumup: " + bnumup + " bnummy:"+bnummy);
-      console.log("fnumup: " + fnumup + " fnummy:"+fnummy);
-
-      if(bnumup > bnummy)
-      {
-        isbacknpminstall=true;
-      }
-      else{
-        if(fnumup > fnummy)
-        {
-          isbacknpminstall=false;
-        }
-      }
-
-        console.log("isbacknpminstall: " + isbacknpminstall);
-
-    }
-
-    let cmdString = 'git pull ';    // 2023.02.20
-    if (process.platform !== "win32") {
-      cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
-    }
-    
-
-    const child = exec( cmdString, function (error, stdout, stderr) {
-      console.log("stdout pull: " + stdout);
-      console.log("stderr: " + stderr);
-      if (error !== null) {
-        console.log("exec error: " + error);
-      }
-      else{
-        if(isbacknpminstall !=null)
-        {
-          softwarenpminstall(isbacknpminstall);
-        }
-      }
-    });
-  }
+  
 
 
   async setsensordatatoserver(did, dtime, slist) {

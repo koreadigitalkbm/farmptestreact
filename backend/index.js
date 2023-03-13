@@ -77,7 +77,7 @@ var server = app.listen(8877, function () {
 });
 
 
-console.log("islocalconnect : " + mMainclass + ",farmscbeplatformversion : " + farmscubeplatformversion );
+mMainclass.systemlog.memlog("farmscbeplatformversion : " + farmscubeplatformversion );
 /*
 setInterval( async () => {
   console.log( 'current version is : ', farmscubeplatformversion)

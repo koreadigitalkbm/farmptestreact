@@ -46,10 +46,27 @@ export default function FactorySetup(props) {
     }
   }
 
-  function swupdate() {
+    function readdevicelog(e) {
+    
+    myAppGlobal.farmapi.getdevicelog().then((ret) => {
+      let devmlog = ret.retParam;
+      console.log(" getdevicelg ret : " + ret);
+
+      console.log(ret);
+
+      //우선 콘솔에 출력하고 나중에 웹페이지에 구현하자
+      devmlog.loglist.forEach((element) => {
+        if (element != null) {
+          console.log(element);
+        }
+      });
+    });
+  }
+
+  function swupdate(mver) {
     console.log("resetConfig... ");
 
-    myAppGlobal.farmapi.setsoftwareupdate(true,1.01).then((ret) => {
+    myAppGlobal.farmapi.setsoftwareupdate(true,mver).then((ret) => {
       if (ret.IsOK == true) {
         alert("업데이트하였습니다.");
       } else {
@@ -166,10 +183,36 @@ export default function FactorySetup(props) {
         </Stack>
 
         <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
-          <Button type="submit" variant="contained" onClick={() => swupdate()} endIcon={<SendIcon />}>
-            프로그램업데이트
+          <Button type="submit" variant="contained" onClick={() => swupdate(1.01)} endIcon={<SendIcon />}>
+            프로그램업데이트 git pull
           </Button>
         </Stack>
+
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => swupdate(9.01)} endIcon={<SendIcon />}>
+            프로그램업데이트 backend npm install
+          </Button>
+        </Stack>
+
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => swupdate(1.91)} endIcon={<SendIcon />}>
+            프로그램업데이트 frontend npm install
+          </Button>
+        </Stack>
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => swupdate(9.91)} endIcon={<SendIcon />}>
+            프로그램업데이트 backend and frontend 
+          </Button>
+        </Stack>
+
+        
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => readdevicelog()} endIcon={<SendIcon />}>
+            시스템 로그 보기
+          </Button>
+        </Stack>
+        
+
         
 
       </ThemeProvider>
