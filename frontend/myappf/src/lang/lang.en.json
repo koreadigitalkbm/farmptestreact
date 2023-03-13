@@ -213,15 +213,16 @@
     "LT_GROWPLNATS_HUMIDITY_NIGHT2": "",
     "LT_GROWPLANTS_HUMIDITY_INTERVAL": "Humidity control interval",
     
+    "LT_GROWPLANTS_HUMIDITY_HELP1": "가습하여 습도를 높일경우 사용합니다.",
 
     "LT_GROWPLANTS_CO2_DAY1": "During the day[{0}], the internal Co2 is kept at",
     "LT_GROWPLANTS_CO2_DAY2": "",
     "LT_GROWPLNATS_CO2_NIGHT1": "During the night, the internal Co2 is kept at",
     "LT_GROWPLNATS_CO2_NIGHT2": "",
-    "LT_GROWPLANTS_CO2_INTERVAL": "Co2 control interval",
+    "LT_GROWPLANTS_CO2_INTERVAL": "CO2 control interval",
 
-    "LT_GROWPLANTS_CO2_HELP1": "10초이내 짧게 설정하세요.(Co2공급)",
-    "LT_GROWPLANTS_CO2_HELP2": "Co2 확산될만큼 충분히 길게 설정하세요.",
+    "LT_GROWPLANTS_CO2_HELP1": "10초이내 짧게 설정하세요.(CO2공급)",
+    "LT_GROWPLANTS_CO2_HELP2": "CO2 확산될만큼 충분히 길게 설정하세요.",
 
 
     "LT_GROWPLANTS_NUTI_TXT1": "양액의 pH  농도를",
