@@ -46,6 +46,20 @@ export default function FactorySetup(props) {
     }
   }
 
+  function swupdate() {
+    console.log("resetConfig... ");
+
+    myAppGlobal.farmapi.setsoftwareupdate(true,1.01).then((ret) => {
+      if (ret.IsOK == true) {
+        alert("업데이트하였습니다.");
+      } else {
+        alert("실패하였습니다.");
+      }
+      console.log("setDeviceconfigsetup  uid: " + ret);
+    });
+  }
+
+
   function resetConfig() {
     console.log("resetConfig... ");
 
@@ -150,6 +164,14 @@ export default function FactorySetup(props) {
             자동제어초기화
           </Button>
         </Stack>
+
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => swupdate()} endIcon={<SendIcon />}>
+            프로그램업데이트
+          </Button>
+        </Stack>
+        
+
       </ThemeProvider>
     </Box>
   );
