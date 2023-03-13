@@ -17,20 +17,32 @@ let chboxlist = [
   { label: "l3", color: "#9c27b0", key: "2", pstyle: "star", checked: false, sensor: null },
   { label: "l4", color: "#d32f2f", key: "3", pstyle: "rect", checked: false, sensor: null },
 
-  { label: "l4", color: "#ed6c02", key: "4", pstyle: "crossRot", checked: false, sensor: null },
-  { label: "l4", color: "#0288d1", key: "5", pstyle: "dash", checked: false, sensor: null },
-  { label: "l4", color: "#ef5350", key: "6", pstyle: "rectRounded", checked: false, sensor: null },
-  { label: "l4", color: "#4caf50", key: "7", pstyle: "rectRot", checked: false, sensor: null },
+  { label: "l5", color: "#ed6c02", key: "4", pstyle: "crossRot", checked: false, sensor: null },
+  { label: "l6", color: "#0288d1", key: "5", pstyle: "dash", checked: false, sensor: null },
+  { label: "l7", color: "#ef5350", key: "6", pstyle: "rectRounded", checked: false, sensor: null },
+  { label: "l8", color: "#4caf50", key: "7", pstyle: "rectRot", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "8", pstyle: "cross", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "9", pstyle: "circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "10", pstyle: "circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "11", pstyle: "circle", checked: false, sensor: null },
+  { label: "l9", color: "#000010", key: "8", pstyle: "cross", checked: false, sensor: null },
+  { label: "l0", color: "#000010", key: "9", pstyle: "circle", checked: false, sensor: null },
+  { label: "l1", color: "#000010", key: "10", pstyle: "circle", checked: false, sensor: null },
+  { label: "l2", color: "#000010", key: "11", pstyle: "circle", checked: false, sensor: null },
 
-  { label: "l4", color: "#000010", key: "12", pstyle: "circle", checked: false, sensor: null },
+  { label: "l3", color: "#000010", key: "12", pstyle: "circle", checked: false, sensor: null },
   { label: "l4", color: "#000010", key: "13", pstyle: "circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "14", pstyle: "circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "15", pstyle: "circle", checked: false, sensor: null },
+  { label: "l5", color: "#000010", key: "14", pstyle: "circle", checked: false, sensor: null },
+  { label: "l6", color: "#000010", key: "15", pstyle: "circle", checked: false, sensor: null },
+
+  { label: "l7", color: "#000010", key: "16", pstyle: "circle", checked: false, sensor: null },
+  { label: "l8", color: "#000010", key: "17", pstyle: "circle", checked: false, sensor: null },
+  { label: "l9", color: "#000010", key: "18", pstyle: "circle", checked: false, sensor: null },
+  { label: "20", color: "#000010", key: "19", pstyle: "circle", checked: false, sensor: null },
+
+  { label: "21", color: "#000010", key: "20", pstyle: "circle", checked: false, sensor: null },
+  { label: "22", color: "#000010", key: "21", pstyle: "circle", checked: false, sensor: null },
+  { label: "23", color: "#000010", key: "22", pstyle: "circle", checked: false, sensor: null },
+  { label: "24", color: "#000010", key: "23", pstyle: "circle", checked: false, sensor: null },
+  
+  
 ];
 
 let dataChart = {
