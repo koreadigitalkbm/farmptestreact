@@ -23,6 +23,7 @@ module.exports = class ActuatorInterface {
     //카메라 촬영준비 시간 이 변수를 설정하면 카메라 촬영모드로 동작시킴.
     this.cameracapturecount = 0;
     this.cameramanualcapturefilepath=null;
+    this.iskpc480=false; //KPC480 장비일경우 예외처리
 
     //console.log("       ".bgMagenta, this.mMain.localsysteminformations);
 
@@ -35,6 +36,9 @@ module.exports = class ActuatorInterface {
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc480;
+
+      this.iskpc480=true;
+
     } else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC200") {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC200, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
@@ -158,7 +162,7 @@ module.exports = class ActuatorInterface {
   async CaptureImagewithLED(islocal)
   {
     await this.LEDonforcamera(islocal );
-    const lawimg = await CameraInterface.Captureimage();
+    const lawimg = await CameraInterface.Captureimage(this.iskpc480);
     // this.cameracapturecount = 0;
     console.log("CaptureImagewithLED ", 'size is : ', lawimg.length);
 

@@ -16,7 +16,7 @@ module.exports = class CameraInterface {
   }
   
 
-  static  async Captureimage(main, filepath, filename) {
+  static  async Captureimage(miskpc480) {
 
     let data_img;
     if (os.platform() === "win32") {
@@ -26,7 +26,7 @@ module.exports = class CameraInterface {
 
     } else {
 
-      data_img = await RasCamera.Captureimage();
+      data_img = await RasCamera.Captureimage(miskpc480);
 
       
 

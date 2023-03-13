@@ -14,11 +14,11 @@ module.exports = class RasCamera {
     }
   
       
-    static async Captureimage() {
+    static async Captureimage(miskpc480) {
       
         const PiCamera = require("pi-camera");
        //kbm 카메라 해상도 조정 
-        const myCamera = new PiCamera({
+        let myCamera = new PiCamera({
           mode: "photo",
           output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
           width: 1600,
@@ -31,6 +31,18 @@ module.exports = class RasCamera {
           shutter : 3000,
           nopreview: true,
         });
+        if(miskpc480 ==true)
+        {
+          myCamera = new PiCamera({
+            mode: "photo",
+            output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
+            width: 3280,
+            height: 2468,
+            quality : 70,
+            shutter : 1000,
+            nopreview: true,
+          });
+        }
         console.log('======================= 1 start pi-camera', '/home/pi/kd/farmptestreact/common/ctestimage2.jpg')
   
         return await myCamera.snapDataUrl()
