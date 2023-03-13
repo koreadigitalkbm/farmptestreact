@@ -184,7 +184,7 @@ module.exports = class AutoControlUtil {
      m1.DOffTime = 0;
      m1.STime = 8 * 3600;
      m1.ETime = 18 * 3600;
-     m1.Senlist.push("S01C00T01"); /// 온도센서 지정
+     m1.Senlist.push("S01C02T01"); /// 온도센서 지정
      m1.DTValue = 24.0;
      m1.NTValue = 20.0;
      m1.BValue = 1;
@@ -249,8 +249,8 @@ module.exports = class AutoControlUtil {
      m1.DOffTime = 3600;
      m1.STime = 8 * 3600;
      m1.ETime = 18 * 3600;
-     m1.Senlist.push("S01C00T02"); /// 습도센서 지정
-     m1.Senlist.push("S01C00T06"); /// Co2센서 지정  센서가 업더라도 지정꼭해야함
+     m1.Senlist.push("S01C02T02"); /// 습도센서 지정
+     m1.Senlist.push("S01C03T06"); /// Co2센서 지정  센서가 업더라도 지정꼭해야함
      m1.DTValue = 85.0; // 습도값
      m1.NTValue = 350.0; // co2 값
      m1.BValue = 1;
@@ -270,7 +270,7 @@ module.exports = class AutoControlUtil {
     m1.DOffTime = 0;
     m1.STime = 8 * 3600;
     m1.ETime = 18 * 3600;
-    m1.Senlist.push("S01C00T02"); /// 습도센서 지정
+    m1.Senlist.push("S01C02T02"); /// 습도센서 지정
     m1.DTValue = 35.0; // 습도값
     m1.NTValue = 30.0; // 
     m1.BValue = 10;
@@ -290,7 +290,7 @@ module.exports = class AutoControlUtil {
      m1.DOffTime = 600;
      m1.STime = 8 * 3600;
      m1.ETime = 18 * 3600;
-     m1.Senlist.push("S01C00T06"); /// CO2센서 지정
+     m1.Senlist.push("S01C03T06"); /// CO2센서 지정
      m1.DTValue = 350.0; // CO2값
      m1.NTValue = 300.0; // 
      m1.BValue = 50;
@@ -312,8 +312,8 @@ module.exports = class AutoControlUtil {
      m1.DOffTime = 600;
      m1.STime = 8 * 3600;
      m1.ETime = 18 * 3600;
-     m1.Senlist.push("S01C00T16"); /// ph센서 지정
-     m1.Senlist.push("S01C00T17"); /// ec센서 지정
+     m1.Senlist.push("S01C02T16"); /// ph센서 지정
+     m1.Senlist.push("S01C02T17"); /// ec센서 지정
      m1.DTValue = 6.0; //  pH
      m1.NTValue = 1.0; // EC
      m1.BValue = 0;

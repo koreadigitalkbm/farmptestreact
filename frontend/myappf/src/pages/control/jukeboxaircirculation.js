@@ -98,8 +98,15 @@ const JukeboxAircirculation = (props) => {
         </Stack>
       <Box sx={{bgcolor: '#c5e1a5', boxShadow: 1, borderRadius: 2, p: 2, }}>
       <Stack direction="column" alignItems="flex-end">
-          <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+          <Stack direction="row" alignItems="flex-start">
+            <Typography color={"#fb8c00"} mr={2} fontSize={15} sx={{ minWidth: 540 }}>
+              {"※ " + myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_HELP1")}
+            </Typography>
+
+            <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
+          </Stack>
         </Stack>
+
       
       {avchecked === true ? <AdvenceSetting  initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
       <hr/>

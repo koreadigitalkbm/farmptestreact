@@ -82,9 +82,10 @@ async function devicemaintask(mainclass) {
             switch (sec_step) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
-                for (const msensor of mainclass.sensorinterface.mSensors) {
-                //     console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
-                }
+
+//                for (const msensor of mainclass.sensorinterface.mSensors) {
+ //                    console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+  //              }
                 sec_step++;
                 break;
               case 1:

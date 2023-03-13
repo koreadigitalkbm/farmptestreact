@@ -256,6 +256,8 @@
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3": "\nor humidity is greater than ",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4": "",
     "LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE": "ventilation fan & valve",
+    "LT_GROWPLANTS_AIRCIRCULATION_HELP1": "It circulates outside air to lower humidity and CO2 concentration.",
+
     "LT_GROWPLANTS_HUMIDITY_HEATER": "Humidity Heater",
     "LT_GROWPLANTS_CO2_VALVE": "CO2 Valve",
     "LT_GROWPLANTS_NUTI_SOL1": "EC Sol1",
