@@ -129,7 +129,7 @@ function FarmApp(props) {
 
 
   function loginSMHandler(loginid, loginpw) {
-    console.log("loginSMHandler :   id : " + loginid + " , pw : " + loginpw);
+    
 
     //둘다 널이면 로그아웃임
     if (loginid == null && loginpw == null) {
