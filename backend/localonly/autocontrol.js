@@ -474,6 +474,8 @@ module.exports = class AutoControl {
             }
           }
 
+          console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
+
           
             
               let onoffstate = null;
@@ -516,7 +518,7 @@ module.exports = class AutoControl {
                 }
                 
 
-             //   console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+                console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
                 
               }
             
