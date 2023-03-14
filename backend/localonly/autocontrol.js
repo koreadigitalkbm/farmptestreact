@@ -228,7 +228,7 @@ module.exports = class AutoControl {
       let phsensor = null;
       let ecsensor = null;
 
-        console.log("ACT_NUTRIENT_SOL3_FOR_FJBOX daytotalsec : " +daytotalsec);
+      //  console.log("ACT_NUTRIENT_SOL3_FOR_FJBOX daytotalsec : " +daytotalsec);
 
       for (const ms of msensors) {
         //우선 센서 1개만 처리
@@ -485,7 +485,7 @@ module.exports = class AutoControl {
                 onoffstate = false;
               }
 
-              console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
+             // console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
 
               if (onoffstate != null) {
 
@@ -521,7 +521,7 @@ module.exports = class AutoControl {
                 }
                 
 
-                console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+              //  console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
                 
               }
             
@@ -659,7 +659,7 @@ module.exports = class AutoControl {
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
     let timesecnow = KDCommon.getCurrentTotalsec();
 
-    console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
+    //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
    // console.log("getOperationsByControl  Cat: " + this.mConfig.Cat);
 
@@ -682,7 +682,7 @@ module.exports = class AutoControl {
       this.setdaycontroltimeover();
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
     }
-    console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
+    //console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
     if (this.mState.ischangestatecheck(currentstate) == true) {
