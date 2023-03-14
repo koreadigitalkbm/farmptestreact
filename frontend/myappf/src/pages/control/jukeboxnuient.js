@@ -51,7 +51,16 @@ const JukeboxNutrientSupply = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL1"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL2"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL3")];
+    let actinfoa = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[0], myAppGlobal);
+    let actinfob = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[1], myAppGlobal);
+    let actinfoc = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[2], myAppGlobal);
+    //const actitems = [actinfoa.Name, myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL2"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL3")];
+    let actitems = [];
+    if(actinfoa !=null ){actitems.push(actinfoa.Name)}
+    if(actinfob !=null ){actitems.push(actinfob.Name)}
+    if(actinfoc !=null ){actitems.push(actinfoc.Name)}
+    
+
     
     return (
       <Stack spacing={1}>
