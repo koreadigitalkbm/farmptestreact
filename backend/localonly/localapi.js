@@ -25,6 +25,43 @@ const SERVERAPI_URL = "http://15.164.60.217/api/";
 
 
 
+function adminshellcommand(mMain, mcmd, mpath) {
+  console.log("adminshellcommad  mcmd: " + mcmd + " mpath:" +mpath);
+
+  if(mcmd == null)
+  {
+    return ;
+  }
+
+  let cmdString = mcmd; 
+  let cmdpath="./";
+  if(mpath!= null )
+  {
+    cmdpath=mpath;
+  }
+  
+  
+
+  if (process.platform !== "win32") {
+    cmdString = 'sudo  ' + mcmd;
+  }
+  
+
+  mMain.systemlog.memlog(" adminshellcommad  cmdString : " + cmdString  + " ,cmdpath:" +cmdpath);
+  
+  
+  const child = exec( cmdString, {cwd: cmdpath},function (error, stdout, stderr) {
+    console.log("ad stdout: " + stdout);
+    console.log("ad stderr: " + stderr);
+    mMain.systemlog.memlog(" adminshellcommad  stdout : " + stdout.toString());
+
+    if (error !== null) {
+      //console.log("exec error: " + error);
+      mMain.systemlog.memlog(" adminshellcommad  catch error : " + error.toString());
+    }
+  });
+}
+
 
 
 
@@ -221,6 +258,18 @@ module.exports = class LocalAPI {
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
+
+        case KDDefine.REQType.RT_SHELLCMD:
+        console.log("softwareupdatefromgt  RT_SHELLCMD");
+
+        adminshellcommand(this.mMain, reqmsg.reqParam.cmd, reqmsg.reqParam.path);
+        rspmsg.retMessage = "ok";
+        rspmsg.IsOK = true;
+        break;
+
+
+        
+
 
       case KDDefine.REQType.RT_GETVERSION:
         rspmsg.retMessage = this.platformversion;

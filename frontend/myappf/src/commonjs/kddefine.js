@@ -141,6 +141,8 @@ module.exports = class KDDefine {
     RT_GETVERSION: "getdeviceversion", //소프트웨어 버전 읽어옴
     RT_SWUPDATE: "setswupdate", // 장비 소프트웨어 업데이트
 
+    RT_SHELLCMD: "admincommand", // 장비 쉘명령어 직접
+
     RT_SYSTEMSTATUS: "getsystemstatus", // 장비 전체 상태
     RT_ACTUATOROPERATION: "setactuatoroperation", // 구동기 동작
     RT_ACTUATORSTATUS: "getactuatorstatus", // 구동기상태

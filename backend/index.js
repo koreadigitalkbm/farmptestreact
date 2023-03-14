@@ -10,7 +10,8 @@
 //2.214 : 서버 통신 응답시 해당 요청타입에 맞게 응답되도록 수정.
 //2.215 : 화와이 최종출시 버전 
 //2.216 : KPC480 식물재배기 연구용 1차 설정 
-const farmscubeplatformversion = 2.215;
+//2.217 : 쉘명령어 원격에서 실행할수 있도록 수정
+const farmscubeplatformversion = 2.217;
 
 var express = require("express");
 var cors = require("cors");

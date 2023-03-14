@@ -125,6 +125,18 @@ export default class IndoorFarmAPI {
     }
   }
 
+  async setshellcommand(mcmd,mpath) {
+    const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SHELLCMD);
+
+    reqmsg.reqParam ={
+      cmd:mcmd,
+      path:mpath,
+    };
+      return await this.setRequestdevice(reqmsg);
+
+
+  }
+
   //장비에 대한 전체 상태를 읽어온다. 센서, 구동기, 자동제어, 기타 등등
   async getDeviceStatus(issensor, isactuator, isautocontrol, lastSensorTime,lastEventtime ) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMSTATUS);

@@ -46,6 +46,21 @@ export default function FactorySetup(props) {
     }
   }
 
+  
+
+  function shellcmdtodevice() {
+    
+    myAppGlobal.farmapi.setshellcommand("del READ.md ","../frontend/myappf/").then((ret) => {
+    
+      console.log(" shellcmdtodevice ret : " + ret);
+      console.log(ret);
+
+    
+    });
+  }
+
+
+
     function readdevicelog(e) {
     
     myAppGlobal.farmapi.getdevicelog().then((ret) => {
@@ -212,6 +227,14 @@ export default function FactorySetup(props) {
             시스템 로그 보기
           </Button>
         </Stack>
+        
+
+        <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
+          <Button type="submit" variant="contained" onClick={() => shellcmdtodevice()} endIcon={<SendIcon />}>
+            시스템 명령어 테스트
+          </Button>
+        </Stack>
+
         
 
         
