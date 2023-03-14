@@ -65,7 +65,7 @@ function softwarenpminstall(mMain, isbackend) {
 
 
   function softwareupdatefromgit(mMain, mupdateversion, platformversion) {
-    console.log("softwareupdatefromgt  mupdateversion: " + mupdateversion + " myversion:"+this.platformversion);
+    console.log("softwareupdatefromgt  mupdateversion: " + mupdateversion + " myversion:"+platformversion);
     let isbacknpminstall=null;;
 
     if(mupdateversion !=null)
@@ -99,8 +99,8 @@ function softwarenpminstall(mMain, isbackend) {
 
     let cmdString = 'git pull ';    // 2023.02.20
     if (process.platform !== "win32") {
-      //cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
-      cmdString = 'sudo git fetch --all  && sudo git pull';
+      cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
+      //cmdString = 'sudo git fetch --all  && sudo git pull';
     }
     
 
