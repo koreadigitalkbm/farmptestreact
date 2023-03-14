@@ -228,7 +228,7 @@ module.exports = class AutoControl {
       let phsensor = null;
       let ecsensor = null;
 
-      //  console.log("ACT_NUTRIENT_SOL3_FOR_FJBOX daytotalsec : " +daytotalsec);
+        console.log("ACT_NUTRIENT_SOL3_FOR_FJBOX daytotalsec : " +daytotalsec);
 
       for (const ms of msensors) {
         //우선 센서 1개만 처리
