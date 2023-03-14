@@ -474,7 +474,7 @@ module.exports = class AutoControl {
             }
           }
 
-          console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
+          
 
           
             
@@ -484,6 +484,8 @@ module.exports = class AutoControl {
               } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
                 onoffstate = false;
               }
+
+              console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
 
               if (onoffstate != null) {
 
@@ -507,7 +509,8 @@ module.exports = class AutoControl {
                   
 
                 }
-                else{
+                else if( solA !=null && solB !=null && solC !=null) {
+
 
                   let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
                   let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
