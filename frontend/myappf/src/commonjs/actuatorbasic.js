@@ -6,6 +6,7 @@ module.exports = class ActuatorBasic {
     return Object.assign(new ActuatorBasic(0, 0, 0), mobj);
   }
 
+  
   constructor(mnameid, mchannel, mdtype, mnodeid = 1, mhwtype = KDDefine.HardwareTypeEnum.HT_RELAY) {
     this.Name = "Actuator"; //구동장비 이름 다국어지원해야함으로 이름은 프론트엔드에서 가져옴
     this.Nid = mnameid; //  이름 정의된 문자열 ID

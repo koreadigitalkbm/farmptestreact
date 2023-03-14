@@ -5,6 +5,7 @@ const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const SystemEvent = require("./systemevent");
 
 
+
 //구동기 기본정적 정보와 상태정보, 마지막제어명령어등을 포함한다.
 module.exports = class Actuatordevice {
   constructor(mBasicinfo) {
@@ -16,7 +17,6 @@ module.exports = class Actuatordevice {
     this.LastCompleteState = 0;
     console.log("Actuatordevice  : " + this.UniqID);
   }
-
   
   //구동기상태변화가 있거나 먼가 이벤트가 발생했는지 확인
   getEventwithCheck() {

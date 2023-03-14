@@ -182,6 +182,7 @@ export default function FactorySetup(props) {
           </Button>
         </Stack>
 
+
         <Stack spacing={2} justifyContent="center" sx={{ mt: 2, mb: 3 }}>
           <Button type="submit" variant="contained" onClick={() => swupdate(1.01)} endIcon={<SendIcon />}>
             프로그램업데이트 git pull

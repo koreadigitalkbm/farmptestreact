@@ -113,6 +113,8 @@ let optionChart = {
   },
 };
 
+
+
 function Drawchart(zmode, bmark, sensorlistforchart) {
   dataChart = {
     labels: [],

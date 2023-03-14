@@ -37,6 +37,8 @@ const JukeboxAirhumidity = (props) => {
     }
   };
 
+  
+
   function manualonoff(isSetOn) {
     const actindex = manualactname === "selitem0" ? 0 : 1;
     const actuid = copycfg.Actlist[actindex];
