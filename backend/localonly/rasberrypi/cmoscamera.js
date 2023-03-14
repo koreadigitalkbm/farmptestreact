@@ -38,8 +38,8 @@ module.exports = class RasCamera {
             output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
             width: 3280,
             height: 2468,
-            quality : 70,
-            shutter : 1000,
+            quality : 60,
+            shutter : 800,
             nopreview: true,
           });
         }
