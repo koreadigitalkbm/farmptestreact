@@ -10,7 +10,7 @@ const SystemEvent = require("./systemevent");
 module.exports = class AutoControl {
   constructor(mconfig) {
     this.mConfig = AutoControlconfig.deepcopy(mconfig); // 자동제어 설정을 복사해서 넣음
-    this.mState = new AutoControlStatus(mconfig.UniqID);
+    this.mState = new AutoControlStatus(mconfig.Uid);
     this.mLog = [];
     this.PWMonoffstate = false;
     this.PWMLasttoltalsec = Number(0); // 마지막 명령어 전송시점.
@@ -653,6 +653,8 @@ module.exports = class AutoControl {
 
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
     let timesecnow = KDCommon.getCurrentTotalsec();
+
+    console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
    // console.log("getOperationsByControl  Cat: " + this.mConfig.Cat);
 
