@@ -282,7 +282,7 @@ module.exports = class AutoControl {
         upvalue = targetvalue + Number(this.mConfig.BValue);
         downvalue = targetvalue - Number(this.mConfig.BValue);
 
-        console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
+       // console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
         //냉난방 동시제어일때
         if (KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE == this.mConfig.Cdir) {
@@ -454,7 +454,7 @@ module.exports = class AutoControl {
             onoffstate = false;
           }
 
-          console.log("-ACT_HEATER_HUMIDITY_FOR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
+       //   console.log("-ACT_HEATER_HUMIDITY_FOR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
 
           if (onoffstate != null && heaterd != null && pumpd != null) {
             let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
@@ -531,7 +531,7 @@ module.exports = class AutoControl {
         let heaterdev = null;
         let coollerdev = null;
 
-        console.log("-getOperationsBySpcify ACT_HEAT_COOL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
+        //console.log("-getOperationsBySpcify ACT_HEAT_COOL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
 
         for (const mactid of this.mConfig.Actlist) {
           let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
