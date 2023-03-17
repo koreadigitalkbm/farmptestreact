@@ -76,7 +76,7 @@ async function devicemaintask(mainclass) {
         {
           const cursec = date.getSeconds();
           if (last_sec != cursec) {
-       //       console.log("mainloop  sec_step: " + sec_step);
+//              console.log("mainloop  sec_step: " + sec_step);
 
             last_sec = cursec;
             switch (sec_step) {
@@ -185,8 +185,8 @@ async function devicemaintask(mainclass) {
     mainclass.systemlog.memlog(" maintask  catch error : " + error.toString());
   } finally {
     console.log("------------main stop by error finally-------------------");
-    //에러발생시 20 초후 다시시작  천천히 시작해야 로그기록을 볼수 있음.
-    setTimeout(devicemaintask, 20000, mainclass);
+    //에러발생시 60 초후 다시시작  천천히 시작해야 로그기록을 볼수 있음.
+    setTimeout(devicemaintask, 60000, mainclass);
   }
 }
 

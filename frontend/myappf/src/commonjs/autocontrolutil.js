@@ -245,6 +245,7 @@ module.exports = class AutoControlUtil {
      m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
      m1.Actlist.push("N01C06T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
+     m1.Actlist.push("N01C20T00"); //환기 밸브 DC
      m1.DOnTime = 3600;
      m1.DOffTime = 3600;
      m1.STime = 8 * 3600;

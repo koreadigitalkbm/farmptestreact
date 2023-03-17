@@ -17,16 +17,14 @@ module.exports = class AutoControl {
     this.OnSecTime = 0; //켜짐시간(초), 모드에 따라 변경됨으로
     this.NewEvent = null; //이벤트 발생하면 여기에
     this.IsPWMcontrol = false;
-    this.isPHon=false;
-    this.isECon=false;
+    this.isPHon = false;
+    this.isECon = false;
   }
   static Clonbyjsonobj(mobj) {
     return new AutoControl(mobj.mConfig);
   }
   //기본적인 사항을 확인함. enable, 시간
   isBasiccondition(timesecnow) {
-
-
     if (this.mConfig.Enb == true) {
       //주 야간 모드 이면 시간확인필요없음
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT) {
@@ -94,8 +92,15 @@ module.exports = class AutoControl {
   //센서제어이면서 pwm 제어방식 off 휴지시간이 있는 경우 이곳에서 제어
   pwmcontrolbysensor(isonstate) {
     let curstate = KDDefine.AUTOStateType.AST_IDLE;
-
-    if (this.IsPWMcontrol === true && isonstate != null) {
+    if (isonstate == null) {
+      curstate = KDDefine.AUTOStateType.AST_IDLE;
+    } else if (this.IsPWMcontrol === false) {
+      if (isonstate == true) {
+        curstate = KDDefine.AUTOStateType.AST_On;
+      } else {
+        curstate = KDDefine.AUTOStateType.AST_Off;
+      }
+    } else {
       const daytotalsec = KDCommon.getCurrentTotalsec();
 
       if (isonstate == false) {
@@ -105,28 +110,29 @@ module.exports = class AutoControl {
         curstate = KDDefine.AUTOStateType.AST_IDLE;
         //환기 켜기 조건일 때만 PWM 방식으로 제어
 
-         //현재시간보다 마지막 명령어 시작이 크다면 자정이 지났을경우임. 자정이 넘어가면
+        //현재시간보다 마지막 명령어 시작이 크다면 자정이 지났을경우임. 자정이 넘어가면
         if (this.PWMLasttoltalsec > daytotalsec) {
           this.PWMLasttoltalsec = Number(this.PWMLasttoltalsec) - 86400;
         }
 
         if (this.PWMonoffstate == false) {
-          if (daytotalsec >( Number(this.PWMLasttoltalsec) + Number(this.mConfig.DOffTime))) {
+          if (daytotalsec > Number(this.PWMLasttoltalsec) + Number(this.mConfig.DOffTime)) {
             this.PWMLasttoltalsec = daytotalsec;
             this.PWMonoffstate = true;
             //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
-            console.log("-is pwmcontrolbysensor on : " + daytotalsec + " ,OSecTime : " + this.OnSecTime);
+            console.log("-is pwmcontrolbysenor on : " + daytotalsec + " ,OSecTime : " + this.OnSecTime);
             curstate = KDDefine.AUTOStateType.AST_On;
           }
         } else {
-          if (daytotalsec >( Number(this.PWMLasttoltalsec) + Number(this.mConfig.DOnTime))) {
+          if (daytotalsec > Number(this.PWMLasttoltalsec) + Number(this.mConfig.DOnTime)) {
             this.PWMLasttoltalsec = daytotalsec;
             this.PWMonoffstate = false;
-            console.log("-is pwmcontrolbysensor off : " + daytotalsec);
+            console.log("-is pwcontrolbysensor off : " + daytotalsec);
           }
         }
       }
     }
+
     return curstate;
   }
 
@@ -134,8 +140,6 @@ module.exports = class AutoControl {
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
     let currsensor = null;
     let offsectime = Number(this.mConfig.DOffTime);
-
-    
 
     if (offsectime == 0) {
       this.IsPWMcontrol = false;
@@ -191,36 +195,7 @@ module.exports = class AutoControl {
       //센서 조건이  off 이면 무조건 off
       this.OnSecTime = Number(this.mConfig.DOnTime);
 
-      /*
-      currentstate = KDDefine.AUTOStateType.AST_Off;
-
-      if (isonstate == false) {
-        this.PWMonoffstate = false;
-        currentstate = KDDefine.AUTOStateType.AST_Off;
-      } else {
-        currentstate = KDDefine.AUTOStateType.AST_IDLE;
-        //환기 켜기 조건일 때만 PWM 방식으로 제어
-        if (this.PWMLasttoltalsec > daytotalsec) {
-          this.PWMLasttoltalsec = Number(this.PWMLasttoltalsec) - 86400;
-        }
-
-        if (this.PWMonoffstate == false) {
-          if (daytotalsec > (Number(this.PWMLasttoltalsec) + Number(this.mConfig.DOffTime))) {
-            this.PWMLasttoltalsec = daytotalsec;
-            this.PWMonoffstate = true;
-            //on 시간일때만 켜기 명령어 보냄  off 는 장비에서 알아서 off됨 ( timed on 방식이므로)
-            console.log("-is aircircuration on : " + daytotalsec + " ,OSecTime : " + this.OnSecTime);
-            currentstate = KDDefine.AUTOStateType.AST_On;
-          }
-        } else {
-          if (daytotalsec > (Number(this.PWMLasttoltalsec) + Number(this.mConfig.DOnTime))) {
-            this.PWMLasttoltalsec = daytotalsec;
-            this.PWMonoffstate = false;
-            console.log("-is aircircuration off : " + daytotalsec);
-          }
-        }
-      }
-      */
+     
       currentstate = this.pwmcontrolbysensor(isonstate);
 
       // return currentstate;
@@ -245,7 +220,7 @@ module.exports = class AutoControl {
 
       if (phsensor == null && ecsensor == null) {
         //해당센서 없음
-         console.log("getStateBySensorcondtion no sensor phsensor ecsensor: " + this.mConfig.Senlist[0]);
+        console.log("getStateBySensorcondtion no sensor phsensor ecsensor: " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
         // console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX humiditysensor : " + humiditysensor);
@@ -254,26 +229,26 @@ module.exports = class AutoControl {
       let phtargetvalue = Number(this.mConfig.DTValue);
       let ectargetvalue = Number(this.mConfig.NTValue);
       let isonstate = false;
-      this.isPHon=false;
-      this.isECon=false;
+      this.isPHon = false;
+      this.isECon = false;
       //ph가이 높아지면 환기
       if (phsensor != null) {
         if (phsensor.value > phtargetvalue) {
           isonstate = true;
-          this.isPHon=true;
+          this.isPHon = true;
         }
       }
       //ec 센서값이 낮아지면 환기
       if (ecsensor != null) {
         if (ecsensor.value < ectargetvalue) {
           isonstate = true;
-          this.isECon=true;
+          this.isECon = true;
         }
       }
 
-      console.log("getStateBySensorcondtion phtargetvalue:" + phtargetvalue + " ectargetvalue : " +ectargetvalue);
-      console.log("getStateBySensorcondtion phsensor.value:" + phsensor.value + " ecsensor.value : " +ecsensor.value);
-      console.log("getStateBySensorcondtion this.isPHon:" + this.isPHon + " this.isECon : " +this.isECon);
+      console.log("getStateBySensorcondtion phtargetvalue:" + phtargetvalue + " ectargetvalue : " + ectargetvalue);
+      console.log("getStateBySensorcondtion phsensor.value:" + phsensor.value + " ecsensor.value : " + ecsensor.value);
+      console.log("getStateBySensorcondtion this.isPHon:" + this.isPHon + " this.isECon : " + this.isECon);
 
       //센서 조건이  off 이면 무조건 off
       this.OnSecTime = Number(this.mConfig.DOnTime);
@@ -307,7 +282,7 @@ module.exports = class AutoControl {
         upvalue = targetvalue + Number(this.mConfig.BValue);
         downvalue = targetvalue - Number(this.mConfig.BValue);
 
-        //console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
+        console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
         //냉난방 동시제어일때
         if (KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE == this.mConfig.Cdir) {
@@ -345,6 +320,7 @@ module.exports = class AutoControl {
           }
 
           currentstate = this.pwmcontrolbysensor(isonstate);
+          console.log("isonstate:" + isonstate + ",currentstate:" + currentstate);
         }
       }
     }
@@ -454,11 +430,10 @@ module.exports = class AutoControl {
 
         break;
 
-        case KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX:
+      case KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX:
         {
           let heaterd = null;
           let pumpd = null;
-          
 
           for (const mactid of this.mConfig.Actlist) {
             let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
@@ -472,40 +447,27 @@ module.exports = class AutoControl {
             }
           }
 
-          
+          let onoffstate = null;
+          if (currentstate == KDDefine.AUTOStateType.AST_On) {
+            onoffstate = true;
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+            onoffstate = false;
+          }
 
-          
-            
-              let onoffstate = null;
-              if (currentstate == KDDefine.AUTOStateType.AST_On) {
-                onoffstate = true;
-              } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
-                onoffstate = false;
-              }
+          console.log("-ACT_HEATER_HUMIDITY_FOR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
 
-             // console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
+          if (onoffstate != null && heaterd != null && pumpd != null) {
+            let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
+            // 펌프는
+            let opcmdb = new ActuatorOperation(pumpd.UniqID, onoffstate, 100);
 
-              if (onoffstate != null && heaterd !=null &&  pumpd !=null )  {
-
-                let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
-                // 펌프는 
-                let opcmdb = new ActuatorOperation(pumpd.UniqID, onoffstate, 100);
-
-                opcmdlist.push(opcmda);
-                opcmdlist.push(opcmdb);
-
-
-
-              
-                
-              }
-            
-          
+            opcmdlist.push(opcmda);
+            opcmdlist.push(opcmdb);
+          }
 
           this.setUpdatestateWithEvent(currentstate);
         }
         break;
-
 
       case KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX:
         {
@@ -528,58 +490,38 @@ module.exports = class AutoControl {
             }
           }
 
-          
+          let onoffstate = null;
+          if (currentstate == KDDefine.AUTOStateType.AST_On) {
+            onoffstate = true;
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+            onoffstate = false;
+          }
 
-          
-            
-              let onoffstate = null;
-              if (currentstate == KDDefine.AUTOStateType.AST_On) {
-                onoffstate = true;
-              } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
-                onoffstate = false;
+          // console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
+
+          if (onoffstate != null) {
+            if (onoffstate === true) {
+              if (this.isECon == true && solA != null && solB != null) {
+                let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
+                let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
+                opcmdlist.push(opcmda);
+                opcmdlist.push(opcmdb);
               }
-
-             // console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
-
-              if (onoffstate != null) {
-
-                if(onoffstate ===true)
-                {
-                  if(this.isECon==true && solA !=null && solB !=null)
-                  {
-                    let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
-                    let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
-                    opcmdlist.push(opcmda);
-                    opcmdlist.push(opcmdb);
-                  }
-                  if(this.isPHon==true &&  solC !=null)
-                  {
-                    let opcmdc = new ActuatorOperation(solC.UniqID, onoffstate, this.OnSecTime);
-                    opcmdlist.push(opcmdc);
-                    
-
-                  }
-
-                  
-
-                }
-                else if( solA !=null && solB !=null && solC !=null) {
-
-
-                  let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
-                  let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
-                  let opcmdc = new ActuatorOperation(solC.UniqID, onoffstate, this.OnSecTime);
-                  opcmdlist.push(opcmda);
-                  opcmdlist.push(opcmdb);
-                  opcmdlist.push(opcmdc);
-                }
-                
-
-              //  console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
-                
+              if (this.isPHon == true && solC != null) {
+                let opcmdc = new ActuatorOperation(solC.UniqID, onoffstate, this.OnSecTime);
+                opcmdlist.push(opcmdc);
               }
-            
-          
+            } else if (solA != null && solB != null && solC != null) {
+              let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
+              let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
+              let opcmdc = new ActuatorOperation(solC.UniqID, onoffstate, this.OnSecTime);
+              opcmdlist.push(opcmda);
+              opcmdlist.push(opcmdb);
+              opcmdlist.push(opcmdc);
+            }
+
+            //  console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+          }
 
           this.setUpdatestateWithEvent(currentstate);
         }
@@ -715,8 +657,7 @@ module.exports = class AutoControl {
 
     //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
-   // console.log("getOperationsByControl  Cat: " + this.mConfig.Cat);
-
+    // console.log("getOperationsByControl  Cat: " + this.mConfig.Cat);
 
     //카메라는 여기서 처리안함
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
@@ -765,8 +706,6 @@ module.exports = class AutoControl {
 
       this.setUpdatestateWithEvent(currentstate);
     }
-
-    
 
     return oplist;
   }

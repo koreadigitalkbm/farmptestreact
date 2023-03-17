@@ -50,7 +50,7 @@ const JukeboxAircirculation = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems=[myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE')];
+    const actitems=[myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_FAN'), myAppGlobal.langT('LT_GROWPLANTS_AIRCIRCULATION_VALVE')];
     
     return (
       <Stack spacing={1}>

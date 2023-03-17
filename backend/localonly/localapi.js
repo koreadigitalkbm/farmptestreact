@@ -4,53 +4,37 @@ const KDCommon = require("../kdcommon");
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
 const responseMessage = require("../../frontend/myappf/src/commonjs/responseMessage");
 const reqMessage = require("../../frontend/myappf/src/commonjs/reqMessage");
+const fetch = require("node-fetch"); // only work on Version2.xx, not working V3.x
 
-var exec = require("child_process").exec;
+const exec = require("child_process").exec;
 
-
-const os = require("os");
-
-
-// import fetch from "node-fetch"; 
-const fetch = require("node-fetch");    // only work on Version2.xx, not working V3.x
+//const os = require("os");
+// import fetch from "node-fetch";
 
 
 
 const SERVERAPI_URL = "http://15.164.60.217/api/";
 
-
-
-
-
-
-
-
 function adminshellcommand(mMain, mcmd, mpath) {
-  console.log("adminshellcommad  mcmd: " + mcmd + " mpath:" +mpath);
+  console.log("adminshellcommad  mcmd: " + mcmd + " mpath:" + mpath);
 
-  if(mcmd == null)
-  {
-    return ;
+  if (mcmd == null) {
+    return;
   }
 
-  let cmdString = mcmd; 
-  let cmdpath="./";
-  if(mpath!= null )
-  {
-    cmdpath=mpath;
+  let cmdString = mcmd;
+  let cmdpath = "./";
+  if (mpath != null) {
+    cmdpath = mpath;
   }
-  
-  
 
   if (process.platform !== "win32") {
-    cmdString = 'sudo  ' + mcmd;
+    cmdString = "sudo  " + mcmd;
   }
-  
 
-  mMain.systemlog.memlog(" adminshellcommad  cmdString : " + cmdString  + " ,cmdpath:" +cmdpath);
-  
-  
-  const child = exec( cmdString, {cwd: cmdpath},function (error, stdout, stderr) {
+  mMain.systemlog.memlog(" adminshellcommad  cmdString : " + cmdString + " ,cmdpath:" + cmdpath);
+
+  const child = exec(cmdString, { cwd: cmdpath }, function (error, stdout, stderr) {
     console.log("ad stdout: " + stdout);
     console.log("ad stderr: " + stderr);
     mMain.systemlog.memlog(" adminshellcommad  stdout : " + stdout.toString());
@@ -62,31 +46,24 @@ function adminshellcommand(mMain, mcmd, mpath) {
   });
 }
 
-
-
-
-
 function softwarenpminstall(mMain, isbackend) {
   console.log("softwarenpminstal  isbackend: " + isbackend);
 
-  let cmdString = 'npm install '; 
-  let cmdpath="./";
-  if(isbackend==false )
-  {
-    cmdpath="../frontend/myappf/";
+  let cmdString = "npm install ";
+  let cmdpath = "./";
+  if (isbackend == false) {
+    cmdpath = "../frontend/myappf/";
+  } else {
+    cmdpath = "../backend/";
   }
-  else{
-    cmdpath="../backend/";
-  }
-  
-  
+
   if (process.platform !== "win32") {
-    cmdString = 'sudo npm install';
+    cmdString = "sudo npm install";
   }
-  
+
   console.log("softwarenpminstll  cmdString: " + cmdString);
-  
-  const child = exec( cmdString, {cwd: cmdpath},function (error, stdout, stderr) {
+
+  const child = exec(cmdString, { cwd: cmdpath }, function (error, stdout, stderr) {
     console.log("stdout install: " + stdout);
     console.log("stderr: " + stderr);
     mMain.systemlog.memlog(" softwarenpminstll  stdout : " + stdout.toString());
@@ -94,73 +71,58 @@ function softwarenpminstall(mMain, isbackend) {
     if (error !== null) {
       //console.log("exec error: " + error);
       mMain.systemlog.memlog(" softwarenpminstll  catch error : " + error.toString());
-
     }
   });
 }
 
+function softwareupdatefromgit(mMain, mupdateversion, platformversion) {
+  console.log("softwareupdatefromgt  mupdateversion: " + mupdateversion + " myversion:" + platformversion);
+  let isbacknpminstall = null;
 
+  if (mupdateversion != null) {
+    let upversionnum = Number(mupdateversion);
+    let myversionnum = Number(platformversion);
+    let bnumup = Math.floor(upversionnum % 10);
+    let bnummy = Math.floor(myversionnum % 10);
 
-  function softwareupdatefromgit(mMain, mupdateversion, platformversion) {
-    console.log("softwareupdatefromgt  mupdateversion: " + mupdateversion + " myversion:"+platformversion);
-    let isbacknpminstall=null;;
+    let fnumup = Math.floor((upversionnum * 10) % 10);
+    let fnummy = Math.floor((myversionnum * 10) % 10);
 
-    if(mupdateversion !=null)
-    {
-      let upversionnum = Number(mupdateversion);
-      let myversionnum = Number(platformversion);
-      let bnumup=Math.floor(upversionnum%10);
-      let bnummy=Math.floor(myversionnum%10);
+    console.log("bnumup: " + bnumup + " bnummy:" + bnummy);
+    console.log("fnumup: " + fnumup + " fnummy:" + fnummy);
 
-
-      let fnumup=Math.floor((upversionnum*10)%10);
-      let fnummy=Math.floor((myversionnum*10)%10);
-
-      console.log("bnumup: " + bnumup + " bnummy:"+bnummy);
-      console.log("fnumup: " + fnumup + " fnummy:"+fnummy);
-
-      if(bnumup > bnummy)
-      {
-        isbacknpminstall=true;
+    if (bnumup > bnummy) {
+      isbacknpminstall = true;
+    } else {
+      if (fnumup > fnummy) {
+        isbacknpminstall = false;
       }
-      else{
-        if(fnumup > fnummy)
-        {
-          isbacknpminstall=false;
-        }
-      }
-
-        console.log("isbacknpminstall: " + isbacknpminstall);
-
     }
 
-    let cmdString = 'git pull ';    // 2023.02.20
-    if (process.platform !== "win32") {
-      cmdString = 'sudo git fetch --all && sudo git reset --hard && sudo git pull';
-      //cmdString = 'sudo git fetch --all  && sudo git pull';
-    }
-    
-
-    const child = exec( cmdString, function (error, stdout, stderr) {
-      console.log("stdout pull: " + stdout);
-      console.log("stderr: " + stderr);
-      mMain.systemlog.memlog(" softwareupdatefromgt  stdout : " + stdout.toString());
-
-      if (error !== null) {
-        //console.log("exec error: " + error);
-        mMain.systemlog.memlog(" softwareupdatefromgt  catch error : " + error.toString());
-
-      }
-      else{
-        if(isbacknpminstall !=null)
-        {
-          softwarenpminstall(mMain, isbacknpminstall);
-        }
-      }
-    });
+    console.log("isbacknpminstall: " + isbacknpminstall);
   }
 
+  let cmdString = "git pull "; // 2023.02.20
+  if (process.platform !== "win32") {
+    cmdString = "sudo git fetch --all && sudo git reset --hard && sudo git pull";
+    //cmdString = 'sudo git fetch --all  && sudo git pull';
+  }
 
+  const child = exec(cmdString, function (error, stdout, stderr) {
+    console.log("stdout pull: " + stdout);
+    console.log("stderr: " + stderr);
+    mMain.systemlog.memlog(" softwareupdatefromgt  stdout : " + stdout.toString());
+
+    if (error !== null) {
+      //console.log("exec error: " + error);
+      mMain.systemlog.memlog(" softwareupdatefromgt  catch error : " + error.toString());
+    } else {
+      if (isbacknpminstall != null) {
+        softwarenpminstall(mMain, isbacknpminstall);
+      }
+    }
+  });
+}
 
 module.exports = class LocalAPI {
   constructor(fversion, mmain) {
@@ -172,72 +134,64 @@ module.exports = class LocalAPI {
     this.mylocaldeviceid = this.mMain.mydeviceuniqid;
   }
 
-
-
-  
-
-
-
-
-  postapiforfirebase(req, rsp) {
-  }
+  postapiforfirebase(req, rsp) {}
 
   postapifordatabase(req, rsp) {
-    let reqmsg = JSON.parse(JSON.stringify(req.body));
-    console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
-
-    //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
-    if(reqmsg.reqType ==KDDefine.REQType.RT_GETDB_DATAS)
-    {
-       return this.mMain.localDBinterface.gettable(rsp, reqmsg, this.callbackreturn);
+    try {
+      let reqmsg = JSON.parse(JSON.stringify(req.body));
+      console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
+      //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
+      if (reqmsg.reqType == KDDefine.REQType.RT_GETDB_DATAS) {
+        return this.mMain.localDBinterface.gettable(rsp, reqmsg, this.callbackreturn);
+      }
+      let responsemsg = new responseMessage();
+      rsp.send(JSON.stringify(responsemsg));
+    } catch (error) {
+      console.log(" postapifordatabase  catch error : " + error.toString());
+      rsp.send("");
     }
-
-
-    let responsemsg = new responseMessage();
-    rsp.send(JSON.stringify(responsemsg));
   }
 
   postapi(req, rsp) {
-    let reqmsg = JSON.parse(JSON.stringify(req.body));
-    console.log("----------------------postapi :  uqid :" + reqmsg.uqid + ", type: " + reqmsg.reqType + ", did : " + this.mylocaldeviceid);
-    let rspmsg = this.messageprocessing(reqmsg);
-    rsp.send(JSON.stringify(rspmsg));
+    try {
+      let reqmsg = JSON.parse(JSON.stringify(req.body));
+      //    console.log("----------------------postapi :  uqid :" + reqmsg.uqid + ", type: " + reqmsg.reqType + ", did : " + this.mylocaldeviceid);
+      let rspmsg = this.messageprocessing(reqmsg);
+      rsp.send(JSON.stringify(rspmsg));
+    } catch (error) {
+      console.log(" postapi  catch error : " + error.toString());
+      rsp.send("");
+    }
   }
 
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordevice(req, rsp) {
-    let jsonstr = JSON.stringify(req.body);
-    let reqmsg = JSON.parse(jsonstr);
-    //기본 nak 메시지로 만듬.
+    try {
+      let jsonstr = JSON.stringify(req.body);
+      let reqmsg = JSON.parse(jsonstr);
+      //기본 nak 메시지로 만듬.
+      let responsemsg = this.messageprocessing(reqmsg);
 
-
-    
-    
-    let responsemsg =  this.messageprocessing(reqmsg);
-
-    rsp.send(JSON.stringify(responsemsg));
+      rsp.send(JSON.stringify(responsemsg));
+    } catch (error) {
+      console.log(" postapifordevice  catch error : " + error.toString());
+      rsp.send("");
+    }
   }
 
-
   //콜백함수에서 응답해야한다면 이함수를사용하자.
-  callbackreturn(rsp, mparam)
-  {
+  callbackreturn(rsp, mparam) {
     let rspmsg = new responseMessage();
     rspmsg.retMessage = mparam;
     rspmsg.IsOK = true;
-     console.log("callbackreturn mparam:"+ mparam.length );
-     return rsp.send(JSON.stringify(rspmsg));
-
+    console.log("callbackreturn mparam:" + mparam.length);
+    return rsp.send(JSON.stringify(rspmsg));
   }
 
-
-   messageprocessing(reqmsg) {
+  messageprocessing(reqmsg) {
     let rspmsg = new responseMessage();
     //console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
     switch (reqmsg.reqType) {
-
-      
-
       case KDDefine.REQType.RT_LOGIN:
         if (reqmsg.reqParam.loginPW === this.mMain.localsysteminformations.Systemconfg.password) {
           rspmsg.retMessage = "user";
@@ -259,17 +213,13 @@ module.exports = class LocalAPI {
         rspmsg.IsOK = true;
         break;
 
-        case KDDefine.REQType.RT_SHELLCMD:
+      case KDDefine.REQType.RT_SHELLCMD:
         console.log("softwareupdatefromgt  RT_SHELLCMD");
 
         adminshellcommand(this.mMain, reqmsg.reqParam.cmd, reqmsg.reqParam.path);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
-
-
-        
-
 
       case KDDefine.REQType.RT_GETVERSION:
         rspmsg.retMessage = this.platformversion;
@@ -306,8 +256,10 @@ module.exports = class LocalAPI {
         if (reqmsg.reqParam != null) {
           this.mMain.actuatorinterface.setoperationmanual(reqmsg.reqParam);
         }
+
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
+
         break;
 
       case KDDefine.REQType.RT_SYSTEMSTATUS:
@@ -326,13 +278,11 @@ module.exports = class LocalAPI {
         rspmsg.IsOK = true;
         break;
 
-        case KDDefine.REQType.RT_SETMYINFO:
-        
+      case KDDefine.REQType.RT_SETMYINFO:
         this.mMain.savesystemconfig(reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
-      
 
       case KDDefine.REQType.RT_SETALIAS:
         this.mMain.savesystemaials(reqmsg.reqParam);
@@ -340,19 +290,17 @@ module.exports = class LocalAPI {
         rspmsg.IsOK = true;
         break;
 
-
       case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
         this.mMain.autocontrolinterface.AutocontrolUpdate(reqmsg.reqParam);
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
-      
-        case KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG:
-          this.mMain.autocontrolinterface.AutocontrolReset();
-          rspmsg.retMessage = "ok";
-          rspmsg.IsOK = true;
-          break;
-        
+
+      case KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG:
+        this.mMain.autocontrolinterface.AutocontrolReset();
+        rspmsg.retMessage = "ok";
+        rspmsg.IsOK = true;
+        break;
     }
 
     //console.log("msgprocessing_common   return :  " + rspmsg.IsOK);
@@ -369,7 +317,6 @@ module.exports = class LocalAPI {
 
     console.log("---------------------------------firebasedbsetup  mylocaldeviceid: " + this.mylocaldeviceid);
 
-
     this.fbdatabase = admin.database();
     const reqkeystr = "IFDevices/" + this.mylocaldeviceid + "/request";
     const fblocalrequst = this.fbdatabase.ref(reqkeystr);
@@ -379,26 +326,23 @@ module.exports = class LocalAPI {
     fblocalrequst.on("value", (snapshot) => {
       const data = snapshot.val();
 
-      try { 
-        if(data.length >4)
-        {
-        const decodedStr = Buffer.from(data, "base64");
-        const reqmsg = JSON.parse(decodedStr);
-        const rspmsg = this.messageprocessing(reqmsg);
+      try {
+        if (data.length > 4) {
+          const decodedStr = Buffer.from(data, "base64");
+          const reqmsg = JSON.parse(decodedStr);
+          const rspmsg = this.messageprocessing(reqmsg);
 
-      //  console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time);
+          //  console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time);
 
-            //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
-  //      const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
-  //      const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
-//        const fblocalresponse = this.fbdatabase.ref(responsekeystr);
-//        fblocalresponse.set(objJsonB64encode);
+          //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
+          //      const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
+          //      const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
+          //        const fblocalresponse = this.fbdatabase.ref(responsekeystr);
+          //        fblocalresponse.set(objJsonB64encode);
 
-        rspmsg.devID = this.mylocaldeviceid;
-        rspmsg.reqType = reqmsg.reqType;
-        this.setRequestServerforfirebase(rspmsg);
-
-
+          rspmsg.devID = this.mylocaldeviceid;
+          rspmsg.reqType = reqmsg.reqType;
+          this.setRequestServerforfirebase(rspmsg);
         }
 
         //console.log("frebase response set: " +objJsonB64encode);
@@ -409,10 +353,6 @@ module.exports = class LocalAPI {
       }
     });
   }
-
-
-  
-
 
   async setsensordatatoserver(did, dtime, slist) {
     const reqmsg = new reqMessage(did, KDDefine.REQType.RT_SETDB_SENSOR);
@@ -452,7 +392,7 @@ module.exports = class LocalAPI {
     //console.log("postData  url:" + reqURL);
     //console.log( JSON.stringify(data) );
 
-    let response = await fetch(reqURL, {
+    const response = await fetch(reqURL, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -494,8 +434,4 @@ module.exports = class LocalAPI {
       return resdata;
     }
   }
-
-
-
-
 };
