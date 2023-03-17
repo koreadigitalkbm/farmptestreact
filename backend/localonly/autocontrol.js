@@ -320,7 +320,7 @@ module.exports = class AutoControl {
           }
 
           currentstate = this.pwmcontrolbysensor(isonstate);
-          console.log("isonstate:" + isonstate + ",currentstate:" + currentstate);
+         // console.log("isonstate:" + isonstate + ",currentstate:" + currentstate);
         }
       }
     }
