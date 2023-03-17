@@ -228,7 +228,7 @@ module.exports = class AutoControl {
       let phsensor = null;
       let ecsensor = null;
 
-      //  console.log("ACT_NUTRIENT_SOL3_FOR_FJBOX daytotalsec : " +daytotalsec);
+      //  console.log("ACT_NUTRIENT_SOL3_FOR_FJBX daytotalsec : " +daytotalsec);
 
       for (const ms of msensors) {
         //우선 센서 1개만 처리
@@ -359,6 +359,7 @@ module.exports = class AutoControl {
 
   isOperationsBySpecify() {
     switch (this.mConfig.Cat) {
+      case KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
@@ -453,6 +454,59 @@ module.exports = class AutoControl {
 
         break;
 
+        case KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX:
+        {
+          let heaterd = null;
+          let pumpd = null;
+          
+
+          for (const mactid of this.mConfig.Actlist) {
+            let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+            if (actd != null) {
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_HEATER) {
+                heaterd = actd;
+              }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_PUMP) {
+                pumpd = actd;
+              }
+            }
+          }
+
+          
+
+          
+            
+              let onoffstate = null;
+              if (currentstate == KDDefine.AUTOStateType.AST_On) {
+                onoffstate = true;
+              } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+                onoffstate = false;
+              }
+
+             // console.log("-getOperationsBySpcify solA: " + solA + " solB:" + solB + " solC:"+solC);
+
+              if (onoffstate != null && heaterd !=null &&  pumpd !=null )  {
+
+                let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
+                // 펌프는 
+                let opcmdb = new ActuatorOperation(pumpd.UniqID, onoffstate, 100);
+
+                opcmdlist.push(opcmda);
+                opcmdlist.push(opcmdb);
+
+
+
+              
+                
+              }
+            
+          
+
+          this.setUpdatestateWithEvent(currentstate);
+        }
+        break;
+
+
       case KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX:
         {
           let solA = null;
@@ -521,7 +575,7 @@ module.exports = class AutoControl {
                 }
                 
 
-              //  console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+              //  console.log("-getOperationsBySpcify ACT_NUTRIENT_SOL3_FOR_FJBX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
                 
               }
             

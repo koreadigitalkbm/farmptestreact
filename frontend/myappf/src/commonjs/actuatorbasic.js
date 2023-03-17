@@ -41,6 +41,10 @@ module.exports = class ActuatorBasic {
       //환기팬  AC 6번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 6, KDDefine.OutDeviceTypeEnum.ODT_FAN));
 
+      //히터펌프 AC 13번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMIDIFIER_PUMP, 13, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+
+
       //펌프 AC 15번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 15, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
 

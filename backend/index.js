@@ -11,7 +11,8 @@
 //2.215 : 화와이 최종출시 버전 
 //2.216 : KPC480 식물재배기 연구용 1차 설정 
 //2.217 : 쉘명령어 원격에서 실행할수 있도록 수정
-const farmscubeplatformversion = 2.217;
+//2.218 : KPC480 습도제어 관련 버그 수정
+const farmscubeplatformversion = 2.218;
 
 var express = require("express");
 var cors = require("cors");

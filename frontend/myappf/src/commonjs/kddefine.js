@@ -276,6 +276,7 @@ module.exports = class KDDefine {
 
     NID_HUMI_HEATER: 40, // 가습기
     NID_CO2_VALVE: 41, // co2 공급밸브
+    NID_HUMIDIFIER_PUMP: 42, // 가습기 히터 물 펌프
   });
 
   //시스템 이벤트 코드

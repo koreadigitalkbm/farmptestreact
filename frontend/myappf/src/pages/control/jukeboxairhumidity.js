@@ -44,6 +44,7 @@ const JukeboxAirhumidity = (props) => {
     const actuid = copycfg.Actlist[actindex];
     console.log("manualonoff name:  manualontimesec:" + manualontimesec + " manualactname:" + manualactname + ",actuid : " + actuid);
     let opcmd = new ActuatorOperation(actuid, isSetOn, manualontimesec);
+    console.log(opcmd);
     myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {});
   }
 

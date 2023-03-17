@@ -266,6 +266,7 @@ module.exports = class AutoControlUtil {
     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
     m1.Cat = KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX; //  자동제어 분류
     m1.Actlist.push("N01C03T00"); ///습도 히터  장비가 여려개이면 장비종류로 구별하자
+    m1.Actlist.push("N01C13T00"); ///펌프장비
     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
     m1.DOffTime = 0;
     m1.STime = 8 * 3600;
