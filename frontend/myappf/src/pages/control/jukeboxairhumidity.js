@@ -50,7 +50,7 @@ const JukeboxAirhumidity = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_HEATER")];
+    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_HEATER"),myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_PUMP")];
 
     return (
       <Stack spacing={1}>
