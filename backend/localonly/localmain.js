@@ -170,14 +170,16 @@ module.exports = class LocalMain {
     this.dailydatas = null;
     this.mydeviceuniqid = "IF0000";
     this.systemlog = new devicesystemlog();
-    this.mAPI = new LocalAPI(fversion, this);
-  }
-
-  Inititalize() {
     // 시스템 기본 정보를 읽어옴.
     this.deviceInit();
     //장비 ID 는 여러군데서 사용하는 중요한 지표이므로  메인에 저장해둠.
     this.mydeviceuniqid = this.localsysteminformations.Systemconfg.deviceuniqid;
+    
+    this.mAPI = new LocalAPI(fversion, this);
+  }
+
+  Inititalize() {
+    
 
     this.mAPI.firebasedbsetup();
 
