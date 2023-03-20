@@ -20,19 +20,44 @@ module.exports = class DatabaseInterface {
       connectionLimit: 5,
     });
 
-    //this.conn.connect();
+    
+    this.handleDisconnect();
+
+
+
+  }
+
+
+   handleDisconnect() { //함수 정의
+    
 
     this.conn.connect((err) => {
       if (err) {
         console.log("not connected due to error: " + err);
         this.mMain.systemlog.memlog("DB 초기화 에러...: " + err);
+        setTimeout(this.handleDisconnect, 100000); //연결 실패시 100초 후 다시 연결
       } else {
         this.isconnected = true;
         console.log("connected !  ");
         this.mMain.systemlog.memlog("DB 연결 성공...");
       }
     });
+
+
+                                             
+  
+    this.conn.on('error', function(err) {
+      if(err.code === 'PROTOCOL_CONNECTION_LOST') {
+        console.log('MySql_DBError) PROTOCOL_CONNECTION_LOST');
+        this.handleDisconnect(); //연결 오류시 호출하는 재귀함수
+      } else {
+        console.log('MySql_DBError)', err);
+        throw err;
+      }
+    });
+
   }
+
 
   // 센서 데이트를 디비에 저장
   setsensordata(did, dtime, slist) {
