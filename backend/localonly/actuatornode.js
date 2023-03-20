@@ -156,7 +156,7 @@ module.exports = class ActuatorNode {
     // const blue=100;
     if(iskpc480== true)
     {
-      white=49;
+      white=52;
     }
 
 
