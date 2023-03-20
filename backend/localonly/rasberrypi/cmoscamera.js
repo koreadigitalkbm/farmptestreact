@@ -39,7 +39,7 @@ module.exports = class RasCamera {
             width: 3280,
             height: 2468,
             quality : 60,
-            shutter : 800,
+            shutter : 3000,
             nopreview: true,
           });
         }

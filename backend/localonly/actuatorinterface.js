@@ -106,7 +106,7 @@ module.exports = class ActuatorInterface {
       if (this.cameracapturecount > 0) {
         this.cameracapturecount--;
         console.log("ReadStatus cameracapturecount:" + this.cameracapturecount);
-        await anode.FixedLEDon();
+        await anode.FixedLEDon(this.iskpc480);
       } else {
         let alist = await anode.ReadStatusAll();
         if (alist) {
@@ -142,7 +142,7 @@ module.exports = class ActuatorInterface {
     {
       for (const anode of this.ActuatorNodes)
       {
-        await anode.FixedLEDon();
+        await anode.FixedLEDon(this.iskpc480);
       }
       timeoutmsec=3000;
     }
