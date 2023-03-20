@@ -142,7 +142,7 @@ module.exports = class LocalAPI {
       console.log("---------------------------------postapifordatabase :  reqmsg :" + reqmsg);
       //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
       if (reqmsg.reqType == KDDefine.REQType.RT_GETDB_DATAS) {
-        return this.mMain.localDBinterface.gettable(rsp, reqmsg, this.callbackreturn);
+        return this.mMain.localDBinterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
       }
       let responsemsg = new responseMessage();
       rsp.send(JSON.stringify(responsemsg));
@@ -306,6 +306,9 @@ module.exports = class LocalAPI {
     //console.log("msgprocessing_common   return :  " + rspmsg.IsOK);
     return rspmsg;
   }
+
+ 
+
 
   async firebasedbsetup() {
     const admin = require("firebase-admin");

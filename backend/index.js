@@ -43,7 +43,11 @@ if (myhostname.indexOf("EC2AMAZ") != -1) {
   mMainclass = new LocalMain(farmscubeplatformversion);
 }
 
-mMainclass.mAPI.firebasedbsetup();
+try {
+  mMainclass.Inititalize();
+} catch (error) {
+  mMainclass.systemlog.memlog(" index  catch error : " + error.toString());
+}
 
 //서버에 요청
 app.use("/api/farmrequest", function (req, res) {

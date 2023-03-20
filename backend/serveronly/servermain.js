@@ -13,6 +13,14 @@ module.exports = class ServerMain {
 
   }
 
+  Inititalize() {
+
+    this.mAPI.firebasedbsetup();
+
+  }
+  
+
+
 };
 
 

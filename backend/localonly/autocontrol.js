@@ -220,7 +220,7 @@ module.exports = class AutoControl {
 
       if (phsensor == null && ecsensor == null) {
         //해당센서 없음
-        console.log("getStateBySensorcondtion no sensor phsensor ecsensor: " + this.mConfig.Senlist[0]);
+        //console.log("getStateBySensorcondtion no sensor phsensor ecsensor: " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
         // console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX humiditysensor : " + humiditysensor);
@@ -266,7 +266,7 @@ module.exports = class AutoControl {
       }
       if (currsensor == null) {
         //해당센서 없음
-        console.log("getStateBySensorcondtion no sensor : " + msensors.length);
+       // console.log("getStateBySensorcondtion no sensor : " + msensors.length);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
         //const daytotalsec = KDCommon.getCurrentTotalsec();

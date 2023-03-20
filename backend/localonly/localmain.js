@@ -33,10 +33,6 @@ async function devicemaintask(mainclass) {
   try {
     mainclass.systemlog.memlog("devicemaintask start");
 
-
-    
-
-
     //통신 객체는 한번만 생성하자 여러번생성안됨.
     if (mainclass.ModbusComm == null) {
       mainclass.ModbusComm = new ModbusRTU();
@@ -64,8 +60,7 @@ async function devicemaintask(mainclass) {
       mainclass.localDBinterface = new DatabaseInterface(mainclass);
       mainclass.dailydatas = new DailyCurrentDatas();
 
-      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup),0,0);
-
+      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup), 0, 0);
 
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
 
@@ -76,16 +71,15 @@ async function devicemaintask(mainclass) {
         {
           const cursec = date.getSeconds();
           if (last_sec != cursec) {
-//              console.log("mainloop  sec_step: " + sec_step);
-
+            onsole.log("mainloop  sec_step: " + sec_step);
             last_sec = cursec;
             switch (sec_step) {
               case 0:
                 await mainclass.sensorinterface.ReadSensorAll();
 
-//                for (const msensor of mainclass.sensorinterface.mSensors) {
- //                    console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
-  //              }
+                //                for (const msensor of mainclass.sensorinterface.mSensors) {
+                //                    console.log("read sensor ID: " + msensor.UniqID + ", value:" + msensor.GetValuestring(true, true));
+                //              }
                 sec_step++;
                 break;
               case 1:
@@ -126,58 +120,33 @@ async function devicemaintask(mainclass) {
             //카메라 촬영, 카메라 자동제어확인후 시간이 됬으면 촬영후 저장
             const opcmdlist = mainclass.autocontrolinterface.getOpsForCamera();
 
-           if(opcmdlist.length >0)
-            {
-        
+            if (opcmdlist.length > 0) {
               //LED 명령어 보내고 이미지 촬영될때 까지 기다림.
-              let lawimg=null;
+              let lawimg = null;
 
-              if(opcmdlist[0]=="manualcapture")
-              {
-                lawimg=KDCommon.ReadfileBase64(mainclass.actuatorinterface.cameramanualcapturefilepath);
-                mainclass.actuatorinterface.cameramanualcapturefilepath=null;
+              if (opcmdlist[0] == "manualcapture") {
+                lawimg = KDCommon.ReadfileBase64(mainclass.actuatorinterface.cameramanualcapturefilepath);
+                mainclass.actuatorinterface.cameramanualcapturefilepath = null;
                 console.log("cameramanaul save....");
-
-                
-              }
-              else
-              {
+              } else {
                 lawimg = await mainclass.actuatorinterface.CaptureImagewithLED(true);
               }
-              
 
-              if(lawimg !=null)
-              {
-                console.log("getOpsForCamera : " + opcmdlist[0] +" curdatetime:"+curdatetime);
+              if (lawimg != null) {
+                console.log("getOpsForCamera : " + opcmdlist[0] + " curdatetime:" + curdatetime);
 
                 //로컬에 저장
                 // 퍼플릭폴더에 있으므로 파일이름을 알면 이미지를 다운받을수 있기 때문에 뒤부분에 랜덤한 숫자로 10자리 표시
                 let capfilename = "cameara_" + "T_" + curdatetime + "_" + KDUtil.GetRandom10() + ".jpg";
                 capfilename = KDCommon.FilenameCheck(capfilename);
-                mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg,true);
+                mainclass.localDBinterface.setimagefiledata(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg, true);
                 //서버로 보냄
                 mainclass.mAPI.setcameradatatoserver(mainclass.mydeviceuniqid, curdatetime, 1, capfilename, lawimg, true);
                 //최근데이터목록 갱신
                 mainclass.dailydatas.updateCaptureimage(capfilename);
               }
             }
-            
-
-
           }
-
-          /*
-          //한시간 단위로 먼가 처리하는 루틴
-          {
-            const curhour = date.getHours();
-            if (last_hour != curhour) {
-              last_hour = curhour;
-              const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
-             
-            }
-          }
-*/
-
         }
       }
     }
@@ -190,9 +159,6 @@ async function devicemaintask(mainclass) {
   }
 }
 
-
-
-
 module.exports = class LocalMain {
   constructor(fversion) {
     this.localsysteminformations = null;
@@ -202,34 +168,33 @@ module.exports = class LocalMain {
     this.localDBinterface = null;
     this.ModbusComm = null;
     this.dailydatas = null;
-    this.systemlog = new devicesystemlog();
     this.mydeviceuniqid = "IF0000";
+    this.systemlog = new devicesystemlog();
+    this.mAPI = new LocalAPI(fversion, this);
+  }
 
+  Inititalize() {
     // 시스템 기본 정보를 읽어옴.
     this.deviceInit();
-
     //장비 ID 는 여러군데서 사용하는 중요한 지표이므로  메인에 저장해둠.
     this.mydeviceuniqid = this.localsysteminformations.Systemconfg.deviceuniqid;
-    this.mAPI = new LocalAPI(fversion, this);
 
+    this.mAPI.firebasedbsetup();
 
     //3초후 메인시작
     setTimeout(devicemaintask, 3000, this);
   }
 
-  
-  savesystemconfig(newconfig)
-  {
+  savesystemconfig(newconfig) {
     //저장하고 다시 읽어와 갱신
     KDCommon.Writefilejson(KDCommon.systemconfigfilename, newconfig);
-    this.localsysteminformations.Systemconfg=KDCommon.Readfilejson(KDCommon.systemconfigfilename);
+    this.localsysteminformations.Systemconfg = KDCommon.Readfilejson(KDCommon.systemconfigfilename);
   }
 
-  savesystemaials(newalias)
-  {
+  savesystemaials(newalias) {
     //저장하고 다시 읽어와 갱신
     KDCommon.Writefilejson(KDCommon.systemaliasfilename, newalias);
-    this.localsysteminformations.Alias=KDCommon.Readfilejson(KDCommon.systemaliasfilename);
+    this.localsysteminformations.Alias = KDCommon.Readfilejson(KDCommon.systemaliasfilename);
   }
 
   deviceInit() {
@@ -242,7 +207,7 @@ module.exports = class LocalMain {
     this.localsysteminformations = new SystemInformations();
     this.localsysteminformations.Systemconfg = sconfig;
 
-    //별칭파일 
+    //별칭파일
     let malias = KDCommon.Readfilejson(KDCommon.systemaliasfilename);
     if (malias === null) {
       malias = AutoControlUtil.CreateDefaultAlias(sconfig.productmodel);
@@ -250,26 +215,20 @@ module.exports = class LocalMain {
     }
     this.localsysteminformations.Alias = malias;
 
-
-    console.log("deviceuniqid : " + this.mydeviceuniqid+ " comport : " + this.localsysteminformations.Systemconfg.comport);
+    console.log("deviceuniqid : " + this.mydeviceuniqid + " comport : " + this.localsysteminformations.Systemconfg.comport);
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);
   }
 
   //시스템에 이벤트가 발생하면 기록하고 서버로 보냄
-  setSystemevent(mnewevt)
-  {
+  setSystemevent(mnewevt) {
     this.dailydatas.updateEvent(mnewevt);
 
     //로컬 db로 보냄
-    let events=[];
+    let events = [];
     events.push(mnewevt);
-     this.localDBinterface.seteventdata(this.mydeviceuniqid, events);
+    this.localDBinterface.seteventdata(this.mydeviceuniqid, events);
 
-     //서버로 보냄
-     this.mAPI.seteventdatatoserver(this.mydeviceuniqid, events);
-
-
+    //서버로 보냄
+    this.mAPI.seteventdatatoserver(this.mydeviceuniqid, events);
   }
-
-
 };

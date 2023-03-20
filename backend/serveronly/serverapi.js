@@ -22,6 +22,7 @@ module.exports = class ServerAPI {
     this.DBInterface.getusersinfo(this.userinfos);
   }
 
+  
 
 
   //콜백함수에서 응답해야한다면 이함수를사용하자.
@@ -66,7 +67,7 @@ module.exports = class ServerAPI {
     switch (reqmsg.reqType) {
       //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
       case KDDefine.REQType.RT_GETDB_DATAS:
-        return this.DBInterface.gettable(rsp, reqmsg, this.callbackreturn);
+        return this.DBInterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
 
         break;
 

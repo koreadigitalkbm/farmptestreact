@@ -30,7 +30,7 @@ module.exports = class DatabaseInterface {
 
    handleDisconnect() { //함수 정의
     
-
+    
     this.conn.connect((err) => {
       if (err) {
         console.log("not connected due to error: " + err);
@@ -49,6 +49,7 @@ module.exports = class DatabaseInterface {
     this.conn.on('error', function(err) {
       if(err.code === 'PROTOCOL_CONNECTION_LOST') {
         console.log('MySql_DBError) PROTOCOL_CONNECTION_LOST');
+        this.isconnected=false;
         this.handleDisconnect(); //연결 오류시 호출하는 재귀함수
       } else {
         console.log('MySql_DBError)', err);
@@ -201,6 +202,62 @@ module.exports = class DatabaseInterface {
   }
 
 
+
+  
+  //  db 검색해서 결과 리턴
+  getDBdatas(rsp, reqmsg, returncallback) {
+    
+
+    if (this.isconnected == false) {
+
+      returncallback(rsp,"");
+      return ;
+    }
+
+
+    try {
+
+      const qparam= reqmsg.reqParam;
+      const devid = reqmsg.uqid;
+      let sqlquery ;
+      
+
+      if(qparam.TableName =="sensor")
+      {
+       sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      }
+      else if(qparam.TableName =="camera")
+      {
+       sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      }
+      else if(qparam.TableName =="event")
+      {
+       sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      }
+
+
+       this.conn.query(sqlquery, function (error, result) {
+        //console.log(result);
+        if(error)
+        {
+          console.log("getDBdatas error........ \n");
+          console.log(error);
+        }
+        else{
+          returncallback(rsp,result);
+        }
+      });
+
+    } catch (err) {
+      console.log("getDBdatas eror");
+      console.log(err);
+    } 
+
+  }
+
+
+
+
   
   // 그냥테스트 함수
    gettable(rsp, reqmsg, returncallback) {
@@ -233,16 +290,12 @@ module.exports = class DatabaseInterface {
         console.log("get table dtata........ \n");
         //console.log(result);
         returncallback(rsp,result);
-  
-        
       });
     } catch (err) {
       console.log("get table eror \n");
-
       console.log(err);
-    } finally {
-      
-    }
+    } 
+
   }
 
 
@@ -250,30 +303,21 @@ module.exports = class DatabaseInterface {
     
     try {
 
-      
       let sqlquery ;
-       
        sqlquery = "SELECT distinct userid,userpw,usertype,deviceid FROM  users ";
       
-
-      
-      
-
-
         this.conn.query(sqlquery, function (error, result) {
         console.log("getusersinfo........ \n");
          //callbackresult(result) 
-         callbackresult.push(...result);
+        callbackresult.push(...result);
        
         
       });
     } catch (err) {
-      console.log("get table eror \n");
-
+      console.log("getusersinfo  eror \n");
       console.log(err);
-    } finally {
-      
-    }
+    } 
+
   }
 
 
