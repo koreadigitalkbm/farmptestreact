@@ -37,9 +37,9 @@ module.exports = class RasCamera {
             mode: "photo",
             output: '/home/pi/kd/farmptestreact/common/ctestimage2.jpg',
             width: 3280,
-            height: 2468,
-            quality : 60,
-            shutter : 3000,
+            height: 2464,
+            quality : 70,
+            shutter : 4000,
             nopreview: true,
           });
         }
