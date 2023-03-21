@@ -1,24 +1,25 @@
-var config = require("../common/private/dbcon");
+const config = require("../common/private/dbcon");
 const mariadb = require("mysql");
 const moment = require("moment");
-const colors = require('colors');
+
 
 const KDCommon = require("./kdcommon");
-const KDUtil = require("../frontend/myappf/src/commonjs/kdutil");
 const SystemEvent = require("./localonly/systemevent")
+
+
+
+let ismydbconnected =false;
+let diconnectcount=0;
+
 
 module.exports = class DatabaseInterface {
   constructor(mmain) {
     this.mMain = mmain;
-    this.isconnected = false;
-    this.conn = mariadb.createConnection({
-      host: config.host,
-      port: config.port,
-      user: config.user,
-      password: config.password,
-      database: config.database,
-      connectionLimit: 5,
-    });
+    
+    ismydbconnected=false;
+    diconnectcount=0;
+
+    this.conn =null;
 
     
     this.handleDisconnect();
@@ -31,38 +32,90 @@ module.exports = class DatabaseInterface {
    handleDisconnect() { //함수 정의
     
     
+    try {
+    
+      this.conn = mariadb.createConnection({
+        host: config.host,
+        port: config.port,
+        user: config.user,
+        password: config.password,
+        database: config.database,
+        connectionLimit: 100,
+      });
+
+        
     this.conn.connect((err) => {
       if (err) {
         console.log("not connected due to error: " + err);
         this.mMain.systemlog.memlog("DB 초기화 에러...: " + err);
-        setTimeout(this.handleDisconnect, 100000); //연결 실패시 100초 후 다시 연결
+        ismydbconnected=false;
+        //this.handleDisconnectthreow(); //연결 오류시 호출하는 재귀함수
+       // setTimeout(thisappthrow, 10000); //연결 실패시 100초 후 다시 연결
+        
+
       } else {
-        this.isconnected = true;
+        
+        ismydbconnected=true;
+        diconnectcount=0;
         console.log("connected !  ");
         this.mMain.systemlog.memlog("DB 연결 성공...");
       }
     });
-
 
                                              
   
     this.conn.on('error', function(err) {
       if(err.code === 'PROTOCOL_CONNECTION_LOST') {
         console.log('MySql_DBError) PROTOCOL_CONNECTION_LOST');
-        this.isconnected=false;
-        this.handleDisconnect(); //연결 오류시 호출하는 재귀함수
+        ismydbconnected=false;
+        diconnectcount=0;
+        
+        
       } else {
         console.log('MySql_DBError)', err);
-        throw err;
+       
       }
     });
+
+
+    } catch (error) {
+      console.log('handleDisconnect error', error);
+    }
+    
+  }
+
+
+  dbconnectioncheck()
+  {
+
+    console.log("dbconnectioncheck ismydbconnected : " + ismydbconnected + " diconnectcount:"+diconnectcount) ;
+
+    if(ismydbconnected == false)
+    {
+      diconnectcount++;
+
+      
+    }
+
+    if(diconnectcount >=10)
+      {
+        diconnectcount=0;
+       this.handleDisconnect(); 
+
+      }
+
+
+    return ismydbconnected;
 
   }
 
 
+
   // 센서 데이트를 디비에 저장
   setsensordata(did, dtime, slist) {
-    if (this.isconnected == false) {
+
+    
+    if (this.dbconnectioncheck()== false) {
       return;
     }
 
@@ -87,9 +140,13 @@ module.exports = class DatabaseInterface {
       this.conn.query(sql, svalues, function (error, result) {
         //console.log("setsensordata........------------------------------------- \n" + slist.length);
         //console.log(svalues);
-        if(error !=null)
+        if(error)
         {
           console.log(error);
+          diconnectcount++;
+        }
+        else{
+          diconnectcount=0;
         }
         
         //console.log(result);
@@ -105,7 +162,7 @@ module.exports = class DatabaseInterface {
 
   // 이벤트 데이트를 디비에 저장
   seteventdata(did,newevents) {
-    if (this.isconnected == false) {
+    if (this.dbconnectioncheck() == false) {
       return;
     }
 
@@ -148,7 +205,7 @@ module.exports = class DatabaseInterface {
 
 
   setimagetodb(did, dtime, cameratype, filename) {
-    if (this.isconnected == false) {
+    if (this.dbconnectioncheck()== false) {
       return;
     } else {
 
@@ -207,8 +264,11 @@ module.exports = class DatabaseInterface {
   //  db 검색해서 결과 리턴
   getDBdatas(rsp, reqmsg, returncallback) {
     
+    
+    
 
-    if (this.isconnected == false) {
+
+    if (this.dbconnectioncheck() == false) {
 
       returncallback(rsp,"");
       return ;
@@ -242,14 +302,17 @@ module.exports = class DatabaseInterface {
         {
           console.log("getDBdatas error........ \n");
           console.log(error);
+          diconnectcount++;
+          returncallback(rsp,"");
         }
         else{
+          diconnectcount=0;
           returncallback(rsp,result);
         }
       });
 
     } catch (err) {
-      console.log("getDBdatas eror");
+      console.log("getDBatas eror");
       console.log(err);
     } 
 
@@ -258,45 +321,6 @@ module.exports = class DatabaseInterface {
 
 
 
-  
-  // 그냥테스트 함수
-   gettable(rsp, reqmsg, returncallback) {
-    
-    try {
-
-      const qparam= reqmsg.reqParam;
-      const devid = reqmsg.uqid;
-      let sqlquery ;
-      console.log(qparam);
-
-      if(qparam.TableName =="sensor")
-      {
-       sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
-      }
-      else if(qparam.TableName =="camera")
-      {
-       sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
-      }
-      else if(qparam.TableName =="event")
-      {
-       sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
-      }
-
-//      console.log("get table sqlquery : " + sqlquery);
-      
-
-
-       this.conn.query(sqlquery, function (error, result) {
-        console.log("get table dtata........ \n");
-        //console.log(result);
-        returncallback(rsp,result);
-      });
-    } catch (err) {
-      console.log("get table eror \n");
-      console.log(err);
-    } 
-
-  }
 
 
    getusersinfo(callbackresult) {
