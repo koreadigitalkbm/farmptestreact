@@ -2,38 +2,28 @@ const config = require("../common/private/dbcon");
 const mariadb = require("mysql");
 const moment = require("moment");
 
-
 const KDCommon = require("./kdcommon");
-const SystemEvent = require("./localonly/systemevent")
+const SystemEvent = require("./localonly/systemevent");
 
-
-
-let ismydbconnected =false;
-let diconnectcount=0;
-
+let ismydbconnected = false;
+let diconnectcount = 0;
 
 module.exports = class DatabaseInterface {
   constructor(mmain) {
     this.mMain = mmain;
-    
-    ismydbconnected=false;
-    diconnectcount=0;
 
-    this.conn =null;
+    ismydbconnected = false;
+    diconnectcount = 0;
 
-    
+    this.conn = null;
+
     this.handleDisconnect();
-
-
-
   }
 
+  handleDisconnect() {
+    //함수 정의
 
-   handleDisconnect() { //함수 정의
-    
-    
     try {
-    
       this.conn = mariadb.createConnection({
         host: config.host,
         port: config.port,
@@ -43,79 +33,53 @@ module.exports = class DatabaseInterface {
         connectionLimit: 100,
       });
 
-        
-    this.conn.connect((err) => {
-      if (err) {
-        console.log("not connected due to error: " + err);
-        this.mMain.systemlog.memlog("DB 초기화 에러...: " + err);
-        ismydbconnected=false;
-        //this.handleDisconnectthreow(); //연결 오류시 호출하는 재귀함수
-       // setTimeout(thisappthrow, 10000); //연결 실패시 100초 후 다시 연결
-        
+      this.conn.connect((err) => {
+        if (err) {
+          console.log("not connected due to error: " + err);
+          this.mMain.systemlog.memlog("DB 초기화 에러...: " + err);
+          ismydbconnected = false;
+          //this.handleDisconnectthreow(); //연결 오류시 호출하는 재귀함수
+          // setTimeout(thisappthrow, 10000); //연결 실패시 100초 후 다시 연결
+        } else {
+          ismydbconnected = true;
+          diconnectcount = 0;
+          console.log("connected !  ");
+          this.mMain.systemlog.memlog("DB 연결 성공...");
+        }
+      });
 
-      } else {
-        
-        ismydbconnected=true;
-        diconnectcount=0;
-        console.log("connected !  ");
-        this.mMain.systemlog.memlog("DB 연결 성공...");
-      }
-    });
-
-                                             
-  
-    this.conn.on('error', function(err) {
-      if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-        console.log('MySql_DBError) PROTOCOL_CONNECTION_LOST');
-        ismydbconnected=false;
-        diconnectcount=0;
-        
-        
-      } else {
-        console.log('MySql_DBError)', err);
-       
-      }
-    });
-
-
+      this.conn.on("error", function (err) {
+        if (err.code === "PROTOCOL_CONNECTION_LOST") {
+          console.log("MySql_DBError) PROTOCOL_CONNECTION_LOST");
+          ismydbconnected = false;
+          diconnectcount = 0;
+        } else {
+          console.log("MySql_DBError)", err);
+        }
+      });
     } catch (error) {
-      console.log('handleDisconnect error', error);
+      console.log("handleDisconnect error", error);
     }
-    
   }
 
+  dbconnectioncheck() {
+    console.log("dbconnectioncheck ismydbconnected : " + ismydbconnected + " diconnectcount:" + diconnectcount);
 
-  dbconnectioncheck()
-  {
-
-    console.log("dbconnectioncheck ismydbconnected : " + ismydbconnected + " diconnectcount:"+diconnectcount) ;
-
-    if(ismydbconnected == false)
-    {
+    if (ismydbconnected == false) {
       diconnectcount++;
-
-      
     }
 
-    if(diconnectcount >=10)
-      {
-        diconnectcount=0;
-       this.handleDisconnect(); 
-
-      }
-
+    if (diconnectcount >= 10) {
+      diconnectcount = 0;
+      this.handleDisconnect();
+    }
 
     return ismydbconnected;
-
   }
-
-
 
   // 센서 데이트를 디비에 저장
   setsensordata(did, dtime, slist) {
-
-    
-    if (this.dbconnectioncheck()== false) {
+    if (this.dbconnectioncheck() == false) {
       return;
     }
 
@@ -140,28 +104,23 @@ module.exports = class DatabaseInterface {
       this.conn.query(sql, svalues, function (error, result) {
         //console.log("setsensordata........------------------------------------- \n" + slist.length);
         //console.log(svalues);
-        if(error)
-        {
+        if (error) {
           console.log(error);
           diconnectcount++;
+        } else {
+          diconnectcount = 0;
         }
-        else{
-          diconnectcount=0;
-        }
-        
+
         //console.log(result);
       });
     } catch (err) {
       console.log("setsensordata eror \n");
-
       console.log(err);
-    } finally {
     }
   }
 
-
   // 이벤트 데이트를 디비에 저장
-  seteventdata(did,newevents) {
+  seteventdata(did, newevents) {
     if (this.dbconnectioncheck() == false) {
       return;
     }
@@ -179,38 +138,29 @@ module.exports = class DatabaseInterface {
           sql += ",";
         }
 
-        let eparam=SystemEvent.eparamEcodeb64(mevt.EParam);
+        let eparam = SystemEvent.eparamEcodeb64(mevt.EParam);
         const curdatetime = moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
-        let newsv = [did, curdatetime,mevt.EType,eparam,""];
+        let newsv = [did, curdatetime, mevt.EType, eparam, ""];
         items.push(newsv);
         sql += "(?)";
       }
 
       this.conn.query(sql, items, function (error, result) {
-        
-        if(error !=null)
-        {
+        if (error != null) {
           console.log(error);
         }
-        
-        //console.log(result);
       });
     } catch (err) {
       console.log("seteventdata erorr \n");
-
       console.log(err);
-    } finally {
     }
   }
 
-
   setimagetodb(did, dtime, cameratype, filename) {
-    if (this.dbconnectioncheck()== false) {
+    if (this.dbconnectioncheck() == false) {
       return;
     } else {
-
       console.log("setimagetodb start");
-
 
       var sql = "INSERT INTO fjbox.cameraimages (devid, dtime,ctype,filename) VALUES (?,?,?,?)";
       const svalues = [did, dtime, cameratype, filename];
@@ -232,13 +182,11 @@ module.exports = class DatabaseInterface {
         //수동촬영이면 프론트로 부터 파일이름 받아옴.
         //수동촬영은 한장만 있으면 됨으로 기존촬영파일 삭제
         KDCommon.removeallfiles(filepath);
-
       }
-
 
       // 디렉토리생성
       await KDCommon.mkdirRecursive(filepath);
-      
+
       filepath = filepath + filename;
 
       console.log("setimagefildata --- filepath : " + filepath);
@@ -246,7 +194,6 @@ module.exports = class DatabaseInterface {
       /// 썸네일 이미지도 만들자 나중에
       //filepath=filepath.replace(".jpg", "_thum.jpg");
       //KDCommon.WritefileBase64(filepath, filedatabase64);
-
 
       if (isetdb == true) {
         this.setimagetodb(did, dtime, cameratype, filename);
@@ -258,92 +205,57 @@ module.exports = class DatabaseInterface {
     }
   }
 
-
-
-  
   //  db 검색해서 결과 리턴
   getDBdatas(rsp, reqmsg, returncallback) {
-    
-    
-    
-
-
     if (this.dbconnectioncheck() == false) {
-
-      returncallback(rsp,"");
-      return ;
+      returncallback(rsp, "");
+      return;
     }
 
-
     try {
-
-      const qparam= reqmsg.reqParam;
+      const qparam = reqmsg.reqParam;
       const devid = reqmsg.uqid;
-      let sqlquery ;
-      
+      let sqlquery;
 
-      if(qparam.TableName =="sensor")
-      {
-       sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
-      }
-      else if(qparam.TableName =="camera")
-      {
-       sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
-      }
-      else if(qparam.TableName =="event")
-      {
-       sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='"+devid+"'" + "  AND dtime>='"+qparam.StartDay+"'" + "  AND  dtime <='"+qparam.EndDay+"'";
+      if (qparam.TableName == "sensor") {
+        sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + qparam.StartDay + "'" + "  AND  dtime <='" + qparam.EndDay + "'";
+      } else if (qparam.TableName == "camera") {
+        sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + qparam.StartDay + "'" + "  AND  dtime <='" + qparam.EndDay + "'";
+      } else if (qparam.TableName == "event") {
+        sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='" + devid + "'" + "  AND dtime>='" + qparam.StartDay + "'" + "  AND  dtime <='" + qparam.EndDay + "'";
       }
 
-
-       this.conn.query(sqlquery, function (error, result) {
+      this.conn.query(sqlquery, function (error, result) {
         //console.log(result);
-        if(error)
-        {
+        if (error) {
           console.log("getDBdatas error........ \n");
           console.log(error);
           diconnectcount++;
-          returncallback(rsp,"");
-        }
-        else{
-          diconnectcount=0;
-          returncallback(rsp,result);
+          returncallback(rsp, "");
+        } else {
+          diconnectcount = 0;
+          returncallback(rsp, result);
         }
       });
-
     } catch (err) {
       console.log("getDBatas eror");
       console.log(err);
-    } 
-
+    }
   }
 
-
-
-
-
-
-   getusersinfo(callbackresult) {
-    
+  getusersinfo(callbackresult) {
     try {
+      let sqlquery;
+      sqlquery = "SELECT distinct userid,userpw,usertype,deviceid FROM  users ";
 
-      let sqlquery ;
-       sqlquery = "SELECT distinct userid,userpw,usertype,deviceid FROM  users ";
-      
-        this.conn.query(sqlquery, function (error, result) {
+      this.conn.query(sqlquery, function (error, result) {
         console.log("getusersinfo........ \n");
-         //callbackresult(result) 
+        //callbackresult(result)
         callbackresult.push(...result);
-       
-        
       });
     } catch (err) {
       console.log("getusersinfo  eror \n");
       console.log(err);
-    } 
-
+    }
   }
-
-
-
 };
