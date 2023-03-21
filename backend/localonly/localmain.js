@@ -174,7 +174,7 @@ module.exports = class LocalMain {
     this.deviceInit();
     //장비 ID 는 여러군데서 사용하는 중요한 지표이므로  메인에 저장해둠.
     this.mydeviceuniqid = this.localsysteminformations.Systemconfg.deviceuniqid;
-    
+
     this.mAPI = new LocalAPI(fversion, this);
   }
 
@@ -216,11 +216,11 @@ module.exports = class LocalMain {
       KDCommon.Writefilejson(KDCommon.systemaliasfilename, malias);
     }
     this.localsysteminformations.Alias = malias;
-
     console.log("deviceuniqid : " + this.mydeviceuniqid + " comport : " + this.localsysteminformations.Systemconfg.comport);
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);
   }
 
+  
   //시스템에 이벤트가 발생하면 기록하고 서버로 보냄
   setSystemevent(mnewevt) {
     this.dailydatas.updateEvent(mnewevt);
