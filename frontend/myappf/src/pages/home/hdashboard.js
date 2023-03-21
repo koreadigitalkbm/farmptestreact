@@ -28,6 +28,7 @@ let readtimemsec = 1000;
 let readcallbacktimeout=null;
 
 let intervalfunch=null;
+let connecterrorcount=0;
 
 
 //let imagefilename = "";
@@ -54,7 +55,7 @@ const HDashboard = (props) => {
 
   function loadTimeouthandler()
   {
-    console.log("-------------------------loadTimeouthandler  --------------------- loadtimeoutcount: "+loadtimeoutcount);
+    console.log("-------loadTimeouthandler  loadtimeoutcount: "+loadtimeoutcount + " connecterrorcount:"+connecterrorcount);
 
     loadtimeoutcount++;
     
@@ -62,6 +63,7 @@ const HDashboard = (props) => {
     if(loadtimeoutcount >10)
     {
       loadtimeoutcount=0;
+      connecterrorcount++;
       loaddatas();
     }
    
@@ -96,6 +98,7 @@ const HDashboard = (props) => {
 
     myAppGlobal.farmapi.getDeviceStatus(true, true, false, myAppGlobal.dashboardlastsensortime, myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
+      connecterrorcount=0;
       setDataloading(false);
       if (ret == null) {
       } else if (ret.IsOK == true) {

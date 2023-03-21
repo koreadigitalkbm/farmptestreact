@@ -220,6 +220,7 @@ module.exports = class LocalMain {
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);
   }
   
+  
   //시스템에 이벤트가 발생하면 기록하고 서버로 보냄
   setSystemevent(mnewevt) {
     this.dailydatas.updateEvent(mnewevt);
