@@ -244,8 +244,8 @@ module.exports = class DatabaseInterface {
       console.log("setimagefildata --- filepath : " + filepath);
       KDCommon.WritefileBase64(filepath, filedatabase64);
       /// 썸네일 이미지도 만들자 나중에
-      filepath=filepath.replace(".jpg", "_thum.jpg");
-      KDCommon.WritefileBase64(filepath, filedatabase64);
+      //filepath=filepath.replace(".jpg", "_thum.jpg");
+      //KDCommon.WritefileBase64(filepath, filedatabase64);
 
 
       if (isetdb == true) {
