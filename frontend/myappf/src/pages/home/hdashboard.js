@@ -27,6 +27,9 @@ let dailysensorlist = [];
 let readtimemsec = 1000;
 let readcallbacktimeout=null;
 
+let intervalfunch=null;
+
+
 //let imagefilename = "";
 let lastfileurl = "image/noimage.png";
 let isoffscreen = false;
@@ -54,13 +57,14 @@ const HDashboard = (props) => {
     console.log("-------------------------loadTimeouthandler  --------------------- loadtimeoutcount: "+loadtimeoutcount);
 
     loadtimeoutcount++;
-    setTimeout(loadTimeouthandler, 10000);
+    
 
     if(loadtimeoutcount >10)
     {
       loadtimeoutcount=0;
       loaddatas();
     }
+   
 
 
 
@@ -87,7 +91,7 @@ const HDashboard = (props) => {
 
     setDataloading(true);
     loadtimeoutcount=0;
-    setTimeout(loadTimeouthandler, 10000);
+    
 
 
     myAppGlobal.farmapi.getDeviceStatus(true, true, false, myAppGlobal.dashboardlastsensortime, myAppGlobal.dashboardlasteventtime).then((ret) => {
@@ -230,10 +234,13 @@ const HDashboard = (props) => {
     isoffscreen = false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
 
+    clearInterval(intervalfunch);
+    intervalfunch = setInterval(loadTimeouthandler,10000);
+
     return () => {
       console.log("컴포넌트가 화면에서 사라짐 isoffscreen: " + isoffscreen);
       isoffscreen = true;
-
+      clearInterval(intervalfunch);
       clearTimeout(readcallbacktimeout);
     };
 
