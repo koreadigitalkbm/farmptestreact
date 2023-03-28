@@ -13,7 +13,8 @@
 //2.217 : 쉘명령어 원격에서 실행할수 있도록 수정
 //2.218 : KPC480 습도제어 관련 버그 수정
 //2.219 : 통신관련 api 예외처리 자동제어 버그 수정
-const farmscubeplatformversion = 2.219;
+//2.221 : 백엔드 로그 추가 자꾸 디짐..
+const farmscubeplatformversion = 2.221;
 
 const express = require("express");
 const cors = require("cors");

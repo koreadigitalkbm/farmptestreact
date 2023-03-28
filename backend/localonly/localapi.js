@@ -336,7 +336,6 @@ module.exports = class LocalAPI {
           const rspmsg = this.messageprocessing(reqmsg);
 
           //  console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time);
-
           //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
           //      const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
           //      const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
@@ -346,6 +345,7 @@ module.exports = class LocalAPI {
           rspmsg.devID = this.mylocaldeviceid;
           rspmsg.reqType = reqmsg.reqType;
           this.setRequestServerforfirebase(rspmsg);
+          
         }
 
         //console.log("frebase response set: " +objJsonB64encode);

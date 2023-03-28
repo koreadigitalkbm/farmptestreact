@@ -17,13 +17,10 @@ module.exports = class ServerAPI {
     this.messagequeuemap = new Map();
 
     this.DBInterface = new DatabaseInterface(mMain);
-    this.userinfos=[];
+    this.userinfos = [];
 
     this.DBInterface.getusersinfo(this.userinfos);
   }
-
-  
-
 
   //콜백함수에서 응답해야한다면 이함수를사용하자.
   callbackreturn(rsp, mparam) {
@@ -35,132 +32,142 @@ module.exports = class ServerAPI {
   }
 
   postapiforfirebase(req, rsp) {
-    const reqmsg = JSON.parse(JSON.stringify(req.body));
-    console.log("-------------------postfirebase :  reqmsg devid :"+reqmsg.devID + " time: " +reqmsg.Time);
+    try {
+      console.log("---------------------------------postapiforfirebase  ");
+      const reqmsg = JSON.parse(JSON.stringify(req.body));
+      let mapid = reqmsg.devID;
+      if (reqmsg.reqType != null) {
+        mapid = reqmsg.devID + reqmsg.reqType;
+        console.log("-------------------type :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
+      } else {
+        mapid = reqmsg.devID;
+      }
 
-    let mapid=reqmsg.devID;
-    if(reqmsg.reqType !=null)
-    {
-      mapid=reqmsg.devID+ reqmsg.reqType;
-      console.log("-------------------type :  reqmsg devid :"+reqmsg.devID + " reqType: " +reqmsg.reqType);
+      let respp = this.messagequeuemap.get(mapid);
+      if (respp != null) {
+        respp.send(JSON.stringify(reqmsg));
+      }
+      //rsp.send("ok");
+    } catch (error) {
+      console.log("---------------------------------postapiforfirebase  error : " + error.toString());
     }
-    else
-    {
-      mapid=reqmsg.devID;
-    }
-
-    let respp = this.messagequeuemap.get(mapid);
-    if(respp !=null)
-    {
-      respp.send(JSON.stringify(reqmsg));
-    }
-    //rsp.send("ok");
-
   }
 
   postapifordatabase(req, rsp) {
-    const reqmsg = JSON.parse(JSON.stringify(req.body));
-    let responsemsg = new responseMessage();
+    try {
 
-    console.log("----postapiforDB :  DID :" +reqmsg.reqParam.devid + " type:" + reqmsg.reqType );
+      console.log("---------------------------------postapifordatabase  ");
 
-    switch (reqmsg.reqType) {
-      //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
-      case KDDefine.REQType.RT_GETDB_DATAS:
-        return this.DBInterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
+      const reqmsg = JSON.parse(JSON.stringify(req.body));
+      let responsemsg = new responseMessage();
 
-        break;
+      console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
 
-      case KDDefine.REQType.RT_SETDB_EVENT:
-        
-//        console.log("  devid:" + reqmsg.reqParam.devid);
+      switch (reqmsg.reqType) {
+        //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
+        case KDDefine.REQType.RT_GETDB_DATAS:
+          return this.DBInterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
 
-        let mevents = [];
-        for (const mevt of reqmsg.reqParam.eventlist) {
-          let newev = SystemEvent.Clonbyjsonobj(mevt);
-          mevents.push(newev);
-        }
+          break;
 
-        this.DBInterface.seteventdata(reqmsg.reqParam.devid, mevents);
-        responsemsg.IsOK = true;
+        case KDDefine.REQType.RT_SETDB_EVENT:
+          //        console.log("  devid:" + reqmsg.reqParam.devid);
 
-        break;
+          let mevents = [];
+          for (const mevt of reqmsg.reqParam.eventlist) {
+            let newev = SystemEvent.Clonbyjsonobj(mevt);
+            mevents.push(newev);
+          }
 
-      case KDDefine.REQType.RT_SETDB_SENSOR:
-        
-        //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
-        //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
+          this.DBInterface.seteventdata(reqmsg.reqParam.devid, mevents);
+          responsemsg.IsOK = true;
 
-        let msensors = [];
-        for (const mscompact of reqmsg.reqParam.sensorlist) {
-          let nsensor = new Sensordevice(mscompact);
-          msensors.push(nsensor);
-        }
+          break;
 
-        this.DBInterface.setsensordata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, msensors);
-        responsemsg.IsOK = true;
+        case KDDefine.REQType.RT_SETDB_SENSOR:
+          //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
+          //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
 
-        break;
-      case KDDefine.REQType.RT_SETDB_CAMERA:
-        console.log("  camera devid:" + reqmsg.reqParam.devid);
-        console.log("  camera datetime:" + reqmsg.reqParam.datetime);
-        console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
-        console.log("  camera file length:" + reqmsg.reqParam.imagedatas.length);
+          let msensors = [];
+          for (const mscompact of reqmsg.reqParam.sensorlist) {
+            let nsensor = new Sensordevice(mscompact);
+            msensors.push(nsensor);
+          }
 
-        this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
-        responsemsg.IsOK = true;
+          this.DBInterface.setsensordata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, msensors);
+          responsemsg.IsOK = true;
 
-        break;
+          break;
+        case KDDefine.REQType.RT_SETDB_CAMERA:
+          console.log("  camera devid:" + reqmsg.reqParam.devid);
+          console.log("  camera datetime:" + reqmsg.reqParam.datetime);
+          console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
+          console.log("  camera file length:" + reqmsg.reqParam.imagedatas.length);
+
+          this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
+          responsemsg.IsOK = true;
+
+          break;
+      }
+
+      rsp.send(JSON.stringify(responsemsg));
+
+      console.log("---------------------------------postapiforDB END:");
+    } catch (error) {
+      console.log("---------------------------------postapifordatabase error : " + error.toString());
     }
-
-    console.log("---------------------------------postapiforDB END:");
-
-    rsp.send(JSON.stringify(responsemsg));
   }
 
   postapi(req, rsp) {
-    const reqmsg = JSON.parse(JSON.stringify(req.body));
+    try {
+      console.log("---------------------------------postapi--  ");
 
-    const rspmsg = this.messageprocessing(reqmsg);
-    rsp.send(JSON.stringify(rspmsg));
+      const reqmsg = JSON.parse(JSON.stringify(req.body));
+      const rspmsg = this.messageprocessing(reqmsg);
+      rsp.send(JSON.stringify(rspmsg));
+    } catch (error) {
+      console.log("---------------------------------postapi error : " + error.toString());
+    }
   }
 
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordevice(req, rsp) {
-    const jsonstr = JSON.stringify(req.body);
-    const reqmsg = JSON.parse(jsonstr);
-    //기본 nak 메시지로 만듬.
-    let responsemsg = new responseMessage();
+    try {
 
-    //   for (const [key, value] of this.sessionmap) {
-    //     console.log("map key:"+ key + ", vlaue :" +value);
-    //  }
+      console.log("---------------------------------postapifordevice--  ");
 
-    let sid = this.sessionmap.get(reqmsg.uqid);
-    let msgisd = req.header("Session-ID");
-    console.log("-------------sever uqid:"+ reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
+      const jsonstr = JSON.stringify(req.body);
+      const reqmsg = JSON.parse(jsonstr);
+      //기본 nak 메시지로 만듬.
+      let responsemsg = new responseMessage();
 
-    if (sid != msgisd) {
-      console.log("session not same ....");
-      responsemsg.IsOK = true;
-      responsemsg.retMessage="unotherslogin"
-      rsp.send(JSON.stringify(responsemsg));
+      //   for (const [key, value] of this.sessionmap) {
+      //     console.log("map key:"+ key + ", vlaue :" +value);
+      //  }
 
-    } else {
-      const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
-      const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
+      let sid = this.sessionmap.get(reqmsg.uqid);
+      let msgisd = req.header("Session-ID");
+      console.log("-------------sever uqid:" + reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
 
-      
+      if (sid != msgisd) {
+        console.log("session not same ....");
+        responsemsg.IsOK = true;
+        responsemsg.retMessage = "unotherslogin";
+        rsp.send(JSON.stringify(responsemsg));
+      } else {
+        const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
+        const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
 
-      this.messagequeuemap.set(reqmsg.uqid, rsp);
-      let idtype=reqmsg.uqid + reqmsg.reqType;
-      this.messagequeuemap.set(idtype, rsp);
+        this.messagequeuemap.set(reqmsg.uqid, rsp);
+        let idtype = reqmsg.uqid + reqmsg.reqType;
+        this.messagequeuemap.set(idtype, rsp);
 
-      let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
-      reqkey.set(objJsonB64encode);
+        let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+        reqkey.set(objJsonB64encode);
 
-      // 이벤트 리스너 한번만
-      
+        // 이벤트 리스너 한번만
+
+        /*
       repskey.once("value", (snapshot) => {
         const repsdata = snapshot.val();
         //        console.log(repsdata);
@@ -182,9 +189,9 @@ module.exports = class ServerAPI {
           }
         }
       });
+      */
 
-
-      /*
+        /*
       //2초간 기다림
       for (var i = 0; i < 10; i++) {
         await KDCommon.delay(200);
@@ -232,8 +239,11 @@ module.exports = class ServerAPI {
       }
       */
 
-      //rsp.send(JSON.stringify(responsemsg));
-      //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
+        //rsp.send(JSON.stringify(responsemsg));
+        //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
+      }
+    } catch (error) {
+      console.log("---------------------------------postapifordevice error : " + error.toString());
     }
   }
 
@@ -253,16 +263,13 @@ module.exports = class ServerAPI {
         }
 
         //DB 에서 검색해서 확인함.
-        for(let i=0;i<this.userinfos.length;i++)
-        {
+        for (let i = 0; i < this.userinfos.length; i++) {
           //console.log("i :" +i);
           //console.log(this.userinfos[i]);
-          if(this.userinfos[i].userid === reqmsg.reqParam.loginID && this.userinfos[i].userpw === reqmsg.reqParam.loginPW  && this.userinfos[i].usertype==0)
-          {
-            if(this.userinfos[i].deviceid.length ==6)
-            {
+          if (this.userinfos[i].userid === reqmsg.reqParam.loginID && this.userinfos[i].userpw === reqmsg.reqParam.loginPW && this.userinfos[i].usertype == 0) {
+            if (this.userinfos[i].deviceid.length == 6) {
               rspmsg.retMessage = "user";
-              rspmsg.retParam = this.userinfos[i].deviceid;    
+              rspmsg.retParam = this.userinfos[i].deviceid;
               break;
             }
           }
