@@ -147,7 +147,7 @@ module.exports = class AutoControl {
   coputePIDTemperature(inputvalue, setvalue,kp,ki,kd)
   {
         let currentTime = KDCommon.getCurrentTotalsec();                //get current time
-        console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime );
+        console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime  + " kp:" + kp);
 
 
         let elapsedTime = (currentTime - this.previousTime);        //compute time elapsed from previous computation
@@ -204,11 +204,26 @@ module.exports = class AutoControl {
         }
         
 
-        console.log("coputePIDTemperature percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
-        console.log("coputePIDTemperature out : " + out +" elapsedTime:" +elapsedTime + " this.cumError : " + this.cumError + " this.lastError : "+ this.lastError );
+        console.log("coputePIDTemperture percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
+        console.log("coputePIDTemperture out : " + out +" elapsedTime:" +elapsedTime + " this.cumError : " + this.cumError + " this.lastError : "+ this.lastError );
         return this.PIDPercent;                         
   }
 
+  checkpidparam(pv)
+  {
+    let pvalue=Number(pv);
+    if(pv <=0)
+    {
+      pvalue=0;
+    }
+    else if(pv >10)
+    {
+      pvalue=10;
+    }
+
+    return pvalue;
+
+  }
 
   getStateBySensorcondition(msensors, daytotalsec) {
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
@@ -251,9 +266,12 @@ module.exports = class AutoControl {
         
         console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
 
-        const kpv= Number(this.mConfig.Params[0]);
-        const kiv= Number(this.mConfig.Params[1]);
-        const kdv= Number(this.mConfig.Params[2]);
+        let kpv=this.checkpidparam (this.mConfig.Params[0]);
+        let kiv= this.checkpidparam(this.mConfig.Params[1]);
+        let kdv= this.checkpidparam(this.mConfig.Params[2]);
+
+        
+
 
         this.coputePIDTemperature(currsensor.value,targetvalue, kpv,kiv,kdv);
         return KDDefine.AUTOStateType.AST_On;

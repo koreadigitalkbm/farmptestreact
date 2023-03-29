@@ -54,6 +54,7 @@ const JukeboxMultiLED = (props) => {
       case "blueled":
         copycfg.Params[2] = event.target.value;
         break;
+     
 
       default:
         break;

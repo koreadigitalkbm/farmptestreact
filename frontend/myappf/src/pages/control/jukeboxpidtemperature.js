@@ -33,6 +33,15 @@ const JukeboxPIDTemperature = (props) => {
       case "ontimesec":
         setmanualontimesec(event.target.value);
         break;
+      case "pidp":
+        copycfg.Params[0] = event.target.value;
+        break;
+      case "pidi":
+        copycfg.Params[1] = event.target.value;
+        break;
+      case "pidd":
+        copycfg.Params[2] = event.target.value;
+        break;
       default:
         break;
     }
