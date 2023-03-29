@@ -14,7 +14,8 @@
 //2.218 : KPC480 습도제어 관련 버그 수정
 //2.219 : 통신관련 api 예외처리 자동제어 버그 수정
 //2.221 : 백엔드 로그 추가 자꾸 디짐..
-const farmscubeplatformversion = 2.221;
+//2.222 : PID 자동제어 로직 추가
+const farmscubeplatformversion = 2.222;
 
 const express = require("express");
 const cors = require("cors");

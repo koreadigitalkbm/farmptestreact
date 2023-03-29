@@ -251,7 +251,11 @@ module.exports = class AutoControl {
         
         console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
 
-        this.coputePIDTemperature(currsensor.value,targetvalue, 2,5,1);
+        const kpv= Number(this.mConfig.Params[0]);
+        const kiv= Number(this.mConfig.Params[1]);
+        const kdv= Number(this.mConfig.Params[2]);
+
+        this.coputePIDTemperature(currsensor.value,targetvalue, kpv,kiv,kdv);
         return KDDefine.AUTOStateType.AST_On;
 
       }

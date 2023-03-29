@@ -209,6 +209,8 @@
     "LT_GROWPLNATS_TEMPERAUTRE_NIGHT1": "During the night, the internal temperature is kept at",
     "LT_GROWPLNATS_TEMPERAUTRE_NIGHT2": "",
     "LT_GROWPLANTS_TEMPERATUREINTERVAL": "Temperature control interval",
+    "LT_GROWPLANTS_TEMPERATURE_HELP1": "PID 제어로 온도를 조절합니다.",
+    
 
     "LT_GROWPLANTS_HUMIDITY_DAY1": "During the day[{0}], the internal humidity is kept at",
     "LT_GROWPLANTS_HUMIDITY_DAY2": "",
