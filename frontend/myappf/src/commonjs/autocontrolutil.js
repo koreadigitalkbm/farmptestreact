@@ -198,13 +198,15 @@ module.exports = class AutoControlUtil {
 
      //////////////////////////온도제어 PID
      m1 = new AutoControlconfig();
-     m1.Lid = "LT_ANAME_TEMP";
+     m1.Lid = "LT_ANAME_TEMP_PID";
      m1.Name = "온도제어(PID)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
-     m1.Enb = true;
+     m1.Enb = false;
      m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
      m1.Cat = KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX; //  자동제어 분류
-     m1.Actlist.push("N01C29T02"); ///히터 릴레이 장비
+     m1.Actlist.push("N01C29T02"); ///온도제어 장비 고정 
+     m1.Actlist.push("N01C00T00"); ///히터 릴레이 장비
+     m1.Actlist.push("N01C01T00"); ///쿨러 릴레이 장비
      m1.DOnTime = AutoControlconfig.OnTimesecMAX;
      m1.DOffTime = 0;
      m1.STime = 8 * 3600;
@@ -214,6 +216,10 @@ module.exports = class AutoControlUtil {
      m1.NTValue = 21.0;
      m1.BValue = 1;
      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
+     m1.Params.push(2); //P
+     m1.Params.push(5);//I
+     m1.Params.push(1);//D
+     
      mcfglist.push(m1);
 
 

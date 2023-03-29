@@ -192,6 +192,15 @@ module.exports = class AutoControl {
         {
           this.PIDPercent = outp;
           this.ispidchange=true;
+
+          //1보다 작으면 1로 설정  1로 지정되어있으면 펌웨어에서 히터 끄는 조건을 확인함
+          //0은 off 조건임   1로 유지된다는 것은 온도를 계속낮추고 싶다는 상태인데  1시간가량 유지되면 히터끔.
+          //100값이 계속 유지되는 경우는 온도를 계속 높이고 싶다는 상태인데 1시간가량 유지되면 컴프레셔 끔
+          if(this.PIDPercent  <=1)
+          {
+            this.PIDPercent =1;
+          }
+
         }
         
 

@@ -8,7 +8,7 @@ module.exports = class AutoControlStatus {
   }
   ischangestatecheck(newstate) {
       //초기화상태이면 on이던 off 상태를 바로 변경함.
-      if (this.State !== newstate) {
+      if (this.State !== newstate ) {
         /*
         this.State = newstate;
         if( this.State ==KDDefine.AUTOStateType.AST_IDLE )

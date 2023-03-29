@@ -12,6 +12,7 @@
     
     "LT_ANAME_DEFULT": "Automatic Control",
     "LT_ANAME_TEMP": "Temperature Control",
+    "LT_ANAME_TEMP_PID": "Temperature Control(PID)",
     "LT_ANAME_WATER": "Water Supply(Timer)",
     "LT_ANAME_LED": "LED Control(3Color)",
     "LT_ANAME_AIR": "Air Circulation",
@@ -52,8 +53,9 @@
     "LT_ACTDEVICE_8": "Water Pump",
     "LT_ACTDEVICE_9": "Flow Fan",
     
+    
     "LT_ACTDEVICE_10": "SolValve",
-    "LT_ACTDEVICE_11": "SolValve",
+    "LT_ACTDEVICE_11": "Air-Conditioner",
     "LT_ACTDEVICE_12": "SolValve",
     "LT_ACTDEVICE_13": "SolValve",
     "LT_ACTDEVICE_14": "SolValve",

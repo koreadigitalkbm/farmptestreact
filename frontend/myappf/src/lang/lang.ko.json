@@ -12,6 +12,7 @@
         
     "LT_ANAME_DEFULT": "자동제어",
     "LT_ANAME_TEMP": "온도제어(냉난방)",
+    "LT_ANAME_TEMP_PID": "온도제어(PID)",
     "LT_ANAME_WATER": "관수제어(타이머)",
     "LT_ANAME_LED": "광량제어(3색)",
     "LT_ANAME_AIR": "환기제어환기제어(CO2,습도)",
@@ -53,8 +54,9 @@
     "LT_ACTDEVICE_8": "관수펌프",
     "LT_ACTDEVICE_9": "유동팬",
     
+    
     "LT_ACTDEVICE_10": "솔밸브",
-    "LT_ACTDEVICE_11": "솔밸브",
+    "LT_ACTDEVICE_11": "냉난방기",
     "LT_ACTDEVICE_12": "솔밸브",
     "LT_ACTDEVICE_13": "솔밸브",
     "LT_ACTDEVICE_14": "솔밸브",
