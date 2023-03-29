@@ -117,6 +117,8 @@ const DataMainPage = (props) => {
     //  console.log("eday : "+ eday.toLocaleDateString());
 
     let dbq = new DBQueryParam(sday, eday, "sensor");
+    console.log("myAppGlobal.logindeviceid : "+ myAppGlobal.logindeviceid);
+    
 
     myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
       console.log("-------------------------getdb sensor: " + ret.IsOK);
