@@ -42,6 +42,13 @@ module.exports = class KDCommon {
     return Number(totalsec);
   }
 
+  static getMSeconds() {
+    const clocknow = new Date();
+    let ms = clocknow.getMilliseconds();
+    return ms;
+  }
+
+
     //현재시간 분단위로
     static getCurrentTotalminute() {
       const clocknow = new Date();

@@ -106,6 +106,7 @@ module.exports = class KDDefine {
     ODT_HEATER: 6,
     ODT_POWER: 7,
     ODT_NOZZLE: 8,
+    ODT_TEMP_CONTOLLER: 9,
 
     ODT_LED_WHITE: 30,
     ODT_LED_RED: 31,
@@ -197,6 +198,7 @@ module.exports = class KDDefine {
     ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX: 103, // 환기제어, co2, 습도센서 사용
     ACT_HEATER_HUMIDITY_FOR_FJBOX: 104, // 습도제어,  습도센서 사용
     ACT_NUTRIENT_SOL3_FOR_FJBOX: 105, // 양액제어, 3개 솔밸브 사용
+    ACT_PID_TEMP_CONTROL_FOR_FJBOX: 106, // 냉난방 PID제어 
 
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 
@@ -255,6 +257,7 @@ module.exports = class KDDefine {
     NID_WATERPUMP: 8, // 관수펌프
     NID_FLOWFAN: 9, // 유동팬
     NID_SOLVALVE: 10, // 솔밸브
+    NID_TEMP_CONTROLER: 11, //냉난방 온도 제어기
 
     NID_LED: 20, //LED
     NID_LEDWHITE: 21, // 흰색 LED

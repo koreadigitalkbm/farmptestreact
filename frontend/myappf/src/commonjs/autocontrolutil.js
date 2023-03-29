@@ -170,6 +170,9 @@ module.exports = class AutoControlUtil {
 
 
      if (modelname === "KPC480" ) {
+
+
+      
      //////////////////////////온도제어
      let m1 = new AutoControlconfig();
      m1.Lid = "LT_ANAME_TEMP";
@@ -190,6 +193,29 @@ module.exports = class AutoControlUtil {
      m1.BValue = 1;
      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
      mcfglist.push(m1);
+
+
+
+     //////////////////////////온도제어 PID
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_TEMP";
+     m1.Name = "온도제어(PID)";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = true;
+     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+     m1.Cat = KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C29T02"); ///히터 릴레이 장비
+     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+     m1.DOffTime = 0;
+     m1.STime = 8 * 3600;
+     m1.ETime = 18 * 3600;
+     m1.Senlist.push("S01C02T01"); /// 온도센서 지정
+     m1.DTValue = 26.0;
+     m1.NTValue = 21.0;
+     m1.BValue = 1;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
+     mcfglist.push(m1);
+
 
      //////////////////관수제어
      m1 = new AutoControlconfig();

@@ -67,6 +67,12 @@ module.exports = class ActuatorBasic {
 
       //blue
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      //냉난방기
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 29, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+
+
     } else if (modelname === KDDefine.PModel.VFC3300) {
       // mhlee VFC3300 <<< 이전 인도어팜 V2
 

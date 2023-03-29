@@ -57,18 +57,27 @@ module.exports = class ServerAPI {
     try {
 
       console.log("---------------------------------postapifordatabase  ");
-
       const reqmsg = JSON.parse(JSON.stringify(req.body));
       let responsemsg = new responseMessage();
+      let isvalid=false;
+
 
       console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
 
+      if(reqmsg.reqParam != null)
+      {
+        if(reqmsg.reqParam.devid !=null )
+        {
+          isvalid=true;
+        }
+      }
+
+      if( isvalid === true)
+      {
       switch (reqmsg.reqType) {
         //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
         case KDDefine.REQType.RT_GETDB_DATAS:
           return this.DBInterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
-
-          break;
 
         case KDDefine.REQType.RT_SETDB_EVENT:
           //        console.log("  devid:" + reqmsg.reqParam.devid);
@@ -109,6 +118,7 @@ module.exports = class ServerAPI {
 
           break;
       }
+    }
 
       rsp.send(JSON.stringify(responsemsg));
 

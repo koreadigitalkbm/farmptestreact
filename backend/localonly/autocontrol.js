@@ -19,6 +19,11 @@ module.exports = class AutoControl {
     this.IsPWMcontrol = false;
     this.isPHon = false;
     this.isECon = false;
+    this.previousTime=KDCommon.getCurrentTotalsec();
+    this.lastError=0;
+    this.cumError=0;
+    this.PIDPercent=55;
+    this.ispidchange=false; //pid 제어 값이 변경되면 값을 전달되도록 
   }
   static Clonbyjsonobj(mobj) {
     return new AutoControl(mobj.mConfig);
@@ -27,12 +32,15 @@ module.exports = class AutoControl {
   isBasiccondition(timesecnow) {
     if (this.mConfig.Enb == true) {
       //주 야간 모드 이면 시간확인필요없음
+      
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT) {
         return true;
       }
       //시작시간과 종료시간 안에 들어와함.
       return AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, timesecnow);
     }
+    //console.log("-this.mConfig.Enb: "+this.mConfig.Enb + "UID: " + this.mConfig.Uid );
+
     return false;
   }
   //타이머방식 채크 , 두가지 PWM 방식. 1회
@@ -136,6 +144,63 @@ module.exports = class AutoControl {
     return curstate;
   }
 
+  coputePIDTemperature(inputvalue, setvalue,kp,ki,kd)
+  {
+        let currentTime = KDCommon.getCurrentTotalsec();                //get current time
+        console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime );
+
+
+        let elapsedTime = (currentTime - this.previousTime);        //compute time elapsed from previous computation
+
+        this.ispidchange=false;
+        if(elapsedTime <=0)
+        {
+          this.previousTime = currentTime;                        //remember current time
+          return 0;
+        }
+        
+        let error = setvalue - inputvalue;                                // determine error
+        this.cumError += error * elapsedTime;                // compute integral
+        let rateError = (error - this.lastError)/elapsedTime;   // compute derivative
+ 
+        let out = kp*error + ki*this.cumError + kd*rateError;                //PID output               
+        if(this.cumError <-1000)
+        {
+          this.cumError=-1000;
+        }
+        if(this.cumError >1000)
+        {
+          this.cumError=1000;
+        }
+
+ 
+        this.lastError = error;                                //remember current error
+        this.previousTime = currentTime;                        //remember current time
+ 
+        if(out >5000)
+        {
+          out=5000;
+        }
+        if(out <-5000)
+        {
+          out=-5000;
+        }
+        
+        let outp = (out+5000)/100;
+
+        if(this.PIDPercent != outp)
+        {
+          this.PIDPercent = outp;
+          this.ispidchange=true;
+        }
+        
+
+        console.log("coputePIDTemperature percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
+        console.log("coputePIDTemperature out : " + out +" elapsedTime:" +elapsedTime + " this.cumError : " + this.cumError + " this.lastError : "+ this.lastError );
+        return this.PIDPercent;                         
+  }
+
+
   getStateBySensorcondition(msensors, daytotalsec) {
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
     let currsensor = null;
@@ -147,12 +212,51 @@ module.exports = class AutoControl {
       this.IsPWMcontrol = true;
     }
 
+    //PID온도제어 
+    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX) {
+    
+
+      //센서에 의해서 작동함으로 켜짐시간 고정
+      this.OnSecTime = Number(this.mConfig.DOnTime);
+      for (const ms of msensors) {
+        //우선 센서 1개만 처리
+        if (ms.UniqID == this.mConfig.Senlist[0]) {
+          currsensor = ms;
+          break;
+        }
+      }
+      if (currsensor == null) {
+        //해당센서 없음
+        console.log("getStateBySensorcondtion no sensor : " + this.mConfig.Senlist[0]);
+        return KDDefine.AUTOStateType.AST_ERROR;
+      } else {
+        //const daytotalsec = KDCommon.getCurrentTotalsec();
+
+        
+        let targetvalue;
+        if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
+          targetvalue = Number(this.mConfig.DTValue);
+        } else {
+          targetvalue = Number(this.mConfig.NTValue);
+        }
+        
+        console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
+
+        this.coputePIDTemperature(currsensor.value,targetvalue, 2,5,1);
+        return KDDefine.AUTOStateType.AST_On;
+
+      }
+
+
+
+    }
+
     //환기제어 별도로 왜냐면 센서가 여려개일수 있고 이레적으로  PWM 제어임
-    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX) {
+    else if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX) {
       let co2sensor = null;
       let humiditysensor = null;
 
-      //  console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX daytotalsec : " +daytotalsec);
+      //  console.log("ACT_AIRCIRC_CO2_HUMIDTY_FOR_FJBOX daytotalsec : " +daytotalsec);
 
       for (const ms of msensors) {
         //우선 센서 1개만 처리
@@ -172,7 +276,7 @@ module.exports = class AutoControl {
         //console.log("getStateBySensorcondtion no sensor all : " + msensors.length);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
-        // console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX humiditysensor : " + humiditysensor);
+        // console.log("ACT_AIRCIRC_CO2_HUMIDIY_FOR_FJBOX humiditysensor : " + humiditysensor);
       }
 
       let co2targetvalue = Number(this.mConfig.NTValue);
@@ -223,7 +327,7 @@ module.exports = class AutoControl {
         //console.log("getStateBySensorcondtion no sensor phsensor ecsensor: " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
-        // console.log("ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX humiditysensor : " + humiditysensor);
+        // console.log("ACT_AIRCIRC_CO2_HUMIDIY_FOR_FJBOX humiditysensor : " + humiditysensor);
       }
 
       let phtargetvalue = Number(this.mConfig.DTValue);
@@ -266,7 +370,7 @@ module.exports = class AutoControl {
       }
       if (currsensor == null) {
         //해당센서 없음
-       // console.log("getStateBySensorcondtion no sensor : " + msensors.length);
+        console.log("getStateBySensorcondtion no sensor : " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
         //const daytotalsec = KDCommon.getCurrentTotalsec();
@@ -282,7 +386,7 @@ module.exports = class AutoControl {
         upvalue = targetvalue + Number(this.mConfig.BValue);
         downvalue = targetvalue - Number(this.mConfig.BValue);
 
-       // console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
+        console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
         //냉난방 동시제어일때
         if (KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE == this.mConfig.Cdir) {
@@ -340,6 +444,8 @@ module.exports = class AutoControl {
       case KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
+      case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
+        
         return true;
       default:
         return false;
@@ -419,7 +525,7 @@ module.exports = class AutoControl {
 
             if (onoffstate != null) {
               let opcmd = new ActuatorOperation(actd.UniqID, onoffstate, this.OnSecTime);
-              console.log("-getOperationsBySpcify ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+              console.log("-getOperationsBySpcify ACT_AIRCIRC_CO2_HUMDITY_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
               opcmdlist.push(opcmd);
             }
           }
@@ -527,11 +633,55 @@ module.exports = class AutoControl {
         }
         break;
 
+        case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
+          {
+            let tcontroldev = null;
+            for (const mactid of this.mConfig.Actlist) {
+              let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+              if (actd != null) {
+                if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER) {
+                  tcontroldev = actd;
+                }
+              
+              }
+            }
+
+
+            console.log("-getOperationsBySpcify ACT_PID_TEMP_CONTROL_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+
+
+            if (tcontroldev != null) {
+              let ledstate = null;
+              let pwmdemming = 0;
+              
+              if (currentstate == KDDefine.AUTOStateType.AST_On) {
+                ledstate = true;
+                console.log("-getOperationsBySpcify  this.PIDPercent : " +this.PIDPercent);
+                // 디밍값을 켜짐시간에 합쳐서 전달
+                pwmdemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.PIDPercent);
+                
+              } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+                ledstate = false;
+              }
+    
+              if (ledstate != null) {
+                console.log("-getOperationsBySpcify    pwmdemming:" + pwmdemming + "UID : "+tcontroldev.UniqID);
+                let opcmd = new ActuatorOperation(tcontroldev.UniqID, ledstate, pwmdemming);
+                opcmdlist.push(opcmd);
+                this.setUpdatestateWithEvent(currentstate);
+                //this.mState.State = currentstate;
+              }
+            }
+
+
+          }
+          break;
+
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
         let heaterdev = null;
         let coollerdev = null;
 
-        //console.log("-getOperationsBySpcify ACT_HEAT_COOL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
+        //console.log("-getOperationsBySpcify ACT_HEAT_COL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
 
         for (const mactid of this.mConfig.Actlist) {
           let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
@@ -674,13 +824,18 @@ module.exports = class AutoControl {
       }
     } else {
       //기본조건 안맞음 모두  off
+
+
       this.setdaycontroltimeover();
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
     }
-    //console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
+//    console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
+
+    
+
 
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
-    if (this.mState.ischangestatecheck(currentstate) == true) {
+    if (this.mState.ischangestatecheck(currentstate) == true  ||  this.ispidchange ==true) {
       if (currentstate != KDDefine.AUTOStateType.AST_IDLE) {
         if (this.isOperationsBySpecify() == true) {
           oplist = this.getOperationsBySpecify(mactuators, currentstate);

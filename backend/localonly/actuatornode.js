@@ -33,8 +33,8 @@ module.exports = class ActuatorNode {
         this.actlist.push(sv);
       }
     } else if (nodemodel == ActuatorNode.ACTNODEType.ANT_KPC480 || nodemodel == ActuatorNode.ACTNODEType.ANT_KPC200) {
-      //ac trac 16개 dc mosfet 8  pwm 4개
-      this.maxchannelnumber = 28;
+      //ac trac 16개 dc mosfet 8  pwm 4개 기타 2개
+      this.maxchannelnumber = 30;
       let sv;
       for (let i = 0; i < 24; i++) {
         sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i, KDDefine.HardwareTypeEnum.HT_RELAY));
@@ -49,7 +49,14 @@ module.exports = class ActuatorNode {
       this.actlist.push(sv);
       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 27, KDDefine.HardwareTypeEnum.HT_PWM));
       this.actlist.push(sv);
-
+      ///기타
+      sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 28, KDDefine.HardwareTypeEnum.HT_PWM));
+      this.actlist.push(sv);
+      // 냉난방제어
+      sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 29, KDDefine.HardwareTypeEnum.HT_PWM));
+      this.actlist.push(sv);
+      
+      
 
     } else if ( nodemodel == ActuatorNode.ACTNODEType.ANT_VFC3300 ) {       // 기존 인도어팜 V2 
       //ac trac 16개 dc mosfet 8  pwm 4개
@@ -107,11 +114,14 @@ module.exports = class ActuatorNode {
           let mopid = rv1.data[i * 4 + 0];
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
-       //   console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
+          //console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
         }
         //  console.log("-ActuatorNode ReadStatusAll------------------");
 
         return this.actlist;
+      }
+      else{
+          console.log("-ActuatorNode ReadStatusAll undefined------------------");
       }
 
       return null;
