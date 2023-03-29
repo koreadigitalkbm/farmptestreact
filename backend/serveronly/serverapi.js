@@ -68,10 +68,7 @@ module.exports = class ServerAPI {
 
       if(reqmsg.reqParam != null)
       {
-        if(reqmsg.reqParam.devid !=null )
-        {
           isvalid=true;
-        }
       }
 
       if( isvalid === true)
