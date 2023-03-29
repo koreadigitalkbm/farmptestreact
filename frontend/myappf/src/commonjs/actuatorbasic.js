@@ -33,7 +33,7 @@ module.exports = class ActuatorBasic {
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
 
       //습도히터  AC 3번
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMI_HEATER, 3, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMI_HEATER, 3, KDDefine.OutDeviceTypeEnum.ODT_HUMIDIFLER));
 
       //co2 솔밸브  AC 4번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_CO2_VALVE, 4, KDDefine.OutDeviceTypeEnum.ODT_VALVE));

@@ -107,6 +107,7 @@ module.exports = class KDDefine {
     ODT_POWER: 7,
     ODT_NOZZLE: 8,
     ODT_TEMP_CONTOLLER: 9,
+    ODT_HUMIDIFLER: 10,
 
     ODT_LED_WHITE: 30,
     ODT_LED_RED: 31,

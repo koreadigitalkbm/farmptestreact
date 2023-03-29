@@ -216,9 +216,9 @@ module.exports = class AutoControlUtil {
      m1.NTValue = 21.0;
      m1.BValue = 1;
      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
-     m1.Params.push(2); //P
-     m1.Params.push(5);//I
-     m1.Params.push(1);//D
+     m1.Params.push(1.3); //P
+     m1.Params.push(1.5);//I
+     m1.Params.push(2.1);//D
      
      mcfglist.push(m1);
 
