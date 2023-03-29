@@ -47,6 +47,8 @@ module.exports = class ServerAPI {
       if (respp != null) {
         respp.send(JSON.stringify(reqmsg));
       }
+
+      console.log("---------------------------------postapiforfirebase  END : "+respp);
       //rsp.send("ok");
     } catch (error) {
       console.log("---------------------------------postapiforfirebase  error : " + error.toString());
