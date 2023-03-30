@@ -15,6 +15,7 @@ module.exports = class ActuatorBasic {
 
     this.Nodeid = mnodeid; // 노드 주소 , 구동기구별을 위해
     this.HWType = mhwtype; // 릴레이, 계폐기, 기타
+    
 
     this.UniqID = ActuatorStatus.makeactuatoruniqid(this.Nodeid, this.Channel, this.HWType);
   }
@@ -22,7 +23,7 @@ module.exports = class ActuatorBasic {
   /// 구동기목록 모델별로 디폴트 생성 json 파일에서 편집할경우 구조체가 변경되면  귀찮음.. 코드로 추가하고 파일삭제하면 자동생성되게 하자.
   static CreateDefaultActuator(modelname) {
     let mcfglist = [];
-
+    
     console.log("CreateDefaultConfig modelname:" + modelname + " KDDefine.PModel.KPC200:" + KDDefine.PModel.KPC200);
 
     if (modelname === KDDefine.PModel.KPC480 || modelname === KDDefine.PModel.KPC300) {
@@ -40,6 +41,14 @@ module.exports = class ActuatorBasic {
 
       //환기팬  AC 6번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 6, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+
+
+      
+
+      //교반펌프 AC 12번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AGITATOR_PUMP, 12, KDDefine.OutDeviceTypeEnum.ODT_AG_PUMP));
+
+
 
       //히터펌프 AC 13번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMIDIFIER_PUMP, 13, KDDefine.OutDeviceTypeEnum.ODT_PUMP));

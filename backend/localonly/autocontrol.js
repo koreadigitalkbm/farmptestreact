@@ -146,8 +146,11 @@ module.exports = class AutoControl {
 
   coputePIDTemperature(inputvalue, setvalue,kp,ki,kd)
   {
+      const cumerrormax = (5000/ki);
+      const cumerrormin = (cumerrormax*-1);
+
         let currentTime = KDCommon.getCurrentTotalsec();                //get current time
-        console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime  + " kp:" + kp);
+       // console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime  + " kp:" + kp + ",ki: "+ ki+ ",kd: "+ kd) ;
 
 
         let elapsedTime = (currentTime - this.previousTime);        //compute time elapsed from previous computation
@@ -164,13 +167,16 @@ module.exports = class AutoControl {
         let rateError = (error - this.lastError)/elapsedTime;   // compute derivative
  
         let out = kp*error + ki*this.cumError + kd*rateError;                //PID output               
-        if(this.cumError <-1000)
+
+        //console.log("error : " + error +" cumerrormax:" +cumerrormax  + " this.cumError: " + this.cumError + ",this.lastError : "+this.lastError ) ;
+
+        if(this.cumError <cumerrormin)
         {
-          this.cumError=-1000;
+          this.cumError=cumerrormin;
         }
-        if(this.cumError >1000)
+        if(this.cumError >cumerrormax)
         {
-          this.cumError=1000;
+          this.cumError=cumerrormax;
         }
 
  
@@ -204,8 +210,8 @@ module.exports = class AutoControl {
         }
         
 
-        console.log("coputePIDTemperture percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
-        console.log("coputePIDTemperture out : " + out +" elapsedTime:" +elapsedTime + " this.cumError : " + this.cumError + " this.lastError : "+ this.lastError );
+        //console.log("coputePIDTemperture percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
+        //console.log("coputePIDTemperture out : " + out +" elapsedTime:" +elapsedTime + " this.cumError : " + this.cumError + " this.lastError : "+ this.lastError );
         return this.PIDPercent;                         
   }
 
@@ -264,7 +270,7 @@ module.exports = class AutoControl {
           targetvalue = Number(this.mConfig.NTValue);
         }
         
-        console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
+        //console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
 
         let kpv=this.checkpidparam (this.mConfig.Params[0]);
         let kiv= this.checkpidparam(this.mConfig.Params[1]);
@@ -611,6 +617,7 @@ module.exports = class AutoControl {
           let solA = null;
           let solB = null;
           let solC = null;
+          let pumpN = null;
 
           for (const mactid of this.mConfig.Actlist) {
             let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
@@ -624,6 +631,11 @@ module.exports = class AutoControl {
               if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_SOL_C) {
                 solC = actd;
               }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_AG_PUMP) {
+                pumpN = actd;
+              }
+              
+
             }
           }
 
@@ -638,6 +650,7 @@ module.exports = class AutoControl {
 
           if (onoffstate != null) {
             if (onoffstate === true) {
+
               if (this.isECon == true && solA != null && solB != null) {
                 let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
                 let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
@@ -648,6 +661,14 @@ module.exports = class AutoControl {
                 let opcmdc = new ActuatorOperation(solC.UniqID, onoffstate, this.OnSecTime);
                 opcmdlist.push(opcmdc);
               }
+
+              //양액공급이면 교반펌프를 60초가 돌림
+              if(pumpN!=null)
+              {
+                let opcmdpump = new ActuatorOperation(pumpN.UniqID, onoffstate, 60);
+                opcmdlist.push(opcmdpump);
+              }
+
             } else if (solA != null && solB != null && solC != null) {
               let opcmda = new ActuatorOperation(solA.UniqID, onoffstate, this.OnSecTime);
               let opcmdb = new ActuatorOperation(solB.UniqID, onoffstate, this.OnSecTime);
@@ -678,7 +699,7 @@ module.exports = class AutoControl {
             }
 
 
-            console.log("-getOperationsBySpcify ACT_PID_TEMP_CONTROL_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+            //console.log("-getOperationsBySpcify ACT_PID_TEMP_CONTROL_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
 
 
             if (tcontroldev != null) {

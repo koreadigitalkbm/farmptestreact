@@ -342,6 +342,8 @@ module.exports = class AutoControlUtil {
      m1.Actlist.push("N01C17T00"); /// 양액 솔밸브 
      m1.Actlist.push("N01C18T00");
      m1.Actlist.push("N01C19T00");
+     m1.Actlist.push("N01C12T00");  // 양액교반 펌프
+     
      m1.DOnTime = 10;
      m1.DOffTime = 600;
      m1.STime = 8 * 3600;

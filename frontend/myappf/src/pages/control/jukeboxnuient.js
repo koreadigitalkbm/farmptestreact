@@ -1,6 +1,5 @@
 import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
-import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 import {Button, Stack, Typography } from "@mui/material";
 import Box from '@mui/material/Box';
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -41,7 +40,7 @@ const JukeboxNutrientSupply = (props) => {
   };
 
   function manualonoff(isSetOn) {
-    const actindex = manualactname === "selitem0" ? 0 : manualactname === "selitem1" ? 1 : 2;
+    const actindex = manualactname === "selitem0" ? 0 : manualactname === "selitem1" ? 1 : manualactname === "selitem2" ? 2:3;
     const actuid = copycfg.Actlist[actindex];
 
     console.log("manualonoff name:  manualontimesec:" + manualontimesec + " manualactname:" + manualactname + ",actuid : " + actuid);
@@ -54,11 +53,13 @@ const JukeboxNutrientSupply = (props) => {
     let actinfoa = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[0], myAppGlobal);
     let actinfob = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[1], myAppGlobal);
     let actinfoc = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[2], myAppGlobal);
+    let actinfopump = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[3], myAppGlobal);
     //const actitems = [actinfoa.Name, myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL2"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL3")];
     let actitems = [];
     if(actinfoa !=null ){actitems.push(actinfoa.Name)}
     if(actinfob !=null ){actitems.push(actinfob.Name)}
     if(actinfoc !=null ){actitems.push(actinfoc.Name)}
+    if(actinfopump !=null ){actitems.push(actinfopump.Name)}
     
 
     

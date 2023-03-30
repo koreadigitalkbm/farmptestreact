@@ -15,7 +15,9 @@
 //2.219 : 통신관련 api 예외처리 자동제어 버그 수정
 //2.221 : 백엔드 로그 추가 자꾸 디짐..
 //2.222 : PID 자동제어 로직 추가
-const farmscubeplatformversion = 2.222;
+//2.223 : KPC480 장비 펌웨어 연동 코드 추가 버전이 반드시 20233030이후 
+
+const farmscubeplatformversion = 2.223;
 
 const express = require("express");
 const cors = require("cors");
@@ -29,7 +31,6 @@ let mMainclass;
 
 app.use(cors());
 app.use(express.static("./backend/"));
-
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 

@@ -108,6 +108,7 @@ module.exports = class KDDefine {
     ODT_NOZZLE: 8,
     ODT_TEMP_CONTOLLER: 9,
     ODT_HUMIDIFLER: 10,
+    ODT_AG_PUMP: 11, //교반용 펌프
 
     ODT_LED_WHITE: 30,
     ODT_LED_RED: 31,
@@ -281,6 +282,7 @@ module.exports = class KDDefine {
     NID_HUMI_HEATER: 40, // 가습기
     NID_CO2_VALVE: 41, // co2 공급밸브
     NID_HUMIDIFIER_PUMP: 42, // 가습기 히터 물 펌프
+    NID_AGITATOR_PUMP: 43, // 가습기 히터 물 펌프
   });
 
   //시스템 이벤트 코드

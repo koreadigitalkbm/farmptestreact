@@ -2,7 +2,7 @@ const SensorCompact = require("../../frontend/myappf/src/commonjs/sensorcompact.
 const KDCommon = require("../kdcommon");
 
 module.exports = class SensorNode {
-  constructor(slaveid,regStartaddrss, mmaster) {
+  constructor(slaveid,regStartaddrss, mmaster, maxsensorcnt =20) {
     this.NodeName = "nuknown";
     this.DefaultTimeoutmsec = 200;
     this.SlaveID = slaveid;
@@ -11,7 +11,7 @@ module.exports = class SensorNode {
     this.node_error_count = 0;
     this.node_is_disconnect = true;
     this.node_product_code = 0;
-    this.sensormaxcount = 20; //센서 최대연결갯수
+    this.sensormaxcount = maxsensorcnt; //센서 최대연결갯수
   }
   
   readRS485Registers(Regaddress, Reglength) {
