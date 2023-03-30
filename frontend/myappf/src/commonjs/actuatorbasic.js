@@ -66,7 +66,7 @@ module.exports = class ActuatorBasic {
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEC_PH, 19, KDDefine.OutDeviceTypeEnum.ODT_SOL_C));
 
       //환기솔밸브  DC 20번
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 20, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRVALVE, 20, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
 
       //화이트
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
