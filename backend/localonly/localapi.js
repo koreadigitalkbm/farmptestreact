@@ -335,7 +335,7 @@ module.exports = class LocalAPI {
           const reqmsg = JSON.parse(decodedStr);
           const rspmsg = this.messageprocessing(reqmsg);
 
-          //  console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time);
+            console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time +  ", tp:"+reqmsg.reqType);
           //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
           //      const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
           //      const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
@@ -417,7 +417,7 @@ module.exports = class LocalAPI {
       resdata = await this.postData(SERVERAPI_URL + "dbrequest", mReqmsg);
       //      console.log(" setRequest rsp : " + resdata.IsOK);
     } catch (error) {
-      console.log(" setRequestServer error : " + error);
+      console.log(" setRequestServer db error : " + error);
     } finally {
       //console.log(" setRequestServer finally  : ");
       return resdata;
@@ -432,7 +432,7 @@ module.exports = class LocalAPI {
       resdata = await this.postData(SERVERAPI_URL + "firebasersp", mReqmsg);
       //      console.log(" setRequest rsp : " + resdata.IsOK);
     } catch (error) {
-      console.log(" setRequestServer error : " + error);
+      console.log(" setRequestServer fb error : " + error);
     } finally {
       //console.log(" setRequestServer finally  : ");
       return resdata;

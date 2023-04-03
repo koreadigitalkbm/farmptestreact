@@ -49,7 +49,7 @@ module.exports = class ServerAPI {
       }
 
       console.log("---------------------------------postapiforfirebase  END : "+respp);
-      //rsp.send("ok");
+      rsp.send("ok");
     } catch (error) {
       console.log("---------------------------------postapiforfirebase  error : " + error.toString());
     }
