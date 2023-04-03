@@ -404,8 +404,9 @@ module.exports = class LocalAPI {
         "Session-ID": 877,
       },
       body: JSON.stringify(data), //
+      signal: AbortSignal.timeout(200000) 
     });
-    //return response.json();
+    return await response.json();
   }
 
   // 서버, 또는장비에 데이터 저장 요청

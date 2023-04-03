@@ -785,7 +785,7 @@ module.exports = class AutoControl {
             //this.mState.State = currentstate;
           }
         }
-
+        
         break;
     }
 

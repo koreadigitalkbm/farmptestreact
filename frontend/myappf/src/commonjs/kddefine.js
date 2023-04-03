@@ -53,7 +53,7 @@ module.exports = class KDDefine {
     SUT_SOLARMJ: 40, // MJ/m2    누적일사량    메가 줄  소수점 3자리
     SUT_DEWPOINT: 41, // ℃   이슬점     소스점 1자리
     //20210809
-    SUT_FIRE_DETECTOR: 42, // 0 , 1  화재감지기
+    SUT_FIRE_DETECTOR: 42, // 0 , 1  화재감지기 식물재배기에서는 수위감지로 표시
     SUT_HUMIDITY_DEFICIT: 43, // 0 , 1  수분부족분   0~100  g/m3 소수점 1자리
 
     //20220712

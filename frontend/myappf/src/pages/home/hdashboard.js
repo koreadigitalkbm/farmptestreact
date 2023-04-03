@@ -27,7 +27,7 @@ let dailysensorlist = [];
 let readtimemsec = 1000;
 let readcallbacktimeout=null;
 
-let intervalfunch=null;
+//let intervalfunch=null;
 let connecterrorcount=0;
 
 
@@ -237,13 +237,13 @@ const HDashboard = (props) => {
     isoffscreen = false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
 
-    clearInterval(intervalfunch);
-    intervalfunch = setInterval(loadTimeouthandler,10000);
+    //clearInterval(intervalfunch);
+    //intervalfunch = setInterval(loadTimeouthandler,10000);
 
     return () => {
       console.log("컴포넌트가 화면에서 사라짐 isoffscreen: " + isoffscreen);
       isoffscreen = true;
-      clearInterval(intervalfunch);
+      //clearInterval(intervalfunch);
       clearTimeout(readcallbacktimeout);
     };
 

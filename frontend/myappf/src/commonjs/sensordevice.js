@@ -48,7 +48,7 @@ const SensorCompact = require("./sensorcompact");
                case KDDefine.KDSensorTypeEnum.SUT_RAINDETECTOR: this.ValueUnit = " "; this.Name = "강우감지"; this.SignificantDigit = 1; break;
                    case KDDefine.KDSensorTypeEnum.SUT_UV: this.ValueUnit = ""; this.Name = "UV"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_PE300_PH: this.ValueUnit = " "; this.Name = "pH"; this.SignificantDigit = 1; break;
-                case KDDefine.KDSensorTypeEnum.SUT_PE300_EC: this.ValueUnit = "dS/m"; this.Name = "EC"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_PE300_EC: this.ValueUnit = "dS/m"; this.Name = "EC"; this.SignificantDigit = 2; break;
                 case KDDefine.KDSensorTypeEnum.SUT_PE300_TEMP: this.ValueUnit = "℃"; this.Name = "PE300온도"; this.SignificantDigit = 1; break;
                     case KDDefine.KDSensorTypeEnum.SUT_CO1: this.ValueUnit = "ppm"; this.Name = "일산화탄소"; this.SignificantDigit = 1; break;
                 
