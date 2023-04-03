@@ -406,7 +406,7 @@ module.exports = class LocalAPI {
       body: JSON.stringify(data), //
       signal: AbortSignal.timeout(200000) 
     });
-    return await response.json();
+    return response;
   }
 
   // 서버, 또는장비에 데이터 저장 요청
