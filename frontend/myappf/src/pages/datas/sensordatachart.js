@@ -22,25 +22,25 @@ let chboxlist = [
   { label: "l7", color: "#ef5350", key: "6", pstyle: "rectRounded", checked: false, sensor: null },
   { label: "l8", color: "#4caf50", key: "7", pstyle: "rectRot", checked: false, sensor: null },
 
-  { label: "l9", color: "#000010", key: "8", pstyle: "cross", checked: false, sensor: null },
-  { label: "l0", color: "#000010", key: "9", pstyle: "circle", checked: false, sensor: null },
-  { label: "l1", color: "#000010", key: "10", pstyle: "circle", checked: false, sensor: null },
-  { label: "l2", color: "#000010", key: "11", pstyle: "circle", checked: false, sensor: null },
+  { label: "l9", color: "#f50057", key: "8", pstyle: "cross", checked: false, sensor: null },
+  { label: "l0", color: "#4dabf5", key: "9", pstyle: "circle", checked: false, sensor: null },
+  { label: "l1", color: "#df8a80", key: "10", pstyle: "circle", checked: false, sensor: null },
+  { label: "l2", color: "#80cbc4", key: "11", pstyle: "circle", checked: false, sensor: null },
 
-  { label: "l3", color: "#000010", key: "12", pstyle: "circle", checked: false, sensor: null },
-  { label: "l4", color: "#000010", key: "13", pstyle: "circle", checked: false, sensor: null },
-  { label: "l5", color: "#000010", key: "14", pstyle: "circle", checked: false, sensor: null },
-  { label: "l6", color: "#000010", key: "15", pstyle: "circle", checked: false, sensor: null },
+  { label: "l3", color: "#388e3c", key: "12", pstyle: "circle", checked: false, sensor: null },
+  { label: "l4", color: "#1a237e", key: "13", pstyle: "circle", checked: false, sensor: null },
+  { label: "l5", color: "#f57c00", key: "14", pstyle: "circle", checked: false, sensor: null },
+  { label: "l6", color: "#00695c", key: "15", pstyle: "circle", checked: false, sensor: null },
 
-  { label: "l7", color: "#000010", key: "16", pstyle: "circle", checked: false, sensor: null },
-  { label: "l8", color: "#000010", key: "17", pstyle: "circle", checked: false, sensor: null },
-  { label: "l9", color: "#000010", key: "18", pstyle: "circle", checked: false, sensor: null },
-  { label: "20", color: "#000010", key: "19", pstyle: "circle", checked: false, sensor: null },
+  { label: "l7", color: "#33691e", key: "16", pstyle: "circle", checked: false, sensor: null },
+  { label: "l8", color: "#64dd17", key: "17", pstyle: "circle", checked: false, sensor: null },
+  { label: "l9", color: "#f9a825", key: "18", pstyle: "circle", checked: false, sensor: null },
+  { label: "20", color: "#795548", key: "19", pstyle: "circle", checked: false, sensor: null },
 
-  { label: "21", color: "#000010", key: "20", pstyle: "circle", checked: false, sensor: null },
-  { label: "22", color: "#000010", key: "21", pstyle: "circle", checked: false, sensor: null },
-  { label: "23", color: "#000010", key: "22", pstyle: "circle", checked: false, sensor: null },
-  { label: "24", color: "#000010", key: "23", pstyle: "circle", checked: false, sensor: null },
+  { label: "21", color: "#00e676", key: "20", pstyle: "circle", checked: false, sensor: null },
+  { label: "22", color: "#311b92", key: "21", pstyle: "circle", checked: false, sensor: null },
+  { label: "23", color: "#0d47a1", key: "22", pstyle: "circle", checked: false, sensor: null },
+  { label: "24", color: "#66bb6a", key: "23", pstyle: "circle", checked: false, sensor: null },
   
   
 ];

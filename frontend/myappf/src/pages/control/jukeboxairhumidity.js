@@ -63,10 +63,7 @@ const JukeboxAirhumidity = (props) => {
   //자동 고급설정 따로
   const AdvenceSetting = (props) => {
     const copycfg = props.initvalue;
-    console.log(copycfg);
     
-
-
     return (
       <Stack spacing={1}>
         <Stack direction="row" alignItems="flex-end">
