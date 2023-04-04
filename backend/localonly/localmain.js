@@ -71,7 +71,7 @@ async function devicemaintask(mainclass) {
         {
           const cursec = date.getSeconds();
           if (last_sec != cursec) {
-            console.log("mainloop  sec_step: " + sec_step);
+           // console.log("mainloop  sec_step: " + sec_step);
             last_sec = cursec;
             switch (sec_step) {
               case 0:

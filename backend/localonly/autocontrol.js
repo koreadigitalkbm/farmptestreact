@@ -423,7 +423,7 @@ module.exports = class AutoControl {
         upvalue = targetvalue + Number(this.mConfig.BValue);
         downvalue = targetvalue - Number(this.mConfig.BValue);
 
-        console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
+        //console.log("getStateBySensorcondtion currsensor:" + currsensor.value + " upvalue : " + upvalue + " ,downvalue: " + downvalue);
 
         //냉난방 동시제어일때
         if (KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE == this.mConfig.Cdir) {
@@ -581,7 +581,7 @@ module.exports = class AutoControl {
           for (const mactid of this.mConfig.Actlist) {
             let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
             if (actd != null) {
-              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_HEATER) {
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_HUMIDIFLER) {
                 heaterd = actd;
               }
               if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_PUMP) {
@@ -597,7 +597,7 @@ module.exports = class AutoControl {
             onoffstate = false;
           }
 
-       //   console.log("-ACT_HEATER_HUMIDITY_FOR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
+          //console.log("-ACT_HEATER_HUMIDITY_FOR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
 
           if (onoffstate != null && heaterd != null && pumpd != null) {
             let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
@@ -881,7 +881,7 @@ module.exports = class AutoControl {
       this.setdaycontroltimeover();
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
     }
-//    console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
+    //console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 
     
 
