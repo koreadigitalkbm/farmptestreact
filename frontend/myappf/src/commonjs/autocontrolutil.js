@@ -302,6 +302,8 @@ module.exports = class AutoControlUtil {
     m1.Actlist.push("N01C13T00"); ///펌프장비
     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
     m1.DOffTime = 0;
+    m1.NOnTime = AutoControlconfig.OnTimesecMAX;
+    m1.NOffTime = 0;
     m1.STime = 8 * 3600;
     m1.ETime = 18 * 3600;
     m1.Senlist.push("S01C02T02"); /// 습도센서 지정
