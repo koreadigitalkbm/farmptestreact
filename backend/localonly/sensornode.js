@@ -4,7 +4,7 @@ const KDCommon = require("../kdcommon");
 module.exports = class SensorNode {
   constructor(slaveid,regStartaddrss, mmaster, maxsensorcnt =20) {
     this.NodeName = "nuknown";
-    this.DefaultTimeoutmsec = 200;
+    this.DefaultTimeoutmsec = 300;
     this.SlaveID = slaveid;
     this.modbusMaster = mmaster;
     this.KDDefaultRegAddr = regStartaddrss; //kd 전용 센서값연속적
@@ -12,6 +12,9 @@ module.exports = class SensorNode {
     this.node_is_disconnect = true;
     this.node_product_code = 0;
     this.sensormaxcount = maxsensorcnt; //센서 최대연결갯수
+
+    console.log("SensorNode sensormaxcount:" + this.sensormaxcount);
+
   }
   
   readRS485Registers(Regaddress, Reglength) {
@@ -59,7 +62,7 @@ module.exports = class SensorNode {
 
       
       let regaddress = this.KDDefaultRegAddr;
-      const rv1 = await this.readRS485Registers(regaddress, this.sensormaxcount * 3); 
+      const rv1 = await this.readRS485Registers(regaddress, 30 * 3); 
       let svlist = [];
       if (rv1 != undefined) {
 

@@ -20,7 +20,8 @@ module.exports = class ActuatorOperation {
   // 명령어 전송시 시간에 파라메터 합해서 전송되는경우 : LED 디밍
   static Gettimewithparam(ontime,param)
   {
-    let timeparam = Number(ontime) + (Number(param) * 10000000);
+    let pint=Math.trunc(Number(param));
+    let timeparam = Number(ontime) + (pint * 10000000);
     return Number(timeparam);
   }
   //구동기 동작시  opid를 갱신

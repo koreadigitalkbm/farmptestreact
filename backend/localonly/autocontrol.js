@@ -19,11 +19,37 @@ module.exports = class AutoControl {
     this.IsPWMcontrol = false;
     this.isPHon = false;
     this.isECon = false;
+
+    //pid control
     this.previousTime=KDCommon.getCurrentTotalsec();
     this.lastError=0;
     this.cumError=0;
-    this.PIDPercent=55;
+    this.PIDPercent=50;
     this.ispidchange=false; //pid 제어 값이 변경되면 값을 전달되도록 
+
+
+    
+    this.kpv=AutoControl.checkpidparam (this.mConfig.Params[0]);
+    this.kiv= AutoControl.checkpidparam(this.mConfig.Params[1]);
+    this.kdv= AutoControl.checkpidparam(this.mConfig.Params[2]);
+
+
+    this.cumerrormax =100;
+    this.cumerrormin =-100;
+
+    if(this.kiv >0 )
+    {
+      this.cumerrormax = (100.0/this.kiv);      
+      this.cumerrormin = (-1.0*(100.0/this.kiv));
+    }
+
+
+      
+
+      
+
+
+
   }
   static Clonbyjsonobj(mobj) {
     return new AutoControl(mobj.mConfig);
@@ -144,13 +170,11 @@ module.exports = class AutoControl {
     return curstate;
   }
 
-  coputePIDTemperature(inputvalue, setvalue,kp,ki,kd)
+  coputePIDTemperature(inputvalue, setvalue)
   {
-      const cumerrormax = (5000/ki);
-      const cumerrormin = (cumerrormax*-1);
-
+      
         let currentTime = KDCommon.getCurrentTotalsec();                //get current time
-       // console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime  + " kp:" + kp + ",ki: "+ ki+ ",kd: "+ kd) ;
+        //console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime  + " kp:" + this.kpv + ",ki: "+ this.kiv+ ",kd: "+ this.kdv) ;
 
 
         let elapsedTime = (currentTime - this.previousTime);        //compute time elapsed from previous computation
@@ -166,33 +190,33 @@ module.exports = class AutoControl {
         this.cumError += error * elapsedTime;                // compute integral
         let rateError = (error - this.lastError)/elapsedTime;   // compute derivative
  
-        let out = kp*error + ki*this.cumError + kd*rateError;                //PID output               
+        let out = this.kpv*error + this.kiv*this.cumError + this.kdv*rateError;                //PID output               
 
-        //console.log("error : " + error +" cumerrormax:" +cumerrormax  + " this.cumError: " + this.cumError + ",this.lastError : "+this.lastError ) ;
+       // console.log("error : " + error +" cumerrormax:" +this.cumerrormax  + " this.cumError: " + this.cumError + ",this.lastError : "+this.lastError ) ;
 
-        if(this.cumError <cumerrormin)
+        if(this.cumError <this.cumerrormin)
         {
-          this.cumError=cumerrormin;
+          this.cumError=this.cumerrormin;
         }
-        if(this.cumError >cumerrormax)
+        if(this.cumError >this.cumerrormax)
         {
-          this.cumError=cumerrormax;
+          this.cumError=this.cumerrormax;
         }
 
  
         this.lastError = error;                                //remember current error
         this.previousTime = currentTime;                        //remember current time
  
-        if(out >5000)
+        if(out >100)
         {
-          out=5000;
+          out=100;
         }
-        if(out <-5000)
+        if(out <-100)
         {
-          out=-5000;
+          out=-100;
         }
         
-        let outp = (out+5000)/100;
+        let outp = (out+100)/2;
 
         if(this.PIDPercent != outp)
         {
@@ -206,16 +230,21 @@ module.exports = class AutoControl {
           {
             this.PIDPercent =1;
           }
+          if(this.PIDPercent  >99)
+          {
+            this.PIDPercent =100;
+          }
+
 
         }
         
 
-        //console.log("coputePIDTemperture percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
+      //  console.log("coputePIDTemperture percent : " + this.PIDPercent + " this.ispidchange:" +this.ispidchange);
         //console.log("coputePIDTemperture out : " + out +" elapsedTime:" +elapsedTime + " this.cumError : " + this.cumError + " this.lastError : "+ this.lastError );
         return this.PIDPercent;                         
   }
 
-  checkpidparam(pv)
+  static checkpidparam(pv)
   {
     let pvalue=Number(pv);
     if(pv <=0)
@@ -272,14 +301,10 @@ module.exports = class AutoControl {
         
         //console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
 
-        let kpv=this.checkpidparam (this.mConfig.Params[0]);
-        let kiv= this.checkpidparam(this.mConfig.Params[1]);
-        let kdv= this.checkpidparam(this.mConfig.Params[2]);
-
         
 
 
-        this.coputePIDTemperature(currsensor.value,targetvalue, kpv,kiv,kdv);
+        this.coputePIDTemperature(currsensor.value,targetvalue);
         return KDDefine.AUTOStateType.AST_On;
 
       }
@@ -708,7 +733,7 @@ module.exports = class AutoControl {
               
               if (currentstate == KDDefine.AUTOStateType.AST_On) {
                 ledstate = true;
-                console.log("-getOperationsBySpcify  this.PIDPercent : " +this.PIDPercent);
+                //console.log("-getOperationsBySpcify  this.PIDPercent : " +this.PIDPercent);
                 // 디밍값을 켜짐시간에 합쳐서 전달
                 pwmdemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.PIDPercent);
                 
