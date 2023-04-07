@@ -321,13 +321,13 @@ const SensorDataChart = (props) => {
     }
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={1}>
+    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+      <Grid container spacing={0.1}>
         <Grid item xs={8} minHeight={300}>
           <Line ref={chartRef} key="sensordataChart" data={dataChart} options={optionChart} redraw={true} />
         </Grid>
 
-        <Grid item xs={0} minWidth={48}>
+        <Grid item xs={0} >
           <React.Fragment>
             <Grid item xs={0}>
               <Tooltip title={tooltipText('tooltip')}>
@@ -370,7 +370,7 @@ const SensorDataChart = (props) => {
           </React.Fragment>
         </Grid>
 
-        <Grid item xs={3} padding={1}>
+        <Grid item xs={0} >
           <Box
             sx={{
               display: "flex",

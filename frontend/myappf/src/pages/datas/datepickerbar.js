@@ -1,11 +1,12 @@
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
-import { Button, IconButton, Stack, Typography,Box } from "@mui/material";
+import { Button, IconButton, Stack, Typography, Box } from "@mui/material";
 import { KeyboardArrowLeft, KeyboardArrowRight, ReadMoreTwoTone } from "@mui/icons-material";
 import React, { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import Grid from "@mui/material/Grid";
 import DatePicker from "react-datepicker";
+import FormHelperText from "@mui/material/FormHelperText";
 import Checkbox from "@mui/material/Checkbox";
 
 import { forwardRef } from "react";
@@ -103,60 +104,51 @@ export default function DatePickerBar(props) {
     if (issearching === true) {
       return (
         <React.Fragment>
-          <Stack direction="row"  alignItems="center" justifyContent="center">
-          <CircularProgress color="secondary" />
-          <Typography align="center" fontSize="small" color="secondary">
-            {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_SEARCING")}
-          </Typography>
+          <Stack direction="row" alignItems="center" justifyContent="center">
+            <CircularProgress color="secondary" />
+            <Typography align="center" fontSize="small" color="secondary">
+              {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_SEARCING")}
+            </Typography>
           </Stack>
         </React.Fragment>
       );
     } else {
       if (isdaily === true) {
         return (
-          <Stack direction="row" spacing={3} alignItems="center" justifyContent="center">
+          <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
             <IconButton name="oneDayAgo" onClick={onClickday}>
-               <KeyboardArrowLeft fontSize="large" color="primary" />
+              <KeyboardArrowLeft fontSize="large" color="primary" />
             </IconButton>
 
             <Box align="center">
               <DatePicker disabled={issearching} value={curdate} selected={curdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("dayselect", date)} />
-              <Typography align="center" fontSize="small">
-                {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_DATEEXPLAIN")}
-              </Typography>
+              <FormHelperText>{myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_DATEEXPLAIN")}</FormHelperText>
             </Box>
 
             <IconButton name="oneDayAhead" onClick={onClickday}>
-               <KeyboardArrowRight fontSize="large" color="primary" />
+              <KeyboardArrowRight fontSize="large" color="primary" />
             </IconButton>
           </Stack>
         );
       } else {
         return (
-          <Stack direction="row" spacing={3} alignItems="center" justifyContent="center">
-                        <Box align="center">
+          <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+            <Box sx={{ marginBottom: 0, p: 0, flexDirection: "column" }}>
               <DatePicker value={startdate} selected={startdate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("startday", date)} />
-              <br />{" "}
-              <Typography align="center" fontSize="small">
-                {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD_START")}
-              </Typography>
-              </Box>
+              <FormHelperText sx={{ ml: 1, p: 0 }}>{myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD_START")}</FormHelperText>
+            </Box>
 
-            
-              <IconButton name="searchday" onClick={onClickday}>
-                <QueryStatsIcon fontSize="large" color="primary" />
-                <Typography align="center" fontSize="small" color="primary">
-                  {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD_CONFIRM")}
-                </Typography>
-              </IconButton>
-            
-              <Box align="center">
-              <DatePicker value={enddate} selected={enddate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("endday", date)} />
-              <br />{" "}
-              <Typography align="center" fontSize="small">
-                {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD_END")}
-              </Typography>{" "}
-              </Box>
+            <IconButton name="searchday" onClick={onClickday}>
+              <QueryStatsIcon fontSize="large" color="primary" />
+              <Typography align="center" fontSize="small" color="primary">
+                {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD_CONFIRM")}
+              </Typography>
+            </IconButton>
+
+            <Box sx={{ m: 0, p: 0 }}>
+              <DatePicker sx={{ m: 0, p: 0 }} value={enddate} selected={enddate} customInput={<MuiCustomInput />} onChange={(date) => handleDatepicker("endday", date)} />
+              <FormHelperText sx={{ ml: 1, p: 0 }}>{myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD_END")}</FormHelperText>
+            </Box>
           </Stack>
         );
       }
@@ -165,28 +157,22 @@ export default function DatePickerBar(props) {
 
   return (
     <React.Fragment>
-      <Grid container spacing={1} sx={{ backgroundColor: "#eceff1" }} padding={1}>
-        <Grid item xs={3}>
-          <FormControl>
+      <Grid container spacing={1} sx={{ backgroundColor: "#eceff1" }} padding={0}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 1 }}>
+          <Box sx={{ backgroundColor: "#eceff1" }}>
             <RadioGroup row aria-labelledby={"rg-label"} name={"rg-name"} onChange={onChange}>
               <FormControlLabel checked={isdaily} value={"하루(1일)"} label={myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_DATE")} control={<Radio />} />
               <FormControlLabel checked={!isdaily} value={"기간(60일)"} label={myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_PERIOD")} control={<Radio />} />
             </RadioGroup>
-            <FormLabel id={"f-label"}>
-              <Typography align="left" fontSize="small">
-                {myAppGlobal.langT("LT_DATAPAGE_DATEPICKER_EXPLAIN")}
-              </Typography>
-            </FormLabel>
-          </FormControl>
-        </Grid>
-        <Grid item xs={6} sx={{ backgroundColor: "#ffffff" }}>
-          {pickertype()}
-        </Grid>
-        <Grid item xs={3} sx={{ backgroundColor: "#ffffff" }}>
+          </Box>
+        </Box>
+        <Box sx={{ backgroundColor: "#ffffff" }}>{pickertype()}</Box>
+
+        <Box sx={{ backgroundColor: "#eceff1", m: 1 }}>
           <FormControlLabel key={"keysensor"} control={<Checkbox name={"keychs"} checked={isenbsensor} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" } }} />} label={myAppGlobal.langT("LT_DATAPAGE_SEL_SENSOR")} />
           <FormControlLabel key={"keyimage"} control={<Checkbox name={"keychi"} checked={isenbimage} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" } }} />} label={myAppGlobal.langT("LT_DATAPAGE_SEL_IMAGE")} />
           <FormControlLabel key={"keyevent"} control={<Checkbox name={"keyche"} checked={isenbevent} onChange={handleChange} sx={{ color: "#1976d2", "&.Mui-checked": { color: "#1976d2" } }} />} label={myAppGlobal.langT("LT_DATAPAGE_SEL_EVENT")} />
-        </Grid>
+        </Box>
       </Grid>
     </React.Fragment>
   );

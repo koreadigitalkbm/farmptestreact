@@ -4,6 +4,7 @@ import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
 import { Button, Box, Stack, Typography } from "@mui/material";
 
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import Switch from "@mui/material/Switch";
 
 import ActuatorOperation from "../../commonjs/actuatoroperation";
@@ -106,7 +107,7 @@ const JukeboxCamera = (props) => {
           <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
-          <Typography color={"#1b5e20"}>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+          <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>
         </Stack>
       </Box>
     </Stack>

@@ -208,7 +208,7 @@ export default function SetupPage(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box>
+      <Box sx={{maxWidth:800 }}  >
         <Box sx={{ ...commonStyles }}>
           <CardActions disableSpacing>
             <UpgradeIcon color="action" fontSize="large" />
