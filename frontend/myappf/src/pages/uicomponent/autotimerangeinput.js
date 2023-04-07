@@ -12,10 +12,10 @@ const AutoInputTimeRange = (props) => {
 
   return (
     <div>
-      <Stack  direction="row" spacing={2}>
-        <Typography>{dispstr}</Typography>
+      <Stack  direction="row" spacing={0}>
+        
         <AutoInputControl type="time" initvalue={props.initvalue.STime} keyname="STime" onChange={props.onChange} />
-        <Typography>~</Typography>
+        <Typography sx={{ m: 2 }}>~</Typography>
         <AutoInputControl type="time" initvalue={props.initvalue.ETime} keyname="ETime" onChange={props.onChange} />
       </Stack>
     </div>

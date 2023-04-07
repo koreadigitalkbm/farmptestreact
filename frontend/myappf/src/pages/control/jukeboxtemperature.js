@@ -6,14 +6,14 @@ import { Button } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 import Switch from "@mui/material/Switch";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
 import KDUtil from "../../commonjs/kdutil";
-
 
 const JukeboxTemperatureM1 = (props) => {
   const [avchecked, setAVChecked] = React.useState(true);
@@ -49,11 +49,11 @@ const JukeboxTemperatureM1 = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems=[myAppGlobal.langT("LT_GROWPLANTS_HEATER"),myAppGlobal.langT("LT_GROWPLANTS_COOLER")];
-    
+    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_HEATER"), myAppGlobal.langT("LT_GROWPLANTS_COOLER")];
+
     return (
       <Stack spacing={0}>
-        <AutoManualActuator   initvalue={manualactname}  items={actitems} changehandler={inputchangeHandler}  />
+        <AutoManualActuator initvalue={manualactname} items={actitems} changehandler={inputchangeHandler} />
         <AutoManualCommon initvalue={manualontimesec} inputchangeHandler={inputchangeHandler} manualHandler={manualonoff} />
       </Stack>
     );
@@ -63,45 +63,46 @@ const JukeboxTemperatureM1 = (props) => {
   const AdvenceSetting = (props) => {
     const copycfg = props.initvalue;
     return (
-      <Stack spacing={1}>
-        <Stack direction="row" alignItems="flex-end">
+      <Stack direction={{ xs: "colurm", sm: "colurm" }} alignItems="flex-start">
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_SETTO_DAYTIME")}</Typography>
           <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
-        </Stack>
-        <Stack direction="row" alignItems="flex-end">
-          <Typography>{myAppGlobal.langT("LT_GROWPLANTS_TEMPERATUREINTERVAL")}</Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_TEMPERATUREINTERVAL")}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.BValue} unit="℃" keyname="BValue" onChange={props.inputallchangeHandler} />
-        </Stack>
+        </Box>
       </Stack>
     );
   };
   //자동제어 일반
   return (
     <Stack spacing={0}>
-      <Stack direction="row" alignItems="flex-end"   sx={{ m: 2 }}>
-        <Typography>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_TEMPERATURE_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
+      <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
+        <Typography sx={{ m: 2 }}>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_TEMPERATURE_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="℃" keyname="DTValue" onChange={props.inputallchangeHandler} />
-        <Typography>{myAppGlobal.langT('LT_GROWPLANTS_TEMPERATURE_DAY2')}</Typography>
-      </Stack>
-      <Stack direction="row" alignItems="flex-end"    sx={{ m: 2 }}>
-        <Typography>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT1`)}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="℃" keyname="NTValue" onChange={props.inputallchangeHandler} />
-        <Typography>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT2`)}</Typography>
-      </Stack>
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_TEMPERATURE_DAY2")}</Typography>
 
-      <Box sx={{bgcolor: '#c5e1a5', boxShadow: 1, borderRadius: 2, p: 2, }}>
-      <Stack direction="column" alignItems="flex-end">
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT1`)}</Typography>
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="℃" keyname="NTValue" onChange={props.inputallchangeHandler} />
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLNATS_TEMPERAUTRE_NIGHT2`)}</Typography>
+      </Box>
+
+      <Box sx={{ bgcolor: "#c5e1a5", boxShadow: 1, borderRadius: 2, p: 2 }}>
+        <Stack direction="row" justifyContent="space-between">
+          <Box align="left"></Box>
           <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
         </Stack>
-
-      {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
-      <hr/>
+        {avchecked === true ? <hr /> : null}
+        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+        <hr />
         <Stack direction="row" alignItems="center" spacing={2}>
           <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
-          <Typography color={"#1b5e20"}>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</Typography>
+          <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>
         </Stack>
-
       </Box>
     </Stack>
   );

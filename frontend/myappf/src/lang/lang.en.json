@@ -229,6 +229,7 @@
 
     "LT_GROWPLANTS_CO2_HELP1": "10초이내 짧게 설정하세요.(CO2공급)",
     "LT_GROWPLANTS_CO2_HELP2": "CO2 확산될만큼 충분히 길게 설정하세요.",
+    "LT_GROWPLANTS_CO2_HELP3": "작물에 CO2를 공급합니다.",
 
 
     "LT_GROWPLANTS_NUTI_TXT1": "양액의 pH  농도를",
@@ -238,6 +239,7 @@
     
     "LT_GROWPLANTS_NUTI_HELP1": "10초이내 짧게 설정하세요.(양액공급)",
     "LT_GROWPLANTS_NUTI_HELP2": "물 공급간격보다 길게 설정하세요.",
+    "LT_GROWPLANTS_NUTI_HELP3": "It supplies nutrients to plant.",
 
 
 
@@ -249,6 +251,7 @@
     "LT_GROWPLANTS_WATERSUPPLY_NIGHT1": "During the night, water is supplied every",
     "LT_GROWPLANTS_WATERSUPPLY_NIGHT2": "for",
     "LT_GROWPLANTS_WATERSUPPLY_NIGHT3": "",
+    "LT_GROWPLANTS_WATERSUPPLY_HELP1": "Water is provided at regular intervals.",
     "LT_GROWPLANTS_WATERSUPPLY_INTERVALUNIT": "min",
     "LT_GROWPLANTS_WATERSUPPLY_OPERATETIMEUNIT": "sec",
     "LT_GROWPLANTS_LED_DAY1": "During the day({0}), turn the LED light on to",
@@ -257,6 +260,9 @@
     "LT_GROWPLANTS_LED_RED": "Red",
     "LT_GROWPLANTS_LED_BLUE": "Blue",
     "LT_GROWPLANTS_LED_BRIGHT": "LED Brightness",
+    "LT_GROWPLANTS_LED_HELP1": "Adjust the brightness of the LED by color.",
+
+
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1": "Operate the ventilation fan, valve when the internal CO₂ concentration is less than ",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2": "",
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3": "\nor humidity is greater than ",
@@ -281,12 +287,12 @@
     "LT_GROWPLANTS_TURNONTIME": "Turn on time",
     "LT_GROWPLANTS_TURNOFFTIME": "Turn off time",
     "LT_GROWPLANTS_OPERATEUNIT": "sec",
-    "LT_GROWPLANTS_TAKEPICTURE_EVERYDAY1": "Take",
-    "LT_GROWPLANTS_TAKEPICTURE_EVERYDAY2": "picture every day",
+    "LT_GROWPLANTS_TAKEPICTURE_EVERYDAY1": "Take picture",
+    "LT_GROWPLANTS_TAKEPICTURE_EVERYDAY2": " every day.",
     "LT_GROWPLANTS_TAKEPICTURE_NUMBEROFTIMES": "times",
-    "LT_GROWPLANTS_TAKEPICTURE_STARTTIME": "Shooting start time",
-    "LT_GROWPLANTS_TAKEPICTURE_SHOOT": "photo shoot",
-    "LT_GROWPLANTS_TAKEPICTURE_LOADRECENTLYPICTURE": "load to recently picture",
+    "LT_GROWPLANTS_TAKEPICTURE_STARTTIME": "Take picture start time : ",
+    "LT_GROWPLANTS_TAKEPICTURE_SHOOT": "Take pictures",
+    "LT_GROWPLANTS_TAKEPICTURE_LOADRECENTLYPICTURE": "Load to recently picture",
     "LT_GROWPLANTS_TAKEPICTURE_SAVEPICTURE": "Save picture",
     "LT_GROWPLANTS_SAVE": "Save",
     "LT_GROWPLANTS_SAVE_NOTI": "Save the modified control settings to the equipment.",

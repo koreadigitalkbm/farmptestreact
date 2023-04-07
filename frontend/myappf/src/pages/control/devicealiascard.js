@@ -20,7 +20,7 @@ import Sensordevice from "../../commonjs/sensordevice";
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
-  minWidth: "45rem",
+  maxWidth: "45rem",
   backgroundColor: "#dcedc8",
 }));
 
@@ -106,27 +106,28 @@ const ActuatorAliasCard = (props) => {
     let selectlist = itemlist.map((mitem, index) => <MenuItem value={index}>{mitem.Name}</MenuItem>);
 
     return (
-      <Stack spacing={1}>
-        <Stack direction="row" alignItems="flex-end">
-          <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <Stack 
+      spacing={1}   
+      direction={{ xs: 'column', sm: 'row' }} 
+      >
+          <FormControl sx={{ m: 1, maxWidth: 220 }}>
             <InputLabel id="demo-simple-select-helper-label">Actuator</InputLabel>
             <Select labelId="demo-simple-select-helper-label" id="demo-simple-select-helper" value={sindex} label="Actuator" onChange={handleChange}>
               {selectlist}
             </Select>
             <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_ALIAS_HELPER")}</FormHelperText>
           </FormControl>
-
+          <Box sx={{ m: 1, maxWidth: 240 }}>
           <TextField id="devicealiasText" value={sensoralisas} helperText={myAppGlobal.langT("LT_GROWPLANTS_SENSOR_HELPER")} variant="filled" sx={{ m: 1, minWidth: 120 }} onChange={handleChange} />
-
+          </Box>
           <Stack direction="column" alignItems="flex-start" spacing={1}>
-            <Button variant="contained" disabled={savedisable} sx={{ minWidth: 120, backgroundColor: "#fb8c00" }} onClick={() => saveconfig(itemlist[sindex].Uid, sensoralisas)} endIcon={<SaveAltIcon fontSize="large" />}>
+            <Button variant="contained" disabled={savedisable} sx={{ mt:1,minHeight: 50, minWidth: 140, backgroundColor: "#fb8c00" }} onClick={() => saveconfig(itemlist[sindex].Uid, sensoralisas)} endIcon={<SaveAltIcon fontSize="large" />}>
               {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
             </Button>
-            <Typography fontSize={12} color={"#1b5e20"}>
-              {myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}
-            </Typography>
+            <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>
+            
           </Stack>
-        </Stack>
+       
       </Stack>
     );
   };
@@ -135,7 +136,7 @@ const ActuatorAliasCard = (props) => {
   return (
     <CardFarmsCube>
       <CardActions disableSpacing>
-        <Typography variant="h6" sx={{ minWidth: 300 }}>
+        <Typography variant="h6" >
           {myAppGlobal.langT("LT_GROWPLANTS_ACTALIAS_TITLE")}
         </Typography>
 
@@ -144,7 +145,8 @@ const ActuatorAliasCard = (props) => {
           {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
         </ExpandMore>
       </CardActions>
-      <Box sx={{ m: 0 }}>{expanded === true ? <AliasSetting /> : ""}</Box>
+      {expanded === true ? <hr/>:null}
+      <Box sx={{ m: 1 ,bgcolor: "#c5e1a5"}}>{expanded === true ? <AliasSetting /> : ""}</Box>
     </CardFarmsCube>
   );
 };

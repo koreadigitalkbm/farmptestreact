@@ -84,7 +84,7 @@ const HDashboard = (props) => {
       }
   
       init_count++;
-      if(init_count <20)
+      if(init_count <100)
       {
         readtimemsec = 3000;
       }

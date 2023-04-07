@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { ThemeProvider } from "@mui/material/styles";
+import Paper from '@mui/material/Paper';
 import muiTheme from "../muiTheme";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import AddCardIcon from "@mui/icons-material/AddCard";
@@ -16,9 +17,17 @@ import ActuatorAliasCard from "./devicealiascard";
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
-  maxWidth: "45rem",
+  minWidth: "45rem",
   backgroundColor: "#dcedc8",
 }));
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,7 +39,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const Autocontrolpage = (props) => {
+const AutocontrolTestpage = (props) => {
   let bexpends = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 
   const closeDialog = () => {
@@ -135,72 +144,41 @@ const Autocontrolpage = (props) => {
 
     return (
       <CardFarmsCube>
-        
-         <Stack 
-      spacing={2}   
-      direction={{ xs: 'column', sm: 'row' }} 
-      justifyContent="flex-end"
-      >
-
-      
-          <Typography variant="h6" sx={{  }}>
+        <CardActions disableSpacing>
+          <Typography variant="h6" sx={{ minWidth: 300 }}>
             {mydata.Name}
           </Typography>
-          
-
-  
-      <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} />
+          <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} />
 
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-          
-            
-
             <Typography>{autoenable === true ? myAppGlobal.langT("LT_GROWPLANTS_AUTO") : myAppGlobal.langT("LT_GROWPLANTS_MANUAL")} </Typography>
             {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
           </ExpandMore>
-  
-
-          </Stack>
+        </CardActions>
 
         <Box sx={{ m: 0 }}>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} savecfg={saveconfig} /> : ""}</Box>
-        
       </CardFarmsCube>
     );
   };
 
   return (
-    <Box sx={{  maxWidth:'46rem' }}>
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={12}>
-          <Card sx={{ backgroundColor: "#f1f8e9" }}>
-            <CardHeader titleTypographyProps={{ variant: "h7" }} title={myAppGlobal.langT("LT_GROWPLANTS_TITLE")} />
-            <Stack direction="column">
-              {mAutolist.map((mconfig, index) => (
-                <Autocontrolcard key={"autobox" + index} myconfig={mconfig} hexp={expandedcfg} mindex={index} bexp={bexpendeds} />
-              ))}
-            </Stack>
-            <Stack direction="column" alignItems="flex-end">
-              <Button size="large" endIcon={<AddCardIcon  />}>
-                {myAppGlobal.langT("LT_GROWPLANTS_ADDAUTOCONTROL")}
-              </Button>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
-
-      <Grid item xs={12} md={12}>
-        <Card sx={{ backgroundColor: "#f1f8e9" }}>
-          <CardHeader titleTypographyProps={{ variant: "h7" }} title={myAppGlobal.langT("LT_GROWPLANTS_ETC_TITLE")} />
-          <Stack direction="column">
-            <SensorAliasCard savehandler={savealias} />
-            <ActuatorAliasCard savehandler={savealias} />
-          </Stack>
-        </Card>
-      </Grid>
-
-      <AlertDialog params={alertmssage} />
+    <Box sx={{ width: 1 }}>
+    <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gap={2}>
+      <Box gridColumn="span 8">
+        <Item>xs=8</Item>
+      </Box>
+      <Box gridColumn="span 4">
+        <Item>xs=4</Item>
+      </Box>
+      <Box gridColumn="span 4">
+        <Item>xs=4</Item>
+      </Box>
+      <Box gridColumn="span 8">
+        <Item>xs=8</Item>
+      </Box>
     </Box>
+  </Box>
   );
 };
 
-export default Autocontrolpage;
+export default AutocontrolTestpage;

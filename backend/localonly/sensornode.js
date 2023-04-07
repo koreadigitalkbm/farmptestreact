@@ -62,7 +62,7 @@ module.exports = class SensorNode {
 
       
       let regaddress = this.KDDefaultRegAddr;
-      const rv1 = await this.readRS485Registers(regaddress, 30 * 3); 
+      const rv1 = await this.readRS485Registers(regaddress, this.sensormaxcount * 3); 
       let svlist = [];
       if (rv1 != undefined) {
 

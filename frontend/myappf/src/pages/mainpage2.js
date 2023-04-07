@@ -10,6 +10,7 @@ import HDashboard from "./home/hdashboard";
 import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
+import AutocontrolTestpage from "./control/autotestp";
 
 const dropMenu = ["Setting"];
 
@@ -137,7 +138,7 @@ export default function FMainpage(props) {
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box >
       <CssBaseline />
 
       <AppBar component="nav">
