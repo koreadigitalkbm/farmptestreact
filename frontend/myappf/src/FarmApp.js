@@ -107,7 +107,7 @@ function FarmApp(props) {
 
       setloginrol(myAppGlobal.loginrole);
 
-      console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal);
+      console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid);
     }
   }, []);
 
