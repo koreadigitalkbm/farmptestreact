@@ -27,12 +27,14 @@ function FarmApp(props) {
     myAppGlobal.dashboardlasteventtime = 1;
     myAppGlobal.dashboardlastsensortime = 1;
     myAppGlobal.Autocontrolcfg = null;
-    myAppGlobal.sessionid = 0;
+    
     myAppGlobal.gsensorlist = [];
     myAppGlobal.gactuaotrslist = [];
 
-    let ssid = Math.floor(Math.random() * 100000 + 100);
-    window.sessionStorage.setItem("msessionid", ssid);
+    //센셔아뒤 새로만듬
+    myAppGlobal.sessionid = Math.floor(Math.random() * 100000 + 100);
+    
+    window.sessionStorage.setItem("msessionid", myAppGlobal.sessionid);
     window.sessionStorage.setItem("login", myAppGlobal.loginrole);
     window.sessionStorage.setItem("deviceid", "");
 
@@ -107,7 +109,8 @@ function FarmApp(props) {
 
       setloginrol(myAppGlobal.loginrole);
 
-      console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid);
+
+      //console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid);
     }
   }, []);
 
