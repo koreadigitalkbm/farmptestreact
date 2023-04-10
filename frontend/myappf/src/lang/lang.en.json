@@ -195,6 +195,7 @@
     "LT_GROWPLANTS_MANUAL": "Manual control",
     "LT_GROWPLANTS_ALIAS_CONFIRMED": "Alias settings have been saved.",
     "LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED": "Automatic control settings have been saved.",
+    "LT_GROWPLANTS_AUTOCONTROLSETTING_FAIL": "Automatic control setting failed.",
     "LT_GROWPLANTS_AUTOCONTROLSTART": "Automatic control has started.  You cannot control it manually.",
     "LT_GROWPLANTS_AUTOCONTROLSTOP": "Automatic control has stopped.  You can control it manually.",
     "LT_GROWPLANTS_ADVANCEDSETTING": "Advanced setting",
@@ -354,6 +355,7 @@
     "LT_SETTING_NEW_UPDATE": "There is a new version. Please proceed with the update.",
 
     "LT_ALERT_SUCESS": "Sucess",
+    "LT_ALERT_FAIL": "Fail",
 
     "Autocontrol": "Grow Plants",
     "BrandName": "Brand name",

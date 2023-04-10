@@ -22,10 +22,26 @@ let togleflg = 0;
 
 const JukeboxCamera = (props) => {
   const [takeimageurl, settakeimageurl] = useState(manultakefilename);
-  const copycfg = props.initvalue;
+  const [savedisable, setBtnDisable] = React.useState(true);  
+  const commoninputhandler = props.inputallchangeHandler;
+  const commonischangehandler= props.ischangehandler;
+  const copycfg= props.initvalue;
   const saveconfig = props.savecfg;
 
+
   console.log("JukeboxCamera recenturl:" + recenturl + " togleflg:" + togleflg + "takeimageurl : " + takeimageurl);
+
+
+  const inputchangeHandler = (event) => {
+    //console.log("inputchangeHandler event.target.name:" +event.target.name);
+    switch (event.target.name) {
+      default:
+        commoninputhandler(event);
+        break;
+    }
+    setBtnDisable( commonischangehandler());
+
+  };
 
   function manualreload() {
     if (togleflg == 0) {
@@ -95,16 +111,16 @@ const JukeboxCamera = (props) => {
     <Stack spacing={0}>
       <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_EVERYDAY1")}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit={myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_NUMBEROFTIMES")} keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit={myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_NUMBEROFTIMES")} keyname="DTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_EVERYDAY2")}</Typography>
 
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_STARTTIME")}</Typography>
-        <AutoInputControl type="time" initvalue={copycfg.STime} unit="" keyname="STime" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="time" initvalue={copycfg.STime} unit="" keyname="STime" onChange={inputchangeHandler} />
       </Box>
       <Box sx={{ bgcolor: "#c5e1a5", boxShadow: 1, borderRadius: 2, p: 2 }}>
         <hr />
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+          <Button  disabled={savedisable} variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
           <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>

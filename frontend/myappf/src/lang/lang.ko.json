@@ -200,6 +200,7 @@
     "LT_GROWPLANTS_MANUAL": "수동 제어",
     "LT_GROWPLANTS_ALIAS_CONFIRMED": "별칭 설정이 저장되었습니다.",
     "LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED": "자동제어설정이 저장되었습니다.",
+    "LT_GROWPLANTS_AUTOCONTROLSETTING_FAIL": "자동제어설정에 실패하였습니다.",
     "LT_GROWPLANTS_AUTOCONTROLSTART": "자동제어가 시작됐습니다.\n수동으로 제어할 수 없습니다.",
     "LT_GROWPLANTS_AUTOCONTROLSTOP": "자동제어가 중지됐습니다.\n수동으로 제어할 수 있습니다.",
     "LT_GROWPLANTS_ADVANCEDSETTING": "고급설정",
@@ -363,6 +364,7 @@
 
 
     "LT_ALERT_SUCESS": "성공",
+    "LT_ALERT_FAIL": "실패",
 
     "Autocontrol": "식물키우기",
     "BrandName": "브랜드명",

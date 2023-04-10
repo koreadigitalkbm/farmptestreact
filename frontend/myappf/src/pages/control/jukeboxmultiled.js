@@ -1,18 +1,11 @@
 import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
-import { Button, Stack, Typography } from "@mui/material";
-import FormLabel from "@mui/material/FormLabel";
-import FormControl from "@mui/material/FormControl";
+import { Button, Stack, Typography, Box, Switch } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
-import Switch from "@mui/material/Switch";
-
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import Box from "@mui/material/Box";
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
@@ -20,12 +13,16 @@ import AutoManualActuator from "../uicomponent/automanualactuator";
 import KDUtil from "../../commonjs/kdutil";
 
 const JukeboxMultiLED = (props) => {
-  const copycfg = props.initvalue;
-  const saveconfig = props.savecfg;
   const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
   const [manualdemming, setmanualdemming] = React.useState(100);
+
+  const [savedisable, setBtnDisable] = React.useState(true);
+  const commoninputhandler = props.inputallchangeHandler;
+  const commonischangehandler = props.ischangehandler;
+  const copycfg = props.initvalue;
+  const saveconfig = props.savecfg;
   const [leddimmingpercent, setleddimmingpercent] = React.useState(copycfg.Params[0]);
 
   const inputchangeHandler = (event) => {
@@ -46,8 +43,13 @@ const JukeboxMultiLED = (props) => {
 
       case "whiteled":
       case "leddeming":
+        console.log("inputchangeHandler event.target.name 1:" + leddimmingpercent);
+
         copycfg.Params[0] = event.target.value;
         setleddimmingpercent(copycfg.Params[0]);
+
+        console.log("inputchangeHandler event.target.name2:" + leddimmingpercent);
+
         break;
       case "redled":
         copycfg.Params[1] = event.target.value;
@@ -57,8 +59,11 @@ const JukeboxMultiLED = (props) => {
         break;
 
       default:
+        commoninputhandler(event);
         break;
     }
+
+    setBtnDisable(commonischangehandler());
   };
 
   function manualonoff(isSetOn) {
@@ -94,23 +99,22 @@ const JukeboxMultiLED = (props) => {
     return (
       <Stack direction={{ xs: "colurm", sm: "colurm" }} alignItems="flex-start">
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_SETTO_DAYTIME")}</Typography>
-          <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
-          </Box>
+          <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_SETTO_DAYTIME")}</Typography>
+          <AutoInputTimeRange initvalue={copycfg} onChange={inputchangeHandler} />
+        </Box>
 
-          <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
-            <Typography sx={{ m: 2 }} >{myAppGlobal.langT("LT_GROWPLANTS_LED_WHITE")}</Typography>
-            <AutoInputControl type="number" initvalue={leddimmingpercent} unit="%" keyname="whiteled" onChange={inputchangeHandler} />
-            </Box>
-          <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
-            <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_LED_RED")}</Typography>
-            <AutoInputControl type="number" initvalue={copycfg.Params[1]} unit="%" keyname="redled" onChange={inputchangeHandler} />
-            </Box>
-          <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
-            <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_LED_BLUE")}</Typography>
-            <AutoInputControl type="number" initvalue={copycfg.Params[2]} unit="%" keyname="blueled" onChange={inputchangeHandler} />
-            </Box>
-        
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_LED_WHITE")}</Typography>
+          <AutoInputControl type="number" initvalue={leddimmingpercent} unit="%" keyname="whiteled" onChange={inputchangeHandler} />
+        </Box>
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_LED_RED")}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.Params[1]} unit="%" keyname="redled" onChange={inputchangeHandler} />
+        </Box>
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_LED_BLUE")}</Typography>
+          <AutoInputControl type="number" initvalue={copycfg.Params[2]} unit="%" keyname="blueled" onChange={inputchangeHandler} />
+        </Box>
       </Stack>
     );
   };
@@ -134,11 +138,11 @@ const JukeboxMultiLED = (props) => {
         </Stack>
 
         {avchecked === true ? <hr /> : null}
-        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={inputchangeHandler} /> : null}
 
         <hr />
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+          <Button disabled={savedisable} variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
           <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>

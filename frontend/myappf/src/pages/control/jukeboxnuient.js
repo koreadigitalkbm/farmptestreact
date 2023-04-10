@@ -16,6 +16,9 @@ const JukeboxNutrientSupply = (props) => {
   const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
+  const [savedisable, setBtnDisable] = React.useState(true);
+  const commoninputhandler = props.inputallchangeHandler;
+  const commonischangehandler = props.ischangehandler;
   const copycfg = props.initvalue;
   const saveconfig = props.savecfg;
 
@@ -33,8 +36,10 @@ const JukeboxNutrientSupply = (props) => {
         setmanualontimesec(event.target.value);
         break;
       default:
+        commoninputhandler(event);
         break;
     }
+    setBtnDisable(commonischangehandler());
   };
 
   function manualonoff(isSetOn) {
@@ -83,18 +88,18 @@ const JukeboxNutrientSupply = (props) => {
       <Stack direction={{ xs: "colurm", sm: "colurm" }} alignItems="flex-start">
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_VALVEONTIME")}</Typography>
-          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOnTime" onChange={inputchangeHandler} />
           <Typography color={"#fb8c00"} sx={{ m: 2 }} fontSize={15}>
             {"※ " + myAppGlobal.langT("LT_GROWPLANTS_NUTI_HELP1")}
           </Typography>
-          </Box>
+        </Box>
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_VALVEOFFTIME")}</Typography>
-          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOffTime" onChange={inputchangeHandler} />
           <Typography color={"#fb8c00"} sx={{ m: 2 }} fontSize={15}>
             {"※ " + myAppGlobal.langT("LT_GROWPLANTS_NUTI_HELP2")}
           </Typography>
-          </Box>
+        </Box>
       </Stack>
     );
   };
@@ -103,11 +108,11 @@ const JukeboxNutrientSupply = (props) => {
     <Stack spacing={0}>
       <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
         <Typography sx={{ m: 2 }}>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="pH" keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="pH" keyname="DTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_NUTI_TXT2")}</Typography>
 
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT3`)}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="mS" keyname="NTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="mS" keyname="NTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT4`)}</Typography>
       </Box>
 
@@ -121,10 +126,10 @@ const JukeboxNutrientSupply = (props) => {
           <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
         </Stack>
         {avchecked === true ? <hr /> : null}
-        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={inputchangeHandler} /> : null}
         <hr />
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+          <Button disabled={savedisable} variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
           <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>

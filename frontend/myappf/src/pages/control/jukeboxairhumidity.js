@@ -17,7 +17,10 @@ const JukeboxAirhumidity = (props) => {
   const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
-  const copycfg = props.initvalue;
+  const [savedisable, setBtnDisable] = React.useState(true);  
+  const commoninputhandler = props.inputallchangeHandler;
+  const commonischangehandler= props.ischangehandler;
+  const copycfg= props.initvalue;
   const saveconfig = props.savecfg;
 
   const inputchangeHandler = (event) => {
@@ -34,8 +37,10 @@ const JukeboxAirhumidity = (props) => {
         setmanualontimesec(event.target.value);
         break;
       default:
+        commoninputhandler(event);
         break;
     }
+    setBtnDisable( commonischangehandler());
   };
 
   function manualonoff(isSetOn) {
@@ -67,11 +72,11 @@ const JukeboxAirhumidity = (props) => {
       <Stack direction={{ xs: "colurm", sm: "colurm" }} alignItems="flex-start">
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_SETTO_DAYTIME")}</Typography>
-          <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
+          <AutoInputTimeRange initvalue={copycfg} onChange={inputchangeHandler} />
         </Box>
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography  sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_INTERVAL")}</Typography>
-          <AutoInputControl type="number" initvalue={copycfg.BValue} unit="%" keyname="BValue" onChange={props.inputallchangeHandler} />
+          <AutoInputControl type="number" initvalue={copycfg.BValue} unit="%" keyname="BValue" onChange={inputchangeHandler} />
         </Box>
       </Stack>
     );
@@ -81,11 +86,11 @@ const JukeboxAirhumidity = (props) => {
     <Stack spacing={0}>
       <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
         <Typography sx={{ m: 2 }}>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_HUMIDITY_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_HUMIDITY_DAY2")}</Typography>
 
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLNATS_HUMIDITY_NIGHT1`)}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="%" keyname="NTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="%" keyname="NTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLNATS_HUMIDITY_NIGHT2`)}</Typography>
       </Box>
 
@@ -99,10 +104,10 @@ const JukeboxAirhumidity = (props) => {
           <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
         </Stack>
         {avchecked === true ? <hr /> : null}
-        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={inputchangeHandler} /> : null}
         <hr />
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+          <Button disabled={savedisable}  variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
           <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>

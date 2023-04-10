@@ -20,7 +20,7 @@ import Sensordevice from "../../commonjs/sensordevice";
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
-  maxWidth: "45rem",
+  maxWidth: "50rem",
   backgroundColor: "#dcedc8",
 }));
 

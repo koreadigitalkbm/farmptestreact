@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 import Autocontroleditbox from "./autocontroleditbox";
-
+import AutoControlconfig from "../../commonjs/autocontrolconfig";
 import { Box, Button, Card, CardActions, CardHeader, Grid, IconButton, Stack, Switch, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ThemeProvider } from "@mui/material/styles";
-import muiTheme from "../muiTheme";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import AlertDialog from "../uicomponent/basicalert";
@@ -16,7 +15,7 @@ import ActuatorAliasCard from "./devicealiascard";
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
-  maxWidth: "45rem",
+  maxWidth: "50rem",
   backgroundColor: "#dcedc8",
 }));
 
@@ -47,6 +46,8 @@ const Autocontrolpage = (props) => {
   const [mAutolist, setUpdateauto] = useState(myAppGlobal.Autocontrolcfg);
   const [bexpendeds, setbexpendeds] = useState([]);
   const [alertmssage, setAlert] = useState(alertparams);
+  const [issaving, setissaving] = useState(false);
+
 
   console.log("----------------------------Autocontrolpage ");
 
@@ -65,7 +66,7 @@ const Autocontrolpage = (props) => {
         bexpends[i] = false;
       }
     }
-    console.log(bexpends);
+    //console.log(bexpends);
     setbexpendeds(bexpends);
   }
 
@@ -87,33 +88,49 @@ const Autocontrolpage = (props) => {
 
     let expanded = props.bexp[myindex];
 
-    console.log("Autocontrolcard  expanded: " + expanded);
+    //console.log("Autocontrolcard  expanded: " + expanded);
 
     const saveconfig = (mconfig, newstate) => {
+
+      setissaving(true);
       myAppGlobal.farmapi.saveAutocontrolconfig(mconfig).then((ret) => {
-        console.log("Autocontrolcard  retMessage: " + ret.retMessage);
 
-        if (newstate == null) {
-          // alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED"));
+        setissaving(false);
+        if (ret == null) {
 
-          alertparams.type = "success";
-          alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-          alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED");
-          setAlert(alertparams);
+            alertparams.type = "error";
+            alertparams.title = myAppGlobal.langT("LT_ALERT_FAIL");
+            alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSETTING_FAIL");
+            setAlert(alertparams);
+
         } else {
-          if (newstate === true) {
-            //alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTART"));
+          console.log("Autocontrolcard  retMessage: " + ret.retMessage);
 
+          AutoControlconfig.CopyObj(mydata, mconfig);
+
+          if (newstate == null) {
+            
+            
             alertparams.type = "success";
             alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-            alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTART");
+            alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSETTINGCONFIRMED");
+
             setAlert(alertparams);
           } else {
-            //alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTOP"));
-            alertparams.type = "success";
-            alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-            alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTOP");
-            setAlert(alertparams);
+            if (newstate === true) {
+              //alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTART"));
+
+              alertparams.type = "success";
+              alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+              alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTART");
+              setAlert(alertparams);
+            } else {
+              //alert(myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTOP"));
+              alertparams.type = "success";
+              alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+              alertparams.message = myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLSTOP");
+              setAlert(alertparams);
+            }
           }
         }
       });
@@ -127,49 +144,39 @@ const Autocontrolpage = (props) => {
 
     const handleChange = (event) => {
       const newstate = !autoenable;
-      mydata.Enb = newstate;
+      let copycfg = AutoControlconfig.deepcopy(mydata);
+      copycfg.Enb = newstate;
+      saveconfig(copycfg, newstate);
 
-      saveconfig(mydata, newstate);
       setautoenable(newstate);
     };
 
     return (
       <CardFarmsCube>
-        
-         <Stack 
-      spacing={2}   
-      direction={{ xs: 'column', sm: 'row' }} 
-      justifyContent="flex-end"
-      >
+        <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between">
+          <Box align="left">
+            <Typography variant="h6" sx={{ m: 2 }}>
+              {mydata.Name}
+            </Typography>
+          </Box>
 
-      
-          <Typography variant="h6" sx={{  }}>
-            {mydata.Name}
-          </Typography>
-          
+          <Box align="right">
+            {issaving == true? <CircularProgress color="secondary" />:<FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} /> }
 
-  
-      <FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} />
-
-          <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-          
-            
-
-            <Typography>{autoenable === true ? myAppGlobal.langT("LT_GROWPLANTS_AUTO") : myAppGlobal.langT("LT_GROWPLANTS_MANUAL")} </Typography>
-            {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
-          </ExpandMore>
-  
-
-          </Stack>
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <Typography>{autoenable === true ? myAppGlobal.langT("LT_GROWPLANTS_AUTO") : myAppGlobal.langT("LT_GROWPLANTS_MANUAL")} </Typography>
+              {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
+            </ExpandMore>
+          </Box>
+        </Stack>
 
         <Box sx={{ m: 0 }}>{expanded === true ? <Autocontroleditbox key={"autobox" + mydata.Name} myconfig={mydata} savecfg={saveconfig} /> : ""}</Box>
-        
       </CardFarmsCube>
     );
   };
 
   return (
-    <Box sx={{  maxWidth:'46rem' }}>
+    <Box sx={{ maxWidth: "50rem" }}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Card sx={{ backgroundColor: "#f1f8e9" }}>
@@ -180,7 +187,7 @@ const Autocontrolpage = (props) => {
               ))}
             </Stack>
             <Stack direction="column" alignItems="flex-end">
-              <Button size="large" endIcon={<AddCardIcon  />}>
+              <Button size="large" endIcon={<AddCardIcon />}>
                 {myAppGlobal.langT("LT_GROWPLANTS_ADDAUTOCONTROL")}
               </Button>
             </Stack>

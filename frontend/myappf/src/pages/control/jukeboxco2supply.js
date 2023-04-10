@@ -1,10 +1,10 @@
 import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
-import { Button, Stack, Box, Typography } from "@mui/material";
+import { Button, Stack, Box, Typography, Switch } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
-import Switch from "@mui/material/Switch";
+
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
@@ -16,11 +16,14 @@ const JukeboxCo2Supply = (props) => {
   const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
+  const [savedisable, setBtnDisable] = React.useState(true);
+  const commoninputhandler = props.inputallchangeHandler;
+  const commonischangehandler = props.ischangehandler;
   const copycfg = props.initvalue;
   const saveconfig = props.savecfg;
 
   const inputchangeHandler = (event) => {
-    console.log("inputchangeHandler event.target.name:" + event.target.name);
+    //console.log("inputchangeHandler event.target.name:" + event.target.name);
 
     switch (event.target.name) {
       case "avencheck":
@@ -33,8 +36,10 @@ const JukeboxCo2Supply = (props) => {
         setmanualontimesec(event.target.value);
         break;
       default:
+        commoninputhandler(event);
         break;
     }
+    setBtnDisable(commonischangehandler());
   };
 
   function manualonoff(isSetOn) {
@@ -65,23 +70,22 @@ const JukeboxCo2Supply = (props) => {
       <Stack direction={{ xs: "colurm", sm: "colurm" }} alignItems="flex-start">
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_SETTO_DAYTIME")}</Typography>
-
-          <AutoInputTimeRange initvalue={copycfg} onChange={props.inputallchangeHandler} />
+          <AutoInputTimeRange initvalue={copycfg} onChange={inputchangeHandler} />
         </Box>
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_CO2_INTERVAL")}</Typography>
-          <AutoInputControl type="number" initvalue={copycfg.BValue} unit="ppm" keyname="BValue" onChange={props.inputallchangeHandler} />
+          <AutoInputControl type="number" initvalue={copycfg.BValue} unit="ppm" keyname="BValue" onChange={inputchangeHandler} />
         </Box>
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_VALVEONTIME")}</Typography>
-          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOnTime" onChange={props.inputallchangeHandler} />
+          <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOnTime" onChange={inputchangeHandler} />
           <Typography color={"#fb8c00"} sx={{ m: 2 }} fontSize={15}>
             {"※ " + myAppGlobal.langT("LT_GROWPLANTS_CO2_HELP1")}
           </Typography>
         </Box>
         <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_VALVEOFFTIME")}</Typography>
-          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOffTime" onChange={props.inputallchangeHandler} />
+          <AutoInputControl type="number" initvalue={copycfg.DOffTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOffTime" onChange={inputchangeHandler} />
           <Typography color={"#fb8c00"} sx={{ m: 2 }} fontSize={15}>
             {"※ " + myAppGlobal.langT("LT_GROWPLANTS_CO2_HELP2")}
           </Typography>
@@ -94,11 +98,10 @@ const JukeboxCo2Supply = (props) => {
     <Stack spacing={0}>
       <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
         <Typography sx={{ m: 2 }}>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_CO2_DAY1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="ppm" keyname="DTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="ppm" keyname="DTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_CO2_DAY2")}</Typography>
-
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLNATS_CO2_NIGHT1`)}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={props.inputallchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLNATS_CO2_NIGHT2`)}</Typography>
       </Box>
 
@@ -113,10 +116,10 @@ const JukeboxCo2Supply = (props) => {
         </Stack>
 
         {avchecked === true ? <hr /> : null}
-        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={props.inputallchangeHandler} /> : null}
+        {avchecked === true ? <AdvenceSetting initvalue={copycfg} inputallchangeHandler={inputchangeHandler} /> : null}
         <hr />
         <Stack direction="row" alignItems="center" spacing={2}>
-          <Button variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
+          <Button disabled={savedisable} variant="contained" sx={{ backgroundColor: "#fb8c00" }} onClick={() => saveconfig()} endIcon={<SaveAltIcon fontSize="large" />}>
             {myAppGlobal.langT("LT_GROWPLANTS_SAVE")}
           </Button>
           <FormHelperText>{myAppGlobal.langT("LT_GROWPLANTS_SAVE_NOTI")}</FormHelperText>

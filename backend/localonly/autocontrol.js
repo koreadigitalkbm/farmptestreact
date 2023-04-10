@@ -823,7 +823,13 @@ module.exports = class AutoControl {
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
       let timeminnow = KDCommon.getCurrentTotalminute();
       let starttimemin = this.mConfig.STime / 60;
-      let intervalmin = 1440 / Number(this.mConfig.DTValue);
+      let takecount=Number(this.mConfig.DTValue);
+      if(takecount <1 || takecount>8)
+      {
+        takecount=2;
+      }
+
+      let intervalmin = 1440 / Number(takecount);
       intervalmin = Number(intervalmin.toFixed());
 
       //      console.log("getOperationsforcamera ---------------intervalmin:  " + intervalmin +" starttimemin:" + starttimemin + " timeminnow:"+ timeminnow);

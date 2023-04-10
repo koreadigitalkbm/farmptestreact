@@ -14,7 +14,7 @@ const AutoManualActuator = (props) => {
       <FormLabel id="demo-controlled-radio-buttons-group">{myAppGlobal.langT("LT_GROWPLANTS_SELECTHOC")}</FormLabel>
       <RadioGroup aria-labelledby="demo-controlled-radio-buttons-group" name="devselgroup" value={props.initvalue} onChange={props.changehandler}>
         {itemlist.map((item, index) => (
-          <FormControlLabel value={"selitem" + index} control={<Radio />} label={item} />
+          <FormControlLabel value={"selitem" + index} key={"nkey"+index} control={<Radio />} label={item} />
         ))}
       </RadioGroup>
     </FormControl>

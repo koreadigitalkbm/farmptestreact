@@ -2,7 +2,7 @@
 
 
 var myAppGlobal = {
-    isinitalizeApp:false, // 초기화 되면  true  변경
+    
     loginrole : null, // 
     issupervisor:false, //공장설정 가능 슈퍼바이저 
     islocal: false,  // 로컬, 원격
@@ -17,8 +17,8 @@ var myAppGlobal = {
     dashboardimagefileurl:"image/noimage.png",
     dashboardlasteventtime: 1,
     dashboardlastsensortime: 1,
-    gsensorlist:[],
-    gactuaotrslist:[],
+    gsensorlist:[],  //센서 별칭
+    gactuaotrslist:[], // 구동기 별칭
     ncount:0
   }
   

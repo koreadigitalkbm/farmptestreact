@@ -95,7 +95,7 @@ export default class IndoorFarmAPI {
   async getSysteminformations() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMINIFO);
 
-    return await this.setRequestdevice(reqmsg);
+    return  this.setRequestdevice(reqmsg);
   }
 
   async getdevicelog() {

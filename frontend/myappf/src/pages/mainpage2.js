@@ -16,7 +16,6 @@ const dropMenu = ["Setting"];
 
 export default function FMainpage(props) {
   const [loadinfo, setLoadinfo] = useState("init");
-
   const [dropItems, setDropItems] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -85,12 +84,22 @@ export default function FMainpage(props) {
               //자동제어가 없다. 이럴경우 어케하지..
               setLoadinfo("error");
             } else {
+              if(ret.retParam ==null || ret.retParam.length < 0)
+              {
+                setLoadinfo("error");
+              }
+              else{
+
+                
               myAppGlobal.Autocontrolcfg = ret.retParam;
+              console.log("----------------------------Autocontrolcfg lenght : " + myAppGlobal.Autocontrolcfg.length);
+
               myAppGlobal.Autocontrolcfg.map(function (item) {
                 if (item.Lid != null) {
                   item.Name = myAppGlobal.langT(item.Lid);
                 }
               });
+            }
             }
             setLoadinfo("loadok");
           });
