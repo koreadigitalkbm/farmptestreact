@@ -51,9 +51,11 @@ function FarmApp(props) {
   console.log("-------------------------FarmAPP start--------------------- loginrol:" + loginrol);
 
   useEffect(() => {
-    console.log("-------------------------FarmAPP --------------------- useEffect loginrol:" + loginrol);
+    
 
     let islocal = window.sessionStorage.getItem("islocal");
+
+    console.log("-------------------------FarmAPP --------------------- useEffect loginrol:" + loginrol + " islocal :"+islocal);
 
     //세션값이 없으면 맨처음 접속임
     if (islocal == null) {
