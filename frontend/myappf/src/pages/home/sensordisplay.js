@@ -1,4 +1,3 @@
-import React from "react";
 import Sensordevice from "../../commonjs/sensordevice";
 import myAppGlobal from "../../myAppGlobal";
 
@@ -13,7 +12,7 @@ function SensorBox(msensorcompact, index) {
     cname = "sen_dis";
     svalue = (
       <div className="sen_result">
-        <span className="blinking">{myAppGlobal.langT('LT_MAINPAGE_MAIN_SENSOR_DISCONNECTED')}</span>
+        <span className="blinking">{myAppGlobal.langT("LT_MAINPAGE_MAIN_SENSOR_DISCONNECTED")}</span>
       </div>
     );
   } else {
@@ -27,9 +26,11 @@ function SensorBox(msensorcompact, index) {
 
   return (
     <div className={cname} key={"senbox" + index}>
-      <div className="sen_name">
-        <img src={iconsrc} className="icon" /> {msensor.Name}
+      <div className="sen_namebox">
+        <img width={40} height={40} src={iconsrc} className="icon" />
+        {msensor.Name}
       </div>
+
       {svalue}
     </div>
   );
@@ -37,7 +38,7 @@ function SensorBox(msensorcompact, index) {
 
 const Sensordisplay = (props) => {
   const mysensors = props.sensors;
-  console.log("-------------------------Sensordisplay  ---------------------");
+  //console.log("-------------------------Sensordisplay  ---------------------");
   if (mysensors == null) {
     return null;
   }

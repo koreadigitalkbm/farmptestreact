@@ -16,11 +16,14 @@ const dropMenu = ["Setting"];
 
 export default function FMainpage(props) {
   const [loadinfo, setLoadinfo] = useState("init");
-  const [dropItems, setDropItems] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
-  const navigate = useNavigate();
 
-  const open = Boolean(anchorEl);
+  let dropItems = {};
+  dropMenu.map((e) => (dropItems[e] = myAppGlobal.langT(e)));
+  
+   const navigate = useNavigate();
+
+  //const open = Boolean(anchorEl);
   console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
   function logoutbuttonHandler(e) {
@@ -53,9 +56,9 @@ export default function FMainpage(props) {
   }
 
   useEffect(() => {
-    let dropItems = {};
-    dropMenu.map((e) => (dropItems[e] = myAppGlobal.langT(e)));
-    setDropItems(dropItems);
+    
+    
+    //setDropItems(dropItems);
 
     // 로그인되면 무조건 홈화면으로 가게
     navigate("/");
@@ -170,7 +173,7 @@ export default function FMainpage(props) {
             {myAppGlobal.langT("Data")}
           </Button>
 
-          <Button id="nav-dropmenu-button" aria-controls={open ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={open ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
+          <Button id="nav-dropmenu-button" aria-controls={Boolean(anchorEl) ? "nav-dropmenu-list" : undefined} aria-haspopup="true" aria-expanded={Boolean(anchorEl) ? "true" : undefined} variant="contained" disableElevation onClick={handleNavmenu} endIcon={<MenuIcon />} />
           <Menu
             elevation={0}
             anchorOrigin={{
@@ -186,7 +189,7 @@ export default function FMainpage(props) {
               "aria-labelledby": "nav-dropmenu-button",
             }}
             anchorEl={anchorEl}
-            open={open}
+            open={Boolean(anchorEl)}
             onClose={handleNavmenuClose}
           >
             {dropMenu.map((item) => (

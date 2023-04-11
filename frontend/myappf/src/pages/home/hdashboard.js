@@ -50,7 +50,7 @@ const HDashboard = (props) => {
   const [isdataloading, setDataloading] = useState(false);
 
 
-  console.log("-------------------------HDashboard  --------------------- : ");
+  //console.log("-------------------------HDashboard  --------------------- : ");
   
 
   function loadTimeouthandler()

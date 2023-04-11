@@ -10,10 +10,9 @@ function outputdevbox(mydata, index) {
   if (myAppGlobal.systeminformations == null) {
     return null;
   }
- 
+
   let actinfo = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, mydata.Uid, myAppGlobal);
-  if(actinfo ==null)
-  {
+  if (actinfo == null) {
     return null;
   }
   let devicon = "./image/devicon_" + actinfo.DevType + ".png";
@@ -22,33 +21,33 @@ function outputdevbox(mydata, index) {
   if (mydata.Opm == KDDefine.OPMode.OPM_Local) {
     ismanual = (
       <div className="man_result">
-        <span className="blinking">{myAppGlobal.langT('LT_MAINPAGE_MAIN_ACTUATOR_FIELDCONTROL')}</span>
+        <span className="blinking">{myAppGlobal.langT("LT_MAINPAGE_MAIN_ACTUATOR_FIELDCONTROL")}</span>
       </div>
     );
   } else if (mydata.Opm == KDDefine.OPMode.OPM_Manual) {
-    ismanual = <div className="out_result">{myAppGlobal.langT('LT_MAINPAGE_MAIN_ACTUATOR_MANUAL')}</div>;
+    ismanual = <div className="out_result">{myAppGlobal.langT("LT_MAINPAGE_MAIN_ACTUATOR_MANUAL")}</div>;
   } else {
-    ismanual = <div className="out_result">{myAppGlobal.langT('LT_MAINPAGE_MAIN_ACTUATOR_AUTOMATIC')}</div>;
+    ismanual = <div className="out_result">{myAppGlobal.langT("LT_MAINPAGE_MAIN_ACTUATOR_AUTOMATIC")}</div>;
   }
 
   return (
-    <div className="out_con" key={"outdevi"+index}>
-      <div className="out_name"  >
-        <img src={devicon} className="icon" /> {actinfo.Name}{" "}
+    <div className="out_con" key={"outdevi" + index}>
+      <div className="out_namebox">
+        <img src={devicon} width={40} height={40} className="icon" />
+        {actinfo.Name}
       </div>
-      <div className="out_value" >
-        <img src={onofficon} className="onoff" />{" "}
+      <div className="out_value">
+        <img src={onofficon} className="onoff" />
       </div>
-    {ismanual}
+      {ismanual}
     </div>
   );
 }
 
-const ActuatorDisplay=(props)=> {
-  console.log("------------------------ActuatorDisplay--------------------"  );
+const ActuatorDisplay = (props) => {
   const myactuators = props.actuators;
 
   return <div className="output">{myactuators.map((item, index) => outputdevbox(item, index))}</div>;
-}
+};
 
 export default ActuatorDisplay;
