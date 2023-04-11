@@ -33,7 +33,7 @@ module.exports = class ActuatorBasic {
       //쿨러
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
 
-      //습도히터  AC 3번
+      //습도히터  AC 3번//가습기PID
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMI_HEATER, 3, KDDefine.OutDeviceTypeEnum.ODT_HUMIDIFLER));
 
       //co2 솔밸브  AC 4번
@@ -80,6 +80,7 @@ module.exports = class ActuatorBasic {
       //냉난방기
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 29, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PWM));
 
+      
 
 
     } else if (modelname === KDDefine.PModel.VFC3300) {

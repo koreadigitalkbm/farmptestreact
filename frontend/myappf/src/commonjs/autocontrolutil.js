@@ -171,10 +171,11 @@ module.exports = class AutoControlUtil {
 
      if (modelname === "KPC480" ) {
 
+      let m1;
 
-      
+      /*
      //////////////////////////온도제어
-     let m1 = new AutoControlconfig();
+     m1 = new AutoControlconfig();
      m1.Lid = "LT_ANAME_TEMP";
      m1.Name = "온도제어(냉난방)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
@@ -193,7 +194,7 @@ module.exports = class AutoControlUtil {
      m1.BValue = 1;
      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
      mcfglist.push(m1);
-
+*/
 
 
      //////////////////////////온도제어 PID
@@ -290,6 +291,7 @@ module.exports = class AutoControlUtil {
      m1.Cdir = KDDefine.SensorConditionType.SCT_UP;
      mcfglist.push(m1);
 
+     /*
     ///습도제어 습도를 높임
     m1 = new AutoControlconfig();
     m1.Lid = "LT_ANAME_HUMIDITY";
@@ -298,7 +300,7 @@ module.exports = class AutoControlUtil {
     m1.Enb = false;
     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
     m1.Cat = KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX; //  자동제어 분류
-    m1.Actlist.push("N01C03T00"); ///습도 히터  장비가 여려개이면 장비종류로 구별하자
+    m1.Actlist.push("N01C30T02"); ///습도 PID 전용채널 30번
     m1.Actlist.push("N01C13T00"); ///펌프장비
     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
     m1.DOffTime = 0;
@@ -312,6 +314,38 @@ module.exports = class AutoControlUtil {
     m1.BValue = 10;
     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
     mcfglist.push(m1);
+*/
+
+    
+
+     //////////////////////////습도제어 PID
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_HUMIDITY_PID";
+     m1.Name = "습도제어(PID)";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+     m1.Cat = KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C03T00"); ///습도 히터  장비가 여려개이면 장비종류로 구별하자
+     m1.Actlist.push("N01C13T00"); ///펌프장비
+     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+     m1.DOffTime = 0;
+     m1.STime = 8 * 3600;
+     m1.ETime = 18 * 3600;
+     m1.Senlist.push("S01C02T02"); /// 온도센서 지정
+     m1.DTValue = 50.0;
+     m1.NTValue = 30.0;
+     m1.BValue = 5;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+     m1.Params.push(1); //P
+     m1.Params.push(0.01);//I
+     m1.Params.push(1);//D
+     
+     mcfglist.push(m1);
+
+
+
+
 
      ///co2제어 co2  공급해서 높임
      m1 = new AutoControlconfig();

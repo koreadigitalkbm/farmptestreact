@@ -54,7 +54,6 @@ function FarmApp(props) {
 
   useEffect(() => {
     
-
     let islocal = window.sessionStorage.getItem("islocal");
 
     console.log("-------------------------FarmAPP --------------------- useEffect loginrol:" + loginrol + " islocal :"+islocal);
@@ -87,7 +86,8 @@ function FarmApp(props) {
       myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
 
       setlogout();
-    } else {
+    } else 
+    {
       /// 새로고침  세션에 저장된 데이터 읽어옴
       myAppGlobal.islocal = window.sessionStorage.getItem("islocal");
       if (myAppGlobal.islocal == "true" || myAppGlobal.islocal == true) {
@@ -106,10 +106,8 @@ function FarmApp(props) {
       myAppGlobal.language = i18n.language;
       myAppGlobal.langT = t;
       myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
-
       setloginrol(myAppGlobal.loginrole);
-
-
+      
       //console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid);
     }
   }, []);

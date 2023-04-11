@@ -17,6 +17,7 @@
     "LT_ANAME_LED": "LED Control(3Color)",
     "LT_ANAME_AIR": "Air Circulation",
     "LT_ANAME_HUMIDITY": "Humidity Control",
+    "LT_ANAME_HUMIDITY_PID": "Humidity Control(PID)",
     "LT_ANAME_CO2": "CO2 Control",
     "LT_ANAME_NUTRIENT": "Nutrient Control(pH,EC)",
     "LT_ANAME_CAMERA": "Taking Pictures(RGB)",
@@ -221,6 +222,7 @@
     "LT_GROWPLANTS_HUMIDITY_INTERVAL": "Humidity control interval",
     
     "LT_GROWPLANTS_HUMIDITY_HELP1": "가습하여 습도를 높일경우 사용합니다.",
+    "LT_GROWPLANTS_HUMIDITY_HELP2": "가습하여 습도를 높일경우 사용합니다.(PID)",
 
     "LT_GROWPLANTS_CO2_DAY1": "During the day[{0}], the internal Co2 is kept at",
     "LT_GROWPLANTS_CO2_DAY2": "",

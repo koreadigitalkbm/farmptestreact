@@ -201,6 +201,7 @@ module.exports = class KDDefine {
     ACT_HEATER_HUMIDITY_FOR_FJBOX: 104, // 습도제어,  습도센서 사용
     ACT_NUTRIENT_SOL3_FOR_FJBOX: 105, // 양액제어, 3개 솔밸브 사용
     ACT_PID_TEMP_CONTROL_FOR_FJBOX: 106, // 냉난방 PID제어 
+    ACT_PID_HEATER_HUMIDITY_FOR_FJBOX: 107, // 습도제어, PID제어 
 
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 

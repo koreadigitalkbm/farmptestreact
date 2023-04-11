@@ -12,6 +12,7 @@ import JukeboxAirhumidity from "./jukeboxairhumidity";
 import JukeboxCo2Supply from "./jukeboxco2supply";
 import JukeboxNutrientSupply from "./jukeboxnuient";
 import JukeboxPIDTemperature from "./jukeboxpidtemperature";
+import JukeboxPIDAirhumidity from "./jukeboxpidhumidity";
 
 export default function Autocontroleditbox(props) {
   const orgcfg = props.myconfig;
@@ -45,6 +46,10 @@ export default function Autocontroleditbox(props) {
   const formAutoContent = () => {
     console.log("formAutoContent Cat: " + copycfg.Cat);
     switch (copycfg.Cat) {
+
+      
+      case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
+        return <JukeboxPIDAirhumidity keyname="pidtempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
         return <JukeboxPIDTemperature keyname="pidtempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:

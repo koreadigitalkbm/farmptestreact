@@ -134,7 +134,6 @@ export default function FMainpage(props) {
         <Route path="/Home" element={<HDashboard otherlogin={setLoadinfo} />} />
         <Route path="/autocontrol" element={<Autocontrolpage />} />
         <Route path="/Data" element={<DataMainPage />} />
-
         <Route path="/Setting" element={props.loginrol === "factoryadmin" ? <FactorySetup {...props} /> : <SetupPage {...props} />} />
       </Routes>
     );
@@ -152,7 +151,6 @@ export default function FMainpage(props) {
   return (
     <Box >
       <CssBaseline />
-
       <AppBar component="nav">
         <Toolbar>
           <img src="/image/farmscube_logo_small48.png" alt="farmscube_logo"></img>

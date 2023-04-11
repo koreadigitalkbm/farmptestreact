@@ -25,6 +25,7 @@ module.exports = class AutoControl {
     this.lastError=0;
     this.cumError=0;
     this.PIDPercent=50;
+    this.PIDRunningsec=0; //PID 구동시간 습도 펌프 구동하기 위해 10분마다 한번씩 구동
     this.ispidchange=false; //pid 제어 값이 변경되면 값을 전달되도록 
 
 
@@ -186,6 +187,9 @@ module.exports = class AutoControl {
           return 0;
         }
         
+        this.PIDRunningsec+=elapsedTime;
+
+
         let error = setvalue - inputvalue;                                // determine error
         this.cumError += error * elapsedTime;                // compute integral
         let rateError = (error - this.lastError)/elapsedTime;   // compute derivative
@@ -272,7 +276,7 @@ module.exports = class AutoControl {
     }
 
     //PID온도제어 
-    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX) {
+    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX) {
     
 
       //센서에 의해서 작동함으로 켜짐시간 고정
@@ -299,7 +303,49 @@ module.exports = class AutoControl {
           targetvalue = Number(this.mConfig.NTValue);
         }
         
-        //console.log("ACT_PID_TEMP_CONTROL_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
+        //console.log("ACT_PID_HEATER_HUMIDIT_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
+
+        
+
+
+        this.coputePIDTemperature(currsensor.value,targetvalue);
+        return KDDefine.AUTOStateType.AST_On;
+
+      }
+
+
+
+    }
+
+    //PID온도제어 
+    else if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX) {
+    
+
+      //센서에 의해서 작동함으로 켜짐시간 고정
+      this.OnSecTime = Number(this.mConfig.DOnTime);
+      for (const ms of msensors) {
+        //우선 센서 1개만 처리
+        if (ms.UniqID == this.mConfig.Senlist[0]) {
+          currsensor = ms;
+          break;
+        }
+      }
+      if (currsensor == null) {
+        //해당센서 없음
+        console.log("getStateBySensorcondtion no sensor : " + this.mConfig.Senlist[0]);
+        return KDDefine.AUTOStateType.AST_ERROR;
+      } else {
+        //const daytotalsec = KDCommon.getCurrentTotalsec();
+
+        
+        let targetvalue;
+        if (this.mConfig.AType == KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
+          targetvalue = Number(this.mConfig.DTValue);
+        } else {
+          targetvalue = Number(this.mConfig.NTValue);
+        }
+        
+        //console.log("ACT_PID_TEMP_CONTRO_FOR_FJBOX currsensor:" + currsensor.value + " targetvalue : " + targetvalue );
 
         
 
@@ -507,6 +553,7 @@ module.exports = class AutoControl {
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
+        case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
         
         return true;
       default:
@@ -710,6 +757,68 @@ module.exports = class AutoControl {
         }
         break;
 
+        case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
+          {
+            let heaterd = null;
+            let pumpd = null;
+
+            for (const mactid of this.mConfig.Actlist) {
+              let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+              if (actd != null) {
+                if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_HUMIDIFLER) {
+                  heaterd = actd;
+                }
+                if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_PUMP) {
+                  pumpd = actd;
+                }
+              }
+            }
+
+
+            //console.log("-getOperationsBySpcify ACT_PID_TEMP_CONTRO_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+
+
+            if (heaterd != null) {
+              let onoffdstate = null;
+              let pwmdemming = 0;
+              
+              if (currentstate == KDDefine.AUTOStateType.AST_On) {
+                onoffdstate = true;
+                //console.log("-getOperationsBySpcify  this.PIDPercent : " +this.PIDPercent);
+                // 켜짐시간값을 켜짐시간에 합쳐서 전달
+                pwmdemming = ActuatorOperation.Gettimewithparam(this.OnSecTime, this.PIDPercent);
+                
+              } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+                onoffdstate = false;
+              }
+    
+              if (onoffdstate != null) {
+                console.log("-getOperationsBySpcify    pwmdemming:" + pwmdemming + "UID : "+heaterd.UniqID);
+                let opcmd = new ActuatorOperation(heaterd.UniqID, onoffdstate, pwmdemming);
+
+                 // 펌프는 10분마다 동작
+                 if(this.PIDRunningsec > 600)
+                 {
+                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 100);
+                  this.PIDRunningsec =0;
+                  opcmdlist.push(opcmdb);
+
+                 }
+                
+
+
+
+                opcmdlist.push(opcmd);
+                this.setUpdatestateWithEvent(currentstate);
+                //this.mState.State = currentstate;
+              }
+            }
+
+
+          }
+          break;
+
+
         case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
           {
             let tcontroldev = null;
@@ -724,7 +833,7 @@ module.exports = class AutoControl {
             }
 
 
-            //console.log("-getOperationsBySpcify ACT_PID_TEMP_CONTROL_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
+            //console.log("-getOperationsBySpcify ACT_PID_TEMP_CONTRO_FOR_FJBOX  currentstate: " + currentstate + " OnSecTime:" + this.OnSecTime);
 
 
             if (tcontroldev != null) {
