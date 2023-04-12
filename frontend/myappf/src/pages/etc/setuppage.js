@@ -155,7 +155,7 @@ export default function SetupPage(props) {
     }
   }, []);
 
-  if (serverversion > deviceversion && deviceversion > 0) {
+  if (serverversion >= deviceversion && deviceversion > 0) {
     isswupdate = true;
   }
 
@@ -164,6 +164,23 @@ export default function SetupPage(props) {
 
     myAppGlobal.farmapi.setsoftwareupdate(true, serverversion).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
+
+      let isok = false;
+      if (ret) {
+        if (ret.IsOK === true) {
+          if (ret.retMessage === "ok") {
+            isok = true;
+          }
+        }
+      }
+      if (isok === true) {
+        alertparams.type = "success";
+        alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+        alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_OK");
+        setAlert(alertparams);
+      }
+    
+
     });
   }
 
