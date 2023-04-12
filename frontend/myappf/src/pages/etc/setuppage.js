@@ -164,6 +164,8 @@ export default function SetupPage(props) {
 
   function swupdatecallback()
   {
+    
+    console.log(" swupdatecallback isswupdateok : " + isswupdateok); 
     if (isswupdateok === false) {
       alertparams.type = "success";
       alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
@@ -177,6 +179,7 @@ export default function SetupPage(props) {
       alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_FAIL");
     }
     setAlert(alertparams);
+    setisupdate(false);
 
   }
 
@@ -190,7 +193,7 @@ export default function SetupPage(props) {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
 
       if (ret) {
-        if (ret.IsOK === true) {
+        if (ret.retMessage) {
           if (ret.retMessage === "ok") {
             isswupdateok = true;
           }
@@ -229,7 +232,7 @@ export default function SetupPage(props) {
           </Typography>
         </Stack>
 
-        <Button size="large" variant="contained" onClick={updateforlocaldevice} endIcon={isupdating===true?   <CircularProgress color="secondary" />:<UpgradeIcon />}>
+        <Button size="large"  disabled={isupdating} variant="contained" onClick={updateforlocaldevice} endIcon={isupdating===true?   <CircularProgress />:<UpgradeIcon />} sx={{ mt: 1, ml: 1, mb: 1, backgroundColor: "#fb8c00" }} >
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
