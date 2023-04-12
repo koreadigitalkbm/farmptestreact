@@ -54,8 +54,11 @@ module.exports = class ServerAPI {
       console.log("---------------------------------postapiforfirebase  error : " + error.toString());
     }
   }
+  callbackreloaduser() {
+    this.DBInterface.getusersinfo(this.userinfos);
+  }
 
-  async postapifordatabase(req, rsp) {
+  postapifordatabase(req, rsp) {
     try {
 
       console.log("---------------------------------postapifordatabase  ");
@@ -80,11 +83,11 @@ module.exports = class ServerAPI {
         case KDDefine.REQType.RT_SETDB_LOGINPW:
         //        console.log("  devid:" + reqmsg.reqParam.devid);
         
-        this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid,reqmsg.reqParam.userpw);
+        this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid,reqmsg.reqParam.userpw , callbackreloaduser);
 
-        await KDCommon.delay(1000);
+        
 
-        this.DBInterface.getusersinfo(this.userinfos);
+        
 
         responsemsg.IsOK = true;
 
