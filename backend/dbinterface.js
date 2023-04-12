@@ -176,14 +176,14 @@ module.exports = class DatabaseInterface {
     } else {
       
 
-      sqlquery = "UPDATE  fjbox.users  SET  userpw='"+ userpassword+"'" +  "WHERE userid ='" + userid + "'"  +"AND deviceid ='"+did +"'";
+      const sqlquery = "UPDATE  fjbox.users  SET  userpw='"+ userpassword+"'" +  "WHERE userid ='" + userid + "'"  +"AND deviceid ='"+did +"'";
 
       console.log("setloginpw sqlquery:"+sqlquery);
       
       //this.conn.query(sqlquery, function (error, result) {
 //        console.log(error);
   //    });
-  
+
     }
   }
 
