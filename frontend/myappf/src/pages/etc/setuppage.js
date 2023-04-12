@@ -6,6 +6,7 @@ import { styled } from "@mui/material/styles";
 
 import CardActions from "@mui/material/CardActions";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
+import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -42,8 +43,9 @@ export default function SetupPage(props) {
   const [serverversion, setServerversion] = useState(0);
   const [savedisable, setBtnDisable] = React.useState(true);
   const [savepwdisable, setBtnPWDisable] = React.useState(true);
-
   const [newpwdisable, setNewpwDisable] = React.useState(true);
+  const [isupdating, setisupdate] = useState(false);
+
 
   const closeDialog = () => {
     setAlert(null);
@@ -162,6 +164,7 @@ export default function SetupPage(props) {
   function updateforlocaldevice(e) {
     console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
 
+    setisupdate(true);
     myAppGlobal.farmapi.setsoftwareupdate(true, serverversion).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
 
@@ -211,7 +214,7 @@ export default function SetupPage(props) {
           </Typography>
         </Stack>
 
-        <Button size="large" variant="contained" onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
+        <Button size="large" variant="contained" onClick={updateforlocaldevice} endIcon={isupdating===true?   <CircularProgress color="secondary" />:<UpgradeIcon />}>
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
