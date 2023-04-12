@@ -6,7 +6,10 @@
     "LT_SOFTWAREUPDATE": "Software Update",
     "LT_SYSTEMSETUP": "System setting",
     "LT_CHANGELANGUAGE": "Change language.",
-    "LT_CHANGEPASSWORD": "Change the local access password.",
+    "LT_CHANGEPASSWORD": "Change the login password.",
+    "LT_CHANGEPASSWORD_RELOGIN": "Please login again to change your login password.",
+    "LT_OLDPASSWORD": "Old password",
+    "LT_NEWPASSWORD": "New password",
     
 
     
@@ -347,6 +350,7 @@
     "LT_SETTING_MODAL_CURRENTNAME": "Current device name",
     "LT_SETTING_MODAL_NEWNAME_LABEL": "New device name",
     "LT_SETTING_MODAL_APPLY": "Apply",
+    "LT_SETTING_MODAL_APPLYPW": "Password change",
     "LT_SETTING_MODAL_CONFIRM": "Confirm",
     "LT_SETTING_MODAL_CANCEL": "Cancel",
     "LT_SETTING_MODAL_CONFIRMED": "Your changes have been applied.",

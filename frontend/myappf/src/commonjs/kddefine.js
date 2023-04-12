@@ -165,6 +165,8 @@ module.exports = class KDDefine {
     RT_SETDB_CAMERA: "setdbcamera", //  카메라 이미지데이터를 저장한다.
 
     RT_GETDB_DATAS: "getdbdatas", //  DB 에서 데이터를 검색해서 보내준다.
+
+    RT_SETDB_LOGINPW: "setloginpw", //  로그인 암호를 변경한다.
   });
 
   //자동제어 타입

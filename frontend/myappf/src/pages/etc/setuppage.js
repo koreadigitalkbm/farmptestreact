@@ -29,51 +29,94 @@ const commonStyles = {
   borderRadius: "12px",
 };
 
+let newDevicename = "";
+let oldpassword = "";
+let newlocalpassword = "";
+let newlangstrchange = "";
+
 export default function SetupPage(props) {
   const { i18n } = useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
   const [langstr, setlangstr] = React.useState("");
   const [deviceversion, setDeviceversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
+  const [savedisable, setBtnDisable] = React.useState(true);
+  const [savepwdisable, setBtnPWDisable] = React.useState(true);
+
+  const [newpwdisable, setNewpwDisable] = React.useState(true);
 
   const closeDialog = () => {
     setAlert(null);
   };
 
+  let alertparams = {
+    // type all the fields you need
+    message: null,
+    type: "success",
+    title: "Sucess",
+    onClose: closeDialog,
+  };
 
-  let alertparams = {                   // type all the fields you need
-    message:null,
-    type:"success",
-    title:"Sucess",
-    onClose:closeDialog,
-    };
-  
   const [alertmssage, setAlert] = useState(alertparams);
 
-
-  
   let isswupdate = false;
-  let newDevicename = "";
-  let newlocalpassword = "";
 
+  function savemyconfig(newMyInfo) {
+    myAppGlobal.farmapi.setMyInfo(newMyInfo).then((ret) => {
+      let isok = false;
+      if (ret) {
+        if (ret.IsOK === true) {
+          if (ret.retMessage === "ok") {
+            isok = true;
+          }
+        }
+      }
+      if (isok === true) {
+        alertparams.type = "success";
+        alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+        alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
+        setAlert(alertparams);
+      }
+    });
+  }
 
- 
-  
+  function applyhandlerpw() {
+    let newMyInfo = myAppGlobal.systeminformations.Systemconfg;
 
+    newMyInfo.password = newlocalpassword;
 
+    if (myAppGlobal.islocal == true) {
+      savemyconfig(newMyInfo);
+    }
+    else
+    {
+      myAppGlobal.farmapi.setLoginPWServer("kbmusid",newlocalpassword).then((ret) => {
+        let isok = false;
+        if (ret) {
+          if (ret.IsOK === true) {
+            if (ret.retMessage === "ok") {
+              isok = true;
+            }
+          }
+        }
+        if (isok === true) {
+          alertparams.type = "success";
+          alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+          alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
+          setAlert(alertparams);
+        }
+      });
+
+    }
+    
+  }
 
   function applyhandler() {
-    let langstrchange = "en-US";
-
-    if (langstr == 1) {
-      langstrchange = "ko-KR";
-    }
-
-    if (i18n.language != langstrchange) {
-      i18n.changeLanguage(langstrchange);
+    if (i18n.language != newlangstrchange) {
+      i18n.changeLanguage(newlangstrchange);
       var nextyear = new Date();
       nextyear.setFullYear(nextyear.getFullYear() + 2);
-      setCookie("languageT", langstrchange, { expires: nextyear });
+      setCookie("languageT", newlangstrchange, { expires: nextyear });
     }
 
     let isupdate = false;
@@ -82,40 +125,11 @@ export default function SetupPage(props) {
       newMyInfo.name = newDevicename;
       isupdate = true;
     }
-    if (newlocalpassword != myAppGlobal.systeminformations.Systemconfg.password && newlocalpassword.length > 0) {
-      newMyInfo.password = newlocalpassword;
-      isupdate = true;
-    }
 
     if (isupdate == true) {
-      console.log(newMyInfo);
-      
-
-      myAppGlobal.farmapi.setMyInfo(newMyInfo).then((ret) => {
-        if (ret) {
-          if (ret.IsOK === true) {
-            if (ret.retMessage === "ok") {
-
-              alertparams.type = "success";
-              alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-              alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
-              setAlert(alertparams);
-
-
-            } else {
-            }
-          }
-        }
-      });
-
+      savemyconfig(newMyInfo);
     }
   }
-
-  const handleChange = (event) => {
-    setlangstr(event.target.value);
-
-    console.log("-------------------------SetupPage cookies:" + cookies.languageT);
-  };
 
   useEffect(() => {
     console.log("SetupPage  useEffect myAppGlobal.islocal: " + myAppGlobal.islocal);
@@ -146,7 +160,7 @@ export default function SetupPage(props) {
   if (serverversion > deviceversion && deviceversion > 0) {
     isswupdate = true;
   }
-  
+
   function updateforlocaldevice(e) {
     console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
 
@@ -182,36 +196,101 @@ export default function SetupPage(props) {
           </Typography>
         </Stack>
 
-        <Button  size="large" variant="contained"  onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
+        <Button size="large" variant="contained" onClick={updateforlocaldevice} endIcon={<UpgradeIcon />}>
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
     );
   }
 
+  function applycheck() {
+    let isapplay = false;
+
+    console.log("-------------------------applycheck i18n.language:" + i18n.language + " newlangstrchange:" + newlangstrchange);
+    if (newlangstrchange.length > 0 && i18n.language != newlangstrchange) {
+      isapplay = true;
+    }
+    if (newDevicename != myAppGlobal.systeminformations.Systemconfg.name && newDevicename.length > 0) {
+      isapplay = true;
+    }
+
+    setBtnDisable(!isapplay);
+  }
+
+  const handleChange = (event) => {
+    setlangstr(event.target.value);
+
+    if (event.target.value == 1) {
+      newlangstrchange = "ko-KR";
+    } else {
+      newlangstrchange = "en-US";
+    }
+
+    applycheck();
+
+    //console.log("-------------------------SetupPage cookies:" + cookies.languageT);
+  };
+
   const handleNewpword = (e) => {
-    if (e.target.value.length >= 4) {
+    console.log("-------------------------handleNewpword name:" + e.target.id + ",pw:" + myAppGlobal.loginswpw);
+
+    if (e.target.id == "oldpw") {
+      oldpassword = e.target.value;
+      if (oldpassword == myAppGlobal.loginswpw) {
+        setNewpwDisable(false);
+      } else {
+        setNewpwDisable(true);
+      }
+    } else {
       newlocalpassword = e.target.value;
+
+      if (newlocalpassword != myAppGlobal.loginswpw && newlocalpassword.length >= 4) {
+        setBtnPWDisable(false);
+      } else {
+        setBtnPWDisable(true);
+      }
     }
   };
   const handleNewname = (e) => {
     newDevicename = e.target.value;
+    applycheck();
   };
-  function inputonchangeHandler(e) {
-    console.log("inputallchangeHandler name: " + e.target.id + " type : " + e.target.type);
-    switch (e.target.id) {
-      default:
-        // newconfig[e.target.id] = e.target.value;
-        break;
+
+  const loginpwblock = () => {
+    //새로고침으로 사라짐
+    console.log("-------------------------loginpwblock pw:" + myAppGlobal.loginswpw);
+
+    if (myAppGlobal.loginswpw.length < 2) {
+      return (
+        <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
+          <Typography id="modal-configure-title" variant="subtitle1">
+            {myAppGlobal.langT("LT_CHANGEPASSWORD_RELOGIN")}
+          </Typography>
+        </Stack>
+      );
     }
-  }
+
+    return (
+      <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
+        <Typography id="modal-configure-title" variant="subtitle1">
+          {myAppGlobal.langT("LT_CHANGEPASSWORD")}
+        </Typography>
+
+        <TextField required id={"oldpw"} label={myAppGlobal.langT("LT_OLDPASSWORD")} type="text" variant="standard" onChange={handleNewpword} sx={{ width: 200, ml: 1, mt: 0, mb: 0, "& .MuiInputBase-input": { border: 0 } }} />
+        <TextField required id={"newpw"} disabled={newpwdisable} label={myAppGlobal.langT("LT_NEWPASSWORD")} type="text" variant="standard" onChange={handleNewpword} sx={{ width: 200, ml: 1, mt: 0, mb: 0, "& .MuiInputBase-input": { border: 0 } }} />
+        <Button onClick={applyhandlerpw} disabled={savepwdisable} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />} sx={{ mt: 1, ml: 1, mb: 1, backgroundColor: "#fb8c00", width: 200 }}>
+          {myAppGlobal.langT("LT_SETTING_MODAL_APPLYPW")}
+        </Button>
+      </Stack>
+    );
+  };
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{maxWidth:800 }}  >
+      <Box sx={{ maxWidth: 800 }}>
         <Box sx={{ ...commonStyles }}>
           <CardActions disableSpacing>
-            <UpgradeIcon color="action" fontSize="large" />
+            <UpgradeIcon color="secondary" fontSize="medium" />
             <Typography variant="h5">{myAppGlobal.langT("LT_SOFTWAREUPDATE")}</Typography>
           </CardActions>
         </Box>
@@ -233,7 +312,7 @@ export default function SetupPage(props) {
         <Box sx={{ ...commonStyles }}>
           <ThemeProvider theme={theme}>
             <CardActions disableSpacing>
-              <SettingsIcon color="action" fontSize="large" />
+              <SettingsIcon color="secondary" fontSize="medium" />
               <Typography variant="h5">{myAppGlobal.langT("LT_SYSTEMSETUP")}</Typography>
             </CardActions>
           </ThemeProvider>
@@ -241,70 +320,54 @@ export default function SetupPage(props) {
 
         <CardContent>
           <Box m={1} display="flex" alignItems="left" flexDirection="column">
-            <Stack direction="column" alignItems="flex-start" >
+            <Stack direction="column" alignItems="flex-start">
+              <Typography id="modal-configure-title" variant="subtitle1">
+                {myAppGlobal.langT("LT_CHANGELANGUAGE")}{" "}
+              </Typography>
 
-            <Typography id="modal-configure-title" variant="subtitle1">
-              {myAppGlobal.langT("LT_CHANGELANGUAGE")}{" "}
-            </Typography>
-
-            <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
-              <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={langstr} onChange={handleChange} label="language">
-                <MenuItem value={0}>English</MenuItem>
-                <MenuItem value={1}>한국어</MenuItem>
-              </Select>
-            </FormControl>
+              <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
+                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={langstr} onChange={handleChange} label="language">
+                  <MenuItem value={0}>English</MenuItem>
+                  <MenuItem value={1}>한국어</MenuItem>
+                </Select>
+              </FormControl>
             </Stack>
 
             <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
+              <Typography id="modal-configure-title" variant="subtitle1">
+                {myAppGlobal.langT("LT_SETTING_NAME_CHANGE")}
+              </Typography>
 
-            <Typography id="modal-configure-title" variant="subtitle1">
-              {myAppGlobal.langT("LT_CHANGEPASSWORD")}
-            </Typography>
-
-            <TextField
-              required
-              id={"newName"}
-              label={"new password"}
-              type="text"
-              variant="standard"
-              onChange={handleNewpword}
-              sx={{ width: 200,    ml: 1,  mt:0,  mb: 0,    "& .MuiInputBase-input": {   border: 0},   }}
-            />
-             </Stack>
-
-             <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
-            <Typography id="modal-configure-title" variant="subtitle1">
-              {myAppGlobal.langT("LT_SETTING_NAME_CHANGE")}
-            </Typography>
-
-            <TextField
-              required
-              id={"newName"}
-              label={myAppGlobal.langT("LT_SETTING_MODAL_NEWNAME_LABEL")}
-              type="text"
-              variant="standard"
-              onChange={handleNewname}
-              sx={{ width: 200, ml: 1,       mb: 3,   "& .MuiInputBase-input": {  border: 0,    },        }}
-            />
+              <TextField
+                required
+                id={"newName"}
+                label={myAppGlobal.langT("LT_SETTING_MODAL_NEWNAME_LABEL")}
+                defaultValue={myAppGlobal.systeminformations.Systemconfg.name}
+                type="text"
+                variant="standard"
+                onChange={handleNewname}
+                sx={{ width: 200, ml: 1, mb: 3, "& .MuiInputBase-input": { border: 0 } }}
+              />
             </Stack>
 
-
-            <Button onClick={applyhandler} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />}>
+            <Button onClick={applyhandler} disabled={savedisable} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />} sx={{ backgroundColor: "#fb8c00", maxWidth: 300 }}>
               {myAppGlobal.langT("LT_SETTING_MODAL_APPLY")}
             </Button>
+
+            <Box sx={{ mt: 2, backgroundColor: "#eceff1" }}>{loginpwblock()}</Box>
           </Box>
         </CardContent>
 
         <Box sx={{ ...commonStyles }}>
           <ThemeProvider theme={theme}>
             <CardActions disableSpacing>
-              <InfoIcon color="action" fontSize="large" />
+              <InfoIcon color="secondary" fontSize="medium" />
               <Typography variant="h5">{myAppGlobal.langT("LT_SETTING_MYDINFO_TITLE")}</Typography>
             </CardActions>
           </ThemeProvider>
         </Box>
 
-        <Card variant="outlined" sx={{ borderRadius: 5, mt: 1 }}>
+        <Card variant="outlined" sx={{ borderRadius: 5, mt: 1, ml: 2, mr: 2, backgroundColor: "#eceff1" }}>
           <CardContent>
             <Stack alignItems="center" direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
               <Typography variant="h7">{myAppGlobal.langT("LT_SETTING_NAME")}</Typography>
@@ -325,9 +388,7 @@ export default function SetupPage(props) {
               <Typography variant="h7">{myAppGlobal.langT("LT_SETTING_PRODUCTMODEL")}</Typography>
               <Typography>{myAppGlobal.systeminformations.Systemconfg.productmodel}</Typography>
             </Stack>
-            <AlertDialog  params={alertmssage}  />
-
-            
+            <AlertDialog params={alertmssage} />
           </CardContent>
         </Card>
       </Box>

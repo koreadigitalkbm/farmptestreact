@@ -170,6 +170,26 @@ module.exports = class DatabaseInterface {
     }
   }
 
+  setloginpw(did, userid, userpassword) {
+    if (this.dbconnectioncheck() == false) {
+      return;
+    } else {
+      
+
+      sqlquery = "UPDATE  fjbox.users  SET  userpw='"+ userpassword+"'" +  "WHERE userid ='" + userid + "'"  +"AND deviceid ='"+did +"'";
+
+      console.log("setloginpw sqlquery:"+sqlquery);
+      
+      //this.conn.query(sqlquery, function (error, result) {
+//        console.log(error);
+  //    });
+  
+    }
+  }
+
+  
+
+
   //카메라 촬영된 이미지 정보를 디비에 저장하고 이미지파일은 웹서비스 편하도록 리엑트 pulic 폴더에 이미지폴더에 저장
   async setimagefiledata(did, dtime, cameratype, capturefilename, filedatabase64, isetdb) {
     try {

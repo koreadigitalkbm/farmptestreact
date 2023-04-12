@@ -7,7 +7,11 @@
     "LT_SOFTWAREUPDATE": "소프트웨어 업데이트",
     "LT_SYSTEMSETUP": "시스템 설정",
     "LT_CHANGELANGUAGE": "언어를 변경합니다.",
-    "LT_CHANGEPASSWORD": "로컬접속 암호를 변경합니다.",
+    "LT_CHANGEPASSWORD": "로그인 암호를 변경합니다.",
+    "LT_CHANGEPASSWORD_RELOGIN": "로그인 암호를 변경하려면 다시 로그인 하세요.",
+    "LT_OLDPASSWORD": "이전 암호",
+    "LT_NEWPASSWORD": "새 암호",
+    
 
         
     "LT_ANAME_DEFULT": "자동제어",
@@ -351,10 +355,11 @@
     "LT_SETTING_COMPORT": "포트 번호",
     "LT_SETTING_PRODUCTNAME": "제품명",
     "LT_SETTING_PRODUCTMODEL": "모델명",
-    "LT_SETTING_MODAL_CHAGENAME": "기기 이름바꾸기",
-    "LT_SETTING_MODAL_CURRENTNAME": "현재 기기 이름",
-    "LT_SETTING_MODAL_NEWNAME_LABEL": "새 기기 이름",
+    "LT_SETTING_MODAL_CHAGENAME": "장비 이름바꾸기",
+    "LT_SETTING_MODAL_CURRENTNAME": "현재 장비 이름",
+    "LT_SETTING_MODAL_NEWNAME_LABEL": "장비 새이름",
     "LT_SETTING_MODAL_APPLY": "적용",
+    "LT_SETTING_MODAL_APPLYPW": "비밀번호 변경",
     "LT_SETTING_MODAL_CONFIRM": "확인",
     "LT_SETTING_MODAL_CANCEL": "취소",
     "LT_SETTING_MODAL_CONFIRMED": "변경사항을 적용했습니다.",
