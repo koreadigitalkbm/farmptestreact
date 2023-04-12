@@ -163,6 +163,9 @@ export default function SetupPage(props) {
   if (serverversion > deviceversion && deviceversion > 0) {
     isswupdate = true;
   }
+  else{
+    isswupdate = false;
+  }
 
   function swupdatecallback()
   {
@@ -217,7 +220,7 @@ export default function SetupPage(props) {
         </Typography>
       );
     }
-    if (isswupdate == null) {
+    if (isswupdate == null  || deviceversion == 0) {
       return null;
     }
 
