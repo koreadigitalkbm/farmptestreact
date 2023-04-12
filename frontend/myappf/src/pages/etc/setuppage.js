@@ -35,6 +35,8 @@ let oldpassword = "";
 let newlocalpassword = "";
 let newlangstrchange = "";
 let isswupdateok=false;
+let isswupdate = null;
+
 
 export default function SetupPage(props) {
   const { i18n } = useTranslation();
@@ -62,7 +64,7 @@ export default function SetupPage(props) {
 
   const [alertmssage, setAlert] = useState(alertparams);
 
-  let isswupdate = false;
+  
 
   function savemyconfig(newMyInfo) {
     myAppGlobal.farmapi.setMyInfo(newMyInfo).then((ret) => {
@@ -214,6 +216,9 @@ export default function SetupPage(props) {
           {myAppGlobal.langT("WhenLocal")}
         </Typography>
       );
+    }
+    if (isswupdate == null) {
+      return null;
     }
 
     if (isswupdate == false) {
