@@ -182,6 +182,9 @@ module.exports = class DatabaseInterface {
       
       this.conn.query(sqlquery, function (error, result) {
         console.log(error);
+
+        
+
       });
 
     }

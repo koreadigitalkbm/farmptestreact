@@ -55,7 +55,7 @@ module.exports = class ServerAPI {
     }
   }
 
-  postapifordatabase(req, rsp) {
+  async postapifordatabase(req, rsp) {
     try {
 
       console.log("---------------------------------postapifordatabase  ");
@@ -81,6 +81,11 @@ module.exports = class ServerAPI {
         //        console.log("  devid:" + reqmsg.reqParam.devid);
         
         this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid,reqmsg.reqParam.userpw);
+
+        await KDCommon.delay(1000);
+
+        this.DBInterface.getusersinfo(this.userinfos);
+
         responsemsg.IsOK = true;
 
         break;
