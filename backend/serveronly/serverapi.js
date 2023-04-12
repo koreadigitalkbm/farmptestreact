@@ -35,12 +35,12 @@ module.exports = class ServerAPI {
 
   postapiforfirebase(req, rsp) {
     try {
-      console.log("---------------------------------postapiforfirebase  ");
+      //console.log("---------------------------------postapiforfirebase  ");
       const reqmsg = JSON.parse(JSON.stringify(req.body));
       let mapid = reqmsg.devID;
       if (reqmsg.reqType != null) {
         mapid = reqmsg.devID + reqmsg.reqType;
-        console.log("-------------------type :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
+       // console.log("-------------------type :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
       } else {
         mapid = reqmsg.devID;
       }
@@ -50,7 +50,7 @@ module.exports = class ServerAPI {
         respp.send(JSON.stringify(reqmsg));
       }
 
-      console.log("---------------------------------postapiforfirebase  END : " + respp);
+      //console.log("---------------------------------postapiforfirebase  END : " + respp);
       rsp.send("ok");
     } catch (error) {
       console.log("---------------------------------postapiforfirebase  error : " + error.toString());
@@ -59,12 +59,12 @@ module.exports = class ServerAPI {
 
   postapifordatabase(req, rsp) {
     try {
-      console.log("---------------------------------postapifordatabase  ");
+     // console.log("---------------------------------postapifordatabase  ");
       const reqmsg = JSON.parse(JSON.stringify(req.body));
       let responsemsg = new responseMessage();
       let isvalid = false;
 
-      console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
+     // console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
 
       if (reqmsg.reqParam != null) {
         isvalid = true;
@@ -130,7 +130,7 @@ module.exports = class ServerAPI {
 
       rsp.send(JSON.stringify(responsemsg));
 
-      console.log("---------------------------------postapiforDB END:");
+     // console.log("---------------------------------postapiforDB END:");
     } catch (error) {
       console.log("---------------------------------postapifordatabase error : " + error.toString());
     }
@@ -138,8 +138,7 @@ module.exports = class ServerAPI {
 
   postapi(req, rsp) {
     try {
-      console.log("---------------------------------postapi--  ");
-
+      //console.log("---------------------------------postapi--  ");
       const reqmsg = JSON.parse(JSON.stringify(req.body));
       const rspmsg = this.messageprocessing(reqmsg);
       rsp.send(JSON.stringify(rspmsg));
@@ -151,7 +150,7 @@ module.exports = class ServerAPI {
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordevice(req, rsp) {
     try {
-      console.log("---------------------------------postapifordevice--  ");
+     // console.log("---------------------------------postapifordevice--  ");
 
       const jsonstr = JSON.stringify(req.body);
       const reqmsg = JSON.parse(jsonstr);
@@ -269,7 +268,7 @@ module.exports = class ServerAPI {
     let rspmsg = new responseMessage();
 
     if (reqmsg.reqType == KDDefine.REQType.RT_LOGIN) {
-      console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
+     // console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
 
       if (this.isneeduserinforead == true) {
         this.userinfos = [];

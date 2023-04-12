@@ -7,7 +7,7 @@ import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 import ZoomInMapIcon from "@mui/icons-material/ZoomInMap";
 
 export default function ShowVerticalImages(props) {
-  const [bzoomout, setZoommax] = useState(false);
+  const [bzoomout, setZoommax] = useState(true);
   const imageSet = props.imageSet;
 
   if (imageSet.length <= 0) {

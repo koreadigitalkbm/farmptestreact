@@ -133,7 +133,7 @@ export default function SetupPage(props) {
   }
 
   useEffect(() => {
-    console.log("SetupPage  useEffect myAppGlobal.islocal: " + myAppGlobal.islocal);
+    //console.log("SetupPage  useEffect myAppGlobal.islocal: " + myAppGlobal.islocal);
 
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
       if (serverversion == 0) {
@@ -184,7 +184,7 @@ export default function SetupPage(props) {
   }
 
   function updateforlocaldevice(e) {
-    console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
+    //console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
 
     setisupdate(true);
     isswupdateok=false;
@@ -242,7 +242,7 @@ export default function SetupPage(props) {
   function applycheck() {
     let isapplay = false;
 
-    console.log("-------------------------applycheck i18n.language:" + i18n.language + " newlangstrchange:" + newlangstrchange);
+    //console.log("-------------------------applycheck i18n.language:" + i18n.language + " newlangstrchange:" + newlangstrchange);
     if (newlangstrchange.length > 0 && i18n.language != newlangstrchange) {
       isapplay = true;
     }
@@ -268,7 +268,7 @@ export default function SetupPage(props) {
   };
 
   const handleNewpword = (e) => {
-    console.log("-------------------------handleNewpword name:" + e.target.id + ",pw:" + myAppGlobal.loginswpw);
+    //console.log("-------------------------handleNewpword name:" + e.target.id + ",pw:" + myAppGlobal.loginswpw);
 
     if (e.target.id == "oldpw") {
       oldpassword = e.target.value;
@@ -294,7 +294,7 @@ export default function SetupPage(props) {
 
   const loginpwblock = () => {
     //새로고침으로 사라짐
-    console.log("-------------------------loginpwblock pw:" + myAppGlobal.loginswpw);
+    //console.log("-------------------------loginpwblock pw:" + myAppGlobal.loginswpw);
 
     if (myAppGlobal.loginswpw.length < 2) {
       return (

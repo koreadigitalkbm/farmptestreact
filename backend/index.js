@@ -18,8 +18,8 @@
 //2.223 : KPC480 장비 펌웨어 연동 코드 추가 버전이 반드시 20233030이후 
 //2.224 : 통신API, KPC480 습도제어 버그수정
 //2.225 : PID 제어 빠르게 수정 
-//2.226 : UI 최적화, 습도 PID 제어기능 추가, 농수산대학 납품 버전
-const farmscubeplatformversion = 2.226;
+//2.227 : UI 최적화, 습도 PID 제어기능 추가, 농수산대학 납품 버전
+const farmscubeplatformversion = 2.227;
 
 const express = require("express");
 const cors = require("cors");

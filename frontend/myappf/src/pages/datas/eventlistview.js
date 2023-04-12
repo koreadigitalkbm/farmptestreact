@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton, Typography, Card, Checkbox, FormControlLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
+import { IconButton, Typography,Box, Card, Checkbox, FormControlLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
 
 import AddchartIcon from "@mui/icons-material/Addchart";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -78,10 +78,10 @@ export default function EventListView(props) {
   }
 
   return (
-    <Card sx={{ minWidth: 100, backgroundColor: "#eceff1" }}>
+    <Box sx={{m:0, backgroundColor: "#eceff1" }}>
 
-      <Paper sx={{ width: "100%" }}>
-        <TableContainer sx={{ maxHeight: 500 }}>
+      <Paper sx={{ m:0, width: "100%" }}>
+        <TableContainer sx={{ maxHeight: 640}}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow key="row1">
@@ -135,6 +135,6 @@ export default function EventListView(props) {
         </TableContainer>
         <TablePagination rowsPerPageOptions={[1000, 10000]} component="div" count={rows.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
       </Paper>
-    </Card>
+    </Box>
   );
 }

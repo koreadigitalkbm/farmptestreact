@@ -18,7 +18,7 @@ let chboxlist = [
   { label: "l4", color: "#d32f2f", key: "3", pstyle: "rect", checked: false, sensor: null },
 
   { label: "l5", color: "#ed6c02", key: "4", pstyle: "crossRot", checked: false, sensor: null },
-  { label: "l6", color: "#0288d1", key: "5", pstyle: "dash", checked: false, sensor: null },
+  { label: "l6", color: "#0288d1", key: "5", pstyle: "circle", checked: false, sensor: null },
   { label: "l7", color: "#ef5350", key: "6", pstyle: "rectRounded", checked: false, sensor: null },
   { label: "l8", color: "#4caf50", key: "7", pstyle: "rectRot", checked: false, sensor: null },
 
@@ -28,27 +28,27 @@ let chboxlist = [
   { label: "l2", color: "#80cbc4", key: "11", pstyle: "circle", checked: false, sensor: null },
 
   { label: "l3", color: "#388e3c", key: "12", pstyle: "rectRot", checked: false, sensor: null },
-  { label: "l4", color: "#1a237e", key: "13", pstyle: "dash", checked: false, sensor: null },
+  { label: "l4", color: "#1a237e", key: "13", pstyle: "star", checked: false, sensor: null },
   { label: "l5", color: "#f57c00", key: "14", pstyle: "triangle", checked: false, sensor: null },
   { label: "l6", color: "#00695c", key: "15", pstyle: "rect", checked: false, sensor: null },
 
   { label: "l7", color: "#33691e", key: "16", pstyle: "star", checked: false, sensor: null },
   { label: "l8", color: "#64dd17", key: "17", pstyle: "dash", checked: false, sensor: null },
   { label: "l9", color: "#f9a825", key: "18", pstyle: "circle", checked: false, sensor: null },
-  { label: "20", color: "#795548", key: "19", pstyle: "circle", checked: false, sensor: null },
+  { label: "20", color: "#795548", key: "19", pstyle: "rectRot", checked: false, sensor: null },
 
   { label: "21", color: "#00e676", key: "20", pstyle: "circle", checked: false, sensor: null },
   { label: "22", color: "#311b92", key: "21", pstyle: "dash", checked: false, sensor: null },
   { label: "23", color: "#0d47a1", key: "22", pstyle: "circle", checked: false, sensor: null },
-  { label: "24", color: "#66bb6a", key: "23", pstyle: "circle", checked: false, sensor: null },
+  { label: "24", color: "#66bb6a", key: "23", pstyle: "triangle", checked: false, sensor: null },
   
-  { label: "25", color: "#33691e", key: "24", pstyle: "circle", checked: false, sensor: null },
+  { label: "25", color: "#33691e", key: "24", pstyle: "rectRot", checked: false, sensor: null },
   { label: "26", color: "#64dd17", key: "25", pstyle: "circle", checked: false, sensor: null },
-  { label: "27", color: "#f9a825", key: "26", pstyle: "circle", checked: false, sensor: null },
+  { label: "27", color: "#f9a825", key: "26", pstyle: "rectRounded", checked: false, sensor: null },
   { label: "28", color: "#795548", key: "27", pstyle: "circle", checked: false, sensor: null },
 
   { label: "29", color: "#00e676", key: "28", pstyle: "circle", checked: false, sensor: null },
-  { label: "30", color: "#311b92", key: "29", pstyle: "circle", checked: false, sensor: null },
+  { label: "30", color: "#311b92", key: "29", pstyle: "rectRounded", checked: false, sensor: null },
   { label: "31", color: "#0d47a1", key: "30", pstyle: "circle", checked: false, sensor: null },
   { label: "32", color: "#66bb6a", key: "31", pstyle: "circle", checked: false, sensor: null },
   
