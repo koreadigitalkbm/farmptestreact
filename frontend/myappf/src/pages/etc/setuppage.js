@@ -164,12 +164,19 @@ export default function SetupPage(props) {
 
   function swupdatecallback()
   {
-    if (isswupdateok === true) {
+    if (isswupdateok === false) {
       alertparams.type = "success";
       alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
       alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_OK");
-      setAlert(alertparams);
+      
     }
+    else
+    {
+      alertparams.type = "error";
+      alertparams.title = myAppGlobal.langT("LT_ALERT_FAIL");
+      alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_FAIL");
+    }
+    setAlert(alertparams);
 
   }
 

@@ -367,6 +367,7 @@
     "LT_SETTING_MODAL_NOSPACEALLOW": "공백은 기기이름으로 사용할 수 없습니다.",
     "LT_SETTING_SAVE_CONFIG": "시스템 설정을 저장하였습니다.",
     "LT_SETTING_SW_UPDATE_OK": "소프트웨어가 업데이트 되었습니다. 시스템을 재시작하시기 바랍니다.",
+    "LT_SETTING_SW_UPDATE_FAIL": "소프트웨어 업데이트에 실패하였습니다.",
     "LT_SETTING_NEW_VERSION": "최신버전입니다.",
     "LT_SETTING_NEW_UPDATE": "새로운 버전이 있습니다. 업데이트를 진행하세요.",
 
