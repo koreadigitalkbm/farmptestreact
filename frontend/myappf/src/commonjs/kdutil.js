@@ -99,6 +99,9 @@ module.exports = class KDUtil {
               case KDDefine.AUTOStateType.AST_MaToAuto:
                 strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_MTA"), autoinfo.Name, statestr);
                 break;
+              case KDDefine.AUTOStateType.AST_AutoChange:
+                strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_CHANGE"), autoinfo.Name, statestr);
+                break;
 
               default:
                 strevent = strevent + KDUtil.Stringformat(myGlobal.langT("LT_AUTO_EVENT_BASIC"), autoinfo.Name, statestr);

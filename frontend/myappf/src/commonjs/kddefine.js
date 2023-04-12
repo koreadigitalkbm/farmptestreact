@@ -224,6 +224,7 @@ module.exports = class KDDefine {
 
     AST_AutoToMa: 20011, //자동제어에서 수동제어 변경
     AST_MaToAuto: 20022, //수동제어에서 자동제어 변경
+    AST_AutoChange: 20023, //자동제어 설정이 변경됨
   });
 
   //센서조건

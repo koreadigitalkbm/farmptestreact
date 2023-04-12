@@ -95,10 +95,16 @@ module.exports = class AutoControlInterface {
           const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoToMa);
           this.mMain.setSystemevent(newevent);
         }
-        if(ma.mConfig.Enb == false &&   this.mAutoControllist[i].mConfig.Enb ==true)
+        else if(ma.mConfig.Enb == false &&   this.mAutoControllist[i].mConfig.Enb ==true)
         {
           const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_MaToAuto);
           this.mMain.setSystemevent(newevent);
+        }
+        else{
+
+          const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoChange);
+          this.mMain.setSystemevent(newevent);
+
         }
 
 

@@ -12,7 +12,6 @@ module.exports = class SystemEvent {
     this.EType = metype; //
     this.EParam = mparams; //이벤트 내용 json 포멧으로 
 //    console.log("SystemEvent   EType: " + this.EType + " date:"+ this.EDate);
-
    }
 
    //이벤트가 추가되면   kdutil EventToString 함수도 추가 
