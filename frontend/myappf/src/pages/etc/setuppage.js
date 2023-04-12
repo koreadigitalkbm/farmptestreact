@@ -158,7 +158,7 @@ export default function SetupPage(props) {
     }
   }, []);
 
-  if (serverversion >= deviceversion && deviceversion > 0) {
+  if (serverversion > deviceversion && deviceversion > 0) {
     isswupdate = true;
   }
 
@@ -166,7 +166,7 @@ export default function SetupPage(props) {
   {
     
     console.log(" swupdatecallback isswupdateok : " + isswupdateok); 
-    if (isswupdateok === false) {
+    if (isswupdateok === true) {
       alertparams.type = "success";
       alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
       alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_OK");
