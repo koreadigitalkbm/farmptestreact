@@ -94,9 +94,7 @@ export default function SetupPage(props) {
         let isok = false;
         if (ret) {
           if (ret.IsOK === true) {
-            if (ret.retMessage === "ok") {
               isok = true;
-            }
           }
         }
         if (isok === true) {
