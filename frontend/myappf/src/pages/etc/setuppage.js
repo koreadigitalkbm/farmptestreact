@@ -232,7 +232,7 @@ export default function SetupPage(props) {
           </Typography>
         </Stack>
 
-        <Button size="large"  disabled={isupdating} variant="contained" onClick={updateforlocaldevice} endIcon={isupdating===true?   <CircularProgress />:<UpgradeIcon />} sx={{ mt: 1, ml: 1, mb: 1, backgroundColor: "#fb8c00" }} >
+        <Button size="large"  disabled={isupdating} variant="contained" onClick={updateforlocaldevice} endIcon={isupdating===true?   <CircularProgress />:<UpgradeIcon />} sx={{ m:2 , backgroundColor: "#fb8c00" }} >
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
