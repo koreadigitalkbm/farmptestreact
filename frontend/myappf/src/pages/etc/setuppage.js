@@ -34,6 +34,7 @@ let newDevicename = "";
 let oldpassword = "";
 let newlocalpassword = "";
 let newlangstrchange = "";
+let isswupdateok=false;
 
 export default function SetupPage(props) {
   const { i18n } = useTranslation();
@@ -161,27 +162,34 @@ export default function SetupPage(props) {
     isswupdate = true;
   }
 
+  function swupdatecallback()
+  {
+    if (isswupdateok === true) {
+      alertparams.type = "success";
+      alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+      alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_OK");
+      setAlert(alertparams);
+    }
+
+  }
+
   function updateforlocaldevice(e) {
     console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
 
     setisupdate(true);
+    isswupdateok=false;
+    setTimeout(swupdatecallback, 12000); 
     myAppGlobal.farmapi.setsoftwareupdate(true, serverversion).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
 
-      let isok = false;
       if (ret) {
         if (ret.IsOK === true) {
           if (ret.retMessage === "ok") {
-            isok = true;
+            isswupdateok = true;
           }
         }
       }
-      if (isok === true) {
-        alertparams.type = "success";
-        alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-        alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_OK");
-        setAlert(alertparams);
-      }
+      
     
 
     });
