@@ -80,7 +80,7 @@ module.exports = class ServerAPI {
         case KDDefine.REQType.RT_SETDB_LOGINPW:
         //        console.log("  devid:" + reqmsg.reqParam.devid);
         
-        this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid,reqmsg.reqParam,userpw);
+        this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid,reqmsg.reqParam.userpw);
         responsemsg.IsOK = true;
 
         break;
