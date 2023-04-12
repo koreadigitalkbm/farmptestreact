@@ -170,7 +170,7 @@ module.exports = class DatabaseInterface {
     }
   }
 
-  setloginpw(did, userid, userpassword, callbackfunc) {
+  setloginpw(did, userid, userpassword ) {
     if (this.dbconnectioncheck() == false) {
       return;
     } else {
@@ -183,8 +183,9 @@ module.exports = class DatabaseInterface {
       this.conn.query(sqlquery, function (error, result) {
         console.log(error);
 
-        callbackfunc();
         
+
+
 
       });
 

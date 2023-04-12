@@ -17,8 +17,10 @@ module.exports = class ServerAPI {
     this.messagequeuemap = new Map();
 
     this.DBInterface = new DatabaseInterface(mMain);
-    this.userinfos = [];
 
+    this.isneeduserinforead = true;
+
+    this.userinfos = [];
     this.DBInterface.getusersinfo(this.userinfos);
   }
 
@@ -48,95 +50,83 @@ module.exports = class ServerAPI {
         respp.send(JSON.stringify(reqmsg));
       }
 
-      console.log("---------------------------------postapiforfirebase  END : "+respp);
+      console.log("---------------------------------postapiforfirebase  END : " + respp);
       rsp.send("ok");
     } catch (error) {
       console.log("---------------------------------postapiforfirebase  error : " + error.toString());
     }
   }
-  callbackreloaduser() {
-    this.DBInterface.getusersinfo(this.userinfos);
-  }
 
   postapifordatabase(req, rsp) {
     try {
-
       console.log("---------------------------------postapifordatabase  ");
       const reqmsg = JSON.parse(JSON.stringify(req.body));
       let responsemsg = new responseMessage();
-      let isvalid=false;
-
+      let isvalid = false;
 
       console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
 
-      if(reqmsg.reqParam != null)
-      {
-          isvalid=true;
+      if (reqmsg.reqParam != null) {
+        isvalid = true;
       }
 
-      if( isvalid === true)
-      {
-      switch (reqmsg.reqType) {
-        //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
+      if (isvalid === true) {
+        switch (reqmsg.reqType) {
+          //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
 
-        
-        case KDDefine.REQType.RT_SETDB_LOGINPW:
-        //        console.log("  devid:" + reqmsg.reqParam.devid);
-        
-        this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid,reqmsg.reqParam.userpw , this.callbackreloaduser);
+          case KDDefine.REQType.RT_SETDB_LOGINPW:
+            //        console.log("  devid:" + reqmsg.reqParam.devid);
 
-        
+            this.DBInterface.setloginpw(reqmsg.reqParam.devid, reqmsg.reqParam.userid, reqmsg.reqParam.userpw);
+            this.isneeduserinforead = true;
 
-        
+            responsemsg.IsOK = true;
 
-        responsemsg.IsOK = true;
+            break;
 
-        break;
+          case KDDefine.REQType.RT_GETDB_DATAS:
+            return this.DBInterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
 
+          case KDDefine.REQType.RT_SETDB_EVENT:
+            //        console.log("  devid:" + reqmsg.reqParam.devid);
 
-        case KDDefine.REQType.RT_GETDB_DATAS:
-          return this.DBInterface.getDBdatas(rsp, reqmsg, this.callbackreturn);
+            let mevents = [];
+            for (const mevt of reqmsg.reqParam.eventlist) {
+              let newev = SystemEvent.Clonbyjsonobj(mevt);
+              mevents.push(newev);
+            }
 
-        case KDDefine.REQType.RT_SETDB_EVENT:
-          //        console.log("  devid:" + reqmsg.reqParam.devid);
+            this.DBInterface.seteventdata(reqmsg.reqParam.devid, mevents);
+            responsemsg.IsOK = true;
 
-          let mevents = [];
-          for (const mevt of reqmsg.reqParam.eventlist) {
-            let newev = SystemEvent.Clonbyjsonobj(mevt);
-            mevents.push(newev);
-          }
+            break;
 
-          this.DBInterface.seteventdata(reqmsg.reqParam.devid, mevents);
-          responsemsg.IsOK = true;
+          case KDDefine.REQType.RT_SETDB_SENSOR:
+            //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
+            //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
 
-          break;
+            let msensors = [];
+            for (const mscompact of reqmsg.reqParam.sensorlist) {
+              let nsensor = new Sensordevice(mscompact);
+              msensors.push(nsensor);
+            }
 
-        case KDDefine.REQType.RT_SETDB_SENSOR:
-          //console.log("  reqmsg datetime:" + reqmsg.reqParam.datetime);
-          //console.log("  reqmsg sensorlist:" + reqmsg.reqParam.sensorlist);
+            this.DBInterface.setsensordata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, msensors);
+            responsemsg.IsOK = true;
 
-          let msensors = [];
-          for (const mscompact of reqmsg.reqParam.sensorlist) {
-            let nsensor = new Sensordevice(mscompact);
-            msensors.push(nsensor);
-          }
+            break;
+          case KDDefine.REQType.RT_SETDB_CAMERA:
+            console.log("  camera devid:" + reqmsg.reqParam.devid);
+            console.log("  camera datetime:" + reqmsg.reqParam.datetime);
+            console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
+            console.log("  camera file length:" + reqmsg.reqParam.imagedatas.length);
 
-          this.DBInterface.setsensordata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, msensors);
-          responsemsg.IsOK = true;
+            this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
+            responsemsg.IsOK = true;
 
-          break;
-        case KDDefine.REQType.RT_SETDB_CAMERA:
-          console.log("  camera devid:" + reqmsg.reqParam.devid);
-          console.log("  camera datetime:" + reqmsg.reqParam.datetime);
-          console.log("  camera issetdbase:" + reqmsg.reqParam.issetdbase);
-          console.log("  camera file length:" + reqmsg.reqParam.imagedatas.length);
-
-          this.DBInterface.setimagefiledata(reqmsg.reqParam.devid, reqmsg.reqParam.datetime, reqmsg.reqParam.cameratype, reqmsg.reqParam.cfilename, reqmsg.reqParam.imagedatas, reqmsg.reqParam.issetdbase);
-          responsemsg.IsOK = true;
-
-          break;
+            break;
+        }
       }
-    }
 
       rsp.send(JSON.stringify(responsemsg));
 
@@ -161,7 +151,6 @@ module.exports = class ServerAPI {
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordevice(req, rsp) {
     try {
-
       console.log("---------------------------------postapifordevice--  ");
 
       const jsonstr = JSON.stringify(req.body);
@@ -281,6 +270,14 @@ module.exports = class ServerAPI {
 
     if (reqmsg.reqType == KDDefine.REQType.RT_LOGIN) {
       console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
+
+      if (this.isneeduserinforead == true) {
+        this.userinfos = [];
+        this.DBInterface.getusersinfo(this.userinfos);
+        console.log("setlogin   reload");
+        this.isneeduserinforead = false;
+      }
+
       rspmsg.retMessage = "not";
 
       {
