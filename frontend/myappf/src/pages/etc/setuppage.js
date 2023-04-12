@@ -221,7 +221,7 @@ export default function SetupPage(props) {
       );
     }
     if (isswupdate == null  || deviceversion == 0) {
-      return null;
+      return (<CircularProgress />);
     }
 
     if (isswupdate == false) {
