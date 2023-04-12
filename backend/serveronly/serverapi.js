@@ -275,7 +275,7 @@ module.exports = class ServerAPI {
         this.userinfos = [];
         this.DBInterface.getusersinfo(this.userinfos);
         console.log("setlogin   reload");
-        console(this.userinfos);
+        console.log(this.userinfos);
         this.isneeduserinforead = false;
       }
 
