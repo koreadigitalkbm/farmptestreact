@@ -180,9 +180,9 @@ module.exports = class DatabaseInterface {
 
       console.log("setloginpw sqlquery:"+sqlquery);
       
-      //this.conn.query(sqlquery, function (error, result) {
-//        console.log(error);
-  //    });
+      this.conn.query(sqlquery, function (error, result) {
+        console.log(error);
+      });
 
     }
   }

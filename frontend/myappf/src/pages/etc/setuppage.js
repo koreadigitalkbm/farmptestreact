@@ -90,7 +90,7 @@ export default function SetupPage(props) {
     }
     else
     {
-      myAppGlobal.farmapi.setLoginPWServer("kbmusid",newlocalpassword).then((ret) => {
+      myAppGlobal.farmapi.setLoginPWServer(myAppGlobal.loginswid,newlocalpassword).then((ret) => {
         let isok = false;
         if (ret) {
           if (ret.IsOK === true) {

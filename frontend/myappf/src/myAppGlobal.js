@@ -7,6 +7,7 @@ var myAppGlobal = {
     issupervisor:false, //공장설정 가능 슈퍼바이저 
     islocal: false,  // 로컬, 원격
     loginswpw: "",  // 로그인 암호 암호 변경시사용
+    loginswid: "",  // 로그인 id 암호 변경시사용
     isuseradmin: false, // 사용자 관리자계정(장비설정가능) 나머지 그냥 뷰어
     farmapi: undefined,
     logindeviceid: "",
