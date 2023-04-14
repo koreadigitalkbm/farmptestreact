@@ -796,10 +796,10 @@ module.exports = class AutoControl {
                 console.log("-getOperationsBySpcify    pwmdemming:" + pwmdemming + "UID : "+heaterd.UniqID);
                 let opcmd = new ActuatorOperation(heaterd.UniqID, onoffdstate, pwmdemming);
 
-                 // 펌프는 10분마다 동작
-                 if(this.PIDRunningsec > 600)
+                 // 펌프는 1분마다 10초동작 물공급하면 히터가 식어서 습도맞추기 힘듬
+                 if(this.PIDRunningsec > 60)
                  {
-                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 100);
+                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 10);
                   this.PIDRunningsec =0;
                   opcmdlist.push(opcmdb);
 
