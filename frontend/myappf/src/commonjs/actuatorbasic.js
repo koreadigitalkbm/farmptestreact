@@ -26,7 +26,7 @@ module.exports = class ActuatorBasic {
     
     console.log("CreateDefaultConfig modelname:" + modelname + " KDDefine.PModel.KPC200:" + KDDefine.PModel.KPC200);
 
-    if (modelname === KDDefine.PModel.KPC480 || modelname === KDDefine.PModel.KPC300) {
+    if (modelname === KDDefine.PModel.KPC480 ) {
       //히터1
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 0, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
 
@@ -83,7 +83,54 @@ module.exports = class ActuatorBasic {
       
 
 
-    } else if (modelname === KDDefine.PModel.VFC3300) {
+    } 
+    else if ( modelname === KDDefine.PModel.KPC300) {
+      //히터1
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 0, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
+
+      //쿨러
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
+
+      
+      //환기팬  AC 6번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 6, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+
+
+      
+
+      //교반펌프 AC 12번
+     // mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AGITATOR_PUMP, 12, KDDefine.OutDeviceTypeEnum.ODT_AG_PUMP));
+
+
+
+      //히터펌프 AC 13번
+     // mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMIDIFIER_PUMP, 13, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+
+
+      //관수펌프 DC 16번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 16, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+
+      
+      //환기솔밸브  DC 20번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRVALVE, 20, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+
+      //화이트
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      //red
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      //blue
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      //냉난방기
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 29, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      
+
+
+    }
+    else if (modelname === KDDefine.PModel.VFC3300) {
       // mhlee VFC3300 <<< 이전 인도어팜 V2
 
       //led

@@ -20,6 +20,11 @@ class SensorInterface {
       const mysnode_sid_1 = new SensorNode(1, 100, this.modbusMaster,24);
       this.SensorNodes.push(mysnode_sid_1);
     }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC300") {
+      const mysnode_sid_1 = new SensorNode(1, 100, this.modbusMaster,24);
+      this.SensorNodes.push(mysnode_sid_1);
+    }
+    
     else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC200") {
       const mysnode_sid_1 = new SensorNode(1, 140, this.modbusMaster);
       this.SensorNodes.push(mysnode_sid_1);

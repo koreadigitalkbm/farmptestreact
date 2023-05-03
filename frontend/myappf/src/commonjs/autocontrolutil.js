@@ -218,8 +218,8 @@ module.exports = class AutoControlUtil {
      m1.BValue = 1;
      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
      m1.Params.push(1.3); //P
-     m1.Params.push(1.5);//I
-     m1.Params.push(2.1);//D
+     m1.Params.push(0.01);//I
+     m1.Params.push(1);//D
      
      mcfglist.push(m1);
 
@@ -395,9 +395,115 @@ module.exports = class AutoControlUtil {
 
 
     } 
+
+    if (modelname === "KPC300" ) {
+
+      let m1;
+
+      
+     //////////////////////////온도제어 PID
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_TEMP_PID";
+     m1.Name = "온도제어(PID)";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+     m1.Cat = KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C29T02"); ///온도제어 장비 고정 
+     m1.Actlist.push("N01C00T00"); ///히터 릴레이 장비
+     m1.Actlist.push("N01C01T00"); ///쿨러 릴레이 장비
+     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+     m1.DOffTime = 0;
+     m1.STime = 8 * 3600;
+     m1.ETime = 18 * 3600;
+     m1.Senlist.push("S01C02T01"); /// 온도센서 지정
+     m1.DTValue = 26.0;
+     m1.NTValue = 21.0;
+     m1.BValue = 1;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
+     m1.Params.push(1.3); //P
+     m1.Params.push(0.01);//I
+     m1.Params.push(2.1);//D
+     
+     mcfglist.push(m1);
+
+
+     //////////////////관수제어
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_WATER";
+     m1.Name = "관수제어(타이머)";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
+     m1.Cat = KDDefine.AUTOCategory.ATC_WATER; //  자동제어 분류
+     m1.Actlist.push("N01C16T00"); ///관수 릴레이 장비
+     m1.DOnTime = 30;
+     m1.DOffTime = 120;
+     m1.NOnTime = 10;
+     m1.NOffTime = 120;
+     m1.STime = 8 * 3600;
+     m1.ETime = 20 * 3600;
+     m1.TValue = 0;
+     m1.BValue = 0;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+     mcfglist.push(m1);
+
+     ///LED 제어
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_LED";
+     m1.Name = "광량제어(3LED)";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_TIMER_ONLY_DAY;
+     m1.Cat = KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C24T02"); ///
+     m1.Actlist.push("N01C25T02"); ///
+     m1.Actlist.push("N01C26T02"); ///
+     m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+     m1.DOffTime = 0;
+     m1.NOnTime = 0;
+     m1.NOffTime = 0;
+     m1.STime = 8 * 3600;
+     m1.ETime = 15 * 3600 + 1200;
+     m1.DTValue = 0;
+     m1.BValue = 0;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+     m1.Params.push(25);
+     m1.Params.push(15);
+     m1.Params.push(50);
+     mcfglist.push(m1);
+     
+     ///환기 제어 습도를 낮춤
+     m1 = new AutoControlconfig();
+     m1.Lid = "LT_ANAME_AIR";
+     m1.Name = "환기제어(CO2,습도)";
+     m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+     m1.Enb = false;
+     m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
+     m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
+     m1.Actlist.push("N01C06T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
+     m1.Actlist.push("N01C20T00"); //환기 밸브 DC
+     m1.DOnTime = 3600;
+     m1.DOffTime = 3600;
+     m1.STime = 8 * 3600;
+     m1.ETime = 18 * 3600;
+     m1.Senlist.push("S01C02T02"); /// 습도센서 지정
+     m1.Senlist.push("S01C03T06"); /// Co2센서 지정  센서가 업더라도 지정꼭해야함
+     m1.DTValue = 85.0; // 습도값
+     m1.NTValue = 350.0; // co2 값
+     m1.BValue = 1;
+     m1.Cdir = KDDefine.SensorConditionType.SCT_UP;
+     mcfglist.push(m1);
+
+    
+
+
+
+    } 
+
     
     //카메라 제어 공통
-    if (modelname === "KPC480" || modelname === "KPC200") {
+    if (modelname === "KPC480" || modelname === "KPC300" || modelname === "KPC200") {
 
       ///카메라 제어
       let m1 = new AutoControlconfig();

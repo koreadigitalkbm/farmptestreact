@@ -8,6 +8,7 @@ module.exports = class KDCommon {
   static autocontrolconfigfilename = "../common/local_files/autocontrolconfig.json";
   static actuatorconfigfilename = "../common/local_files/actuatorconfig.json";
   static actuatorconfigfilename_kpc480 = "../common/local_files/actuatorconfig_kpc480.json";
+  static actuatorconfigfilename_kpc300 = "../common/local_files/actuatorconfig_kpc300.json";
   static actuatorconfigfilename_kpc200 = "../common/local_files/actuatorconfig_kpc200.json";
   static actuatorconfigfilename_VFC3300 = "../common/local_files/actuatorconfig_VFC3300.json";
 

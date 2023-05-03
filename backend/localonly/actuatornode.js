@@ -32,7 +32,7 @@ module.exports = class ActuatorNode {
         let sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i, KDDefine.HardwareTypeEnum.HT_RELAY));
         this.actlist.push(sv);
       }
-    } else if (nodemodel == ActuatorNode.ACTNODEType.ANT_KPC480 || nodemodel == ActuatorNode.ACTNODEType.ANT_KPC200) {
+    } else if (nodemodel == ActuatorNode.ACTNODEType.ANT_KPC480 || nodemodel == ActuatorNode.ACTNODEType.ANT_KPC300 || nodemodel == ActuatorNode.ACTNODEType.ANT_KPC200) {
       //ac trac 16개 dc mosfet 8  pwm 4개 기타 2개
       this.maxchannelnumber = 30;
       let sv;
