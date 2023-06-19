@@ -20,7 +20,8 @@
 //2.225 : PID 제어 빠르게 수정 
 //2.227 : UI 최적화, 습도 PID 제어기능 추가, 농수산대학 납품 버전
 //2.228 : KPC300 장비 코드 추가
-const farmscubeplatformversion = 2.228;
+//2.229 : KPC480 장비 포트변경 펌웨어 수정
+const farmscubeplatformversion = 2.229;
 
 const express = require("express");
 const cors = require("cors");

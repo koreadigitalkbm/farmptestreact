@@ -39,23 +39,24 @@ module.exports = class ActuatorBasic {
       //co2 솔밸브  AC 4번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_CO2_VALVE, 4, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
 
-      //환기팬  AC 6번
+      //외부환기팬  AC 6번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 6, KDDefine.OutDeviceTypeEnum.ODT_FAN));
 
 
       
 
-      //교반펌프 AC 12번
+      //양액통 교반펌프 AC 12번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AGITATOR_PUMP, 12, KDDefine.OutDeviceTypeEnum.ODT_AG_PUMP));
 
 
 
-      //히터펌프 AC 13번
+      //가습기 물공급펌프 AC 13번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMIDIFIER_PUMP, 13, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
 
 
-      //펌프 AC 15번
+      //양액펌프 AC 15번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 15, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+
 
       //양액A  DC 17번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEA, 17, KDDefine.OutDeviceTypeEnum.ODT_SOL_A));
