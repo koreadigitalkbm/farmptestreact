@@ -40,7 +40,7 @@ module.exports = class ServerAPI {
       let mapid = reqmsg.devID;
       if (reqmsg.reqType != null) {
         mapid = reqmsg.devID + reqmsg.reqType;
-       // console.log("-------------------type :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
+        console.log("-------------------postapiforfirebase :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
       } else {
         mapid = reqmsg.devID;
       }
