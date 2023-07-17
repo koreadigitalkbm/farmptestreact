@@ -797,10 +797,10 @@ module.exports = class AutoControl {
                 let opcmd = new ActuatorOperation(heaterd.UniqID, onoffdstate, pwmdemming);
 
                  // 펌프는 1분마다 10초동작 물공급하면 히터가 식어서 습도맞추기 힘듬
-                 // 20230717 5분마다 1분씩 공급으로 변경
-                 if(this.PIDRunningsec > 300)
+                 // 20230717 1시간마다 5분씩 공급으로 변경
+                 if(this.PIDRunningsec > 3600)
                  {
-                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 60);
+                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 300);
                   this.PIDRunningsec =0;
                   opcmdlist.push(opcmdb);
 
