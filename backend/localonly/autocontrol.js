@@ -275,7 +275,7 @@ module.exports = class AutoControl {
       this.IsPWMcontrol = true;
     }
 
-    //PID온도제어 
+    //PID습도제어 
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX) {
     
 
@@ -793,13 +793,14 @@ module.exports = class AutoControl {
               }
     
               if (onoffdstate != null) {
-                console.log("-getOperationsBySpcify    pwmdemming:" + pwmdemming + "UID : "+heaterd.UniqID);
+           //     console.log("-getOperationsBySpcify    pwmdemming:" + pwmdemming + "UID : "+heaterd.UniqID + " runsec:"+this.PIDRunningsec);
                 let opcmd = new ActuatorOperation(heaterd.UniqID, onoffdstate, pwmdemming);
 
                  // 펌프는 1분마다 10초동작 물공급하면 히터가 식어서 습도맞추기 힘듬
-                 if(this.PIDRunningsec > 60)
+                 // 20230717 5분마다 1분씩 공급으로 변경
+                 if(this.PIDRunningsec > 300)
                  {
-                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 10);
+                  let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 60);
                   this.PIDRunningsec =0;
                   opcmdlist.push(opcmdb);
 
