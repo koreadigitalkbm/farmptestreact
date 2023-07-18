@@ -59,7 +59,7 @@ const SensorCompact = require("./sensorcompact");
                 case KDDefine.KDSensorTypeEnum.SUT_COLOR_GREEN: this.ValueUnit = " "; this.Name = "GREEN"; this.SignificantDigit = 0; break;
                 case KDDefine.KDSensorTypeEnum.SUT_COLOR_BLUE: this.ValueUnit = " "; this.Name = "BLUE"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_AMMONIA: this.ValueUnit = "ppm"; this.Name = "암모니아"; this.SignificantDigit = 1; break;
-                case KDDefine.KDSensorTypeEnum.SUT_FLOWMETER: this.ValueUnit = "L/min"; this.Name = "유량"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_FLOWMETER: this.ValueUnit = "L/min"; this.Name = "유량"; this.SignificantDigit = 3; break;
                 case KDDefine.KDSensorTypeEnum.SUT_FLOWMETER_TOTAL: this.ValueUnit = "L"; this.Name = "적산유량"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_BATTRY: this.ValueUnit = "%"; this.Name = "베터리"; this.SignificantDigit = 1; break;
                 
