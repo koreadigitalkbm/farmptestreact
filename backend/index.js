@@ -22,7 +22,8 @@
 //2.228 : KPC300 장비 코드 추가
 //2.229 : KPC480 장비 포트변경 펌웨어 수정
 //2.232 : KPC480 장비 히터펌프 구동시간 변경
-const farmscubeplatformversion = 2.232;
+//2.233 : KPC480 장비 co2 센서 복합센서로 변경 (S01C02T06)
+const farmscubeplatformversion = 2.233;
 
 const express = require("express");
 const cors = require("cors");
