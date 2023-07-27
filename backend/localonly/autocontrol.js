@@ -25,7 +25,7 @@ module.exports = class AutoControl {
     this.lastError=0;
     this.cumError=0;
     this.PIDPercent=50;
-    this.PIDRunningsec=3600; //PID 구동시간 습도 펌프 구동하기 위해 10분마다 한번씩 구동
+    this.PIDRunningsec=1800; //PID 구동시간 습도 펌프 구동하기 위해 10분마다 한번씩 구동
     this.ispidchange=false; //pid 제어 값이 변경되면 값을 전달되도록 
 
 
@@ -223,7 +223,7 @@ module.exports = class AutoControl {
         let outp = (out+100)/2;
 
         //습도 가습펌프 구동하기 위해 ispidchange true 만듬 
-        if((this.PIDPercent != outp) ||  this.PIDRunningsec >3600)
+        if((this.PIDPercent != outp) ||  this.PIDRunningsec >1800)
         {
           this.PIDPercent = outp;
           this.ispidchange=true;
@@ -799,7 +799,7 @@ module.exports = class AutoControl {
 
                  // 펌프는 1분마다 10초동작 물공급하면 히터가 식어서 습도맞추기 힘듬
                  // 20230717 1시간마다 5분씩 공급으로 변경
-                 if(this.PIDRunningsec > 3600)
+                 if(this.PIDRunningsec > 1800)
                  {
                   let opcmdb = new ActuatorOperation(pumpd.UniqID, true, 300);
                   this.PIDRunningsec =0;
