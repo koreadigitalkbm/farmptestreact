@@ -24,7 +24,7 @@ export default class IndoorFarmAPI {
         "Session-ID": myAppGlobal.sessionid,
       },
       body: JSON.stringify(data), //
-      signal: AbortSignal.timeout(40000) //40초타임아웃설정
+      signal: AbortSignal.timeout(300000) //300초타임아웃설정
     });
     return await response.json();
   }
