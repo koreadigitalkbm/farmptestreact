@@ -67,6 +67,7 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale,
 
 
 let optionChart = {
+  redraw: false,
   plugins: {
     legend: {
       display: false,
