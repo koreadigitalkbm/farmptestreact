@@ -230,13 +230,16 @@ module.exports = class DatabaseInterface {
       const qparam = reqmsg.reqParam;
       const devid = reqmsg.uqid;
       let sqlquery;
+      let sday = qparam.StartDay.replace("T00:00:00.000Z","");
+      let eday = qparam.EndDay.replace("T00:00:00.000Z",""); 
+
 
       if (qparam.TableName == "sensor") {
-        sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + qparam.StartDay + "'" + "  AND  dtime <='" + qparam.EndDay + "'";
+        sqlquery = "SELECT distinct dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <='" + eday + "'";
       } else if (qparam.TableName == "camera") {
-        sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + qparam.StartDay + "'" + "  AND  dtime <='" + qparam.EndDay + "'";
+        sqlquery = "SELECT distinct dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <='" + eday + "'";
       } else if (qparam.TableName == "event") {
-        sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='" + devid + "'" + "  AND dtime>='" + qparam.StartDay + "'" + "  AND  dtime <='" + qparam.EndDay + "'";
+        sqlquery = "SELECT distinct dtime,etype,edatas FROM systemevent  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday+ "'" + "  AND  dtime <='" + eday + "'";
       }
 
       console.log("getDBdatas query start: \n" +sqlquery);

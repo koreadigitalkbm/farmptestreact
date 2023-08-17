@@ -91,6 +91,10 @@ const DataMainPage = (props) => {
     }
   }, [issearching]);
 
+
+
+
+
   function getdbsearch(stday, edday) {
     console.log("-------------------------getdbsearch  ---------------------");
     //console.log("stday : "+ stday);
@@ -102,19 +106,24 @@ const DataMainPage = (props) => {
 
     setissearching(true);
 
-    //sday = new Date(sday.getTime() - sday.getTimezoneOffset() * 60 * 1000);
+    
 
     let stdayonly = new Date(stday.getFullYear(), stday.getMonth(), stday.getDate(), 0, 0, 0, 0);
-    let eddayonly = new Date(edday.getFullYear(), edday.getMonth(), edday.getDate(), 23, 59, 59, 0);
+    let eddayonly = new Date(edday.getFullYear(), edday.getMonth(), edday.getDate(), 0, 0, 0, 0);
+//        eddayonly = addDays(eddayonly,1); //하루더함
 
+    //let stdayonly = new Date(stday);
+    //let eddayonly = new Date(edday);
+
+    
     console.log("stdayonly : " + stdayonly);
     console.log("eddayonly : " + eddayonly);
 
-    let sday = new Date(stdayonly.getTime() - stdayonly.getTimezoneOffset() * 60000);
-    let eday = new Date(eddayonly.getTime() - eddayonly.getTimezoneOffset() * 60000);
+    let sday =new Date(stdayonly.getTime() - stdayonly.getTimezoneOffset() * 60000);
+    let eday =new Date(eddayonly.getTime() - eddayonly.getTimezoneOffset() * 60000 + 24*60*60000);//하루더함
 
-    //    console.log("sday : "+ sday.toLocaleString());
-    //  console.log("eday : "+ eday.toLocaleDateString());
+       console.log("sday : "+ sday);
+      console.log("eday : "+ eday);
 
     let dbq = new DBQueryParam(sday, eday, "sensor");
 
