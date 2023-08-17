@@ -180,7 +180,7 @@ const DataMainPage = (props) => {
     myAppGlobal.farmapi.getDataformDB(dbevt).then((ret) => {
       console.log("-------------------------getdb event: " + ret.IsOK);
       //console.log(ret.retMessage);
-
+      setissearching(false);
       const elist = ret.retMessage;
       sevents = [];
       if (elist != null) {
@@ -210,8 +210,8 @@ const DataMainPage = (props) => {
       } else {
         sevents_period = sevents;
       }
-
       setissearching(false);
+      
     });
   }
 
