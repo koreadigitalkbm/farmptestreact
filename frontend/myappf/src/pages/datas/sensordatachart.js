@@ -68,6 +68,9 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement, TimeScale,
 
 let optionChart = {
   redraw: false,
+  animation: {
+    duration: 0
+},
   plugins: {
     legend: {
       display: false,
