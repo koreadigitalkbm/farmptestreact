@@ -265,13 +265,16 @@ module.exports = class LocalAPI {
       case KDDefine.REQType.RT_SYSTEMSTATUS:
         if (this.mMain.sensorinterface != null && reqmsg.reqParam.isSEN === true) {
           rspmsg.Sensors = this.mMain.sensorinterface.getsensorssimple();
+          console.log("RT_SYSTEMSTATUS sensor");
         }
         if (this.mMain.actuatorinterface != null && reqmsg.reqParam.isACT === true) {
           rspmsg.Outputs = this.mMain.actuatorinterface.getactuatorstatus();
+          console.log("RT_SYSTEMSTATUS actuator");
         }
         // 시간이 0으로오면 요청없음
         if (this.mMain.dailydatas != null && reqmsg.reqParam.STime > 0) {
           rspmsg.retParam = this.mMain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
+          console.log("RT_SYSTEMSTATUS datas");
         }
         //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
