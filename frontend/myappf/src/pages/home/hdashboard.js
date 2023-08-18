@@ -93,10 +93,22 @@ const HDashboard = (props) => {
 
     setDataloading(true);
     loadtimeoutcount=0;
-    
+    let isactf=true;
+    let stime = myAppGlobal.dashboardlastsensortime;
+
+    if(init_count<=2)
+    {
+      stime=0;
+      if(init_count<=1)
+      {
+        isactf=false;
+      }
+      
+    }
 
 
-    myAppGlobal.farmapi.getDeviceStatus(true, false, false, 0, myAppGlobal.dashboardlasteventtime).then((ret) => {
+
+    myAppGlobal.farmapi.getDeviceStatus(true, isactf, false, stime , myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
       connecterrorcount=0;
       setDataloading(false);
