@@ -19,7 +19,7 @@
     "LT_ANAME_TEMP_PID": "온도제어(PID)",
     "LT_ANAME_WATER": "관수제어(타이머)",
     "LT_ANAME_LED": "광량제어(3색)",
-    "LT_ANAME_AIR": "환기제어환기제어(CO2,습도)",
+    "LT_ANAME_AIR": "환기제어(CO2,습도)",
     "LT_ANAME_HUMIDITY": "습도제어",
     "LT_ANAME_HUMIDITY_PID": "습도제어(PID)",
     "LT_ANAME_CO2": "CO2제어",
