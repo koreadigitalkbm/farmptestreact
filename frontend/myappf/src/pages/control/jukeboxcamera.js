@@ -64,8 +64,10 @@ const JukeboxCamera = (props) => {
     }
     else
     {
+      setTakeing(false);
       settakeimageurl(recenturl);
       setTakeing(false);
+      settakeimageurl(recenturl);
     }
 
   }
