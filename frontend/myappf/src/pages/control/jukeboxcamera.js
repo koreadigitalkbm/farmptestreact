@@ -61,13 +61,17 @@ const JukeboxCamera = (props) => {
       setTakeTime(takewatitimesec);
     clearTimeout(takecallbacktimeout);
       takecallbacktimeout = setTimeout(takewait, 1000);
+      if(takewatitimesec ==2)
+      {
+        settakeimageurl(recenturl_thum);
+      }
+
     }
     else
     {
       setTakeing(false);
       settakeimageurl(recenturl);
-      setTakeing(false);
-      settakeimageurl(recenturl);
+      
     }
 
   }
