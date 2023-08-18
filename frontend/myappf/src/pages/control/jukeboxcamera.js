@@ -5,6 +5,7 @@ import { Button, Box, Stack, Typography } from "@mui/material";
 
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
+import CircularProgress from "@mui/material/CircularProgress";
 import Switch from "@mui/material/Switch";
 
 import ActuatorOperation from "../../commonjs/actuatoroperation";
@@ -20,16 +21,23 @@ let recenturl = "";
 let recenturl_thum = "";
 let togleflg = 0;
 
+let takecallbacktimeout=null;
+let takewatitimesec=0;
+
 const JukeboxCamera = (props) => {
   const [takeimageurl, settakeimageurl] = useState(manultakefilename);
   const [savedisable, setBtnDisable] = React.useState(true);  
+  const [istakeing, setTakeing] = useState(false);
+
+  const [taketimesec, setTakeTime] = useState(60);
+
   const commoninputhandler = props.inputallchangeHandler;
   const commonischangehandler= props.ischangehandler;
   const copycfg= props.initvalue;
   const saveconfig = props.savecfg;
 
 
-  console.log("JukeboxCamera recenturl:" + recenturl + " togleflg:" + togleflg + "takeimageurl : " + takeimageurl);
+  //console.log("JukeboxCamera recenturl:" + recenturl + " togleflg:" + togleflg + "takeimageurl : " + takeimageurl);
 
 
   const inputchangeHandler = (event) => {
@@ -42,6 +50,25 @@ const JukeboxCamera = (props) => {
     setBtnDisable( commonischangehandler());
 
   };
+
+  function takewait() {
+
+    console.log("takewait : " + takewatitimesec);
+
+    takewatitimesec--;
+    if(takewatitimesec >0)
+    {
+      setTakeTime(takewatitimesec);
+    clearTimeout(takecallbacktimeout);
+      takecallbacktimeout = setTimeout(takewait, 1000);
+    }
+    else
+    {
+      manualreload();
+      setTakeing(false);
+    }
+
+  }
 
   function manualreload() {
     if (togleflg == 0) {
@@ -67,18 +94,26 @@ const JukeboxCamera = (props) => {
       let capfilename = "cameara_" + "T_" + timestr + "_manual_" + KDUtil.GetRandom10() + ".jpg";
 
       manultakefilename = capfilename;
+
+      clearTimeout(takecallbacktimeout);
+      takewatitimesec=60;
+      takecallbacktimeout = setTimeout(takewait, 1000);
+      setTakeing(true);
+
     }
-    console.log("manultakefilename : " + manultakefilename);
+    //console.log("manultakefilename : " + manultakefilename);
 
     opcmd.setoperation(KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave, 0, manultakefilename, istake);
     myAppGlobal.farmapi.setActuatorOperation(opcmd).then((ret) => {
       if (istake === true) {
         const newurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/manual/" + manultakefilename;
-        console.log("JukeboxCamera url:" + newurl);
+        //console.log("JukeboxCamera url:" + newurl);
         recenturl = newurl;
         recenturl_thum = newurl.replace(".jpg", "_thum.jpg");
         //   alert("촬영되었습니다.");
+        
         settakeimageurl(newurl);
+
       } else {
         alert("저장되었습니다.");
       }
@@ -89,11 +124,27 @@ const JukeboxCamera = (props) => {
   if (copycfg.Enb === false) {
     return (
       <Stack spacing={1}>
-        <img src={takeimageurl} loading="lazy" width={400} />
 
-        <Button sx={{maxWidth:400}} type="submit" variant="contained" onClick={() => manualtake(true)}>
+        
+          {istakeing === true ? 
+          <Typography component="div" variant="body2" fontSize="32" color="#0d47a1"  style={{ verticalAlign: "middle" }}>
+          <CircularProgress  size="2rem"  />
+          {taketimesec}
+        </Typography>:null}
+
+               
+        
+
+          <img src={takeimageurl} loading="lazy" width={400} />
+        
+          {istakeing === false ?
+        (<Button sx={{maxWidth:400}}  type="submit" variant="contained" onClick={() => manualtake(true)}>
           {myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_SHOOT")}
-        </Button>
+        </Button>):
+        ( <Button sx={{maxWidth:400}} disabled type="submit" variant="contained" onClick={() => manualtake(true)}>
+        {myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_SHOOT")}
+      </Button>)
+        }
 
         <Button sx={{maxWidth:400}} type="submit" variant="contained" onClick={() => manualreload()}>
           {myAppGlobal.langT("LT_GROWPLANTS_TAKEPICTURE_LOADRECENTLYPICTURE")}
