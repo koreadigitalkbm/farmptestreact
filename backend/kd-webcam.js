@@ -29,7 +29,7 @@ var schedule = require('node-schedule');
 let Job_Get_Image = new schedule.scheduleJob( '0 */1 * * * *' , function () { 
     try {
         console.log( '   '.bgMagenta, 'now run pm2 flush command' );
-        let _cmd = `fswebcam -r 1280*960 --no-banner image2.jpg`
+        let _cmd = `fswebcam -r 1280*960 --no-banner /home/pi/kd/farmptestreact/common/usbcamimage.jpg`
         if (shell.exec(`${ _cmd }`).code === 0) {
             console.log('done !!! get image',  );
         }
