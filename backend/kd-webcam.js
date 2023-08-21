@@ -16,17 +16,58 @@
 
 'use strict';
 
+const KDCommon = require("./kdcommon");
 
-const colors = require('colors');
-const moment = require('moment');
 
-let shell = require('shelljs');
 
+
+async function Captureimage(miskpc480, isusbwecam) {
+      
+    let shell = require('shelljs');
+
+    if(isusbwecam== true)
+    {
+      console.log(" usb webcam  mode start ");
+    
+      let _cmd = `fswebcam -r 1280*960 --no-banner /home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg`
+            if (shell.exec(`${ _cmd }`).code === 0) {
+                console.log('done !!! get image',  );
+            }
+            else {
+                console.log('failed !!! get image',  );
+            }
+    
+    
+      await KDCommon.delay(5000);
+    
+      console.log(" usb webcam  mode wait 5sec.. ");
+    
+      let data_img = KDCommon.ReadfileBase64( '/home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg' );
+    
+      if( data_img.length >1000)
+      {
+        console.log(" usb data_img =%d " +data_img.length );
+    
+        return data_img;
+      }
+      return null;
+    
+    }
+    return null;
+
+}
+
+ Captureimage(true, true);
+
+
+
+
+/*
 //scp usbcamimage.jpg root@127.0.0.1:"C:\user\abc"
 // ============================================================================= job pm2 flush
 // ==========        sudo pm2 flush
 // ============================================================================= job pm2 flush
-//let Job_Get_Image = new schedule.scheduleJob( '0 */1 * * * *' , function () { 
+
     try {
 //        console.log( '   '.bgMagenta, 'now run pm2 flush command' );
 
@@ -78,3 +119,4 @@ const PiCamera = require("pi-camera");
 
 
 
+*/
