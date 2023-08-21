@@ -14,8 +14,46 @@ module.exports = class RasCamera {
     }
   
       
-    static async Captureimage(miskpc480) {
+    static async Captureimage(miskpc480, isusbwecam) {
       
+
+
+if(isusbwecam== true)
+{
+  console.log(" usb webcam  mode start ");
+
+  let _cmd = `fswebcam -r 1280*960 --no-banner /home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg`
+        if (shell.exec(`${ _cmd }`).code === 0) {
+            console.log('done !!! get image',  );
+        }
+        else {
+            console.log('failed !!! get image',  );
+        }
+
+
+  await KDCommon.delay(5000);
+
+  console.log(" usb webcam  mode wait 5sec.. ");
+
+  let data_img = KDCommon.ReadfileBase64( '/home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg' );
+
+  if( data_img.length >1000)
+  {
+    console.log(" usb data_img =%d " +data_img.length );
+
+    return data_img;
+  }
+  return null;
+
+}
+else{
+
+
+  
+
+  console.log(" cmos camera mode ");
+
+
         const PiCamera = require("pi-camera");
        //kbm 카메라 해상도 조정 
         let myCamera = new PiCamera({
@@ -61,7 +99,7 @@ module.exports = class RasCamera {
             return null;
           });
     }
-
+  }
     
   };
 

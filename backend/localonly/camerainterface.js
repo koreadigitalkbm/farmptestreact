@@ -26,7 +26,7 @@ module.exports = class CameraInterface {
 
     } else {
 
-      data_img = await RasCamera.Captureimage(miskpc480);
+      data_img = await RasCamera.Captureimage(miskpc480, true);
 
       
 
