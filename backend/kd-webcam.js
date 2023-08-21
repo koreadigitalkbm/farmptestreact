@@ -26,9 +26,9 @@ var schedule = require('node-schedule');
 // ============================================================================= job pm2 flush
 // ==========        sudo pm2 flush
 // ============================================================================= job pm2 flush
-let Job_Get_Image = new schedule.scheduleJob( '0 */1 * * * *' , function () { 
+//let Job_Get_Image = new schedule.scheduleJob( '0 */1 * * * *' , function () { 
     try {
-        console.log( '   '.bgMagenta, 'now run pm2 flush command' );
+//        console.log( '   '.bgMagenta, 'now run pm2 flush command' );
         let _cmd = `fswebcam -r 1280*960 --no-banner /home/pi/kd/farmptestreact/common/usbcamimage.jpg`
         if (shell.exec(`${ _cmd }`).code === 0) {
             console.log('done !!! get image',  );
@@ -40,10 +40,7 @@ let Job_Get_Image = new schedule.scheduleJob( '0 */1 * * * *' , function () {
     catch (error) {
         console.log( error )        
     }
-});
+//});
 
 
-setInterval(() => {
-    console.log( moment().format('HH:mm:ss') )
-}, 1000 );
 
