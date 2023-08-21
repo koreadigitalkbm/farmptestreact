@@ -12,10 +12,11 @@
     "moment": "^2.29.4",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.9",
+    "node-schedule": "^2.1.1",
     "nodemon": "^2.0.20",
     "os": "^0.1.2",
     "pi-camera": "^1.7.0",
-    "ping": "^0.4.2"
-  },
-  "devDependencies": {}
+    "ping": "^0.4.2",
+    "shelljs": "^0.8.5"
+  }
 }
