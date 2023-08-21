@@ -20,6 +20,8 @@ module.exports = class RasCamera {
 
 if(isusbwecam== true)
 {
+  let shell = require('shelljs');
+  
   console.log(" usb webcam  mode start ");
 
   let _cmd = `fswebcam -r 1280*960 --no-banner /home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg`
@@ -39,7 +41,7 @@ if(isusbwecam== true)
 
   if( data_img.length >1000)
   {
-    console.log(" usb data_img =%d " +data_img.length );
+    console.log(" usb data_img length:  " +data_img.length );
 
     return data_img;
   }
