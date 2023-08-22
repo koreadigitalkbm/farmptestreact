@@ -27,7 +27,7 @@ if ( search_root_dir_index !== -1 ) {
         .snap()
         .then((result) => {
 
-            console.log("       ".bgCyan, "Captureimage() OK !!!");
+            console.log("       ".bgCyan, "Capturimage() OK !!!");
             console.log( result.length )
             console.log( result )
             // return KDCommon.ReadfileBase64("../../common/ctestimage.jpg");
@@ -35,7 +35,7 @@ if ( search_root_dir_index !== -1 ) {
         })
         .catch((error) => {
             // Handle your error
-            console.log("       ".bgMagenta, "Captureimage()", error);
+            console.log("       ".bgMagenta, "Capturimage()", error);
             return null;
         });
 }

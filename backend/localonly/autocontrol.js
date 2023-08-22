@@ -947,8 +947,10 @@ module.exports = class AutoControl {
 
       for (let i = 0; i <= 1440; i += intervalmin) {
         let timestep = Number(starttimemin + i);
-        timestep = timestep >= 1440 ? timestep - 1440 : timestep;
+        let timestep_af_3min = Number(timestep+3);
 
+        timestep = timestep >= 1440 ? timestep - 1440 : timestep;
+        timestep_af_3min= timestep_af_3min >= 1440 ? timestep_af_3min - 1440 : timestep_af_3min;
         //      console.log("getOperationsforcamera i:"+ i +" -------timeminnow:  " + timeminnow + " timestep:" + timestep);
 
         if (timeminnow == timestep) {
@@ -956,6 +958,17 @@ module.exports = class AutoControl {
           oplist.push(this.mConfig.Actlist[0]);
           return oplist;
         }
+
+        if (timeminnow == timestep_af_3min && this.mConfig.Actlist[1] !=null) {
+          console.log("getOperationsforcamera ---------------timestep_af_3min:  " + timestep_af_3min + " actuator:" + this.mConfig.Actlist[1] );
+
+          oplist.push(this.mConfig.Actlist[1]);
+          return oplist;
+        }
+
+        
+
+
       }
     }
 

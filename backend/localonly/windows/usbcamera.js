@@ -11,7 +11,7 @@ module.exports = class USBCamera {
     static async Captureimage() {
       
         
-        console.log("======================= USBCamera Captureimage start:");
+        console.log("======================= USBCamera Capturimage start:");
   
         
         let lawimg=KDCommon.ReadfileBase64('../common/ctestimage.jpg');
@@ -21,7 +21,7 @@ module.exports = class USBCamera {
           });
 
 
-          console.log("======================= USBCamera Captureimage  end : " +promise);
+          console.log("======================= USBCamera Capturimage  end : " +promise);
         return await promise;
 
     }

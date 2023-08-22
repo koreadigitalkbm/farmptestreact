@@ -14,14 +14,12 @@ module.exports = class RasCamera {
     }
   
       
-    static async Captureimage(miskpc480, isusbwecam) {
-      
-
+static async Captureimage(miskpc480, isusbwecam) {
 
 if(isusbwecam== true)
 {
   let shell = require('shelljs');
-  
+
   console.log(" usb webcam  mode start ");
 
   let _cmd = `fswebcam -r 1280*960 --no-banner /home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg`
@@ -39,11 +37,14 @@ if(isusbwecam== true)
 
   let data_img = KDCommon.ReadfileBase64( '/home/pi/kd/farmptestreact/frontend/myappf/public/usbcamimage.jpg' );
 
-  if( data_img.length >1000)
+  if(data_img !=null)
   {
-    console.log(" usb data_img length:  " +data_img.length );
+    if( data_img.length >1000)
+    {
+      console.log(" usb data_img length:  " +data_img.length );
 
-    return data_img;
+      return data_img;
+    }
   }
   return null;
 
@@ -97,7 +98,7 @@ else{
           })
           .catch((error) => {
             // Handle your error
-            console.log("       ".bgMagenta, "Captureimage()", error);
+            console.log("       ".bgMagenta, "Capturimage()", error);
             return null;
           });
     }

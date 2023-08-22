@@ -166,12 +166,12 @@ module.exports = class ActuatorInterface {
     return await promise;
   }
 
-  async CaptureImagewithLED(islocal)
+  async CaptureImagewithLED(islocal, cameratype)
   {
     await this.LEDonforcamera(islocal );
-    const lawimg = await CameraInterface.Captureimage(this.iskpc480);
+    const lawimg = await CameraInterface.CaptureStillimage(this.iskpc480,cameratype);
     // this.cameracapturecount = 0;
-    console.log("CaptureImagewithLED ", 'size is : ', lawimg.length);
+    console.log("CapturImagewithLED ", 'size is : ', lawimg.length);
 
     return lawimg;
 
@@ -188,7 +188,7 @@ module.exports = class ActuatorInterface {
 
       if (mops.Opmode === true) {
         
-        const lawimg = await this.CaptureImagewithLED(false);
+        const lawimg = await this.CaptureImagewithLED(false,KDDefine.CameraType.CT_MANUAL);
         
         if (lawimg != null) {
 

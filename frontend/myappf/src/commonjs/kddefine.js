@@ -248,6 +248,7 @@ module.exports = class KDDefine {
     CT_USB: "USBCamera", // USB 타입 RGB 컬러카메라
     CT_DEPTH: "DEPTHCamera", // 데스카메라
     CT_IR: "IRCamera",
+    CT_MANUAL: "manualcapture",
   });
 
   //구동기 이름  id  다국어지원  언어셋 ID만들때 사용

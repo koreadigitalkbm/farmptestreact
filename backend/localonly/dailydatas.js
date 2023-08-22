@@ -10,7 +10,7 @@ module.exports = class DailyCurrentDatas {
     this.LastimageFilename;
   }
 
-  updateCaptureimage(fname)
+  updateCpatureimage(fname)
   {
     this.LastimageFilename= fname;
   }
