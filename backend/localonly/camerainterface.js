@@ -38,7 +38,7 @@ module.exports = class CameraInterface {
 
     }
 
-    console.log('----------- CameraInterface Capturimage end', 'size is : ', data_img.length );
+    //console.log('----------- CameraInterface Capturimage end', 'size is : ', data_img.length );
 
     return data_img;
     

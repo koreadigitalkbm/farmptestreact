@@ -84,7 +84,7 @@ else{
             nopreview: true,
           });
         }
-        console.log('======================= 1 start pi-camera', '/home/pi/kd/farmptestreact/common/ctestimage2.jpg')
+      //  console.log('======================= 1 start pi-camera', '/home/pi/kd/farmptestreact/common/ctestimage2.jpg')
   
         return await myCamera.snapDataUrl()
           .then((data) => {    // data << 이미지 데이타가 아님... 
