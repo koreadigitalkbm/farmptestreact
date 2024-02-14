@@ -1,14 +1,27 @@
 //구동기 기본 정보
 const KDDefine = require("../../frontend/myappf/src/commonjs/kddefine");
-
+const moment = require("moment");
 
 module.exports = class SystemEvent {
   static Clonbyjsonobj(mobj) {
-    return Object.assign(new SystemEvent(0,0,0), mobj);
+    return new SystemEvent(mobj.EDate,mobj.EType,mobj.EParam);// Object.assign(new SystemEvent(0,0,0), mobj);
   }
 
   constructor(mdate, metype, mparams) {
-    this.EDate =mdate;// Date.now();
+
+
+    
+    if(isNaN(mdate) ==false)
+    {
+    //숫자일경우
+      const clocknow = new Date(mdate);
+      this.EDate =moment(clocknow).format("YYYY-MM-DD HH:mm:ss");
+    } 
+    else
+    {
+      this.EDate =mdate;// Date.now();
+    }
+    
     this.EType = metype; //
     this.EParam = mparams; //이벤트 내용 json 포멧으로 
      //console.log("SystemEvent EDate :" +  this.EDate + "  EType: " + this.EType + " date:"+ this.EDate);
