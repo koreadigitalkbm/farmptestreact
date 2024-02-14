@@ -4,6 +4,9 @@ import PowerIcon from '@mui/icons-material/Power';
 import PowerOffIcon from '@mui/icons-material/PowerOff';
 import AutoInputControl from "./autoinputcontrol";
 import myAppGlobal from "../../myAppGlobal";
+import React from "react";
+
+
 //자동제어의 수동제어 화면 공통으로 상용되는거
 const AutoManualCommon = (props) => {
   return (

@@ -63,3 +63,5 @@ git reset --hard HEAD  가장최신버전으로 바꾸자
 # react 도메인 접속시 Invaild host Header
 - 도메인연결시 에러발생시 서버쪽 코드만  /node_modules/react-scripts/config/webpackDevServer.config.js 수정(	const disableFirewall = true)
 
+# ssh 장비접속
+ sudo -s 루트권한
