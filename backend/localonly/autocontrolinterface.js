@@ -11,17 +11,31 @@ const SystemEvent = require("./systemevent");
 
 module.exports = class AutoControlInterface {
   constructor(mmain) {
+    this.mTimezoneoffsetmsec =Number(mmain.localsysteminformations.Systemconfg.timezoneoffsetminutes*60*1000);
+
     this.mMain= mmain;
     this.mAutoControllist = []; //자동제어 목록
 
     //자동제어 목록을 가져옴.
     this.Autocontrolload();
+
+    
+  }
+
+  getDatenowformatWithTimezone()
+  {
+    const datestr = KDCommon.getCurrentDate(this.mTimezoneoffsetmsec,true);
+
+    
+    //const datestr = moment(datenow).format("YYYY-MM-DD HH:mm:ss");
+    return datestr;
+
   }
 
   // 전체 자동제어목록을 확인하고 상태가 변경되면 구동기명령어를 리턴함. 
   getOpsByControls() {
     let opcmdlist = [];
-    const totalsec = KDCommon.getCurrentTotalsec();
+    //const totalsec = KDCommon.getCurrentTotalsec();
     for (const mactl of this.mAutoControllist) {
           let mlist = mactl.getOperationsByControl(this.mMain.sensorinterface.mSensors, this.mMain.actuatorinterface.Actuators);
           opcmdlist.push(...mlist);
@@ -48,7 +62,7 @@ module.exports = class AutoControlInterface {
     }
     else
     {
-      const totalsec = KDCommon.getCurrentTotalsec();
+     // const totalsec = KDCommon.getCurrentTotalsec();
       for (const mactl of this.mAutoControllist) {
             let mlist = mactl.getOperationsforcamera();
             opcmdlist.push(...mlist);
@@ -85,24 +99,24 @@ module.exports = class AutoControlInterface {
       let ma = this.mAutoControllist[i];
       if (ma.mConfig.Uid === isonlyoneitem.Uid) {
         //설정이 변경되면 내용만 복사하고 상태는 초기화한다. 다시 제어되도록
-        this.mAutoControllist[i] = new AutoControl(isonlyoneitem);
+        this.mAutoControllist[i] = new AutoControl(isonlyoneitem ,this.mTimezoneoffsetmsec);
         isnew = false;
         console.log("AutocontrolUpdat: " + isonlyoneitem.Uid + ",name : " + ma.mConfig.Name + "new  enb: "+this.mAutoControllist[i].mConfig.Enb);
 
         //자동에서 수동으로 바뀌면 구동기를 수동제어로 변경
         if(ma.mConfig.Enb == true &&   this.mAutoControllist[i].mConfig.Enb ==false)
         {
-          const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoToMa);
+          const newevent = SystemEvent.createAutoControlEvent(this.getDatenowformatWithTimezone(),this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoToMa);
           this.mMain.setSystemevent(newevent);
         }
         else if(ma.mConfig.Enb == false &&   this.mAutoControllist[i].mConfig.Enb ==true)
         {
-          const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_MaToAuto);
+          const newevent = SystemEvent.createAutoControlEvent(this.getDatenowformatWithTimezone(),this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_MaToAuto);
           this.mMain.setSystemevent(newevent);
         }
         else{
 
-          const newevent = SystemEvent.createAutoControlEvent(this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoChange);
+          const newevent = SystemEvent.createAutoControlEvent(this.getDatenowformatWithTimezone(),this.mAutoControllist[i].mConfig.Uid,KDDefine.AUTOStateType.AST_AutoChange);
           this.mMain.setSystemevent(newevent);
 
         }
@@ -115,7 +129,7 @@ module.exports = class AutoControlInterface {
     }
     //목록에 없으면 새로 만든거임
     if (isnew == true) {
-      this.mAutoControllist.push(new AutoControl(isonlyoneitem));
+      this.mAutoControllist.push(new AutoControl(isonlyoneitem,this.mTimezoneoffsetmsec));
     }
 
 
@@ -149,7 +163,7 @@ module.exports = class AutoControlInterface {
     ///전체 읽어옴
     this.mAutoControllist = [];
     for (const mcfg of mcfglist) {
-      this.mAutoControllist.push(new AutoControl(mcfg));
+      this.mAutoControllist.push(new AutoControl(mcfg,this.mTimezoneoffsetmsec));
       console.log("Autocontrollad load: " + mcfg.Uid + ",name : " + mcfg.Name);
     }
 

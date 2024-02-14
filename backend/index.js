@@ -25,7 +25,8 @@
 //2.233 : KPC480 장비 co2 센서 복합센서로 변경 (S01C02T06)
 //2.234 : KPC480 가습펌프버그 수정
 //2.236 : KPC480 USB 카메라 촬영되도록  카메라자동제어에서 구동기 리스트에 "USBCamera" 추가하면  내장 cmos 카메라 촬영후 3분후에 USB 촬영됨
-const farmscubeplatformversion = 2.236;
+//2.241 : 타임존 관련 업데이트
+const farmscubeplatformversion = 2.241;
 
 const express = require("express");
 const cors = require("cors");

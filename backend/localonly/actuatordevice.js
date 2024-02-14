@@ -19,7 +19,7 @@ module.exports = class Actuatordevice {
   }
   
   //구동기상태변화가 있거나 먼가 이벤트가 발생했는지 확인
-  getEventwithCheck() {
+  getEventwithCheck(curdatetimes) {
     let newevent = null;
     // 보낸 OPID 와 받은 OPID 같다면 명령어 정상적으로 수행됬음. 이벤트 남김
     if (this.AOperation.Opid === this.AStatus.Opid) {
@@ -27,7 +27,7 @@ module.exports = class Actuatordevice {
       let isevent = false;
       if (this.AOperation.Opid != this.LastCompleteOPID) {
 
-        console.log("getEventwithCheck UniqID:" + this.UniqID+" , LastCompleteState: " + this.LastCompleteState +  " ,sta:" + this.AStatus.Sat);
+        console.log("getEventwithChek UniqID:" + this.UniqID+" , LastCompleteState: " + this.LastCompleteState +  " ,sta:" + this.AStatus.Sat);
         //상태가 다를경우만 이벤트 기록 
         if(this.LastCompleteState != this.AStatus.Sat)
         {
@@ -48,10 +48,9 @@ module.exports = class Actuatordevice {
       }
 
       if (isevent == true) {
-        //let eparam = this.eventTonomalstring();
-        //newevent = new SystemEvent(KDDefine.EVENTType.EVT_ACTUATOR, eparam);
+        
 
-        newevent= SystemEvent.createActuatorEvent(this.UniqID,this.AStatus.Sat);
+        newevent= SystemEvent.createActuatorEvent(curdatetimes,this.UniqID,this.AStatus.Sat);
 
       }
     }

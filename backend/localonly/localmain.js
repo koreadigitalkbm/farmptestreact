@@ -59,17 +59,16 @@ async function devicemaintask(mainclass) {
       mainclass.autocontrolinterface = new AutoControlInterface(mainclass);
       mainclass.localDBinterface = new DatabaseInterface(mainclass);
       mainclass.dailydatas = new DailyCurrentDatas();
-
-      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Bootup), 0, 0);
+      
+      mainclass.setSystemevent(SystemEvent.createDevSystemEvent(mainclass.autocontrolinterface.getDatenowformatWithTimezone(),KDDefine.SysEventCode.SEC_Bootup), 0, 0);
 
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
 
       while (true) {
-        const date = new Date();
-
+       
         //1초단위로 처리하는 함수
         {
-          const cursec = date.getSeconds();
+          const cursec = KDCommon.getSecondsonly();//date.getSeconds();
           if (last_sec != cursec) {
            // console.log("mainloop  sec_step: " + sec_step);
             last_sec = cursec;
@@ -103,13 +102,20 @@ async function devicemaintask(mainclass) {
 
         //1분 단위로 먼가 처리하는 루틴
         {
-          const curminute = date.getMinutes();
+          const curminute = KDCommon.getMinutesonly(); //date.getMinutes();
           if (last_minute != curminute) {
             last_minute = curminute;
+
+            const curdatetime = mainclass.autocontrolinterface.getDatenowformatWithTimezone();
+
             let simplesensors = mainclass.sensorinterface.getsensorssimple();
 
-            mainclass.dailydatas.updateSensor(simplesensors);
-            const curdatetime = moment().local().format("YYYY-MM-DD HH:mm:ss");
+            mainclass.dailydatas.updateSensor(curdatetime,simplesensors);
+
+          //  console.log("curdatetime : " +curdatetime);
+          //  const newdatastr = mainclass.autocontrolinterface.getDatenowformatWithTimezone();
+          //  const curdatetime =moment.utc().add(mainclass.localsysteminformations.Systemconfg.timezoneoffsetminutes, 'minutes').format("YYYY-MM-DD HH:mm:ss");
+          //  console.log("newdatastr : " +newdatastr + " curdatetime : " + curdatetime +  " tz:" + moment.utc().format("YYYY-MM-DD HH:mm:ss"));
 
             //로컬에 저장
             mainclass.localDBinterface.setsensordata(mainclass.mydeviceuniqid, curdatetime, mainclass.sensorinterface.mSensors);
@@ -199,6 +205,7 @@ module.exports = class LocalMain {
 
   savesystemconfig(newconfig) {
     //저장하고 다시 읽어와 갱신
+    console.log("---------------------------------savesystemconfig: " +newconfig);
     KDCommon.Writefilejson(KDCommon.systemconfigfilename, newconfig);
     this.localsysteminformations.Systemconfg = KDCommon.Readfilejson(KDCommon.systemconfigfilename);
   }
@@ -228,6 +235,22 @@ module.exports = class LocalMain {
     this.localsysteminformations.Alias = malias;
     console.log("deviceuniqid : " + this.mydeviceuniqid + " comport : " + this.localsysteminformations.Systemconfg.comport);
     console.log("device model : " + this.localsysteminformations.Systemconfg.productmodel);
+
+    
+    if(this.localsysteminformations.Systemconfg.timezoneoffsetminutes==null)
+    {
+      
+      this.localsysteminformations.Systemconfg.timezoneoffsetminutes=9*60;
+      console.log("timezoneoffsetminutes unidefined : " + this.localsysteminformations.Systemconfg.timezoneoffsetminutes);
+
+    }
+    else
+    {
+      console.log("timezoneoffsetminutes  : " + this.localsysteminformations.Systemconfg.timezoneoffsetminutes);
+
+    }
+    
+
   }
   
   

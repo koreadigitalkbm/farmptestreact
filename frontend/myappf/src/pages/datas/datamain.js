@@ -110,10 +110,6 @@ const DataMainPage = (props) => {
 
     let stdayonly = new Date(stday.getFullYear(), stday.getMonth(), stday.getDate(), 0, 0, 0, 0);
     let eddayonly = new Date(edday.getFullYear(), edday.getMonth(), edday.getDate(), 0, 0, 0, 0);
-//        eddayonly = addDays(eddayonly,1); //하루더함
-
-    //let stdayonly = new Date(stday);
-    //let eddayonly = new Date(edday);
 
     
     console.log("stdayonly : " + stdayonly);

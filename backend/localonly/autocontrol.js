@@ -8,7 +8,7 @@ const KDCommon = require("../kdcommon");
 const SystemEvent = require("./systemevent");
 
 module.exports = class AutoControl {
-  constructor(mconfig) {
+  constructor(mconfig , timezoneoffsetmsec) {
     this.mConfig = AutoControlconfig.deepcopy(mconfig); // 자동제어 설정을 복사해서 넣음
     this.mState = new AutoControlStatus(mconfig.Uid);
     this.mLog = [];
@@ -20,8 +20,14 @@ module.exports = class AutoControl {
     this.isPHon = false;
     this.isECon = false;
 
+    //20240214 수출함으로 타임존 적용
+    this.mTimezoneoffsetMillisec= Number(timezoneoffsetmsec);
+    console.log("mTimezoneoffsetMillisec : " + this.mTimezoneoffsetMillisec);
+
+
+
     //pid control
-    this.previousTime=KDCommon.getCurrentTotalsec();
+    this.previousTime=KDCommon.getCurrentTotalsec(this.mTimezoneoffsetMillisec);
     this.lastError=0;
     this.cumError=0;
     this.PIDPercent=50;
@@ -45,16 +51,11 @@ module.exports = class AutoControl {
     }
 
 
-      
-
-      
 
 
 
   }
-  static Clonbyjsonobj(mobj) {
-    return new AutoControl(mobj.mConfig);
-  }
+  
   //기본적인 사항을 확인함. enable, 시간
   isBasiccondition(timesecnow) {
     if (this.mConfig.Enb == true) {
@@ -136,7 +137,7 @@ module.exports = class AutoControl {
         curstate = KDDefine.AUTOStateType.AST_Off;
       }
     } else {
-      const daytotalsec = KDCommon.getCurrentTotalsec();
+      const daytotalsec = KDCommon.getCurrentTotalsec(this.mTimezoneoffsetMillisec);
 
       if (isonstate == false) {
         this.PWMonoffstate = false;
@@ -174,7 +175,7 @@ module.exports = class AutoControl {
   coputePIDTemperature(inputvalue, setvalue)
   {
       
-        let currentTime = KDCommon.getCurrentTotalsec();                //get current time
+        let currentTime = KDCommon.getCurrentTotalsec(this.mTimezoneoffsetMillisec);                //get current time
         //console.log("coputePIDTemperature this.previousTime : " + this.previousTime +" currentTime:" +currentTime  + " kp:" + this.kpv + ",ki: "+ this.kiv+ ",kd: "+ this.kdv) ;
 
 
@@ -294,7 +295,7 @@ module.exports = class AutoControl {
         console.log("getStateBySensorcondtion no sensor : " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
-        //const daytotalsec = KDCommon.getCurrentTotalsec();
+        
 
         
         let targetvalue;
@@ -336,7 +337,7 @@ module.exports = class AutoControl {
         console.log("getStateBySensorcondtion no sensor : " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
-        //const daytotalsec = KDCommon.getCurrentTotalsec();
+        
 
         
         let targetvalue;
@@ -482,7 +483,7 @@ module.exports = class AutoControl {
         console.log("getStateBySensorcondtion no sensor : " + this.mConfig.Senlist[0]);
         return KDDefine.AUTOStateType.AST_ERROR;
       } else {
-        //const daytotalsec = KDCommon.getCurrentTotalsec();
+        
 
         let upvalue;
         let downvalue;
@@ -932,7 +933,7 @@ module.exports = class AutoControl {
     let oplist = [];
     //카메라는  촬영확인  1분 단위로 함수호출됨. 때문에 촬영해야할 시간(분) 이 되면 한장만 촬영
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_CAMERA_FJBOX) {
-      let timeminnow = KDCommon.getCurrentTotalminute();
+      let timeminnow = KDCommon.getCurrentTotalminute(this.mTimezoneoffsetMillisec);
       let starttimemin = this.mConfig.STime / 60;
       let takecount=Number(this.mConfig.DTValue);
       if(takecount <1 || takecount>8)
@@ -979,7 +980,7 @@ module.exports = class AutoControl {
   setUpdatestateWithEvent(newautostate) {
     this.NewEvent = null;
     if (this.mState.State != newautostate) {
-      //console.log("setUpdatestateWithEvent lid: " + this.mConfig.Lid + "  ---------------old:  " + this.mState.State + " new: " + newautostate);
+      //console.log("setUpdatestateithEvent lid: " + this.mConfig.Lid + "  ---------------old:  " + this.mState.State + " new: " + newautostate);
 
       //상태가 유지상태일경우 이벤트 발생안함
       if (newautostate == KDDefine.AUTOStateType.AST_Up_Idle || newautostate == KDDefine.AUTOStateType.AST_Down_Idle || newautostate == KDDefine.AUTOStateType.AST_IDLE) {
@@ -987,7 +988,7 @@ module.exports = class AutoControl {
         if (this.IsPWMcontrol == true && this.mState.State == KDDefine.AUTOStateType.AST_IDLE && newautostate == KDDefine.AUTOStateType.AST_On) {
           //관수제어시 PWM 주기적 제어일경우 이벤트 계속발생되지 않도록
         } else {
-          this.NewEvent = SystemEvent.createAutoControlEvent(this.mConfig.Uid, newautostate);
+          this.NewEvent = SystemEvent.createAutoControlEvent(KDCommon.getCurrentDate(this.mTimezoneoffsetMillisec,true), this.mConfig.Uid, newautostate);
         }
       }
       this.mState.State = newautostate;
@@ -1010,7 +1011,7 @@ module.exports = class AutoControl {
     let oplist = [];
 
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
-    let timesecnow = KDCommon.getCurrentTotalsec();
+    let timesecnow = KDCommon.getCurrentTotalsec(this.mTimezoneoffsetMillisec);
 
     //console.log("-this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
 

@@ -172,7 +172,9 @@ const HDashboard = (props) => {
               console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(myAppGlobal.dashboardlasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
-                revlasttime = sysevents[i].EDate;
+                revlasttime = (KDUtil.getDatefromformatstring(sysevents[i].EDate)).getTime();
+
+                //     console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + myAppGlobal.dashboardlasteventtime);
                 if (revlasttime > myAppGlobal.dashboardlasteventtime) {
                   eventlist.push(sysevents[i]);
                   isupdateevent = true;
@@ -195,6 +197,8 @@ const HDashboard = (props) => {
                 for (let i = 0; i < eventlist.length; i++) {
                   let newobj = eventlist[eventlist.length - i - 1];
                   const etime = new Date(newobj.EDate);
+                 // console.log("createData :  etime : "+etime + "  etime local:"+ etime.toLocaleString());
+
                   eventlistTime.push(createData(etime.toLocaleString(myAppGlobal.language), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
                   //    eventlistTime.push(eventlist[eventlist.length - i - 1]);
                   //  console.log(eventlist[eventlist.length - i - 1]);
@@ -212,7 +216,9 @@ const HDashboard = (props) => {
               let isupdate = false;
 
               for (let i = 0; i < dsensors.length; i++) {
-                recivelasttime = dsensors[i].SDate;
+                //recivelasttime = dsensors[i].SDate;
+                recivelasttime = (KDUtil.getDatefromformatstring(dsensors[i].SDate)).getTime();
+
                 if (recivelasttime > myAppGlobal.dashboardlastsensortime) {
                   dailysensorlist.push(dsensors[i]);
                   isupdate = true;

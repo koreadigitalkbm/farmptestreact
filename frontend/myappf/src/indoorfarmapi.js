@@ -143,6 +143,9 @@ export default class IndoorFarmAPI {
   async getDeviceStatus(issensor, isactuator, isautocontrol, lastSensorTime,lastEventtime ) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMSTATUS);
 
+    console.log("getDeviceStatus lastSensorTime :" + lastSensorTime + " lastEventtime :" + lastEventtime);
+    
+
     reqmsg.reqParam ={
       isSEN:issensor,
       isACT:isactuator,
@@ -157,6 +160,9 @@ export default class IndoorFarmAPI {
   async setActuatorOperation(actopcmd) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_ACTUATOROPERATION);
     reqmsg.reqParam = actopcmd;
+    console.log("isetActuatorOperation :" + actopcmd);
+
+
     return await this.setRequestdevice(reqmsg);
   }
 

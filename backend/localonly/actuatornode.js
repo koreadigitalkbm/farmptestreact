@@ -134,9 +134,7 @@ module.exports = class ActuatorNode {
   async ControlNormal(moperation, channel) {
     try {
        console.log("-ControlNomal-----" + "ID :" + moperation.Uid +" ,cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec);
-     //  let nowt=new Date();
-     //  console.log("tick : " + nowt.getSeconds()  +": "   + nowt.getMilliseconds());
-
+     
 
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;
       let regdatas = Array();

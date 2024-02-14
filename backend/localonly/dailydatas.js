@@ -25,19 +25,19 @@ module.exports = class DailyCurrentDatas {
 
   }
 
-  updateSensor(curdata) {
+  updateSensor(mdatetime, curdata) {
     //배열 2000개 넘어가면 앞부분 100개 삭제
     if (this.DSensors.length >= 2000) {
       this.DSensors.splice(0, 100);
     }
     if(curdata.length>0)
     {
-    let newitem = new DailySensor(curdata);
+    let newitem = new DailySensor(mdatetime,curdata);
     this.DSensors.push(newitem);
     }
 
   //  for (const msensor of newitem.SLIST) {
-  //    console.log("updateSensor time : " + newitem.SDate + ", ID: " + msensor.Uid + ", value:" + msensor.Val);
+  //    console.log("updateSensr time : " + newitem.SDate + ", ID: " + msensor.Uid + ", value:" + msensor.Val);
   //  }
   }
 
@@ -47,7 +47,12 @@ module.exports = class DailyCurrentDatas {
     let sysevts= new  DailyCurrentDatas();
     for(let i=0;i<this.DSensors.length;i++)
     {
-      if(this.DSensors[i].SDate >sensorlasttime )
+      let timemsec = (new Date(this.DSensors[i].SDate)).getTime();
+
+      //console.log("getdatabytime DSensors : " + this.DSensors[i].SDate  + " sensorlasttime : "+ sensorlasttime + "timemsec : " +timemsec);
+
+
+      if(timemsec >sensorlasttime )
       {
         sysevts.DSensors.push(this.DSensors[i]);
       }
@@ -55,7 +60,11 @@ module.exports = class DailyCurrentDatas {
 
     for(let i=0;i<this.DEvents.length;i++)
     {
-      if(this.DEvents[i].EDate >eventlasttime )
+      let timemsec = (new Date(this.DEvents[i].EDate)).getTime();
+
+      //console.log("getdatabytime DEvents : " + this.DEvents[i].EDate  + " eventlasttime : "+ eventlasttime+ " timemsec : " +timemsec);
+
+      if(timemsec >eventlasttime )
       {
         
         sysevts.DEvents.push(this.DEvents[i]);
@@ -69,8 +78,8 @@ module.exports = class DailyCurrentDatas {
 };
 
 class DailySensor {
-  constructor(dsensors) {
-    this.SDate = Date.now();
+  constructor(mdate ,dsensors) {
+    this.SDate = mdate;
     this.SLIST = dsensors; //센서
   }
 }

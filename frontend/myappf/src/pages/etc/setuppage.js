@@ -36,12 +36,15 @@ let newlocalpassword = "";
 let newlangstrchange = "";
 let isswupdateok=false;
 let isswupdate = null;
+let newTimezonechange = Number(0);
+let istimezoneupdate=false;
 
 
 export default function SetupPage(props) {
   const { i18n } = useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
   const [langstr, setlangstr] = React.useState("");
+  const [timezonevalue, setTimezone] = useState(0);
   const [deviceversion, setDeviceversion] = useState(0);
   const [serverversion, setServerversion] = useState(0);
   const [savedisable, setBtnDisable] = React.useState(true);
@@ -79,7 +82,15 @@ export default function SetupPage(props) {
       if (isok === true) {
         alertparams.type = "success";
         alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-        alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
+        if(istimezoneupdate == true)
+        {
+          alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_TIMEZON_CONFIG");
+        }
+        else
+        {
+          alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
+        }
+        
         setAlert(alertparams);
       }
     });
@@ -129,13 +140,20 @@ export default function SetupPage(props) {
       isupdate = true;
     }
 
-    if (isupdate == true) {
+    istimezoneupdate=false;
+    if(newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes)
+    {
+      newMyInfo.timezoneoffsetminutes=newTimezonechange;
+      istimezoneupdate = true;
+    }
+
+    if (isupdate == true || istimezoneupdate ==true) {
       savemyconfig(newMyInfo);
     }
   }
 
   useEffect(() => {
-    //console.log("SetupPage  useEffect myAppGlobal.islocal: " + myAppGlobal.islocal);
+    console.log("SetupPage  useEffect timezoneoffsetminutes: " + myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes);
 
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
       if (serverversion == 0) {
@@ -158,6 +176,12 @@ export default function SetupPage(props) {
     } else {
       setlangstr(0);
     }
+
+    setTimezone(myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes);
+
+    
+
+
   }, []);
 
   if (serverversion > deviceversion && deviceversion > 0) {
@@ -210,6 +234,43 @@ export default function SetupPage(props) {
     });
   }
 
+  
+  function settimezone() {
+    console.log("settimezone deviceversion : " + deviceversion);
+
+    
+    if (deviceversion < 2.240) {
+      return null;
+    }
+
+    
+
+    return (
+      <Stack direction="column" alignItems="flex-start">
+              <Typography id="modal-configure-title" variant="subtitle1">
+                {myAppGlobal.langT("LT_CHANGE_TIMEZONE")}{" "}
+              </Typography>
+
+              <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
+                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={timezonevalue} onChange={handleChangetimezone} label="language">
+                  <MenuItem value={0}>Europe/London</MenuItem>
+                  <MenuItem value={540}>Asia/Seoul</MenuItem>
+                  <MenuItem value={-600}>US/Hawaii</MenuItem>
+                  <MenuItem value={-540}>US/Hawaii-Aleutain</MenuItem>
+                  <MenuItem value={-480}>US/Alaska</MenuItem>
+                  <MenuItem value={-420}>US/Pacific</MenuItem>
+                  <MenuItem value={-360}>US/Mountain</MenuItem>
+                  <MenuItem value={-300}>US/Central</MenuItem>
+                  <MenuItem value={-240}>US/Eastern </MenuItem>
+
+                  
+                </Select>
+              </FormControl>
+            </Stack>
+
+    );
+  }
+
   function frameUpdateInfo() {
     console.log("버전체크");
 
@@ -258,6 +319,11 @@ export default function SetupPage(props) {
       isapplay = true;
     }
 
+    if(newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes)
+    {
+      isapplay = true;
+    }
+
     setBtnDisable(!isapplay);
   }
 
@@ -274,6 +340,20 @@ export default function SetupPage(props) {
 
     //console.log("-------------------------SetupPage cookies:" + cookies.languageT);
   };
+
+  const handleChangetimezone = (event) => {
+    
+
+    newTimezonechange= Number(event.target.value);
+    setTimezone(newTimezonechange);
+
+        console.log("-------------------------handleChangetimezone:" + newTimezonechange);
+
+    applycheck();
+
+
+  };
+
 
   const handleNewpword = (e) => {
     //console.log("-------------------------handleNewpword name:" + e.target.id + ",pw:" + myAppGlobal.loginswpw);
@@ -376,6 +456,10 @@ export default function SetupPage(props) {
                 </Select>
               </FormControl>
             </Stack>
+            {settimezone()}
+
+
+            
 
             <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
               <Typography id="modal-configure-title" variant="subtitle1">

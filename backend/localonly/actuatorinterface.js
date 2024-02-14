@@ -93,7 +93,7 @@ module.exports = class ActuatorInterface {
           if (actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !== KDDefine.OPMode.OPM_Local) {
             await curactnode.ControlNormal(actd.AOperation, actd.Basicinfo.Channel);
           } else {
-            let newevt = actd.getEventwithCheck();
+            let newevt = actd.getEventwithCheck(this.mMain.autocontrolinterface.getDatenowformatWithTimezone() );
             if (newevt != null) {
               this.mMain.setSystemevent(newevt);
               //console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
@@ -132,6 +132,9 @@ module.exports = class ActuatorInterface {
     }
   }
   setACToperation(mloperation, opmode) {
+    
+    
+
     for (const actd of this.Actuators) {
       if (actd.UniqID === mloperation.Uid) {
         actd.AOperation.setoperation(mloperation.Opcmd, mloperation.Timesec, mloperation.Param, opmode);

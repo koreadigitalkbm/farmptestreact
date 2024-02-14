@@ -82,7 +82,8 @@ module.exports = class KDUtil {
       strevent = "";
     } else {
       const today = new Date(mEvent.EDate);
-      strevent = today.toLocaleString() + ": ";
+      console.log("EventToString :  today : "+today + "  mEvent.EDate:"+ mEvent.EDate)
+      strevent = today.toTimeString() + ": ";
     }
 
     switch (mEvent.EType) {
@@ -148,6 +149,13 @@ module.exports = class KDUtil {
 
     return "en-US";
   }
+
+  static getDatefromformatstring(mdate)
+  {
+    const d = new Date(mdate);
+    return d;
+  }
+
 
   static dateTostringshottime(mdate) {
     const d = new Date(mdate);

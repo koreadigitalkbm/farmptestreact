@@ -15,6 +15,7 @@ module.exports = class DeviceSystemconfig {
       this.productname="foodjukebox"; // 시스템을 구별하는 명칭 :  foodjukebox,indoorfarm
       this.productmodel="KPC480"; //장비구별
       this.language="ko-KR";// 다국어 지원 때문에  백엔드에도 필요함.
+      this.timezoneoffsetminutes=9*60;// 타임존 설정 기본 한국 
 
     }
     

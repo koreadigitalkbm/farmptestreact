@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require('path');
+const moment = require("moment");
 
 //백엔드에서 공통으로 사용되는 함수들
 module.exports = class KDCommon {
@@ -36,25 +37,51 @@ module.exports = class KDCommon {
   static delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+
+  //현재 시간 타임존 적용
+  static getCurrentDate(timezoneoffset, isformat) {
+    const dnow = new Date();
+
+    const clocknow =new Date(dnow.getTime()+(dnow.getTimezoneOffset()*60*1000) + timezoneoffset);
+    if(isformat ==true)
+    {
+      const datestr = moment(clocknow).format("YYYY-MM-DD HH:mm:ss");
+      return datestr;
+    }
+
+    return clocknow;
+  }
+
+
   //현재시간 초단위로
-  static getCurrentTotalsec() {
-    const clocknow = new Date();
+  static getCurrentTotalsec(timezoneoffset) {
+  
+    const clocknow =KDCommon.getCurrentDate(timezoneoffset,false);
+    //console.log("getCurrentTotalec h:" + clocknow.getHours()  + " M: " + clocknow.getMinutes());
     const totalsec = clocknow.getHours() * 3600 + clocknow.getMinutes() * 60 + clocknow.getSeconds();
     return Number(totalsec);
   }
 
-  static getMSeconds() {
-    const clocknow = new Date();
-    let ms = clocknow.getMilliseconds();
-    return ms;
-  }
-
+  
 
     //현재시간 분단위로
-    static getCurrentTotalminute() {
-      const clocknow = new Date();
+    static getCurrentTotalminute(timezoneoffset) {
+
+      const clocknow =KDCommon.getCurrentDate(timezoneoffset,false);
       const totalmin = clocknow.getHours() * 60 + clocknow.getMinutes() ;
       return Number(totalmin);
+    }
+
+
+    static getSecondsonly() {
+      const clocknow = new Date();
+      return clocknow.getSeconds();
+    }
+
+
+    static getMinutesonly() {
+      const clocknow = new Date();
+      return clocknow.getMinutes();
     }
 
   static removeallfiles(dirPath)

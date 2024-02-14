@@ -56,7 +56,7 @@ class SensorInterface {
 
         const msg= "new sensor ID: " + sdev.UniqID + ", name: " + sdev.Name;
 
-        this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Message, msg,0));
+        this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(this.mMain.autocontrolinterface.getDatenowformatWithTimezone(),KDDefine.SysEventCode.SEC_Message, msg,0));
 
 
       }
@@ -80,7 +80,7 @@ class SensorInterface {
 
 
       if (ms.errorcount > 100) {
-        this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(KDDefine.SysEventCode.SEC_Sensor_error, ms.Name,ms.UniqID));
+        this.mMain.setSystemevent(SystemEvent.createDevSystemEvent(this.mMain.autocontrolinterface.getDatenowformatWithTimezone(),KDDefine.SysEventCode.SEC_Sensor_error, ms.Name,ms.UniqID));
 
         deleteindex = i;
       }

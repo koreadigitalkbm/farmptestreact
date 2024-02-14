@@ -139,7 +139,14 @@ module.exports = class DatabaseInterface {
         }
 
         let eparam = SystemEvent.eparamEcodeb64(mevt.EParam);
-        const curdatetime = moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
+
+        //const curdatetime =moment.utc().add(mainclass.localsysteminformations.Systemconfg.timezoneoffsetminutes, 'minutes').format("YYYY-MM-DD HH:mm:ss");
+
+        //이벤트 값을 UTC 값으로 옴 db 저장시 항상 로컬 시간으로 저장  
+        const curdatetime = mevt.EDate;//moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
+
+        //console.log("seteventdata curdatetime :  " + curdatetime);
+
         let newsv = [did, curdatetime, mevt.EType, eparam, ""];
         items.push(newsv);
         sql += "(?)";
