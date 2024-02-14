@@ -92,7 +92,7 @@ module.exports = class ServerAPI {
 
             let mevents = [];
             for (const mevt of reqmsg.reqParam.eventlist) {
-              console.log("  RT_SETDB_EVENT EDate :" + mevt.EDate);
+             // console.log("  RT_SETDB_EVENT EDate :" + mevt.EDate);
               let newev = SystemEvent.Clonbyjsonobj(mevt);
               mevents.push(newev);
             }

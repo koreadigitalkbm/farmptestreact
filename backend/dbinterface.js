@@ -145,7 +145,7 @@ module.exports = class DatabaseInterface {
         //이벤트 값을 UTC 값으로 옴 db 저장시 항상 로컬 시간으로 저장  
         const curdatetime = mevt.EDate;//moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
 
-        console.log("seteventdata curdatetime :  " + curdatetime);
+        //console.log("seteventdata curdatetime :  " + curdatetime);
 
         let newsv = [did, curdatetime, mevt.EType, eparam, ""];
         items.push(newsv);
