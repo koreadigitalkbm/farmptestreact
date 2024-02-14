@@ -256,6 +256,10 @@ module.exports = class LocalMain {
   
   //시스템에 이벤트가 발생하면 기록하고 서버로 보냄
   setSystemevent(mnewevt) {
+
+
+    console.log("setSystemevent  : " + mnewevt.EDate);
+
     this.dailydatas.updateEvent(mnewevt);
 
     //로컬 db로 보냄
