@@ -65,3 +65,5 @@ git reset --hard HEAD  가장최신버전으로 바꾸자
 
 # ssh 장비접속
  sudo -s 루트권한
+ pw : f**o*
+ sudo pm2 monit 프로세서 모니터
