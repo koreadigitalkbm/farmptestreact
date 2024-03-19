@@ -130,7 +130,14 @@ export default function FMainpage(props) {
       case "loadauto":
         return <div><CircularProgress  size="2rem"  /> <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_LOADAUTO")}</Typography></div>;
       case "error":
-        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_ERROR")}</Typography>;
+        return(
+          <Box>
+           <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_ERROR")}</Typography>
+           <Button onClick={logoutbuttonHandler} sx={{ backgroundColor: "#ececfb" }}>
+            <Logout />
+            {myAppGlobal.langT("SignOut")}
+          </Button>   
+           </Box>);
       case "otherlogin":
         return (
           <Box>
@@ -140,7 +147,7 @@ export default function FMainpage(props) {
             {myAppGlobal.langT("SignOut")}
           </Button>
         </Box>);
-        
+
       default:
        
 
