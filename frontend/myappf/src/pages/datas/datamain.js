@@ -153,8 +153,10 @@ const DataMainPage = (props) => {
 
         if (isdaily === true) {
           sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas);
+          setSensorarray(sensordatas_daily);
         } else {
           sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas);
+          setSensorarray(sensordatas_period);
         }
       }
     });
@@ -188,8 +190,10 @@ const DataMainPage = (props) => {
         //setCamimages(cmeraimglist);
         if (isdaily === true) {
           cmeraimglist_daily = cmeraimglist;
+          setCamimages(cmeraimglist_daily);
         } else {
           cmeraimglist_period = cmeraimglist;
+          setCamimages(cmeraimglist_period);
         }
       }
     });
@@ -225,8 +229,10 @@ const DataMainPage = (props) => {
       //setEvents(sevents);
       if (isdaily === true) {
         sevents_daily = sevents;
+        setEvents(sevents_daily);
       } else {
         sevents_period = sevents;
+        setEvents(sevents_period);
       }
       setissearching(false);
       
