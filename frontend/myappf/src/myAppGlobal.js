@@ -21,7 +21,9 @@ var myAppGlobal = {
     dashboardlastsensortime: 1,
     gsensorlist:[],  //센서 별칭
     gactuaotrslist:[], // 구동기 별칭
-    ncount:0
+    ncount:0,
+    isdatamaininit:false, // datamain 페이지 초기화 상태를 표시
+    isdashboardpageinit:false // 대시보드 초기화 상태를 표시 로그아웃일때 변경후 다시 로그인할때 내부 변수들을 초기화함. 기존데이터남아있지 않도록
   }
   
 export default myAppGlobal;

@@ -10,7 +10,7 @@ import HDashboard from "./home/hdashboard";
 import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
-import AutocontrolTestpage from "./control/autotestp";
+//import AutocontrolTestpage from "./control/autotestp";
 
 const dropMenu = ["Setting"];
 
@@ -72,40 +72,49 @@ export default function FMainpage(props) {
         } else {
           //console.log(ret);
           myAppGlobal.systeminformations = ret.retParam;
-          
-          //console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
 
-          if (props.loginrol === "factoryadmin") {
-            //공장설정 계정이면 자동제어필요 없이 바로 설정되도록 건너뜀.
-            setLoadinfo("loadok");
-          } else {
-            setLoadinfo("loadauto");
+          if(myAppGlobal.systeminformations ==null)
+          {
+            setLoadinfo("error");
           }
+          else{
 
-          myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
-            if (ret == null) {
-              //자동제어가 없다. 이럴경우 어케하지..
-              setLoadinfo("error");
+            
+            
+            //console.log("----------------------------systeminformations : " + myAppGlobal.systeminformations);
+
+            if (props.loginrol === "factoryadmin") {
+              //공장설정 계정이면 자동제어필요 없이 바로 설정되도록 건너뜀.
+              setLoadinfo("loadok");
             } else {
-              if(ret.retParam ==null || ret.retParam.length < 0)
-              {
+              setLoadinfo("loadauto");
+            }
+
+            myAppGlobal.farmapi.getAutocontrolconfig().then((ret) => {
+              if (ret == null) {
+                //자동제어가 없다. 이럴경우 어케하지..
                 setLoadinfo("error");
-              }
-              else{
-
-                
-              myAppGlobal.Autocontrolcfg = ret.retParam;
-              console.log("----------------------------Autocontrolcfg lenght : " + myAppGlobal.Autocontrolcfg.length);
-
-              myAppGlobal.Autocontrolcfg.map(function (item) {
-                if (item.Lid != null) {
-                  item.Name = myAppGlobal.langT(item.Lid);
+              } else {
+                if(ret.retParam ==null || ret.retParam.length < 0)
+                {
+                  setLoadinfo("error");
                 }
-              });
-            }
-            }
-            setLoadinfo("loadok");
-          });
+                else{
+
+                  
+                myAppGlobal.Autocontrolcfg = ret.retParam;
+                console.log("----------------------------Autocontrolcfg lenght : " + myAppGlobal.Autocontrolcfg.length);
+
+                myAppGlobal.Autocontrolcfg.map(function (item) {
+                  if (item.Lid != null) {
+                    item.Name = myAppGlobal.langT(item.Lid);
+                  }
+                });
+              }
+              }
+              setLoadinfo("loadok");
+            });
+          }
         }
 
         //props.onSetSysteminfo("set info");
@@ -123,8 +132,18 @@ export default function FMainpage(props) {
       case "error":
         return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_ERROR")}</Typography>;
       case "otherlogin":
-        return <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_OTHLOGIN")}</Typography>;
+        return (
+          <Box>
+        <Typography>{myAppGlobal.langT("LT_LOADINGPAGE_OTHLOGIN")}</Typography>
+        <Button onClick={logoutbuttonHandler} sx={{ backgroundColor: "#ececfb" }}>
+            <Logout />
+            {myAppGlobal.langT("SignOut")}
+          </Button>
+        </Box>);
+        
       default:
+       
+
         break;
     }
 

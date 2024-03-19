@@ -42,8 +42,30 @@ const DataMainPage = (props) => {
   const [enbimage, setenbimage] = useState(true);
   const [enbevent, setenbevent] = useState(true);
 
-  console.log("-------------------DataMainPage  ---------------------");
+  console.log("-------------------DataMainPage  --------------------- :" +myAppGlobal.isdatamaininit);
 
+
+  if(myAppGlobal.isdatamaininit === false)
+  {
+
+    
+    sevents_period = [];
+    cmeraimglist_period = [];
+    sensordatas_period = [];
+
+    sevents_daily = [];
+    cmeraimglist_daily = [];
+    sensordatas_daily = [];
+
+    utcnow = new Date();
+    startday = new Date(utcnow - 7 * 86400000);
+    endday = utcnow; //
+    daydate = utcnow; //
+    isdailyglobal = true;
+    isdailyfirst = true;
+
+    myAppGlobal.isdatamaininit=true;
+  }
 
   
   function onChangeEnable(ename) {

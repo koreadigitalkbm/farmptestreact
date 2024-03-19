@@ -15,29 +15,29 @@ import KDUtil from "../../commonjs/kdutil";
 
 //let lasteventtime = 1;
 //let lastsensortime = 1;
+//let imagefilename = "";
+
+let connecterrorcount=0;
+let loadtimeoutcount=0;
 
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
-//let actuaotrslist = [];
-//let sensorlist = [];
 
 
 let readtimemsec = 1000;
 let readcallbacktimeout=null;
 
-//let intervalfunch=null;
-let connecterrorcount=0;
 
 
-//let imagefilename = "";
+
 let lastfileurl = "image/noimage.png";
 let isoffscreen = false;
 
 let init_count=0;
 
-let loadtimeoutcount=0;
+
 
 //홈 메인 대시보드
 const HDashboard = (props) => {
@@ -50,8 +50,28 @@ const HDashboard = (props) => {
   const [isdataloading, setDataloading] = useState(false);
 
 
-  //console.log("-------------------------HDashboard  --------------------- : ");
-  
+  console.log("-------------------------HDashboard  --------------------- : " +myAppGlobal.isdashboardpageinit );
+
+  if(myAppGlobal.isdashboardpageinit ===false)
+  {
+    lastfileurl = "image/noimage.png";
+    isoffscreen = false;
+    init_count=0;
+    
+     eventlist = [];
+      eventlistTime = [];
+      dailysensorlist = [];
+
+
+      readtimemsec = 1000;
+      readcallbacktimeout=null;
+
+
+
+
+    myAppGlobal.isdashboardpageinit=true;
+  }
+/*  
 
   function loadTimeouthandler()
   {
@@ -66,11 +86,8 @@ const HDashboard = (props) => {
       connecterrorcount++;
       loaddatas();
     }
-   
-
-
-
   }
+  */
 
 
   function loaddatas() {

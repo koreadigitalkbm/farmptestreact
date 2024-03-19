@@ -158,7 +158,7 @@
     "LT_LOADINGPAGE_INIT": "Loading to device information.",
     "LT_LOADINGPAGE_LOADAUTO": "Loading to automatic control information.",
     "LT_LOADINGPAGE_ERROR": "Can't connect to device.",
-    "LT_LOADINGPAGE_OTHLOGIN": "You are logged in from another location.",
+    "LT_LOADINGPAGE_OTHLOGIN": "You are logged in from another location. To use the device, please sign out and sign in again.",
     
     "LT_MAINPAGE_NAV_BRAND": "FarmsCube",
     "LT_MAINPAGE_NAV_HOME": "HOME",

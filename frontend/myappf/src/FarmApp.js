@@ -19,6 +19,11 @@ function FarmApp(props) {
   const [failmsg, setfailmsg] = useState("");
 
   function setlogout() {
+
+    myAppGlobal.isdatamaininit=false;
+    myAppGlobal.isdashboardpageinit=false;
+
+
     myAppGlobal.loginrole = "logout";
     //로그아웃이면 삭제 시스템정보를 다시가져오도록 onSetSysteminfo 초기화
     myAppGlobal.logindeviceid = "";

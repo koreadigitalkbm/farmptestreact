@@ -164,7 +164,7 @@
     "LT_LOADINGPAGE_INIT": "장치의 정보를 읽어옵니다.",
     "LT_LOADINGPAGE_LOADAUTO": "자동제어 정보를 읽어옵니다.",
     "LT_LOADINGPAGE_ERROR": "장치에 연결할 수 없습니다.",
-    "LT_LOADINGPAGE_OTHLOGIN": "다른곳에서 로그인되었습니다.",
+    "LT_LOADINGPAGE_OTHLOGIN": "다른곳에서 로그인되었습니다. 기기를 사용하시려면 로그아웃 후 다시 로그인해주세요.",
 
     "LT_MAINPAGE_NAV_BRAND": "팜스큐브",
     "LT_MAINPAGE_NAV_HOME": "메인페이지",
