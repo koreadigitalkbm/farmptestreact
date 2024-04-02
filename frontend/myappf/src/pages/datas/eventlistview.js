@@ -1,10 +1,22 @@
 import React, { useState } from "react";
-import { IconButton, Typography,Box, Card, Checkbox, FormControlLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
+import { IconButton, Typography,Box,  Checkbox, FormControlLabel, Paper,Modal, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
 
-import AddchartIcon from "@mui/icons-material/Addchart";
+
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import myAppGlobal from "../../myAppGlobal";
+import ChartDataUtil from "./datautil";
 
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 let columns = [
   { id: "date", label: 'date', minWidth: 10 },
   { id: "type", label: 'type', minWidth: 10 },
@@ -22,6 +34,12 @@ export default function EventListView(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(1000);
   const [bcheckeds, setCheckeds] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+  const [successSave, setSuccessSave] = useState(false);
+
+
   const rows = props.dataSet;
   const isdashpage = props.isdash;
 
@@ -56,6 +74,14 @@ export default function EventListView(props) {
     setCheckeds(!bcheckeds);
   };
 
+
+  const makexlsxlog = () => {
+    
+    ChartDataUtil.MakexlsxforLogs(rows,  handleOpenModal, setSuccessSave);
+  }
+
+
+
   function isdatapage() {
     if (isdashpage == true) {
       return null;
@@ -63,13 +89,10 @@ export default function EventListView(props) {
 
     return (
       <React.Fragment>
-        <Tooltip title={myAppGlobal.langT('LT_DATAPAGE_LOG_DRAWCHART')}>
-          <IconButton aria-label="fingerprint" color="secondary">
-            <AddchartIcon />
-          </IconButton>
-        </Tooltip>
+        
+        
         <Tooltip title={myAppGlobal.langT('LT_DATAPAGE_LOG_DOWNLOAD')}>
-          <IconButton aria-label="AddchartIcon" color="secondary">
+          <IconButton onClick={makexlsxlog} aria-label="AddchartIcon" color="secondary">
             <FileDownloadIcon />
           </IconButton>
         </Tooltip>
@@ -77,8 +100,42 @@ export default function EventListView(props) {
     );
   }
 
+  const modalMessage = (td) => {
+    if (successSave) {
+      if (td == 't') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVESUCCESS_MODALTITLE"))
+      } else if (td == 'd') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVESUCCESS_MODALDESCRIPTION"))
+      }
+    } else {
+      if (td == 't') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVEFAIL_MODALTITLE"))
+      } else if (td == 'd') {
+        return (myAppGlobal.langT("LT_DATAPAGE_CHART_SAVEFAIL_MODALDESCRIPTION_LOG"))
+      }
+    }
+  }
+
+
   return (
     <Box sx={{m:0, backgroundColor: "#eceff1" }}>
+
+<Modal
+              open={openModal}
+              onClose={handleCloseModal}
+              aria-labelledby="modal-makexlsx-title"
+              aria-describedby="modal-makexlsx-description"
+            >
+              <Box sx={modalStyle}>
+                <Typography id="modal-makexlsx-title" variant="h6" component="h2">
+                  {modalMessage('t')}
+                </Typography>
+                <Typography id="modal-makexlsx-description" sx={{ mt: 2 }}>
+                  {modalMessage('d')}
+                </Typography>
+              </Box>
+            </Modal>
+
 
       <Paper sx={{ m:0, width: "100%" }}>
         <TableContainer sx={{ maxHeight: 640}}>

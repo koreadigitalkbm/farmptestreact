@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton, Card, CardHeader, Box, ImageList, ImageListItem, ImageListItemBar, Typography } from "@mui/material";
+import { IconButton,  Box, ImageList, ImageListItem, ImageListItemBar, Typography } from "@mui/material";
 import myAppGlobal from "../../../myAppGlobal";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
@@ -17,6 +17,31 @@ export default function ShowVerticalImages(props) {
       </Typography>
     );
   }
+
+  
+
+  const downloadFiles =async  () => {
+      
+      let urls = [];
+    imageSet.forEach((imgData) => {
+      urls.push(imgData.img);
+      
+  })
+
+    for (const url of urls) {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = url.split('/').pop(); // 파일명을 URL에서 추출
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(downloadUrl); // 메모리 정리
+    }
+    
+  };
 
   const zoomtoggle = () => {
     setZoommax(!bzoomout);
@@ -67,7 +92,7 @@ export default function ShowVerticalImages(props) {
       <IconButton onClick={zoomtoggle} color="primary">
         {bzoomout ? <ZoomOutMapIcon /> : <ZoomInMapIcon />}
       </IconButton>
-      <IconButton color="primary">
+      <IconButton  onClick={downloadFiles} color="primary">
         {" "}
         <FileDownloadIcon />{" "}
       </IconButton>

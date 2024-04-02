@@ -7,9 +7,13 @@ import { Line } from "react-chartjs-2";
 import "chartjs-adapter-date-fns";
 import zoomPlugin from "chartjs-plugin-zoom";
 
+import ChartDataUtil from "./datautil";
+
 import Sensordevice from "../../commonjs/sensordevice";
 import myAppGlobal from "../../myAppGlobal";
-import Makexlsx from "./makexlsx";
+
+
+
 
 let chboxlist = [
   { label: "l1", color: "#1976d2", key: "0", pstyle: "circle", checked: false, sensor: null },
@@ -307,8 +311,10 @@ const SensorDataChart = (props) => {
   }
 
   const makexlsx = () => {
-    Makexlsx(sensorchartdatas, chboxlist, handleOpenModal, setSuccessSave);
+
+    ChartDataUtil.MakexlsxforSensors(sensorchartdatas, chboxlist, handleOpenModal, setSuccessSave);
   }
+  
   const modalMessage = (td) => {
     if (successSave) {
       if (td == 't') {

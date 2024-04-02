@@ -1,4 +1,8 @@
 
+
+const ExcelJS = require("exceljs");
+const saveAs = require("file-saver");
+
 module.exports = class ChartDataUtil {
 
     static getsensorfromlist(sensorlistforchart, stype, nodeid, channel) {
@@ -41,6 +45,96 @@ module.exports = class ChartDataUtil {
         }
     
         return sensorlistforchart;
+      }
+
+
+      static async  MakexlsxforSensors(data, checkList, handleOpenModal, setSuccessSave) {
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Sensor data');
+        let excelData = [];
+        worksheet.columns = [];
+    
+        excelData[0] = { column: 'Date', values: [] }
+        data[0].data.forEach((sData) => {
+            excelData[0].values.push(sData.x);
+        })
+        data.forEach((sensor, index) => {
+            excelData.push({ column: sensor.label, values: [] })
+            sensor.data.forEach((sData) => {
+                excelData[index + 1].values.push(sData.y)
+            })
+        })
+    
+        for (let i = 0; i < excelData.length; i++) {
+            checkList.forEach((check) => {
+                if (check.label == excelData[i].column) {
+                    if (check.checked == false) {
+                        excelData.splice(i, 1);
+                        i--;
+                    }
+                }
+            })
+        }
+    
+        if (excelData.length == 1) {
+            setSuccessSave(false);
+            handleOpenModal(true)
+        } else {
+            setSuccessSave(true);
+            
+            excelData.forEach(({ column, values }, index) => {
+                worksheet.getColumn(index + 1).values = [column, ...values];
+            })
+    
+            const buffer = await workbook.xlsx.writeBuffer();
+            saveAs(new Blob([buffer]), 'sensorData.xlsx');
+            handleOpenModal(true)
+        }
+
+      }
+
+
+      
+      static async  MakexlsxforLogs(data,  handleOpenModal, setSuccessSave) {
+
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Log data');
+        let excelData = [];
+        worksheet.columns = [];
+    
+
+     
+        if (data.length <1) {
+            setSuccessSave(false);
+            handleOpenModal(true)
+        } else {
+
+
+
+          excelData.push({ column: 'Date', values: [] });
+          excelData.push({ column: 'Type', values: [] });
+          excelData.push({ column: 'Content', values: [] });
+  
+          data.forEach((logData) => {
+              excelData[0].values.push(logData.date);
+              excelData[1].values.push(logData.type);
+              excelData[2].values.push(logData.content);
+  
+          })
+       
+       
+          setSuccessSave(true);
+            
+            excelData.forEach(({ column, values }, index) => {
+                worksheet.getColumn(index + 1).values = [column, ...values];
+            })
+    
+            const buffer = await workbook.xlsx.writeBuffer();
+            saveAs(new Blob([buffer]), 'LogData.xlsx');
+            handleOpenModal(true)
+        }
+
       }
 
 
