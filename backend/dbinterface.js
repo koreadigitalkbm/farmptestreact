@@ -293,6 +293,19 @@ module.exports = class DatabaseInterface {
 
             setTimeout(()=>{
             console.log("callback sqlquery: \n" + sqlquery);
+             this.conn.query(sqlquery, function (error, result) {
+          //console.log(result);
+          if (error) {
+            console.log("getDBdatas error........ \n");
+            console.log(error);
+            diconnectcount++;
+            returncallback(rsp, "");
+          } else {
+            console.log("getDBdatas query end: \n" + sqlquery);
+            diconnectcount = 0;
+            returncallback(rsp, result);
+          }
+        });
 
             }, 1000);
 
