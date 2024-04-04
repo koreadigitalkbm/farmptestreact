@@ -291,7 +291,10 @@ module.exports = class DatabaseInterface {
               sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
             }
 
-            setTimeout(myFunction, 1000,this.conn, sqlquery, rsp,returncallback);
+            setTimeout(()=>{
+            console.log("callback sqlquery: \n" + sqlquery);
+
+            }, 1000);
 
             
         
