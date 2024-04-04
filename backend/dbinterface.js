@@ -8,6 +8,16 @@ const SystemEvent = require("./localonly/systemevent");
 let ismydbconnected = false;
 let diconnectcount = 0;
 
+
+function myFunction(sqlquery, arg2) {
+    
+  console.log("myFunction sqlquery: \n" + sqlquery);
+
+  console.log(arg2);  // "World"
+}
+
+
+
 module.exports = class DatabaseInterface {
   constructor(mmain) {
     this.mMain = mmain;
@@ -226,14 +236,8 @@ module.exports = class DatabaseInterface {
     }
   }
 
-  myFunction(sqlquery, arg2) {
+ 
     
-    console.log("myFunction sqlquery: \n" + sqlquery);
-
-    console.log(arg2);  // "World"
-  }
-  
-    // 3초 후에 myFunction 호출, "Hello"와 "World"를 인자로 전달
 
   
 
@@ -273,7 +277,7 @@ module.exports = class DatabaseInterface {
               sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
             }
 
-            setTimeout(this.myFunction, 1000, "sqlquery", "World");
+            setTimeout(myFunction, 1000, "sqlquery", "World");
 
             
         
