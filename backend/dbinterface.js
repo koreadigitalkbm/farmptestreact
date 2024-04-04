@@ -273,7 +273,7 @@ module.exports = class DatabaseInterface {
               sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
             }
 
-            setTimeout(this.myFunction, 1000, sqlquery, "World");
+            setTimeout(this.myFunction, 1000, "sqlquery", "World");
 
             
         
