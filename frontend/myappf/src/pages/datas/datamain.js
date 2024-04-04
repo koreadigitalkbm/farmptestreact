@@ -143,28 +143,15 @@ const DataMainPage = (props) => {
        console.log("sday : "+ sday);
       console.log("eday : "+ eday);
 
-    let dbq = new DBQueryParam(sday, eday, "sensor");
 
-    myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
-      console.log("-------------------------getdb sensor: " + ret.IsOK);
-      if (ret.IsOK == true) {
-        //console.log(ret.retMessage);
-        sensordatas = ret.retMessage;
-
-        if (isdaily === true) {
-          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas);
-          setSensorarray(sensordatas_daily);
-        } else {
-          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas);
-          setSensorarray(sensordatas_period);
-        }
-      }
-      setissearching(false);
       
-    });
-/*
     let dbqcam = new DBQueryParam(sday, eday, "camera");
     myAppGlobal.farmapi.getDataformDB(dbqcam).then((ret) => {
+
+      if(ret !=null)
+      {
+
+      
       console.log("-------------------------getdb camera: " + ret.IsOK);
       //console.log(ret.retMessage);
 
@@ -198,10 +185,17 @@ const DataMainPage = (props) => {
           setCamimages(cmeraimglist_period);
         }
       }
+    }
+    
     });
 
+    
     let dbevt = new DBQueryParam(sday, eday, "event");
     myAppGlobal.farmapi.getDataformDB(dbevt).then((ret) => {
+      if(ret !=null)
+      {
+
+      
       console.log("-------------------------getdb event: " + ret.IsOK);
       //console.log(ret.retMessage);
       setissearching(false);
@@ -227,7 +221,7 @@ const DataMainPage = (props) => {
           }
         }
       }
-
+    }
       //setEvents(sevents);
       if (isdaily === true) {
         sevents_daily = sevents;
@@ -236,10 +230,34 @@ const DataMainPage = (props) => {
         sevents_period = sevents;
         setEvents(sevents_period);
       }
-      setissearching(false);
+    
       
     });
-*/
+    
+
+
+    let dbq = new DBQueryParam(sday, eday, "sensor");
+
+    myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
+
+      if(ret !=null)
+      {
+      console.log("-------------------------getdb sensor: " + ret.IsOK);
+      if (ret.IsOK == true) {
+        //console.log(ret.retMessage);
+        sensordatas = ret.retMessage;
+
+        if (isdaily === true) {
+          sensordatas_daily = ChartDataUtil.getchartdatafromsensor(sensordatas);
+          setSensorarray(sensordatas_daily);
+        } else {
+          sensordatas_period = ChartDataUtil.getchartdatafromsensor(sensordatas);
+          setSensorarray(sensordatas_period);
+        }
+      }
+    }
+    setissearching(false);
+    });
 
 
   }
