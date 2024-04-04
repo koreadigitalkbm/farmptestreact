@@ -9,6 +9,26 @@ let ismydbconnected = false;
 let diconnectcount = 0;
 
 
+function myFunction(dbconn, sqlquery, rsp, returncallback) {
+    
+  console.log("myFunction sqlquery: \n" + sqlquery);
+
+  dbconn.query(sqlquery, function (error, result) {
+    //console.log(result);
+    if (error) {
+      console.log("myFunction getDBdatas error........ \n");
+      console.log(error);
+      diconnectcount++;
+      returncallback(rsp, "");
+    } else {
+      console.log("myFunction getDBdatas query end: \n" + sqlquery);
+      diconnectcount = 0;
+      returncallback(rsp, result);
+    }
+  });
+
+  
+}
 
 
 
@@ -235,12 +255,6 @@ module.exports = class DatabaseInterface {
 
   
 
-   myFunction(sqlquery, rsp, returncallback) {
-    
-    console.log("myFunction sqlquery: \n" + sqlquery);
-  
-    
-  }
 
   //  db 검색해서 결과 리턴
   getDBdatas(rsp, reqmsg, returncallback) {
@@ -277,9 +291,7 @@ module.exports = class DatabaseInterface {
               sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
             }
 
-            setTimeout(()=>{
-              this.myFunction(sqlquery, rsp,returncallback);
-            }, 1000 );
+            setTimeout(myFunction, 1000,this.conn, sqlquery, rsp,returncallback);
 
             
         
