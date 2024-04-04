@@ -159,6 +159,8 @@ const DataMainPage = (props) => {
           setSensorarray(sensordatas_period);
         }
       }
+      setissearching(false);
+      
     });
 /*
     let dbqcam = new DBQueryParam(sday, eday, "camera");
