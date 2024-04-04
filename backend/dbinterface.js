@@ -226,6 +226,18 @@ module.exports = class DatabaseInterface {
     }
   }
 
+  myFunction(sqlquery, arg2) {
+    
+    console.log("myFunction sqlquery: \n" + sqlquery);
+
+    console.log(arg2);  // "World"
+  }
+  
+    // 3초 후에 myFunction 호출, "Hello"와 "World"를 인자로 전달
+
+  
+
+
   //  db 검색해서 결과 리턴
   getDBdatas(rsp, reqmsg, returncallback) {
     if (this.dbconnectioncheck() == false) {
@@ -261,21 +273,10 @@ module.exports = class DatabaseInterface {
               sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
             }
 
-            console.log("getDBdatas query start: \n" + sqlquery);
+            setTimeout(this.myFunction, 1000, sqlquery, "World");
 
-            this.conn.query(sqlquery, function (error, result) {
-              //console.log(result);
-              if (error) {
-                console.log("getDBdatas error........ \n");
-                console.log(error);
-                diconnectcount++;
-                returncallback(rsp, "");
-              } else {
-                console.log("getDBdatas query end: \n" + sqlquery);
-                diconnectcount = 0;
-                returncallback(rsp, result);
-              }
-            });
+            
+        
           }
         });
       } else {
