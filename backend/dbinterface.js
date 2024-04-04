@@ -142,8 +142,8 @@ module.exports = class DatabaseInterface {
 
         //const curdatetime =moment.utc().add(mainclass.localsysteminformations.Systemconfg.timezoneoffsetminutes, 'minutes').format("YYYY-MM-DD HH:mm:ss");
 
-        //이벤트 값을 UTC 값으로 옴 db 저장시 항상 로컬 시간으로 저장  
-        const curdatetime = mevt.EDate;//moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
+        //이벤트 값을 UTC 값으로 옴 db 저장시 항상 로컬 시간으로 저장
+        const curdatetime = mevt.EDate; //moment(mevt.EDate).local().format("YYYY-MM-DD HH:mm:ss");
 
         //console.log("seteventdata curdatetime :  " + curdatetime);
 
@@ -237,12 +237,10 @@ module.exports = class DatabaseInterface {
       const qparam = reqmsg.reqParam;
       const devid = reqmsg.uqid;
       let sqlquery;
-      let sday = qparam.StartDay.replace("T00:00:00.000Z","");
-      let eday = qparam.EndDay.replace("T00:00:00.000Z",""); 
-
+      let sday = qparam.StartDay.replace("T00:00:00.000Z", "");
+      let eday = qparam.EndDay.replace("T00:00:00.000Z", "");
 
       if (qparam.TableName == "sensor") {
-
         let sqlquerycount = "SELECT   channel  FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
 
         this.conn.query(sqlquerycount, function (error, result) {
@@ -250,39 +248,59 @@ module.exports = class DatabaseInterface {
           if (error) {
             console.log("getDBdatas sqlquerycounterror........ \n");
             console.log(error);
-            
           } else {
-            console.log("getDBdatas sqlquerycount query end: \n" +result.length);
-            
+            console.log("getDBdatas sqlquerycount query end: \n" + result.length);
+
+            if (result.length < 100000) {
+              sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + "  LIMIT 100000";
+            } else if (result.length < 200000) {
+              sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%2 ='0' " + "  LIMIT 100000";
+            } else if (result.length < 500000) {
+              sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%5 ='0' " + "  LIMIT 100000";
+            } else {
+              sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
+            }
+
+            console.log("getDBdatas query start: \n" + sqlquery);
+
+            this.conn.query(sqlquery, function (error, result) {
+              //console.log(result);
+              if (error) {
+                console.log("getDBdatas error........ \n");
+                console.log(error);
+                diconnectcount++;
+                returncallback(rsp, "");
+              } else {
+                console.log("getDBdatas query end: \n" + sqlquery);
+                diconnectcount = 0;
+                returncallback(rsp, result);
+              }
+            });
           }
         });
-
-        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + "  LIMIT 100000";
-
-
-
-      } else if (qparam.TableName == "camera") {
-        sqlquery = "SELECT  dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
-      } else if (qparam.TableName == "event") {
-        sqlquery = "SELECT  dtime,etype,edatas FROM systemevent  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday+ "'" + "  AND  dtime <'" + eday + "'";
-      }
-
-      console.log("getDBdatas query start: \n" +sqlquery);
-
-
-      this.conn.query(sqlquery, function (error, result) {
-        //console.log(result);
-        if (error) {
-          console.log("getDBdatas error........ \n");
-          console.log(error);
-          diconnectcount++;
-          returncallback(rsp, "");
-        } else {
-          console.log("getDBdatas query end: \n" +sqlquery);
-          diconnectcount = 0;
-          returncallback(rsp, result);
+      } else {
+        if (qparam.TableName == "camera") {
+          sqlquery = "SELECT  dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
+        } else if (qparam.TableName == "event") {
+          sqlquery = "SELECT  dtime,etype,edatas FROM systemevent  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
         }
-      });
+
+        console.log("getDBdatas query start: \n" + sqlquery);
+
+        this.conn.query(sqlquery, function (error, result) {
+          //console.log(result);
+          if (error) {
+            console.log("getDBdatas error........ \n");
+            console.log(error);
+            diconnectcount++;
+            returncallback(rsp, "");
+          } else {
+            console.log("getDBdatas query end: \n" + sqlquery);
+            diconnectcount = 0;
+            returncallback(rsp, result);
+          }
+        });
+      }
     } catch (err) {
       console.log("getDBatas eror");
       console.log(err);
