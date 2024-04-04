@@ -142,7 +142,7 @@ const DataMainPage = (props) => {
 
        console.log("sday : "+ sday);
       console.log("eday : "+ eday);
-
+/*
     let dbq = new DBQueryParam(sday, eday, "sensor");
 
     myAppGlobal.farmapi.getDataformDB(dbq).then((ret) => {
@@ -160,7 +160,7 @@ const DataMainPage = (props) => {
         }
       }
     });
-
+*/
     let dbqcam = new DBQueryParam(sday, eday, "camera");
     myAppGlobal.farmapi.getDataformDB(dbqcam).then((ret) => {
       console.log("-------------------------getdb camera: " + ret.IsOK);
