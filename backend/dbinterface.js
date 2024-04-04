@@ -242,7 +242,25 @@ module.exports = class DatabaseInterface {
 
 
       if (qparam.TableName == "sensor") {
+
+        let sqlquerycount = "SELECT   channel  FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
+
+        this.conn.query(sqlquerycount, function (error, result) {
+          //console.log(result);
+          if (error) {
+            console.log("getDBdatas sqlquerycounterror........ \n");
+            console.log(error);
+            
+          } else {
+            console.log("getDBdatas sqlquerycount query end: \n" +result.length);
+            
+          }
+        });
+
         sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + "  LIMIT 100000";
+
+
+
       } else if (qparam.TableName == "camera") {
         sqlquery = "SELECT  dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
       } else if (qparam.TableName == "event") {
