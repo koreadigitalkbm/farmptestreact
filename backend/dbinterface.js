@@ -63,7 +63,7 @@ module.exports = class DatabaseInterface {
   }
 
   dbconnectioncheck() {
-    console.log("dbconnectioncheck ismydbconnected : " + ismydbconnected + " diconnectcount:" + diconnectcount);
+    console.log("db is connect : " + ismydbconnected + " diconnectcount:" + diconnectcount);
 
     if (ismydbconnected == false) {
       diconnectcount++;
@@ -242,7 +242,29 @@ module.exports = class DatabaseInterface {
 
 
       if (qparam.TableName == "sensor") {
-        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
+
+        const dateend = new Date(eday);
+        const datestart = new Date(sday);
+        const differenceday = (dateend.getTime() - datestart.getTime())/ (1000 * 3600 * 24);
+
+        console.log("getDBdatas differenceday: \n" +differenceday);
+
+              
+      if (differenceday < 10) {
+        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + "  LIMIT 100000";
+      } else if (differenceday < 20) {
+        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%2 ='0' " + "  LIMIT 100000";
+      } else if (differenceday < 33) {
+        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%3 ='0' " + "  LIMIT 100000";
+      } else if (differenceday < 63) {
+        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%5 ='0' " + "  LIMIT 100000";
+      } else {
+        sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'" + " AND   MINUTE(dtime)%10 ='0' " + "  LIMIT 100000";
+      }
+
+
+
+       // sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
       } else if (qparam.TableName == "camera") {
         sqlquery = "SELECT  dtime,ctype,filename FROM cameraimages  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
       } else if (qparam.TableName == "event") {
@@ -260,7 +282,7 @@ module.exports = class DatabaseInterface {
           diconnectcount++;
           returncallback(rsp, "");
         } else {
-          console.log("getDBdatas query end: \n" +sqlquery);
+          console.log("getDBdatas query end ok: \n" );
           diconnectcount = 0;
           returncallback(rsp, result);
         }
