@@ -18,7 +18,7 @@ i18n
     .init({
         resources: resources,
         lng: 'ko-KR',
-        debug: true,
+        debug: false,
         defaultNS: 'translations',
         ns: 'translations',
         keySepartor: false,
