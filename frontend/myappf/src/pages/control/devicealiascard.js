@@ -16,7 +16,7 @@ import Select from "@mui/material/Select";
 import myAppGlobal from "../../myAppGlobal";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import KDUtil from "../../commonjs/kdutil";
-import Sensordevice from "../../commonjs/sensordevice";
+
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
