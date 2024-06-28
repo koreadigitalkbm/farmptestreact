@@ -11,7 +11,13 @@ module.exports = class KDCommon {
   static actuatorconfigfilename_kpc480 = "../common/local_files/actuatorconfig_kpc480.json";
   static actuatorconfigfilename_kpc300 = "../common/local_files/actuatorconfig_kpc300.json";
   static actuatorconfigfilename_kpc200 = "../common/local_files/actuatorconfig_kpc200.json";
-  static actuatorconfigfilename_VFC3300 = "../common/local_files/actuatorconfig_VFC3300.json";
+  static actuatorconfigfilename_vfc3300 = "../common/local_files/actuatorconfig_vfc3300.json";
+  static actuatorconfigfilename_kpc880a = "../common/local_files/actuatorconfig_kpc880a.json";
+  static actuatorconfigfilename_kpc880b = "../common/local_files/actuatorconfig_kpc880b.json";
+  static actuatorconfigfilename_kpc880c = "../common/local_files/actuatorconfig_kpc880c.json";
+  static actuatorconfigfilename_kpc880d = "../common/local_files/actuatorconfig_kpc880d.json";
+  static actuatorconfigfilename_kpc880e = "../common/local_files/actuatorconfig_kpc880e.json";
+
 
   //json 형태로 저장함
   static Writefilejson(filename, mconfig) {
@@ -198,6 +204,7 @@ module.exports = class KDCommon {
       console.log("Deletefile  : " + filename);
 
     } catch (error) {
+      console.log("Deletefile  : " + filename);
       console.log(error);
       return null;
     }
