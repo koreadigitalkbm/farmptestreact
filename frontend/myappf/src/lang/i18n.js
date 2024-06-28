@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import langEn from './lang.en.json';
 import langKo from './lang.ko.json';
 
-const resources = {
+const Lresources = {
     'en-US': {
         translations: langEn
     },
@@ -16,7 +16,7 @@ const resources = {
 i18n
     .use(initReactI18next)
     .init({
-        resources: resources,
+        resources: Lresources,
         lng: 'ko-KR',
         debug: false,
         defaultNS: 'translations',
