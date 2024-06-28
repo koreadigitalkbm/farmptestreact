@@ -27,7 +27,8 @@
 //2.236 : KPC480 USB 카메라 촬영되도록  카메라자동제어에서 구동기 리스트에 "USBCamera" 추가하면  내장 cmos 카메라 촬영후 3분후에 USB 촬영됨
 //2.241 : 타임존 관련 업데이트
 //2.242 : 데이터 페이지 이미지, 로그 다운로드 기능 추가
-const farmscubeplatformversion = 2.242;
+//2.243 : 미니온실 기능추가  
+const farmscubeplatformversion = 2.243;
 
 const express = require("express");
 const cors = require("cors");
