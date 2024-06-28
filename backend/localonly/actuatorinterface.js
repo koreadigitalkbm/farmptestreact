@@ -31,7 +31,21 @@ module.exports = class ActuatorInterface {
     let actuatorconfigfilename = KDCommon.actuatorconfigfilename;
 
     ///모델별로 구별해서 구동기노드를  설정하자.
-    if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC480") {
+    if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880D) {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880d;
+
+    }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880A) {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880a;
+
+    }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC480") {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC480, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
@@ -55,7 +69,7 @@ module.exports = class ActuatorInterface {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC3300, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로
-      actuatorconfigfilename = KDCommon.actuatorconfigfilename_VFC3300;
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_vfc3300;
     } else {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_VFC24M, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
@@ -78,7 +92,11 @@ module.exports = class ActuatorInterface {
   //상태 갱신
   async stateupdate(actuatorlist, curactnode) {
     for (const actd of this.Actuators) {
+      
+
       for (const readactdev of actuatorlist) {
+        
+
         if (actd.UniqID === readactdev.Uid) {
           actd.AStatus.updatestatus(readactdev.Sat, readactdev.Opid, readactdev.Rmt);
           //console.log("-stateupdate uid: " + actd.UniqID + " , staus: "+actd.AStatus.Sat + ", opid :"+actd.AStatus.Opid  + ", ch: " + actd.Basicinfo.Channel);
@@ -132,6 +150,7 @@ module.exports = class ActuatorInterface {
     }
   }
   setACToperation(mloperation, opmode) {
+    
     
     
 

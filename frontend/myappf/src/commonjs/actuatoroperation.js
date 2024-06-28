@@ -2,19 +2,36 @@
 const KDDefine = require("./kddefine");
 const KDUtil = require("./kdutil");
 module.exports = class ActuatorOperation {
-  constructor(mniqid, ison, ontime) {
+  constructor(mniqid, ison, ontime ,autostate=null) {
     this.Opcmd = 0;
     this.Timesec = ontime;
     this.Param = 0;
     this.Opid = KDUtil.GetOPIDRandom();// 초기화 생성시 OPID 랜덤하게 생성 중복되지않게 중복되면 실행안될수도 있음, 같은값으로 초기화되면 시스템 리셋시 동일한값이므로 명령어 실행안될수 있음.
     this.Opmode = KDDefine.OPMode.OPM_Manual; //기본수동
     this.Uid = mniqid;
-    if (ison == true) {
+    if (ison === true) {
       this.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On;
     } else {
       this.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Off;
       this.Timesec = 0;
     }
+    if(autostate !=null)
+    {
+        if(autostate === KDDefine.AUTOStateType.AST_Open)
+          {
+            this.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On_Open;
+          }
+          else if(autostate === KDDefine.AUTOStateType.AST_Close)
+            {
+              this.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On_Close;
+            }
+            else{
+              this.Opcmd = KDDefine.ONOFFOperationTypeEnum.OPT_Off;
+              this.Timesec = 0;
+            }
+
+      }
+
   }
 
   // 명령어 전송시 시간에 파라메터 합해서 전송되는경우 : LED 디밍
@@ -31,5 +48,7 @@ module.exports = class ActuatorOperation {
     this.Param = mparam;
     this.Opmode = opmode;
     this.Opid = (this.Opid + 1) & 0xffff; /// 새로 갱신할때마다 값을 증가시켜 다른값으로 변경함.
+    
+
   }
 };

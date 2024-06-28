@@ -19,12 +19,17 @@
     "LT_ANAME_TEMP_PID": "Temperature Control(PID)",
     "LT_ANAME_WATER": "Water Supply(Timer)",
     "LT_ANAME_LED": "LED Control(3Color)",
+    "LT_ANAME_LED_ONOFF": "LED Control(Timer)",
     "LT_ANAME_AIR": "Air Circulation",
     "LT_ANAME_HUMIDITY": "Humidity Control",
     "LT_ANAME_HUMIDITY_PID": "Humidity Control(PID)",
     "LT_ANAME_CO2": "CO2 Control",
     "LT_ANAME_NUTRIENT": "Nutrient Control(pH,EC)",
     "LT_ANAME_CAMERA": "Taking Pictures(RGB)",
+    "LT_ANAME_SCREEN": "Roof Window Control",
+    "LT_ANAME_WINDOW": "Window Control",
+    "LT_ANAME_SIDE_WINDOWS": "Side Window Control",
+    
 
 
     "LT_UNKNOWN_EVENT": "This is an unknown event.({0})",
@@ -44,6 +49,9 @@
     "LT_ACT_STATE_ON": "On",
     "LT_ACT_STATE_OFF": "Off",
     "LT_ACT_STATE_IDLE": "Idle",
+    "LT_ACT_STATE_OPEN": "Open",
+    "LT_ACT_STATE_CLOSE": "Close",
+    "LT_ACT_STATE_STOP": "Stop",
 
     
 
@@ -97,29 +105,33 @@
     "LT_ACTDEVICE_41": "CO2 Valve",
     "LT_ACTDEVICE_42": "Humidifier Pump",
     "LT_ACTDEVICE_43": "Agitator Pump",
+    "LT_ACTDEVICE_44": "Left Window",
+    "LT_ACTDEVICE_45": "Right Window",
+    "LT_ACTDEVICE_46": "Cover Screen",
+    
 
 
 
     "LT_SNAME_0": "None",
     "LT_SNAME_1": "Temperature",
     "LT_SNAME_2": "Humidity",
-    "LT_SNAME_3": "토양온도",
-    "LT_SNAME_4": "토양함수율",
-    "LT_SNAME_5": "토양EC",
+    "LT_SNAME_3": "Soil Temperature",
+    "LT_SNAME_4": "Soil Humidity",
+    "LT_SNAME_5": "Soil EC",
     "LT_SNAME_6": "CO2",
     "LT_SNAME_7": "Temperature",
-    "LT_SNAME_8": "일사",
+    "LT_SNAME_8": "Solar Radiation",
     "LT_SNAME_9": "Wind Speed",
     
     "LT_SNAME_10": "Wind Vain",
-    "LT_SNAME_11": "대기압",
-    "LT_SNAME_12": "압력",
-    "LT_SNAME_13": "강우량",
-    "LT_SNAME_14": "강우감지",
+    "LT_SNAME_11": "Barometer",
+    "LT_SNAME_12": "Pressure",
+    "LT_SNAME_13": "Rainfall",
+    "LT_SNAME_14": "Rain Detector",
     "LT_SNAME_15": "UV",
     "LT_SNAME_16": "pH",
     "LT_SNAME_17": "EC",
-    "LT_SNAME_18": "PE300온도",
+    "LT_SNAME_18": "EC Temperature",
     "LT_SNAME_19": "CO",
     
     "LT_SNAME_20": "O2",
@@ -127,7 +139,7 @@
     "LT_SNAME_22": "RED",
     "LT_SNAME_23": "GREEN",
     "LT_SNAME_24": "BLUE",
-    "LT_SNAME_25": "암모니아",
+    "LT_SNAME_25": "Ammonia",
     "LT_SNAME_26": "Flow rate",
     "LT_SNAME_27": "Total flow",
     "LT_SNAME_28": "Battery",
@@ -144,7 +156,7 @@
     "LT_SNAME_38": "에탄",
     "LT_SNAME_39": "프로판",
 
-    "LT_SNAME_40": "누적일사량",
+    "LT_SNAME_40": "Solar Insolation",
     "LT_SNAME_41": "Dew point",
 
     "LT_SNAME_42": "Water Detector",
@@ -212,6 +224,10 @@
     "LT_GROWPLNATS_SECONDS": "sec",
     "LT_GROWPLANTS_ON": "On",
     "LT_GROWPLANTS_OFF": "Off",
+    "LT_GROWPLANTS_OPEN": "Open",
+    "LT_GROWPLANTS_CLOSE": "Close",
+    "LT_GROWPLANTS_STOP": "Stop",
+
     "LT_GROWPLANTS_TEMPERATURE_DAY1": "During the day[{0}], the internal temperature is kept at",
     "LT_GROWPLANTS_TEMPERATURE_DAY2": "",
     "LT_GROWPLNATS_TEMPERAUTRE_NIGHT1": "During the night, the internal temperature is kept at",
@@ -279,6 +295,20 @@
     "LT_GROWPLANTS_AIRCIRCULATION_FAN": "ventilation fan",
     "LT_GROWPLANTS_AIRCIRCULATION_VALVE": "ventilation valve",
     "LT_GROWPLANTS_AIRCIRCULATION_HELP1": "It circulates outside air to lower humidity and CO2 concentration.",
+    "LT_GROWPLANTS_WINDOW_MOTOR": "Cover Window",
+    "LT_GROWPLANTS_WINDOW_LEFT": "Left Window",
+    "LT_GROWPLANTS_WINDOW_RIGHT": "Right Window",
+
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V1": "If the temperature drops below ",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V2": "during operating hours, the cover window closes.",
+
+    "LT_GROWPLANTS_MINIHOUSE_WINDOW_V1": "If the temperature rises above ",
+    "LT_GROWPLANTS_MINIHOUSE_WINDOW_V2": "during operating hours, open the side windows.",
+
+   
+    "LT_GROWPLANTS_MINIHOUSE_SIDEWINDOW_HELP1": "Temperature is controlled through the side window.",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_HELP1": "If it is not operating time, the  cover windows is open.",
+
 
     "LT_GROWPLANTS_HUMIDITY_HEATER": "Humidifier Heater",
     "LT_GROWPLANTS_HUMIDITY_PUMP": "Humidifier Pump",
@@ -292,6 +322,7 @@
     
 
     "LT_GROWPLANTS_SETTO_OPERATINGTIME": "Set to operating time",
+    "LT_GROWPLANTS_ACT_OPERATINGTIME": "Device operating time",
     "LT_GROWPLANTS_TURNONTIME": "Turn on time",
     "LT_GROWPLANTS_TURNOFFTIME": "Turn off time",
     "LT_GROWPLANTS_OPERATEUNIT": "sec",

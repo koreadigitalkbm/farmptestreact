@@ -69,16 +69,26 @@ module.exports = class KDDefine {
     KPC300: "KPC300", // 식물재배기  3차(교육용)
     KPC480: "KPC480", // 식물재배기  3차(연구용)
     VFC3300: "VFC3300", // 인도어팜
+    KPC880A: "KPC880-SMALL", // 통합보드 실습용 작은크기
+    KPC880B: "KPC880-MEDIUM", // 통합보드 교육용 중간크기
+    KPC880C: "KPC880-LARGE", // 통합보드 연구용 큰거
+    KPC880D: "KPC880-HOUSE", // 통합보드 미니온실
+    KPC880E: "KPC880-DISPLAY", // 통합보드 윈도우형  디스플레이용
+
+    
   });
 
-  static PModelList = [KDDefine.PModel.KPC200, KDDefine.PModel.KPC300, KDDefine.PModel.KPC480, KDDefine.PModel.VFC3300];
+  static PModelList = [KDDefine.PModel.KPC200, KDDefine.PModel.KPC300, KDDefine.PModel.KPC480, KDDefine.PModel.VFC3300,KDDefine.PModel.KPC880A,KDDefine.PModel.KPC880B,KDDefine.PModel.KPC880C,KDDefine.PModel.KPC880D,KDDefine.PModel.KPC880E];
 
   static ONOFFOperationTypeEnum = Object.freeze({
     OPT_On: 201, // 작동시작
     OPT_Off: 0, // 작동 멈춤
     OPT_Timed_On: 202, // 정해진 시간동안 작동
     OPT_Driectional_On: 203, // 정해긴 방향으로 정해진 시간동안 동작
-
+    OPT_Timed_On_Open:  301, // 정해진 시간동안 열림 작동
+    OPT_Timed_On_Close: 302, // 정해진 시간동안   닫힘작동
+    OPT_Stop: 303,
+  
     OPT_Camera_TakeSave: 1909, // 카메라촬영 및 저장 이값으로 지정
   });
 
@@ -123,6 +133,9 @@ module.exports = class KDDefine {
     ODT_SOL_C: 42,
     ODT_SOL_D: 43,
     ODT_SOL_E: 44,
+
+    ODT_WINDOW: 45, //측창 윈도우
+    ODT_SCREEN: 46, // 보온 덥개 스크린
     
 
     ODT_ETC: 99,
@@ -191,7 +204,7 @@ module.exports = class KDDefine {
   static AUTOCategory = Object.freeze({
     ACT_HEATING: 0, // 난방
     ATC_COOLING: 1, // 냉방
-    ATC_LED: 2, // 광량
+    ATC_LED_ONOFF: 2, // 광량 단순제어 
     ATC_WATER: 3, // 관수
     ATC_AIR: 4, // 환기
 
@@ -204,6 +217,9 @@ module.exports = class KDDefine {
     ACT_NUTRIENT_SOL3_FOR_FJBOX: 105, // 양액제어, 3개 솔밸브 사용
     ACT_PID_TEMP_CONTROL_FOR_FJBOX: 106, // 냉난방 PID제어 
     ACT_PID_HEATER_HUMIDITY_FOR_FJBOX: 107, // 습도제어, PID제어 
+
+    ACT_SCREEN_FOR_MINIHOUSE: 108, // 보온덥개
+    ACT_WINDOW_FOR_MINIHOUSE: 109, // 측창제어
 
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 
@@ -219,6 +235,11 @@ module.exports = class KDDefine {
     AST_ERROR: 10003, // 에러상태 , 센서 연결끊김이나 노드 끊김 상태
     AST_Down_Idle: 10004, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
     AST_Up_Idle: 10005, // 냉난방 동시제어경우  설정온도에 도달하면 냉난방이 모두 꺼져야함으로 상태를 한게더 만듬.
+    AST_Open: 10006, // 개폐기 열림상태
+    AST_Close: 10007, // 개폐기 닫힘상태
+    AST_Stop: 10008, // 개폐기 닫힘상태
+
+    
     AST_Off_finish: 10010, // 제어종료 장비를 off 하고 끝냄
     AST_Init: 10020, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
 
@@ -251,7 +272,7 @@ module.exports = class KDDefine {
     CT_MANUAL: "manualcapture",
   });
 
-  //구동기 이름  id  다국어지원  언어셋 ID만들때 사용
+  //구동기 이름  id  다국어지원  언어셋 ID만들때 사용 " LT_ACTDEVICE_36" 뒷번호 확인
   static ActuatorNameID = Object.freeze({
     NID_ACTUATOR: 0, // actuator
     NID_HEATER: 1, // 히터
@@ -288,6 +309,11 @@ module.exports = class KDDefine {
     NID_CO2_VALVE: 41, // co2 공급밸브
     NID_HUMIDIFIER_PUMP: 42, // 가습기 히터 물 펌프
     NID_AGITATOR_PUMP: 43, // 가습기 히터 물 펌프
+
+    NID_LEFT1_WINDOW: 44, // 왼쪽 측창
+    NID_RIGHT1_WINDOW: 45, // 오른쪽 측창
+    NID_COVER_SCREEN: 46, // 보온 덥개 
+
   });
 
   //시스템 이벤트 코드

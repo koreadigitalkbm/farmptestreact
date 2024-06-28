@@ -28,6 +28,18 @@ module.exports = class ActuatorStatus{
             let strid;
             switch(mSat)
             {
+
+                case KDDefine.AUTOStateType.AST_Open:
+                    strid="LT_ACT_STATE_OPEN";
+                break;
+                case KDDefine.AUTOStateType.AST_Close:
+                    strid="LT_ACT_STATE_CLOSE";
+                break;
+                case KDDefine.AUTOStateType.AST_Stop:
+                    strid="LT_ACT_STATE_STOP";
+                break;
+
+
                 case KDDefine.AUTOStateType.AST_Off:
                     strid="LT_ACT_STATE_OFF";
                 break;
@@ -38,6 +50,18 @@ module.exports = class ActuatorStatus{
                     strid="LT_ACT_STATE_OFF";
                 break;
               
+
+                
+                case KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On_Open:
+                    strid="LT_ACT_STATE_OPEN";
+                break;
+                case KDDefine.ONOFFOperationTypeEnum.OPT_Timed_On_Close:
+                    strid="LT_ACT_STATE_CLOSE";
+                break;
+                case KDDefine.ONOFFOperationTypeEnum.OPT_Stop:
+                    strid="LT_ACT_STATE_STOP";
+                break;
+
 
 
                 case KDDefine.ONOFFOperationTypeEnum.OPT_Off:

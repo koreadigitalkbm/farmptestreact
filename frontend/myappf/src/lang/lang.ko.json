@@ -20,12 +20,16 @@
     "LT_ANAME_TEMP_PID": "온도제어(PID)",
     "LT_ANAME_WATER": "관수제어(타이머)",
     "LT_ANAME_LED": "광량제어(3색)",
+    "LT_ANAME_LED_ONOFF": "LED 광량제어(타이머)",
     "LT_ANAME_AIR": "환기제어(CO2,습도)",
     "LT_ANAME_HUMIDITY": "습도제어",
     "LT_ANAME_HUMIDITY_PID": "습도제어(PID)",
     "LT_ANAME_CO2": "CO2제어",
     "LT_ANAME_NUTRIENT": "양액제어(pH,EC)",
     "LT_ANAME_CAMERA": "사진촬영(RGB)",
+    "LT_ANAME_SCREEN": "보온창문제어(온도)",
+    "LT_ANAME_WINDOW": "창문제어",
+    "LT_ANAME_SIDE_WINDOWS": "측면창문제어",
 
 
     "LT_UNKNOWN_EVENT": "알수없는 이벤트입니다.({0})",
@@ -45,6 +49,10 @@
     "LT_ACT_STATE_ON": "켜짐(On)",
     "LT_ACT_STATE_OFF": "꺼짐(Off)",
     "LT_ACT_STATE_IDLE": "상태유지",
+    "LT_ACT_STATE_OPEN": "열림",
+    "LT_ACT_STATE_CLOSE": "닫힘",
+    "LT_ACT_STATE_STOP": "정지",
+
 
 
 
@@ -99,6 +107,9 @@
     "LT_ACTDEVICE_41": "CO2밸브",
     "LT_ACTDEVICE_42": "가습펌프",
     "LT_ACTDEVICE_43": "교반펌프",
+    "LT_ACTDEVICE_44": "왼쪽창문",
+    "LT_ACTDEVICE_45": "오른쪽창문",
+    "LT_ACTDEVICE_46": "보온덥개",
     
 
 
@@ -218,6 +229,10 @@
     "LT_GROWPLNATS_SECONDS": "초",
     "LT_GROWPLANTS_ON": "켜기",
     "LT_GROWPLANTS_OFF": "끄기",
+    "LT_GROWPLANTS_OPEN": "열기",
+    "LT_GROWPLANTS_CLOSE": "닫기",
+    "LT_GROWPLANTS_STOP": "정지",
+
     "LT_GROWPLANTS_TEMPERATURE_DAY1": "주간시간({0})의 온도를",
     "LT_GROWPLANTS_TEMPERATURE_DAY2": "로 유지하고,",
     "LT_GROWPLNATS_TEMPERAUTRE_NIGHT1": "야간의 온도를",
@@ -283,7 +298,21 @@
     "LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE": "환기팬 & 밸브",
     "LT_GROWPLANTS_AIRCIRCULATION_FAN": "환기팬",
     "LT_GROWPLANTS_AIRCIRCULATION_VALVE": "환기밸브",
+    "LT_GROWPLANTS_WINDOW_MOTOR": "보온천창",
+    "LT_GROWPLANTS_WINDOW_LEFT": "왼쪽 창문",
+    "LT_GROWPLANTS_WINDOW_RIGHT": "오른쪽 창문",
 
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V1": "작동시간동안 온도가 ",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V2": "이하로 내려갈경우, 보온창문을 닫습니다.",
+    
+    
+    "LT_GROWPLANTS_MINIHOUSE_WINDOW_V1": "작동시간동안 온도가 ",
+    "LT_GROWPLANTS_MINIHOUSE_WINDOW_V2": "이상으로 올라갈경우, 창문을 엽니다.",
+    
+
+
+    "LT_GROWPLANTS_MINIHOUSE_SIDEWINDOW_HELP1": "측창을 통해 온도를 조절합니다.",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_HELP1": "작동시간이 아닐경우 보온덥개는 열려있습니다.",
     "LT_GROWPLANTS_AIRCIRCULATION_HELP1": "외부공기를 순환시켜 습도와 CO2 농도를 낮춥니다.",
     
     "LT_GROWPLANTS_HUMIDITY_HEATER": "가습기히터",
@@ -298,6 +327,7 @@
     "LT_GROWPLANTS_VALVEOFFTIME": "휴지시간(닫힘)",
     
     "LT_GROWPLANTS_SETTO_OPERATINGTIME": "작동시간",
+    "LT_GROWPLANTS_ACT_OPERATINGTIME": "장치구동시간",
     "LT_GROWPLANTS_TURNONTIME": "켜짐시간",
     "LT_GROWPLANTS_TURNOFFTIME": "꺼짐시간",
     "LT_GROWPLANTS_OPERATEUNIT": "초",

@@ -277,8 +277,97 @@ module.exports = class AutoControl {
       this.IsPWMcontrol = true;
     }
 
+    
+    //보온덥개 제어 미니온실용
+    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_WINDOW_FOR_MINIHOUSE) {
+      let temperaturesensor = null;
+      for (const ms of msensors) {
+        if (ms.UniqID == this.mConfig.Senlist[0]) {
+          temperaturesensor = ms;
+        }
+      }
+
+      if (temperaturesensor == null) {
+        return KDDefine.AUTOStateType.AST_ERROR;
+      } 
+
+      let upvalue;
+        let downvalue;
+        let targetvalue;
+        targetvalue = Number(this.mConfig.DTValue);
+
+        
+        upvalue = targetvalue + Number(this.mConfig.BValue);
+        downvalue = targetvalue - Number(this.mConfig.BValue);
+
+      
+      
+
+      //온도가 낮아지면 닫기
+      
+        if (temperaturesensor.value >= upvalue) {
+          currentstate = KDDefine.AUTOStateType.AST_Open;
+        }
+
+        if (temperaturesensor.value <= downvalue) {
+          currentstate = KDDefine.AUTOStateType.AST_Close;
+        }
+
+      
+      this.OnSecTime = Number(this.mConfig.DOnTime);
+       
+      console.log("ACT_WINDOW_FOR_MINIHOUSE currsensor:" + temperaturesensor.value + " targetvalue : " + targetvalue  + " currentstate: " + currentstate);
+
+
+      // return currentstate;
+    }
+
+    //보온덥개 제어 미니온실용
+     else if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_SCREEN_FOR_MINIHOUSE) {
+      let temperaturesensor = null;
+      for (const ms of msensors) {
+        if (ms.UniqID == this.mConfig.Senlist[0]) {
+          temperaturesensor = ms;
+        }
+      }
+
+      if (temperaturesensor == null) {
+        return KDDefine.AUTOStateType.AST_ERROR;
+      } 
+
+      let upvalue;
+        let downvalue;
+        let targetvalue;
+        targetvalue = Number(this.mConfig.DTValue);
+
+        
+        upvalue = targetvalue + Number(this.mConfig.BValue);
+        downvalue = targetvalue - Number(this.mConfig.BValue);
+
+      
+      
+
+      //온도가 낮아지면 닫기
+      
+        if (temperaturesensor.value <= downvalue) {
+          currentstate = KDDefine.AUTOStateType.AST_Close;
+        }
+
+        if (temperaturesensor.value >= upvalue) {
+          currentstate = KDDefine.AUTOStateType.AST_Open;
+        }
+
+      
+      this.OnSecTime = Number(this.mConfig.DOnTime);
+       
+      console.log("ACT_SCREEN_FOR_MINIHOSE currsensor:" + temperaturesensor.value + " targetvalue : " + targetvalue  + " currentstate: " + currentstate);
+
+
+      // return currentstate;
+    }
+
     //PID습도제어 
-    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX) {
+    else if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX) {
     
 
       //센서에 의해서 작동함으로 켜짐시간 고정
@@ -360,6 +449,7 @@ module.exports = class AutoControl {
 
 
     }
+    
 
     //환기제어 별도로 왜냐면 센서가 여려개일수 있고 이레적으로  PWM 제어임
     else if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX) {
@@ -555,7 +645,10 @@ module.exports = class AutoControl {
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
-        case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
+      case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
+
+      case KDDefine.AUTOCategory.ACT_SCREEN_FOR_MINIHOUSE:
+      case KDDefine.AUTOCategory.ACT_WINDOW_FOR_MINIHOUSE:
         
         return true;
       default:
@@ -568,6 +661,54 @@ module.exports = class AutoControl {
     let opcmdlist = [];
 
     switch (this.mConfig.Cat) {
+
+      
+      case KDDefine.AUTOCategory.ACT_WINDOW_FOR_MINIHOUSE:
+        {
+        let windowdev = null;
+        
+        for (const mactid of this.mConfig.Actlist) {
+          let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+          if (actd != null) {
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_WINDOW) {
+              let opcmdwindow = new ActuatorOperation(actd.UniqID, true, this.OnSecTime,currentstate);
+              opcmdlist.push(opcmdwindow);
+            }
+            
+          }
+        }
+        this.setUpdatestateWithEvent(currentstate);
+
+       
+      }
+
+        break;
+      
+      case KDDefine.AUTOCategory.ACT_SCREEN_FOR_MINIHOUSE:
+        let screendev = null;
+        
+        for (const mactid of this.mConfig.Actlist) {
+          let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+          if (actd != null) {
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_SCREEN) {
+              screendev = actd;
+            }
+            
+          }
+        }
+        if (screendev != null) {
+         
+          console.log("-getOperationsBySpcify  screen : " + screendev.UniqID + " currentstate:" + currentstate);
+          let opcmdwindow = new ActuatorOperation(screendev.UniqID, true, this.OnSecTime,currentstate);
+           
+          opcmdlist.push(opcmdwindow);
+          this.setUpdatestateWithEvent(currentstate);
+
+        }
+
+        break;
+
+
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
         let whiteleddev = null;
         let redleddev = null;
@@ -671,15 +812,28 @@ module.exports = class AutoControl {
             onoffstate = false;
           }
 
-          //console.log("-ACT_HEATER_HUMIDITY_FOR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
+          //console.log("-ACT_HEATER_HUMIDITY_OR_FJBOX heaterd: " + heaterd + " pumpd:" + pumpd + " onoffstate:" + onoffstate);
 
-          if (onoffstate != null && heaterd != null && pumpd != null) {
-            let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
+          if (onoffstate != null ) {
+
+            if(heaterd != null )
+              {
+                let opcmda = new ActuatorOperation(heaterd.UniqID, onoffstate, this.OnSecTime);
+                opcmdlist.push(opcmda);
+
+              }
+            
             // 펌프는
-            let opcmdb = new ActuatorOperation(pumpd.UniqID, onoffstate, 100);
+            if(pumpd != null)
+              {
+                let opcmdb = new ActuatorOperation(pumpd.UniqID, onoffstate, 100);    
+                opcmdlist.push(opcmdb);
+              }
+            
+            
 
-            opcmdlist.push(opcmda);
-            opcmdlist.push(opcmdb);
+            
+            
           }
 
           this.setUpdatestateWithEvent(currentstate);
@@ -1032,16 +1186,10 @@ module.exports = class AutoControl {
       }
     } else {
       //기본조건 안맞음 모두  off
-
-
       this.setdaycontroltimeover();
       currentstate = KDDefine.AUTOStateType.AST_Off_finish;
     }
     //console.log("-11this.Name : " + this.mConfig.Name+ ", ---------------timesecnow :   "+timesecnow +",currentstate :"+currentstate );
-
-    
-
-
     // 먼가 상태가 변경되어 구동기에 명령어를 주어야함.
     if (this.mState.ischangestatecheck(currentstate) == true  ||  this.ispidchange ==true) {
       if (currentstate != KDDefine.AUTOStateType.AST_IDLE) {

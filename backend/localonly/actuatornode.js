@@ -10,6 +10,7 @@ module.exports = class ActuatorNode {
     ANT_KPC480: 1,  /// 식물재배기 전문가용
     ANT_KPC200: 2,  /// 식물재배기 교육용  버전 1,2 
     ANT_VFC3300: 3,   // 기존 인도어팜 재배기 
+    ANT_KPC880: 4  // 통합보드 
 
   });
 
@@ -26,7 +27,45 @@ module.exports = class ActuatorNode {
     this.node_is_disconnect = true;
     this.actlist = [];
 
-    if (nodemodel == ActuatorNode.ACTNODEType.ANT_VFC24M) {
+    if (nodemodel == ActuatorNode.ACTNODEType.ANT_KPC880) {
+       //ac trac 16개 dc mosfet 8  pwm 4개 기타 2개 , 30 개 넘으면 한번에 못읽음.
+       this.maxchannelnumber = 30;  
+       this.OnOffoperationregstartaddress = 1200;
+       this.OnOffstatusregstartaddress = 400;
+
+       let sv;
+       for (let i = 0; i < 20; i++) {
+         sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i, KDDefine.HardwareTypeEnum.HT_RELAY));
+         this.actlist.push(sv);
+       }
+
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 20, KDDefine.HardwareTypeEnum.HT_SWITCH));
+       this.actlist.push(sv);
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 21, KDDefine.HardwareTypeEnum.HT_SWITCH));
+       this.actlist.push(sv);
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 22, KDDefine.HardwareTypeEnum.HT_SWITCH));
+       this.actlist.push(sv);
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 23, KDDefine.HardwareTypeEnum.HT_SWITCH));
+       this.actlist.push(sv);
+
+
+ 
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 24, KDDefine.HardwareTypeEnum.HT_PWM));
+       this.actlist.push(sv);
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 25, KDDefine.HardwareTypeEnum.HT_PWM));
+       this.actlist.push(sv);
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 26, KDDefine.HardwareTypeEnum.HT_PWM));
+       this.actlist.push(sv);
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 27, KDDefine.HardwareTypeEnum.HT_PWM));
+       this.actlist.push(sv);
+       ///기타
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 28, KDDefine.HardwareTypeEnum.HT_PWM));
+       this.actlist.push(sv);
+       // 냉난방제어
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 29, KDDefine.HardwareTypeEnum.HT_PWM));
+       this.actlist.push(sv);
+    } 
+    else if (nodemodel == ActuatorNode.ACTNODEType.ANT_VFC24M) {
       this.maxchannelnumber = 24;
       for (let i = 0; i < this.maxchannelnumber; i++) {
         let sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, i, KDDefine.HardwareTypeEnum.HT_RELAY));
@@ -114,7 +153,7 @@ module.exports = class ActuatorNode {
           let mopid = rv1.data[i * 4 + 0];
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
-          //console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
+        //  console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
         }
         //  console.log("-ActuatorNode ReadStatusAll------------------");
 
@@ -133,7 +172,7 @@ module.exports = class ActuatorNode {
   /// 제어명령어 이함수 하나로만 작동하자
   async ControlNormal(moperation, channel) {
     try {
-       console.log("-ControlNomal-----" + "ID :" + moperation.Uid +" ,cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec);
+       console.log("-ControlNomal-----" + "ID :" + moperation.Uid +" ,cmd : " + moperation.Opcmd + " ,opid:"+moperation.Opid +", Timesec : "+moperation.Timesec + " ,OnOffoperationregstartaddress:" + this.OnOffoperationregstartaddress);
      
 
       let regaddress = this.OnOffoperationregstartaddress + channel * 4;

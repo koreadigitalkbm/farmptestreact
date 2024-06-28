@@ -16,7 +16,11 @@ class SensorInterface {
     
     
     ///모델별로 구별해서 센서노드를  설정하자.
-    if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC480") {
+    if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880A || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880D) {
+      const mysnode_sid_1 = new SensorNode(1, 100, this.modbusMaster,28);
+      this.SensorNodes.push(mysnode_sid_1);
+    }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === "KPC480") {
       const mysnode_sid_1 = new SensorNode(1, 100, this.modbusMaster,28);
       this.SensorNodes.push(mysnode_sid_1);
     }
