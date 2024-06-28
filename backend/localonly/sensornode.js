@@ -73,6 +73,8 @@ module.exports = class SensorNode {
           let sensorstatus = 0;
           if (sensorcode != 0) {
           
+           // console.log("ReadSensor sensorcode : " + sensorcode);
+
             let sv = new SensorCompact(this.SlaveID, sensorcode, sv_float);
             svlist.push(sv);
             //센서가 읽히면 에러 카운트 0
