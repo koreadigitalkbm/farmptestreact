@@ -136,6 +136,7 @@ module.exports = class KDDefine {
 
     ODT_WINDOW: 45, //측창 윈도우
     ODT_SCREEN: 46, // 보온 덥개 스크린
+    ODT_FLOWFAN: 47, //유동팬
     
 
     ODT_ETC: 99,
@@ -220,6 +221,8 @@ module.exports = class KDDefine {
 
     ACT_SCREEN_FOR_MINIHOUSE: 108, // 보온덥개
     ACT_WINDOW_FOR_MINIHOUSE: 109, // 측창제어
+    ACT_AIRCIRC_CO2_HUMIDITY_FOR_MINIHOUSE: 110, // 환기제어, co2, 습도센서 사용
+    ACT_HEATER_HUMIDITY_FOR_MINIHOUSE: 111, //습도 제어
 
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 

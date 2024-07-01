@@ -159,9 +159,9 @@ module.exports = class AutoControlUtil {
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
-      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX; //  자동제어 분류
-      m1.Actlist.push("N01C09T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
-      m1.Actlist.push("N01C10T00"); /// 환기밸브  장비가 여려개이면 장비종류로 구별하자
+      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_MINIHOUSE; //  자동제어 분류
+      m1.Actlist.push("N01C11T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
+      m1.Actlist.push("N01C12T00"); /// 유동팬  장비가 여려개이면 장비종류로 구별하자
       m1.DOnTime = 3600;
       m1.DOffTime = 3600;
       m1.STime = 8 * 3600;
@@ -176,7 +176,7 @@ module.exports = class AutoControlUtil {
 
 
       
-      ///환기 제어
+      
        ///습도제어 습도를 높임
       m1 = new AutoControlconfig();
       m1.Lid = "LT_ANAME_HUMIDITY";
@@ -184,8 +184,8 @@ module.exports = class AutoControlUtil {
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
-      m1.Cat = KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_FJBOX; //  자동제어 분류
-      m1.Actlist.push("N01C10T00"); ///가습장비
+      m1.Cat = KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_MINIHOUSE; //  자동제어 분류
+      m1.Actlist.push("N01C11T00"); ///가습장비
       m1.DOnTime = AutoControlconfig.OnTimesecMAX;
       m1.DOffTime = 0;
       m1.NOnTime = AutoControlconfig.OnTimesecMAX;

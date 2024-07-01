@@ -6,9 +6,13 @@ import AutoControlconfig from "../../commonjs/autocontrolconfig";
 import JukeboxTemperatureM1 from "./jukeboxtemperature";
 import JukeboxWatersupplyM1 from "./jukeboxwatersupply";
 import JukeboxMultiLED from "./jukeboxmultiled";
+import MiniHouseLEDOnOFF from "./minihouseledonoff";
+
 import JukeboxAircirculation from "./jukeboxaircirculation";
 import MinihouseScreen from "./minihousescreen";
 import MinihouseWindows from "./minihousewindows";
+import MiniHouseAircirculation from "./minihouseaircirculation";
+import MiniHouseAirhumidity from "./minihouseairhumidity";
 
 
 import JukeboxCamera from "./jukeboxcamera";
@@ -50,14 +54,20 @@ export default function Autocontroleditbox(props) {
   const formAutoContent = () => {
     console.log("formAutoContent Cat: " + copycfg.Cat);
     switch (copycfg.Cat) {
+      
 
+      case KDDefine.AUTOCategory.ACT_HEATER_HUMIDITY_FOR_MINIHOUSE:
+        return <MiniHouseAirhumidity keyname="airhumidity" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
+      case KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_MINIHOUSE:
+        return <MiniHouseAircirculation keyname="aricirc" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ATC_LED_ONOFF:
-        return <JukeboxMultiLED keyname="multiled" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
+        return <MiniHouseLEDOnOFF keyname="multiled" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ACT_WINDOW_FOR_MINIHOUSE:
         return <MinihouseWindows keyname="aricirc" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ACT_SCREEN_FOR_MINIHOUSE:
         return <MinihouseScreen keyname="aricirc" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
-      case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
+      
+        case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
         return <JukeboxPIDAirhumidity keyname="pidtempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
         return <JukeboxPIDTemperature keyname="pidtempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;

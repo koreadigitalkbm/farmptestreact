@@ -28,11 +28,13 @@ module.exports = class ActuatorBasic {
     if (modelname === KDDefine.PModel.KPC880D) {
 
 
+      /*
       //히터1
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 0, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
 
       //쿨러
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
+      */
 
       
 
@@ -51,13 +53,13 @@ module.exports = class ActuatorBasic {
       //가습기
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HUMI_HEATER, 10, KDDefine.OutDeviceTypeEnum.ODT_HUMIDIFLER));
       
-      //유동팬
+      //환기팬
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 11, KDDefine.OutDeviceTypeEnum.ODT_FAN));
 
-      //환기팬
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 12, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+      //유동팬
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 12, KDDefine.OutDeviceTypeEnum.ODT_FLOWFAN));
 
-      
+      /*
       //양액A  DC 6번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEA, 13, KDDefine.OutDeviceTypeEnum.ODT_SOL_A));
 
@@ -65,7 +67,7 @@ module.exports = class ActuatorBasic {
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEB, 14, KDDefine.OutDeviceTypeEnum.ODT_SOL_B));
       //양액C  DC 8번
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEC_PH, 15, KDDefine.OutDeviceTypeEnum.ODT_SOL_C));
-
+*/
 
       
       

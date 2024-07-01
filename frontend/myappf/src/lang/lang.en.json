@@ -285,6 +285,7 @@
     "LT_GROWPLANTS_LED_BLUE": "Blue",
     "LT_GROWPLANTS_LED_BRIGHT": "LED Brightness",
     "LT_GROWPLANTS_LED_HELP1": "Adjust the brightness of the LED by color.",
+    "LT_GROWPLANTS_LED_HELP2": "Adjust the brightness of the LED.",
 
 
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1": "Operate the ventilation fan, valve when the internal CO₂ concentration is less than ",
@@ -293,6 +294,7 @@
     "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4": "",
     "LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE": "ventilation fan & valve",
     "LT_GROWPLANTS_AIRCIRCULATION_FAN": "ventilation fan",
+    "LT_GROWPLANTS_AIRFLOW_FAN": "circulation fan",
     "LT_GROWPLANTS_AIRCIRCULATION_VALVE": "ventilation valve",
     "LT_GROWPLANTS_AIRCIRCULATION_HELP1": "It circulates outside air to lower humidity and CO2 concentration.",
     "LT_GROWPLANTS_WINDOW_MOTOR": "Cover Window",
@@ -310,6 +312,7 @@
     "LT_GROWPLANTS_MINIHOUSE_SCREEN_HELP1": "If it is not operating time, the  cover windows is open.",
 
 
+    "LT_GROWPLANTS_HUMIDITY": "Humidifier",
     "LT_GROWPLANTS_HUMIDITY_HEATER": "Humidifier Heater",
     "LT_GROWPLANTS_HUMIDITY_PUMP": "Humidifier Pump",
     "LT_GROWPLANTS_CO2_VALVE": "CO2 Valve",
