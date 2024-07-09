@@ -58,11 +58,11 @@ module.exports = class ActuatorNode {
        this.actlist.push(sv);
        sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 27, KDDefine.HardwareTypeEnum.HT_PWM));
        this.actlist.push(sv);
-       ///기타
-       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 28, KDDefine.HardwareTypeEnum.HT_PWM));
+       ///pid 냉난방 기타
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 28, KDDefine.HardwareTypeEnum.HT_PID));
        this.actlist.push(sv);
        // 냉난방제어
-       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 29, KDDefine.HardwareTypeEnum.HT_PWM));
+       sv = new ActuatorStatus(ActuatorStatus.makeactuatoruniqid(this.SlaveID, 29, KDDefine.HardwareTypeEnum.HT_PID));
        this.actlist.push(sv);
     } 
     else if (nodemodel == ActuatorNode.ACTNODEType.ANT_VFC24M) {

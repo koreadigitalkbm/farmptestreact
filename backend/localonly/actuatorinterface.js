@@ -38,6 +38,13 @@ module.exports = class ActuatorInterface {
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880d;
 
     }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880B) {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880b;
+
+    }
     else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880A) {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);

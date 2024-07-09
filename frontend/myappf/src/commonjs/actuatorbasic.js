@@ -83,6 +83,49 @@ module.exports = class ActuatorBasic {
       
 
     }
+    else if (modelname === KDDefine.PModel.KPC880B) {
+     //히터1
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 8, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
+
+     //쿨러
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 9, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
+
+    //냉난방기
+    mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 28, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PID));
+
+
+
+     //유동팬
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 10, KDDefine.OutDeviceTypeEnum.ODT_FLOWFAN));
+
+
+
+      //펌프 relay
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 16, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+
+      //환기팬
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 11, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+
+
+      //환기밸브
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRVALVE, 12, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+
+
+
+
+      //화이트
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      //red
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+      //blue
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+
+
+
+    }
     else if (modelname === KDDefine.PModel.KPC880A) {
       //히터1
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 20, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
@@ -104,6 +147,13 @@ module.exports = class ActuatorBasic {
 
       //blue
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+
+      //냉난방기
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 28, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+
+
+
 
     }
      else if (modelname === KDDefine.PModel.KPC480 ) {

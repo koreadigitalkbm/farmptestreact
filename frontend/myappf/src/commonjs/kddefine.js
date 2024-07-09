@@ -146,6 +146,7 @@ module.exports = class KDDefine {
     HT_RELAY: 0, // 단순 on,off 제어
     HT_SWITCH: 1, // 열기, 닫기 계페기
     HT_PWM: 2, // PWM 제어 like LED
+    HT_PID: 3, // PID 제어 컴프레셔 온도제어용
     HT_ETC: 10, // 기타
   });
 
