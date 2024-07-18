@@ -331,8 +331,8 @@ module.exports = class AutoControlUtil {
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX; //  자동제어 분류
       m1.Actlist.push("N01C28T03"); ///온도제어 장비 고정 
-      m1.Actlist.push("N01C08T00"); ///히터 릴레이 장비
-      m1.Actlist.push("N01C09T00"); ///쿨러 릴레이 장비
+      m1.Actlist.push("N01C01T00"); ///히터 릴레이 장비
+      m1.Actlist.push("N01C02T00"); ///쿨러 릴레이 장비
       m1.DOnTime = AutoControlconfig.OnTimesecMAX;
       m1.DOffTime = 0;
       m1.STime = 8 * 3600;
