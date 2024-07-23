@@ -199,8 +199,63 @@ module.exports = class LocalMain {
 
     this.mAPI.firebasedbsetup();
 
+
+    this.checklangfile();
     //3초후 메인시작
     setTimeout(devicemaintask, 3000, this);
+  }
+
+  // 프로그램업데이트시에 언어파일이 0으로 되는 경우가 발생 에러나지 않도록 파일 0이거나 없거나 잘못됬을경우 디폴트 파일로 다시씀.
+  checklangfile()
+  {
+    
+    console.log("---------------------------------checklangfile: " +KDCommon.langenglishfile);
+
+    let dleng = KDCommon.Readfilejson(KDCommon.defaultlangfile);
+
+    if(dleng ==null)
+    {
+      let eleng=KDCommon.Readfilejson(KDCommon.langenglishfile);
+      console.log("---------------------------------checklangfile: default null");
+
+      if(eleng !=null)
+      {
+
+        KDCommon.Writefilejson(KDCommon.defaultlangfile,eleng);
+      }
+
+    }
+
+
+
+
+    let eleng=KDCommon.Readfilejson(KDCommon.langenglishfile);
+    if(eleng ==null)
+    {
+      console.log("---------------------------------checklangfile: en null");
+      
+      if(dleng !=null)
+      {
+        KDCommon.Writefilejson(KDCommon.langenglishfile,dleng);
+      }
+
+    }
+    let kleng=KDCommon.Readfilejson(KDCommon.langkoreanfile);
+    if(kleng ==null)
+    {
+      console.log("---------------------------------checklangfile: ko null");
+
+      
+      if(dleng !=null)
+      {
+        KDCommon.Writefilejson(KDCommon.langkoreanfile,dleng);
+      }
+
+
+    }
+
+
+
   }
 
   savesystemconfig(newconfig) {

@@ -29,7 +29,9 @@
 //2.242 : 데이터 페이지 이미지, 로그 다운로드 기능 추가
 //2.243 : 미니온실 기능추가  
 //2.244 : 미니온실  자동제어 수정
-const farmscubeplatformversion = 2.244;
+//2.245 : 언어파일 오류 수정
+
+const farmscubeplatformversion = 2.245;
 
 const express = require("express");
 const cors = require("cors");
