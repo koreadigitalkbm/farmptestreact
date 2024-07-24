@@ -9,6 +9,7 @@ import ActuatorOperation from "../../commonjs/actuatoroperation";
 import myAppGlobal from "../../myAppGlobal";
 import AutoManualCommon from "../uicomponent/automanualcommon";
 import AutoManualActuator from "../uicomponent/automanualactuator";
+import KDUtil from "../../commonjs/kdutil";
 
 const MiniHouseAircirculation = (props) => {
   const [avchecked, setAVChecked] = React.useState(true);
@@ -50,7 +51,7 @@ const MiniHouseAircirculation = (props) => {
 
   ///수동제어
   if (copycfg.Enb === false) {
-    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE"), myAppGlobal.langT("LT_GROWPLANTS_AIRFLOW_FAN")];
+    const actitems = [myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_FAN")];
 
     return (
       <Stack spacing={1}>
@@ -86,12 +87,8 @@ const MiniHouseAircirculation = (props) => {
   return (
     <Stack spacing={0}>
       <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1")}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={inputchangeHandler} />
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2")}</Typography>
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3")}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={inputchangeHandler} />
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4")}</Typography>
+      <Typography sx={{ m: 2 }}>{KDUtil.Stringformat(myAppGlobal.langT(`LT_GROWPLANTS_AIRCIRCULATION1`), KDUtil.secToTime(copycfg.STime) + "~" + KDUtil.secToTime(copycfg.ETime))}</Typography>
+        
       </Box>
       <Box sx={{ bgcolor: "#c5e1a5", boxShadow: 1, borderRadius: 2, p: 2 }}>
         <Stack direction="row" justifyContent="space-between">

@@ -281,11 +281,19 @@ module.exports = class AutoControl {
     //보온덥개 제어 미니온실용
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_WINDOW_FOR_MINIHOUSE) {
       let temperaturesensor = null;
+      let rainsensor = null;
+
       for (const ms of msensors) {
         if (ms.UniqID == this.mConfig.Senlist[0]) {
           temperaturesensor = ms;
         }
+        if(ms.Sensortype == KDDefine.KDSensorTypeEnum.SUT_RAINDETECTOR)
+        {
+          rainsensor = ms;
+        }
       }
+
+      //console.log("ACT_WINDOW_FOR_MINIHOUSE rain check:" + this.mConfig.Params[0]+ " rainsensor:"+rainsensor);
 
       if (temperaturesensor == null) {
         return KDDefine.AUTOStateType.AST_ERROR;
@@ -313,6 +321,16 @@ module.exports = class AutoControl {
           currentstate = KDDefine.AUTOStateType.AST_Close;
         }
 
+        
+
+        if( this.mConfig.Params[0] == true && rainsensor !=null)
+        {
+          console.log("ACT_WINDOW_FOR_MINIHOUSE rain:" + rainsensor.value  );
+          if(rainsensor.value  >=1)
+          {
+            currentstate = KDDefine.AUTOStateType.AST_Close;
+          }
+        }
       
       this.OnSecTime = Number(this.mConfig.DOnTime);
        

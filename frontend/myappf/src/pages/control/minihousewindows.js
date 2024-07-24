@@ -1,7 +1,7 @@
 import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
-import { Button, Stack, Typography, Box, Switch } from "@mui/material";
+import { Button, Stack, Typography, Box, Switch,Checkbox } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -11,17 +11,20 @@ import AutoManualSwtich from "../uicomponent/automanualswitch";
 import AutoManualActuator from "../uicomponent/automanualactuator";
 
 const MinihouseWindows = (props) => {
-  const [avchecked, setAVChecked] = React.useState(true);
-  const [manualactname, setmanualactname] = React.useState("selitem0");
-  const [manualontimesec, setmanualontimesec] = React.useState(60);
-  const [savedisable, setBtnDisable] = React.useState(true);
   const commoninputhandler = props.inputallchangeHandler;
   const commonischangehandler = props.ischangehandler;
   const copycfg = props.initvalue;
   const saveconfig = props.savecfg;
 
+  const [rainchecked, setRainchecked] = React.useState(copycfg.Params[0]);
+  const [avchecked, setAVChecked] = React.useState(true);
+  const [manualactname, setmanualactname] = React.useState("selitem0");
+  const [manualontimesec, setmanualontimesec] = React.useState(60);
+  const [savedisable, setBtnDisable] = React.useState(true);
+  
+
   const inputchangeHandler = (event) => {
-    console.log("inputchangeHandler event.target.name:" + event.target.name);
+    console.log("inputchangeHandler event.target.name:" + event.target.name + " value : "+event.target.value + " check:" + event.target.checked);
 
     switch (event.target.name) {
       case "avencheck":
@@ -32,6 +35,10 @@ const MinihouseWindows = (props) => {
         break;
       case "ontimesec":
         setmanualontimesec(event.target.value);
+        break;
+      case "rainsensor":
+        copycfg.Params[0] =event.target.checked;
+        setRainchecked(event.target.checked);
         break;
       default:
         commoninputhandler(event);
@@ -75,6 +82,9 @@ const MinihouseWindows = (props) => {
           <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_ACT_OPERATINGTIME")}</Typography>
           <AutoInputControl type="number" initvalue={copycfg.DOnTime} unit={myAppGlobal.langT("LT_GROWPLANTS_OPERATEUNIT")} keyname="DOnTime" onChange={inputchangeHandler} />
         </Box>
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <FormControlLabel   control={<Checkbox checked={rainchecked}  name="rainsensor"  onChange={inputchangeHandler} />} label={myAppGlobal.langT("LT_GROWPLANTS_MINIHOUSE_RAINSENSOR_CHECK")}/>
+        </Box>
         
       </Stack>
     );
@@ -92,7 +102,7 @@ const MinihouseWindows = (props) => {
         <Stack direction="row" justifyContent="space-between">
           <Box align="left">
             <Typography color={"#fb8c00"} mr={2} fontSize={15}>
-              {"※ " + myAppGlobal.langT("LT_GROWPLANTS_MINIHOUSE_SIDEWINDOW_HELP1")}
+              {"※ " + myAppGlobal.langT("LT_GROWPLANTS_MINIHOUSE_TOPWINDOW_HELP1")}
             </Typography>
           </Box>
           <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />

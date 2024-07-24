@@ -21,15 +21,17 @@
     "LT_ANAME_WATER": "관수제어(타이머)",
     "LT_ANAME_LED": "광량제어(3색)",
     "LT_ANAME_LED_ONOFF": "LED 광량제어(타이머)",
-    "LT_ANAME_AIR": "환기제어(CO2,습도)",
+    "LT_ANAME_AIR_CIRCULATION": "공기순환제어(타이머)",
+    "LT_ANAME_AIR_VENTILATION":  "환기제어(CO2,습도)",
     "LT_ANAME_HUMIDITY": "습도제어",
     "LT_ANAME_HUMIDITY_PID": "습도제어(PID)",
     "LT_ANAME_CO2": "CO2제어",
     "LT_ANAME_NUTRIENT": "양액제어(pH,EC)",
     "LT_ANAME_CAMERA": "사진촬영(RGB)",
-    "LT_ANAME_SCREEN": "보온창문제어(온도)",
+    "LT_ANAME_SCREEN": "차광 커튼제어",
     "LT_ANAME_WINDOW": "창문제어",
     "LT_ANAME_SIDE_WINDOWS": "측면창문제어",
+    "LT_ANAME_TOP_WINDOWS": "천창 제어(온도)",
 
 
     "LT_UNKNOWN_EVENT": "알수없는 이벤트입니다.({0})",
@@ -292,30 +294,35 @@
     "LT_GROWPLANTS_LED_HELP2": "LED 밝기를 조절합니다.",
     
 
-    "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1": "환기팬과 밸브를 CO2 농도가",
-    "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2": "이하이거나,",
-    "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3": "습도가 ",
-    "LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4": "이상이라면 작동시킵니다. ",
-    "LT_GROWPLANTS_AIRCIRCULATION_FANNVALVE": "환기팬 & 밸브",
-    "LT_GROWPLANTS_AIRCIRCULATION_FAN": "환기팬",
-    "LT_GROWPLANTS_AIRFLOW_FAN": "유동팬",
-    "LT_GROWPLANTS_AIRCIRCULATION_VALVE": "환기밸브",
+    "LT_GROWPLANTS_AIRVENTILATION_VENTILATION1": "환기팬과 밸브를 CO2 농도가",
+    "LT_GROWPLANTS_AIRVENTILATION_VENTILATION2": "이하이거나,",
+    "LT_GROWPLANTS_AIRVENTILATION_VENTILATION3": "습도가 ",
+    "LT_GROWPLANTS_AIRVENTILATION_VENTILATION4": "이상이라면 작동시킵니다. ",
+    "LT_GROWPLANTS_AIRVENTILATION_FANNVALVE": "환기팬 & 밸브",
+    "LT_GROWPLANTS_AIRVENTILATION_FAN": "환기팬",
+    "LT_GROWPLANTS_AIRCIRCULATION_FAN": "순환팬",
+    "LT_GROWPLANTS_AIRVENTILATION_VALVE": "환기밸브",
     "LT_GROWPLANTS_WINDOW_MOTOR": "보온천창",
     "LT_GROWPLANTS_WINDOW_LEFT": "왼쪽 창문",
     "LT_GROWPLANTS_WINDOW_RIGHT": "오른쪽 창문",
 
-    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V1": "작동시간동안 온도가 ",
-    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V2": "이하로 내려갈경우, 보온창문을 닫습니다.",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V1": "작동시간동안 일사량이 ",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_V2": "이상  올라갈 경우, 차광커튼을 닫습니다.",
     
     
+    "LT_GROWPLANTS_MINIHOUSE_RAINSENSOR_CHECK": "감우감지시 창문을 닫습니다.",
     "LT_GROWPLANTS_MINIHOUSE_WINDOW_V1": "작동시간동안 온도가 ",
     "LT_GROWPLANTS_MINIHOUSE_WINDOW_V2": "이상으로 올라갈경우, 창문을 엽니다.",
     
 
-
+    "LT_GROWPLANTS_MINIHOUSE_TOPWINDOW_HELP1": "천창을 통해 온도를 조절합니다.",
     "LT_GROWPLANTS_MINIHOUSE_SIDEWINDOW_HELP1": "측창을 통해 온도를 조절합니다.",
-    "LT_GROWPLANTS_MINIHOUSE_SCREEN_HELP1": "작동시간이 아닐경우 보온덥개는 열려있습니다.",
-    "LT_GROWPLANTS_AIRCIRCULATION_HELP1": "외부공기를 순환시켜 습도와 CO2 농도를 낮춥니다.",
+    "LT_GROWPLANTS_MINIHOUSE_SCREEN_HELP1": "작동시간이 아닐경우 차광커튼은 열려있습니다.",
+    "LT_GROWPLANTS_AIRVENTILATION_HELP1": "외부공기를 순환시켜 습도와 CO2 농도를 낮춥니다.",
+    "LT_GROWPLANTS_AIRCIRCULATION_HELP1": "온실 내부공기를 순환시켜 온도를 조절합니다",
+    "LT_GROWPLANTS_AIRCIRCULATION1": "주간시간({0})동안 순환팬을 가동시킵니다. 온실 내부 공기가 순환되면서 온도가 고르게 유지됩니다.",
+
+    
     
     "LT_GROWPLANTS_HUMIDITY": "가습기",
     "LT_GROWPLANTS_HUMIDITY_HEATER": "가습기히터",

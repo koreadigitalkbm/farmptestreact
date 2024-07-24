@@ -124,14 +124,14 @@ module.exports = class AutoControlUtil {
       
       ///환기 제어
       m1 = new AutoControlconfig();
-      m1.Lid = "LT_ANAME_AIR";
+      m1.Lid = "LT_ANAME_AIR_VENTILATION";
       m1.Name = "환기제어(CO2,습도)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
-      m1.Cat = KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_MINIHOUSE; //  자동제어 분류
+      m1.Cat = KDDefine.AUTOCategory.ACT_AIR_VENT_CO2_HUMIDITY_FOR_MINIHOUSE; //  자동제어 분류
       m1.Actlist.push("N01C11T00"); ///환기팬, 환기밸브  장비가 여려개이면 장비종류로 구별하자
-      m1.Actlist.push("N01C12T00"); /// 유동팬  장비가 여려개이면 장비종류로 구별하자
+      //m1.Actlist.push("N01C12T00"); /// 유동팬  장비가 여려개이면 장비종류로 구별하자
       m1.DOnTime = 3600;
       m1.DOffTime = 3600;
       m1.STime = 8 * 3600;
@@ -144,6 +144,29 @@ module.exports = class AutoControlUtil {
       m1.Cdir = KDDefine.SensorConditionType.SCT_UP;
       mcfglist.push(m1);
 
+
+          ///순환 제어
+          m1 = new AutoControlconfig();
+          m1.Lid = "LT_ANAME_AIR_CIRCULATION";
+          m1.Name = "공기순환제어(타이머)";
+          m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+          m1.Enb = false;
+          m1.AType = KDDefine.AUTOType.ACM_TIMER_ONLY_DAY;
+          m1.Cat = KDDefine.AUTOCategory.ACT_AIR_CIRU_TIMER_FOR_MINIHOUSE; //  자동제어 분류
+          m1.Actlist.push("N01C12T00"); /// 유동팬  장비가 여려개이면 장비종류로 구별하자
+          m1.DOnTime = 1800;
+          m1.DOffTime = 300;
+          m1.NOnTime = 0;
+          m1.NOffTime = 0;
+          m1.STime = 8 * 3600;
+          m1.ETime = 18 * 3600 ;
+          m1.DTValue = 0;
+          m1.BValue = 0;
+          m1.Cdir = KDDefine.SensorConditionType.SCT_DOWN;
+          m1.Params.push(100);
+          mcfglist.push(m1);
+
+          
 
       
       
@@ -174,7 +197,7 @@ module.exports = class AutoControlUtil {
       ///스크린 보온덥걔 제어
       m1 = new AutoControlconfig();
       m1.Lid = "LT_ANAME_SCREEN";
-      m1.Name = "보온창제어(온도)";
+      m1.Name = "차광커튼제어";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
@@ -184,17 +207,17 @@ module.exports = class AutoControlUtil {
       m1.DOffTime = 0;
       m1.STime = 18 * 3600;
       m1.ETime = 6 * 3600;
-      m1.Senlist.push("S01C00T01"); /// 온도
-      m1.DTValue = 25.0; // 온도값
-      m1.NTValue = 20.0; // 밤온도값
-      m1.BValue = 2.0;
+      m1.Senlist.push("S01C01T08"); /// 일사
+      m1.DTValue = 100.0; // 온도값
+      m1.NTValue = 0.0; // 밤온도값
+      m1.BValue = 10.0;
       m1.Cdir = KDDefine.SensorConditionType.SCT_UP;
       mcfglist.push(m1);
 
       ///측창 제어
       m1 = new AutoControlconfig();
-      m1.Lid = "LT_ANAME_SIDE_WINDOWS";
-      m1.Name = "측창제어(온도)";
+      m1.Lid = "LT_ANAME_TOP_WINDOWS";
+      m1.Name = "천창제어(온도)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
       m1.AType = KDDefine.AUTOType.ACM_SENSOR_ONLY_DAY;
@@ -210,6 +233,7 @@ module.exports = class AutoControlUtil {
       m1.NTValue = 20.0; // 밤온도값
       m1.BValue = 2.0;
       m1.Cdir = KDDefine.SensorConditionType.SCT_UP;
+      m1.Params.push(true);
       mcfglist.push(m1);
 
 
@@ -292,7 +316,7 @@ module.exports = class AutoControlUtil {
       
       ///환기 제어
       m1 = new AutoControlconfig();
-      m1.Lid = "LT_ANAME_AIR";
+      m1.Lid = "LT_ANAME_AIR_VENTILATION";
       m1.Name = "환기제어(CO2,습도)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
@@ -398,7 +422,7 @@ module.exports = class AutoControlUtil {
 
       ///환기 제어
       m1 = new AutoControlconfig();
-      m1.Lid = "LT_ANAME_AIR";
+      m1.Lid = "LT_ANAME_AIR_VENTILATION";
       m1.Name = "환기제어(CO2,습도)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
@@ -494,7 +518,7 @@ module.exports = class AutoControlUtil {
       
       ///환기 제어
       m1 = new AutoControlconfig();
-      m1.Lid = "LT_ANAME_AIR";
+      m1.Lid = "LT_ANAME_AIR_VENTILATION";
       m1.Name = "환기제어(CO2,습도)";
       m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
       m1.Enb = false;
@@ -620,7 +644,7 @@ module.exports = class AutoControlUtil {
      
      ///환기 제어 습도를 낮춤
      m1 = new AutoControlconfig();
-     m1.Lid = "LT_ANAME_AIR";
+     m1.Lid = "LT_ANAME_AIR_VENTILATION";
      m1.Name = "환기제어(CO2,습도)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
      m1.Enb = false;
@@ -824,7 +848,7 @@ module.exports = class AutoControlUtil {
      
      ///환기 제어 습도를 낮춤
      m1 = new AutoControlconfig();
-     m1.Lid = "LT_ANAME_AIR";
+     m1.Lid = "LT_ANAME_AIR_VENTILATION";
      m1.Name = "환기제어(CO2,습도)";
      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
      m1.Enb = false;

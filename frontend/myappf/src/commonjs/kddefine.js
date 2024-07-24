@@ -222,8 +222,9 @@ module.exports = class KDDefine {
 
     ACT_SCREEN_FOR_MINIHOUSE: 108, // 보온덥개
     ACT_WINDOW_FOR_MINIHOUSE: 109, // 측창제어
-    ACT_AIRCIRC_CO2_HUMIDITY_FOR_MINIHOUSE: 110, // 환기제어, co2, 습도센서 사용
+    ACT_AIR_VENT_CO2_HUMIDITY_FOR_MINIHOUSE: 110, // 환기제어, co2, 습도센서 사용
     ACT_HEATER_HUMIDITY_FOR_MINIHOUSE: 111, //습도 제어
+    ACT_AIR_CIRU_TIMER_FOR_MINIHOUSE: 112, //내부 순환팬 제어 타이머
 
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 
