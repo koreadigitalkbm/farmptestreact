@@ -64,6 +64,15 @@ async function devicemaintask(mainclass) {
 
       mainclass.systemlog.memlog("초기화 완료.. 자동제어목록갯수: " + mainclass.autocontrolinterface.mAutoControllist.length);
 
+
+      let mctime = mainclass.autocontrolinterface.getDatenowWithTimezone();
+
+      let tmin = mctime.getHours() * 60 + mctime.getMinutes() ;
+      mainclass.systemlog.memlog("현재시간 분: " + tmin);
+
+      await  mainclass.actuatorinterface.setRTCTime(tmin/2);
+
+
       while (true) {
        
         //1초단위로 처리하는 함수
@@ -112,7 +121,18 @@ async function devicemaintask(mainclass) {
 
             mainclass.dailydatas.updateSensor(curdatetime,simplesensors);
 
-          //  console.log("curdatetime : " +curdatetime);
+
+            //자정이면 컨트롤러와 라즈베리파이 시간을 동기화함.
+            let mctime = mainclass.autocontrolinterface.getDatenowWithTimezone();
+            if(mctime.getHours()==0  &&  mctime.getMinutes() ==0)
+              { 
+
+                await  mainclass.actuatorinterface.setRTCTime(0);
+                console.log("시간동기화  : " +mctime);
+              }
+
+
+            console.log("curdatetime : " +curdatetime  + " min : "+curminute);
           //  const newdatastr = mainclass.autocontrolinterface.getDatenowformatWithTimezone();
           //  const curdatetime =moment.utc().add(mainclass.localsysteminformations.Systemconfg.timezoneoffsetminutes, 'minutes').format("YYYY-MM-DD HH:mm:ss");
           //  console.log("newdatastr : " +newdatastr + " curdatetime : " + curdatetime +  " tz:" + moment.utc().format("YYYY-MM-DD HH:mm:ss"));

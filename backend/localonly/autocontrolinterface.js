@@ -32,6 +32,16 @@ module.exports = class AutoControlInterface {
 
   }
 
+  getDatenowWithTimezone()
+  {
+    const datestr = KDCommon.getCurrentDate(this.mTimezoneoffsetmsec,false);
+
+    
+    //const datestr = moment(datenow).format("YYYY-MM-DD HH:mm:ss");
+    return datestr;
+
+  }
+
   // 전체 자동제어목록을 확인하고 상태가 변경되면 구동기명령어를 리턴함. 
   getOpsByControls() {
     let opcmdlist = [];
@@ -75,6 +85,8 @@ module.exports = class AutoControlInterface {
   //자동제어 설정을 리셋하고 초기값으로 되돌린다.
   async AutocontrolReset() {
 
+    //언어파일도 삭제 최신으로 업데이트 
+    await KDCommon.Deletefile(KDCommon.defaultlangfile);
 
     //구동기 설정도 초기화 
     await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880a);

@@ -195,6 +195,16 @@ module.exports = class ActuatorInterface {
     return await promise;
   }
 
+  async setRTCTime(mmin) {
+    
+    
+      for (const anode of this.ActuatorNodes)
+      {
+        await anode.SetRTCTimeTotalminute(mmin);
+      }
+     
+  }
+
   async CaptureImagewithLED(islocal, cameratype)
   {
     await this.LEDonforcamera(islocal );

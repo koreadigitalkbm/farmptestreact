@@ -18,6 +18,7 @@ module.exports = class ActuatorNode {
     this.OnOffoperationregstartaddress = 601;
     this.OnOffstatusregstartaddress = 301;
     this.DefaultTimeoutmsec = 200;
+    this.RTC_SetTimeaddress = 6; //RTC 타임지정 레지스터 KPC880부터 
 
     this.SlaveID = slaveid;
     this.modbusMaster = mmaster;
@@ -190,6 +191,30 @@ module.exports = class ActuatorNode {
     }
     return null;
   }
+
+  async SetRTCTimeTotalminute(mminute) {
+    try {
+
+      let mnum= Math.floor(mminute);
+       console.log("-SetRTCTimeTotalminute-----" + "mminute :" +mnum);
+     
+
+      let regaddress = this.RTC_SetTimeaddress;
+      let regdatas = Array();
+
+      regdatas[0] =mnum;
+      
+      return  await this.writeRS485Registers(regaddress, regdatas);
+
+    } catch (e) {
+      console.log("-SetRTCTimeTotalminute error:" + e.toString());
+      return null;
+    }
+    return null;
+  }
+
+  
+
 
   async FixedLEDon(iskpc480)
   {
