@@ -16,6 +16,7 @@
     "LT_ANAME_WATER": "Water Supply(Timer)",
     "LT_ANAME_LED": "LED Control(3Color)",
     "LT_ANAME_LED_ONOFF": "LED Control(Timer)",
+    "LT_ANAME_AIR": "Air Ventilation",
     "LT_ANAME_AIR_CIRCULATION": "Air Circulation(Timer)",
     "LT_ANAME_AIR_VENTILATION": "Air Ventilation",
     "LT_ANAME_HUMIDITY": "Humidity Control",
