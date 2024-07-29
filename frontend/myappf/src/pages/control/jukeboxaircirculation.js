@@ -86,12 +86,12 @@ const JukeboxAircirculation = (props) => {
   return (
     <Stack spacing={0}>
       <Box sx={{ display: "flex", flexWrap: "wrap", m: 2 }}>
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION1")}</Typography>
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRVENTILATION_VENTILATION1")}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="ppm" keyname="NTValue" onChange={inputchangeHandler} />
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION2")}</Typography>
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION3")}</Typography>
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRVENTILATION_VENTILATION2")}</Typography>
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRVENTILATION_VENTILATION3")}</Typography>
         <AutoInputControl type="number" initvalue={copycfg.DTValue} unit="%" keyname="DTValue" onChange={inputchangeHandler} />
-        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_VENTILATION4")}</Typography>
+        <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_AIRVENTILATION_VENTILATION4")}</Typography>
       </Box>
       <Box sx={{ bgcolor: "#c5e1a5", boxShadow: 1, borderRadius: 2, p: 2 }}>
         <Stack direction="row" justifyContent="space-between">
