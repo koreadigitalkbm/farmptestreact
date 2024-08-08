@@ -38,19 +38,20 @@ const SensorCompact = require("./sensorcompact");
     
                 case KDDefine.KDSensorTypeEnum.SUT_SoraRadiation: this.ValueUnit = "W/m2"; this.Name = "일사"; this.SignificantDigit = 1; break;
     
-                case KDDefine.KDSensorTypeEnum.SUT_WINDSPEED: this.ValueUnit = "°"; this.Name = "풍향"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_WINDSPEED: this.ValueUnit = "m/s"; this.Name = "풍속"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_WINDVANE:  this.ValueUnit = "°"; this.Name = "풍향"; this.SignificantDigit = 1; break;
     
     
-                case KDDefine.KDSensorTypeEnum.SUT_WINDVANE: this.ValueUnit = "m/s"; this.Name = "풍속"; this.SignificantDigit = 1; break;
-                    case KDDefine.KDSensorTypeEnum.SUT_BAROMETER: this.ValueUnit = "hPa"; this.Name = "대기압"; this.SignificantDigit = 1; break;
+                
+                case KDDefine.KDSensorTypeEnum.SUT_BAROMETER: this.ValueUnit = "hPa"; this.Name = "대기압"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_PRESSURE: this.ValueUnit = "hPa"; this.Name = "압력"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_RAINGUAGE: this.ValueUnit = "mm"; this.Name = "강우량"; this.SignificantDigit = 1; break;
-               case KDDefine.KDSensorTypeEnum.SUT_RAINDETECTOR: this.ValueUnit = " "; this.Name = "강우감지"; this.SignificantDigit = 1; break;
-                   case KDDefine.KDSensorTypeEnum.SUT_UV: this.ValueUnit = ""; this.Name = "UV"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_RAINDETECTOR: this.ValueUnit = " "; this.Name = "강우감지"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_UV: this.ValueUnit = ""; this.Name = "UV"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_PE300_PH: this.ValueUnit = " "; this.Name = "pH"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_PE300_EC: this.ValueUnit = "dS/m"; this.Name = "EC"; this.SignificantDigit = 2; break;
                 case KDDefine.KDSensorTypeEnum.SUT_PE300_TEMP: this.ValueUnit = "℃"; this.Name = "PE300온도"; this.SignificantDigit = 1; break;
-                    case KDDefine.KDSensorTypeEnum.SUT_CO1: this.ValueUnit = "ppm"; this.Name = "일산화탄소"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_CO1: this.ValueUnit = "ppm"; this.Name = "일산화탄소"; this.SignificantDigit = 1; break;
                 
                 
                 case KDDefine.KDSensorTypeEnum.SUT_O2: this.ValueUnit = "%"; this.Name = "산소"; this.SignificantDigit = 2; break;
