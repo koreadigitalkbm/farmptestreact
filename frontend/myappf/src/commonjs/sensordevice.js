@@ -150,7 +150,15 @@ const SensorCompact = require("./sensorcompact");
     Setupdatevalue(newvalue)
     {
 
-        this.value =newvalue;
+        // 센서 값이 null 오는 경우가 있음. 그러면 그냥 0으로 
+        if(newvalue ==null)
+        {
+            this.value =0;
+        }
+        else{
+            this.value =newvalue;
+        }
+        
         this.errorcount=0;
         this.valuestring = this.value.toFixed(this.SignificantDigit);
     }
