@@ -56,7 +56,7 @@ const JukeboxNutrientSupply = (props) => {
     let actinfoa = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[0], myAppGlobal);
     let actinfob = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[1], myAppGlobal);
     let actinfoc = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[2], myAppGlobal);
-    let actinfopump = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[3], myAppGlobal);
+    //let actinfopump = KDUtil.GetActuatorinfofromid(myAppGlobal.systeminformations.Actuators, copycfg.Actlist[3], myAppGlobal);
     //const actitems = [actinfoa.Name, myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL2"), myAppGlobal.langT("LT_GROWPLANTS_NUTI_SOL3")];
     let actitems = [];
     if (actinfoa != null) {
@@ -68,9 +68,11 @@ const JukeboxNutrientSupply = (props) => {
     if (actinfoc != null) {
       actitems.push(actinfoc.Name);
     }
-    if (actinfopump != null) {
-      actitems.push(actinfopump.Name);
-    }
+    //if (actinfopump != null) {
+//      actitems.push(actinfopump.Name);
+  //  }
+
+    //console.log(actitems);
 
     return (
       <Stack spacing={1}>
@@ -112,7 +114,7 @@ const JukeboxNutrientSupply = (props) => {
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT("LT_GROWPLANTS_NUTI_TXT2")}</Typography>
 
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT3`)}</Typography>
-        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="mS" keyname="NTValue" onChange={inputchangeHandler} />
+        <AutoInputControl type="number" initvalue={copycfg.NTValue} unit="dS/m" keyname="NTValue" onChange={inputchangeHandler} />
         <Typography sx={{ m: 2 }}>{myAppGlobal.langT(`LT_GROWPLANTS_NUTI_TXT4`)}</Typography>
       </Box>
 

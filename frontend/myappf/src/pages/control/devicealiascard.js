@@ -53,10 +53,10 @@ const ActuatorAliasCard = (props) => {
 
     let itemlist = [];
 
-    console.log("---------------------------- AliasSetting sindex: " + sindex);
+   // console.log("---------------------------- AliasSetting sindex: " + sindex);
     function changeitem(mindex) {
       let aname = myAppGlobal.langT("LT_GROWPLANTS_ALIAS_NONE");
-      if (itemlist.length == 0) {
+      if (itemlist.length === 0) {
         return;
       }
       if (itemlist[mindex].Alias != null) {
@@ -84,7 +84,7 @@ const ActuatorAliasCard = (props) => {
     };
 
     useEffect(() => {
-      console.log("----------------------------AliasSetting  useEffect : ");
+     // console.log("----------------------------AliasSetting  useEffect : ");
 
       changeitem(0);
     }, []);

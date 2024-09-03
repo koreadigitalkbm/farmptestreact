@@ -109,7 +109,7 @@ module.exports = class KDDefine {
   static OutDeviceTypeEnum = Object.freeze({
     ODT_RELAY: 0, // 단순접점
     ODT_PUMP: 1, //
-    ODT_FAN: 2,
+    ODT_FAN: 2,  //내부 유동팬
     ODT_VALVE: 3,
     ODT_LED: 4,
     ODT_COOLER: 5,
@@ -136,7 +136,7 @@ module.exports = class KDDefine {
 
     ODT_WINDOW: 45, //측창 윈도우
     ODT_SCREEN: 46, // 보온 덥개 스크린
-    ODT_FLOWFAN: 47, //유동팬
+    ODT_FLOWFAN: 47, //외부환기팬
     
 
     ODT_ETC: 99,
@@ -284,11 +284,11 @@ module.exports = class KDDefine {
     NID_COOLER: 2, // 쿨러
     NID_PUMP: 3, // 펌프
     NID_FAN: 4, // 팬
-    NID_AIRFAN: 5, //환기팬
+    NID_AIRFAN: 5, //외부환기팬
     NID_VALVE: 6, // 밸브
     NID_AIRVALVE: 7, // 환기밸브
     NID_WATERPUMP: 8, // 관수펌프
-    NID_FLOWFAN: 9, // 유동팬
+    NID_FLOWFAN: 9, //내부 유동팬
     NID_SOLVALVE: 10, // 솔밸브
     NID_TEMP_CONTROLER: 11, //냉난방 온도 제어기
 

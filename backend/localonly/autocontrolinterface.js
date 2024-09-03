@@ -103,6 +103,10 @@ module.exports = class AutoControlInterface {
 
   await KDCommon.Deletefile(KDCommon.autocontrolconfigfilename);
 
+  //별칭도 삭제 
+  await KDCommon.Deletefile(KDCommon.systemaliasfilename);
+
+
     this.Autocontrolload();
 
   }
