@@ -4,10 +4,12 @@ const KDDefine = require("./kddefine");
 
 module.exports = class AutoControlUtil {
 
-  //PWM 방식으로 동작할때 주기 분으로 계산
+  //PWM 방식으로 동작할때 주기 분으로 계산  
   static Getintervaltimeminute(OnTime,OffTime )
   {
-    let minute= (OnTime/60.0 + OffTime/60.0);
+    //let minute= (OnTime/60.0 + OffTime/60.0);
+    //20240909 그냥 간단하게 변경 off 시간이 주기임.
+    let minute= Number(OffTime/60.0);
     return Math.ceil(minute);
   }
 

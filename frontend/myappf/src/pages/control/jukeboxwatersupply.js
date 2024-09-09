@@ -43,7 +43,7 @@ const JukeboxWatersupplyM1 = (props) => {
         setmanualontimesec(event.target.value);
         break;
       case "DOnTime":
-        offtimesec = dayintervaltime * 60 - event.target.value;
+        offtimesec = dayintervaltime * 60;// - event.target.value;
         if (offtimesec > 0) {
           copycfg.DOnTime = event.target.value;
           copycfg.DOffTime = offtimesec;
@@ -51,11 +51,11 @@ const JukeboxWatersupplyM1 = (props) => {
         break;
       case "DOffTime":
         dayintervaltime = event.target.value;
-        copycfg.DOffTime = event.target.value * 60 - copycfg.DOnTime;
+        copycfg.DOffTime = event.target.value * 60;// - copycfg.DOnTime;
         break;
 
       case "NOnTime":
-        offtimesec = nightintervaltime * 60 - event.target.value;
+        offtimesec = nightintervaltime * 60 ;//- event.target.value;
         if (offtimesec > 0) {
           copycfg.NOnTime = event.target.value;
           copycfg.NOffTime = offtimesec;
@@ -63,7 +63,7 @@ const JukeboxWatersupplyM1 = (props) => {
         break;
       case "NOffTime":
         nightintervaltime = event.target.value;
-        copycfg.NOffTime = event.target.value * 60 - copycfg.DOnTime;
+        copycfg.NOffTime = event.target.value * 60 ;//- copycfg.DOnTime;
         break;
 
       default:

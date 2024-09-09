@@ -126,15 +126,25 @@ export default function SetupPage(props) {
   }
 
   function applyhandler() {
+
+    let isupdate = false;
+    let newMyInfo = myAppGlobal.systeminformations.Systemconfg;
+
     if (i18n.language != newlangstrchange) {
+
+      //console.log("applyhandler new  language: " + newlangstrchange);
+
+
       i18n.changeLanguage(newlangstrchange);
       var nextyear = new Date();
       nextyear.setFullYear(nextyear.getFullYear() + 2);
       setCookie("languageT", newlangstrchange, { expires: nextyear });
+      newMyInfo.language=newlangstrchange;
+      isupdate= true;
     }
 
-    let isupdate = false;
-    let newMyInfo = myAppGlobal.systeminformations.Systemconfg;
+    
+    
     if (newDevicename != myAppGlobal.systeminformations.Systemconfg.name && newDevicename.length > 0) {
       newMyInfo.name = newDevicename;
       isupdate = true;
@@ -144,10 +154,17 @@ export default function SetupPage(props) {
     if(newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes)
     {
       newMyInfo.timezoneoffsetminutes=newTimezonechange;
+      //console.log("applyhandler new  timezoneoffsetminutes: " + newMyInfo.timezoneoffsetminutes);
+
+      isupdate=true;
       istimezoneupdate = true;
     }
 
-    if (isupdate == true || istimezoneupdate ==true) {
+    if (isupdate == true) {
+      //console.log("applyhandler new  timezoneoffsetminutes: " + newMyInfo.timezoneoffsetminutes);
+      //console.log("applyhandler new  name: " + newMyInfo.name);
+      //console.log("applyhandler new  language: " + newMyInfo.language);
+      
       savemyconfig(newMyInfo);
     }
   }
@@ -177,6 +194,7 @@ export default function SetupPage(props) {
       setlangstr(0);
     }
 
+    newTimezonechange = myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes;
     setTimezone(myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes);
 
     
@@ -235,7 +253,7 @@ export default function SetupPage(props) {
   }
 
   
-  function settimezone() {
+  function settimezoneui() {
     console.log("settimezone deviceversion : " + deviceversion);
 
     
@@ -456,7 +474,7 @@ export default function SetupPage(props) {
                 </Select>
               </FormControl>
             </Stack>
-            {settimezone()}
+            {settimezoneui()}
 
 
             
