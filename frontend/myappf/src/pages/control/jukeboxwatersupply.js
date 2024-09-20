@@ -1,7 +1,7 @@
 import React from "react";
 import AutoInputControl from "../uicomponent/autoinputcontrol";
 import AutoInputTimeRange from "../uicomponent/autotimerangeinput";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography ,Checkbox} from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -16,14 +16,17 @@ import AutoManualActuator from "../uicomponent/automanualactuator";
 import KDUtil from "../../commonjs/kdutil";
 
 const JukeboxWatersupplyM1 = (props) => {
+  const copycfg = props.initvalue;
+  const saveconfig = props.savecfg;
+
+  const [sensorchecked, setSensorchecked] = React.useState(copycfg.Params[0]);
   const [avchecked, setAVChecked] = React.useState(true);
   const [manualactname, setmanualactname] = React.useState("selitem0");
   const [manualontimesec, setmanualontimesec] = React.useState(600);
   const [savedisable, setBtnDisable] = React.useState(true);
   const commoninputhandler = props.inputallchangeHandler;
   const commonischangehandler = props.ischangehandler;
-  const copycfg = props.initvalue;
-  const saveconfig = props.savecfg;
+  
 
   let dayintervaltime = AutoControlUtil.Getintervaltimeminute(copycfg.DOnTime, copycfg.DOffTime);
   let nightintervaltime = AutoControlUtil.Getintervaltimeminute(copycfg.NOnTime, copycfg.NOffTime);
@@ -33,6 +36,11 @@ const JukeboxWatersupplyM1 = (props) => {
   const inputchangeHandler = (event) => {
     let offtimesec = 0;
     switch (event.target.name) {
+      case "watersensor":
+        copycfg.Params[0] =event.target.checked;
+        setSensorchecked(event.target.checked);
+        break;
+
       case "avencheck":
         setAVChecked(event.target.checked);
         break;
@@ -104,6 +112,10 @@ const JukeboxWatersupplyM1 = (props) => {
 
           <AutoInputTimeRange initvalue={copycfg} onChange={inputchangeHandler} />
         </Box>
+        <Box sx={{ display: "flex", flexWrap: "wrap", m: 0 }}>
+          <FormControlLabel   control={<Checkbox checked={sensorchecked}  name="watersensor"  onChange={inputchangeHandler} />} label={myAppGlobal.langT("LT_GROWPLANTS_WATER_DETECTORSENSOR_CHECK")}/>
+        </Box>
+
       </Stack>
     );
   };

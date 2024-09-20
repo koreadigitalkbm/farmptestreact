@@ -310,7 +310,7 @@
     "LT_GROWPLANTS_MINIHOUSE_SCREEN_V1": "작동시간동안 일사량이 ",
     "LT_GROWPLANTS_MINIHOUSE_SCREEN_V2": "이상  올라갈 경우, 차광커튼을 닫습니다.",
     
-    
+    "LT_GROWPLANTS_WATER_DETECTORSENSOR_CHECK": "수위감지센서 값에 따라 물 공급을 중지합니다.",
     "LT_GROWPLANTS_MINIHOUSE_RAINSENSOR_CHECK": "감우감지시 창문을 닫습니다.",
     "LT_GROWPLANTS_MINIHOUSE_WINDOW_V1": "작동시간동안 온도가 ",
     "LT_GROWPLANTS_MINIHOUSE_WINDOW_V2": "이상으로 올라갈경우, 창문을 엽니다.",

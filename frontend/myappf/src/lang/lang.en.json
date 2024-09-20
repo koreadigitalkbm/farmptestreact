@@ -263,6 +263,8 @@
     "LT_GROWPLANTS_WINDOW_RIGHT": "Right Window",
     "LT_GROWPLANTS_MINIHOUSE_SCREEN_V1": "during operating hours, if the solar radiation is greater than ",
     "LT_GROWPLANTS_MINIHOUSE_SCREEN_V2": " the shading curtain closes.",
+
+    "LT_GROWPLANTS_WATER_DETECTORSENSOR_CHECK": "Stops water supply based on water level sensor value.",
     "LT_GROWPLANTS_MINIHOUSE_RAINSENSOR_CHECK": "Close the window when rain is detected.",
     "LT_GROWPLANTS_MINIHOUSE_WINDOW_V1": "If the temperature rises above ",
     "LT_GROWPLANTS_MINIHOUSE_WINDOW_V2": "during operating hours, open the side windows.",

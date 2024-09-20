@@ -72,11 +72,42 @@ module.exports = class AutoControl {
     return false;
   }
   //타이머방식 채크 , 두가지 PWM 방식. 1회
-  getStateByTimercondition(daytotalsec) {
+  getStateByTimercondition(msensors, daytotalsec) {
     let offsectime;
     let onsectime;
 
-    //console.log("-getStateByTimercondition daytotalsec : " + daytotalsec  + " mConfig Name: "+this.mConfig.Name);
+    //console.log("-getStateByTimerconditon daytotalsec : " + daytotalsec  + " mConfig Name: "+this.mConfig.Name);
+
+     //물공급시 수위감지센서 사용할경우 
+     
+     if (this.mConfig.Cat === KDDefine.AUTOCategory.ATC_WATER) {
+      let watersensor = null;
+
+      for (const ms of msensors) {
+       
+        if(ms.Sensortype == KDDefine.KDSensorTypeEnum.SUT_FIRE_DETECTOR)
+        {
+          watersensor = ms;
+        }
+      }
+      if( this.mConfig.Params[0] == true && watersensor !=null)
+        {
+         // console.log("ATC_WATER rain:" + watersensor.value  );
+          if(watersensor.value  >=1)
+          {
+            //1이면 물이 있는경우임.
+            
+          }
+          else{
+
+            //물이 없으면 무조건 off
+            return KDDefine.AUTOStateType.AST_Off;
+          }
+        }
+
+    }
+
+
 
     if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY || AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
       //주간
@@ -1197,7 +1228,7 @@ module.exports = class AutoControl {
     if (this.isBasiccondition(timesecnow) == true) {
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY) {
         //타이머
-        currentstate = this.getStateByTimercondition(timesecnow);
+        currentstate = this.getStateByTimercondition(msensors,timesecnow);
       } else {
         //센서
         currentstate = this.getStateBySensorcondition(msensors, timesecnow);
