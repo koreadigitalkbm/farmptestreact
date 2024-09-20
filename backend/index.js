@@ -31,8 +31,9 @@
 //2.244 : 미니온실  자동제어 수정
 //2.245 : 언어파일 오류 수정
 //2.246 : 미니온실 자동제어 수정
+//2.247 : 수위레벨센서 적용
 
-const farmscubeplatformversion = 2.246;
+const farmscubeplatformversion = 2.247;
 
 const express = require("express");
 const cors = require("cors");
