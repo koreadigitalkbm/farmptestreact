@@ -11,12 +11,27 @@ import { useTranslation } from "react-i18next";
 import { useCookies } from "react-cookie";
 
 import KDUtil from "./commonjs/kdutil";
+import  './lang/i18n';
+
+import Dashboard from "./pages/mtest"
 
 function FarmApp(props) {
-  const { t, i18n } = useTranslation();
+
+
+  console.log("-------------------------FarmAPP init---------------------" );
+  
+
+
+  const { t, i18n }= useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
   const [loginrol, setloginrol] = useState(null);
   const [failmsg, setfailmsg] = useState("");
+
+
+
+
+  //test code
+   /// return Dashboard();
 
   function setlogout() {
 

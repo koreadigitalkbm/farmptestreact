@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux';
-import './lang/i18n';
 import './index.css';
 import FarmApp from './FarmApp';
 import manistore from "./mainStore";
 import { CookiesProvider } from 'react-cookie';
 
+
+console.log("-------------------------front start---------------------");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
