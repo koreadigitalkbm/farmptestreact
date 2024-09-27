@@ -3,8 +3,12 @@ import myAppGlobal from "../../myAppGlobal";
 import KDUtil from "../../commonjs/kdutil";
 import KDDefine from "../../commonjs/kddefine";
 
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+
+
 function outputdevbox(mydata, index) {
   let ismanual;
+  let isacton="";
 
   //  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
   if (myAppGlobal.systeminformations == null) {
@@ -30,6 +34,13 @@ function outputdevbox(mydata, index) {
     ismanual = <div className="out_result">{myAppGlobal.langT("LT_MAINPAGE_MAIN_ACTUATOR_AUTOMATIC")}</div>;
   }
 
+  if(mydata.Sat == 201 || mydata.Sat == 202)
+  {
+    isacton=<AutoModeIcon  sx={{ color: '#FF9860',animation: "spin 4s linear infinite","@keyframes spin": {"0%": {transform: "rotate(0deg)",},"100%": {transform: "rotate(360deg)",}, }, }}/>;
+  }
+  
+
+
   return (
     <div className="out_con" key={"outdevi" + index}>
       <div className="out_namebox">
@@ -37,7 +48,11 @@ function outputdevbox(mydata, index) {
         {actinfo.Name}
       </div>
       <div className="out_value">
+      
         <img src={onofficon} className="onoff" />
+        <div className="out_value_on_icon"  style={{ top: -8, left: 42 }} >
+        {isacton}
+        </div>
       </div>
       {ismanual}
     </div>

@@ -8,13 +8,10 @@ import manistore from "./mainStore";
 import { CookiesProvider } from 'react-cookie';
 
 
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store = {manistore}>
     <CookiesProvider> 
-
      <BrowserRouter>
     <FarmApp />
     </BrowserRouter>

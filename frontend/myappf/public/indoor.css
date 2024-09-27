@@ -151,8 +151,8 @@
 
 .sen_con {
     font-size: 12px;
-    margin: 4px 0 4px 8px;
-    padding : 4px;
+    margin: 4px 4px 4px 4px;
+    padding : 2px;
     text-align: center;
     border-radius: 8px;
     width : 140px;
@@ -244,10 +244,10 @@
 }
 
 .out_con {
-    padding : 4px;
+    padding : 2px;
     font-size: 12px;
     width : 140px;
-    height : 140px;
+    height : 128px;
     justify-content: space-around;
     display: inline-flex;
     flex-direction: column;
@@ -280,6 +280,11 @@
 
 }
 
+.out_value_on_icon {
+    position: absolute;
+    font-size: 32px; /* 아이콘 크기 */
+    pointer-events: none; /* 아이콘에 마우스가 가도 이벤트 발생하지 않도록 설정 */
+  }
 
 .out_value{
     font-size: 13px;
@@ -287,6 +292,8 @@
     width: 140px;
     height : 30px;
     margin : 10px 0 10px 0;
+    display: inline-block;
+    position: relative;
 
 }
 .out_result{

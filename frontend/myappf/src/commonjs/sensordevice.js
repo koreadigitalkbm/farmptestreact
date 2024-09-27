@@ -78,7 +78,7 @@ const SensorCompact = require("./sensorcompact");
                 case KDDefine.KDSensorTypeEnum.SUT_SOLARMJ: this.ValueUnit = "J/cm2"; this.Name = "누적일사량"; this.SignificantDigit = 3; break;
                 case KDDefine.KDSensorTypeEnum.SUT_DEWPOINT: this.ValueUnit = "℃"; this.Name = "이슬점"; this.SignificantDigit = 1; break;
 
-                case KDDefine.KDSensorTypeEnum.SUT_FIRE_DETECTOR: this.ValueUnit = "mm"; this.Name = "수위감지기"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_FIRE_DETECTOR: this.ValueUnit = "N"; this.Name = "수위감지기"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_HUMIDITY_DEFICIT: this.ValueUnit = "g/m3"; this.Name = "수분부족분"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_DIFF_PRESSURE: this.ValueUnit = "Pa"; this.Name = "차압"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_QUANTUM_MOL: this.ValueUnit = "umol"; this.Name = "광양자"; this.SignificantDigit = 1; break;
