@@ -97,7 +97,7 @@ const JukeboxAircirculation = (props) => {
         <Stack direction="row" justifyContent="space-between">
           <Box align="left">
             <Typography color={"#fb8c00"} mr={2} fontSize={15}>
-              {"※ " + myAppGlobal.langT("LT_GROWPLANTS_AIRCIRCULATION_HELP1")}
+              {"※ " + myAppGlobal.langT("LT_GROWPLANTS_AIRVENTILATION_HELP1")}
             </Typography>
           </Box>
           <FormControlLabel control={<Switch checked={avchecked} onChange={inputchangeHandler} name="avencheck" color="success" />} label={myAppGlobal.langT("LT_GROWPLANTS_ADVANCEDSETTING")} />
