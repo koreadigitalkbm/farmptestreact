@@ -54,7 +54,7 @@ export default function ShowVerticalImages(props) {
           sx={{
             maxHeight: 320,
             gridAutoFlow: "column",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr)) !important",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px,320px)) !important",
             gridAutoColumns: "minmax(320px, 1fr)",
           }}
         >
@@ -70,10 +70,10 @@ export default function ShowVerticalImages(props) {
       return (
         <ImageList
           sx={{
-            maxHeight: 640,
+            maxHeight:800,
             gridAutoFlow: "column",
-            gridTemplateColumns: "repeat(auto-fit, minmax(640px,1fr)) !important",
-            gridAutoColumns: "minmax(640px, 1fr)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(800px,800px)) !important",
+            gridAutoColumns: "minmax(800px, 1fr)",
           }}
         >
           {imageSet.map((item) => (

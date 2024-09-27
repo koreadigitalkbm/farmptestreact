@@ -8,7 +8,7 @@ import manistore from "./mainStore";
 import { CookiesProvider } from 'react-cookie';
 
 
-console.log("-------------------------front start---------------------");
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

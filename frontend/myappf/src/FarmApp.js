@@ -1,7 +1,5 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { actionSetlogin, actionSetSysteminfo } from "./mainAction";
 import IndoorFarmAPI from "./indoorfarmapi";
 
 import FMainpage from "./pages/mainpage2";
