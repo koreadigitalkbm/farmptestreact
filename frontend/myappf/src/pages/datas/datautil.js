@@ -33,7 +33,7 @@ module.exports = class ChartDataUtil {
       static getchartdatafromsensor(sdatas) {
         let sensorlistforchart = [];
     
-        console.log("------decodeDsensor sdatas.lenth 2: " + sdatas.length);
+      // console.log("-----decodeDsensor sdatas.lenth 222: " + sdatas.length);
     
         for (let i = 0; i < sdatas.length; i++) {
 
@@ -43,8 +43,26 @@ module.exports = class ChartDataUtil {
     
           msensor.data.push(xydata);
         }
+
+        //센서 순서를 정렬함. 센서 타입번호로 정렬 20240927
+
+        let sensorlistforchartsort = [];
+        for(let i=1;i<64;i++)
+          {
+        for(let j=0;j<sensorlistforchart.length;j++)
+          {
+            if(sensorlistforchart[j].stype == i)
+              {
+                sensorlistforchartsort.push(sensorlistforchart[j]);
+                break;
+              }
+            //console.log("-------------------------sensorlistforchart  ---------------------" +sensorlistforchart[j].stype);
+            
+          }
+        }
+
     
-        return sensorlistforchart;
+        return sensorlistforchartsort;
       }
 
 
