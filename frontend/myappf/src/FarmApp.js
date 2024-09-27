@@ -13,14 +13,9 @@ import { useCookies } from "react-cookie";
 import KDUtil from "./commonjs/kdutil";
 import  './lang/i18n';
 
-import Dashboard from "./pages/mtest"
+//import Dashboard from "./pages/mtest"
 
 function FarmApp(props) {
-
-
-  console.log("-------------------------FarmAPP init---------------------" );
-  
-
 
   const { t, i18n }= useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
