@@ -39,11 +39,33 @@ function SensorBox(msensorcompact, index) {
 const Sensordisplay = (props) => {
   const mysensors = props.sensors;
   //console.log("-------------------------Sensordisplay  ---------------------");
+
+
+
   if (mysensors == null) {
     return null;
   }
 
-  return <div className="sensor">{mysensors.map((item, index) => SensorBox(item, index))}</div>;
+  //센서 순서를 정렬함. 센서 타입번호로 정렬
+  let sortsensors=[];
+  for(let i=1;i<64;i++)
+  {
+    for(let j=0;j<mysensors.length;j++)
+    {
+      let Sensortype = Sensordevice.Getsensortype(mysensors[j].Uid);
+      //console.log("-------------------------Sensordisplay  ---------------------" +Sensortype);
+      if(Sensortype == i)
+      {
+        sortsensors.push(mysensors[j]);
+        break;
+      }
+    }
+    
+
+  }
+  
+
+  return <div className="sensor">{sortsensors.map((item, index) => SensorBox(item, index))}</div>;
 };
 
 export default Sensordisplay;
