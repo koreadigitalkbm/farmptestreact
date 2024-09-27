@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import myAppGlobal from "../../myAppGlobal";
 import Autocontroleditbox from "./autocontroleditbox";
 import AutoControlconfig from "../../commonjs/autocontrolconfig";
-import { Box, Button, Card, CardActions, CardHeader, Grid, IconButton, Stack, Switch, Typography } from "@mui/material";
+import { Box, Button, Card, FormHelperText, CardHeader,FormGroup , Grid, IconButton, Stack, Switch, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CircularProgress from "@mui/material/CircularProgress";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -12,6 +12,10 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import AlertDialog from "../uicomponent/basicalert";
 import SensorAliasCard from "./sensoraliascard";
 import ActuatorAliasCard from "./devicealiascard";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import LowPriorityIcon from '@mui/icons-material/LowPriority';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
@@ -154,19 +158,23 @@ const Autocontrolpage = (props) => {
     return (
       <CardFarmsCube>
         <Stack spacing={2} direction={{ xs: "column", sm: "row" }} justifyContent="space-between">
-          <Box align="left">
+        
+          <Box align="left" sx={{ minWidth: 360  }}>
             <Typography variant="h6" sx={{ m: 2 }}>
               {mydata.Name}
             </Typography>
           </Box>
 
           <Box align="right">
-            {issaving == true? <CircularProgress color="secondary" />:<FormControlLabel control={<Switch checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} /> }
+                    {issaving == true? <CircularProgress color="secondary" />:<FormGroup> <FormControlLabel control={<Switch  checked={autoenable} disabled={expanded} onChange={handleChange} name="autoenable" />} label={myAppGlobal.langT("LT_GROWPLANTS_AUTOCONTROLUSING")} /> <FormHelperText> {autoenable === true ? myAppGlobal.langT("LT_AUTOCONTROL_RUN_AUTO") : myAppGlobal.langT("LT_AUTOCONTROL_RUN_MANUAL")}</FormHelperText></FormGroup>}
+          </Box>
 
-            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-              <Typography>{autoenable === true ? myAppGlobal.langT("LT_GROWPLANTS_AUTO") : myAppGlobal.langT("LT_GROWPLANTS_MANUAL")} </Typography>
+          <Box align="right"  >
+            <ExpandMore  expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <Typography  sx={{color: "#257115" }} >{autoenable === true ? myAppGlobal.langT("LT_GROWPLANTS_AUTO") : myAppGlobal.langT("LT_GROWPLANTS_MANUAL")} </Typography>
               {expanded === false ? <ExpandMoreIcon color="success" fontSize="large" /> : <ExpandLessIcon color="success" fontSize="large" />}
             </ExpandMore>
+           
           </Box>
         </Stack>
 
@@ -174,13 +182,13 @@ const Autocontrolpage = (props) => {
       </CardFarmsCube>
     );
   };
-
+  
   return (
     <Box sx={{ maxWidth: "50rem" }}>
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Card sx={{ backgroundColor: "#f1f8e9" }}>
-            <CardHeader titleTypographyProps={{ variant: "h7" }} title={myAppGlobal.langT("LT_GROWPLANTS_TITLE")} />
+            <CardHeader  avatar={<FormatListBulletedIcon  sx={{ color: "#59a819" }}/>} titleTypographyProps={{ variant: "h7" ,color: "#197809" }} title={myAppGlobal.langT("LT_AUTOCONTROL_LIST")} />
             <Stack direction="column">
               {mAutolist.map((mconfig, index) => (
                 <Autocontrolcard key={"autobox" + index} myconfig={mconfig} hexp={expandedcfg} mindex={index} bexp={bexpendeds} />
@@ -196,8 +204,8 @@ const Autocontrolpage = (props) => {
       </Grid>
 
       <Grid item xs={12} md={12}>
-        <Card sx={{ backgroundColor: "#f1f8e9" }}>
-          <CardHeader titleTypographyProps={{ variant: "h7" }} title={myAppGlobal.langT("LT_GROWPLANTS_ETC_TITLE")} />
+        <Card sx={{ backgroundColor: "#e1f8d9" }}>
+          <CardHeader  avatar={<LowPriorityIcon  sx={{ color: "#59a819" }}/>}  titleTypographyProps={{ variant: "h7" }} title={myAppGlobal.langT("LT_GROWPLANTS_ETC_TITLE")} />
           <Stack direction="column">
             <SensorAliasCard savehandler={savealias} />
             <ActuatorAliasCard savehandler={savealias} />
