@@ -57,7 +57,7 @@ const Sensordisplay = (props) => {
       if(Sensortype == i)
       {
         sortsensors.push(mysensors[j]);
-        break;
+        //break;
       }
     }
     
