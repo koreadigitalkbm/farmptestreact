@@ -37,6 +37,8 @@ module.exports = class ChartDataUtil {
     
         for (let i = 0; i < sdatas.length; i++) {
 
+          console.log("-----decodeDsensor sdatas.lenth i: " +i+" c: " +sdatas[i].C);
+
           const msensor = ChartDataUtil.getsensorfromlist(sensorlistforchart, sdatas[i].P, sdatas[i].N, sdatas[i].C);
           let dTime = new Date(sdatas[i].T);
           const xydata = { x: dTime, y: sdatas[i].V };
