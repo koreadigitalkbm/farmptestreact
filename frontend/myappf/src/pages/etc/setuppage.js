@@ -235,7 +235,7 @@ export default function SetupPage(props) {
 
     setisupdate(true);
     isswupdateok=false;
-    setTimeout(swupdatecallback, 12000); 
+    setTimeout(swupdatecallback, 30000); 
     myAppGlobal.farmapi.setsoftwareupdate(true, serverversion).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
 
