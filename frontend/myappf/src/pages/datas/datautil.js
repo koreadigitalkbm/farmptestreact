@@ -54,7 +54,7 @@ module.exports = class ChartDataUtil {
             if(sensorlistforchart[j].stype == i)
               {
                 sensorlistforchartsort.push(sensorlistforchart[j]);
-                break;
+               
               }
             //console.log("-------------------------sensorlistforchart  ---------------------" +sensorlistforchart[j].stype);
             
