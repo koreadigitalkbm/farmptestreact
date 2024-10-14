@@ -53,7 +53,7 @@ const Sensordisplay = (props) => {
     for(let j=0;j<mysensors.length;j++)
     {
       let Sensortype = Sensordevice.Getsensortype(mysensors[j].Uid);
-      //console.log("-------------------------Sensordisplay  ---------------------" +Sensortype);
+      console.log("-------------------------Sensordisplay  ---------------------" +Sensortype);
       if(Sensortype == i)
       {
         sortsensors.push(mysensors[j]);
