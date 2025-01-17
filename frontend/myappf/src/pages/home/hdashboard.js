@@ -262,11 +262,20 @@ const HDashboard = (props) => {
   }
 
   useEffect(() => {
-    console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +readtimemsec);
+    console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +myAppGlobal.systeminformations.Systemconfg.productmodel);
     
     init_count=0;    
     readtimemsec = 1000;
-    setImgfileurl(myAppGlobal.dashboardimagefileurl);
+
+    if( myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-DISPLAY")
+    {
+      setImgfileurl("image/greenhouse2.jpg");
+    }
+    else{
+      setImgfileurl(myAppGlobal.dashboardimagefileurl);
+    }
+
+    
     
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;

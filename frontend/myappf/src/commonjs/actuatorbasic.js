@@ -6,11 +6,60 @@ module.exports = class ActuatorBasic {
     return Object.assign(new ActuatorBasic(0, 0, 0), mobj);
   }
 
+
+  /*
+  KPC880 컨트롤러 제어 채널 물리적번호
+
+  typedef enum
+{
+      	OC_AC_CH1=0, 
+        OC_AC_CH2=1,
+        OC_AC_CH3=2,
+        OC_AC_CH4=3,
+        OC_AC_CH5=4,
+        OC_AC_CH6=5,
+        OC_AC_CH7=6,
+        OC_AC_CH8=7,
+        
+        OC_DC_CH1=8, 
+        OC_DC_CH2=9,
+        OC_DC_CH3=10,
+        OC_DC_CH4=11,
+        OC_DC_CH5=12,
+        OC_DC_CH6=13,
+        OC_DC_CH7=14,
+        OC_DC_CH8=15,
+        
+        
+        OC_RELAY_CH1=16, //relay 1
+        OC_RELAY_CH2=17,
+        
+        OC_DIO_CH1=18,  //air circulator
+        OC_DIO_CH2=19,  // heatsnik  fan 
+        
+        OC_HDRV_CH1=20,  //  DC 정역 가능 
+        OC_HDRV_CH2=21,  //DC 정역 가능 
+        OC_HDRV_CH3=22,  //DC 정역 가능 
+        OC_HDRV_CH4=23,  //DC 정역 가능 
+        
+        
+        OC_PWM_CH1=24,  // on /off 주기를 설정해서 제어할수 있는 채널  (LED 디밍)
+        OC_PWM_CH2=25,  //
+        OC_PWM_CH3=26,  //
+        OC_PWM_CH4=27,  //
+        
+        OC_PID_CH1=28,  // PID 로 제어 되는 채널  ( 히터)
+        OC_PID_CH2=29,  //
+        OC_MAX_CHANNEL
+} OutChannel;
+
+  */
+
   
   constructor(mnameid, mchannel, mdtype, mnodeid = 1, mhwtype = KDDefine.HardwareTypeEnum.HT_RELAY) {
     this.Name = "Actuator"; //구동장비 이름 다국어지원해야함으로 이름은 프론트엔드에서 가져옴
     this.Nid = mnameid; //  이름 정의된 문자열 ID
-    this.Channel = mchannel; // 물리적 채널번호     가중중요함
+    this.Channel = mchannel; // 물리적 채널번호     가중중요함 각장비별 펌웨어참조 
     this.DevType = mdtype; // 실제 연결된 장비타입, 자동제어시 확인
 
     this.Nodeid = mnodeid; // 노드 주소 , 구동기구별을 위해
@@ -25,7 +74,42 @@ module.exports = class ActuatorBasic {
     let mcfglist = [];
     
     console.log("CreateDefaultConfig modelname:" + modelname );
-    if (modelname === KDDefine.PModel.KPC880D) {
+
+     if (modelname === KDDefine.PModel.KPC880E) {
+      //히터1
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 0, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
+ 
+      //쿨러
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
+ 
+      //내부유동팬
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 2, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+ 
+ 
+     //냉난방기
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 28, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PID));
+ 
+ 
+ 
+      
+ 
+ 
+      //환기팬
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 5, KDDefine.OutDeviceTypeEnum.ODT_FLOWFAN));
+
+      
+       //펌프 relay
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 6, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+ 
+      
+      //led 화이트
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 7, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE));
+ 
+ 
+ 
+     }
+
+    else if (modelname === KDDefine.PModel.KPC880D) {
 
 
       /*

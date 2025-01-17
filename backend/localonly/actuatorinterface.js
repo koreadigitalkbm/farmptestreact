@@ -31,7 +31,14 @@ module.exports = class ActuatorInterface {
     let actuatorconfigfilename = KDCommon.actuatorconfigfilename;
 
     ///모델별로 구별해서 구동기노드를  설정하자.
-    if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880D) {
+    if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880E) {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880e;
+
+    }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880D) {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
       //장비별로 따로

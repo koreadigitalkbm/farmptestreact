@@ -10,7 +10,7 @@ function outputdevbox(mydata, index) {
   let ismanual;
   let isacton="";
 
-  //  console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid);
+//    console.log("------------------------outputdevbox--------------------mydata : " + mydata.Uid  + " Sat : " + mydata.Sat + "  opm:"+ mydata.Opm );
   if (myAppGlobal.systeminformations == null) {
     return null;
   }
@@ -38,6 +38,8 @@ function outputdevbox(mydata, index) {
   {
     isacton=<AutoModeIcon  sx={{ color: '#FF9860',animation: "spin 4s linear infinite","@keyframes spin": {"0%": {transform: "rotate(0deg)",},"100%": {transform: "rotate(360deg)",}, }, }}/>;
   }
+  
+
   
 
 

@@ -73,7 +73,7 @@ module.exports = class KDDefine {
     KPC880B: "KPC880-MEDIUM", // 통합보드 교육용 중간크기
     KPC880C: "KPC880-LARGE", // 통합보드 연구용 큰거
     KPC880D: "KPC880-HOUSE", // 통합보드 미니온실
-    KPC880E: "KPC880-DISPLAY", // 통합보드 윈도우형  디스플레이용
+    KPC880E: "KPC880-DISPLAY", // 통합보드 윈도우형 2단재배기 디스플레이용
 
     
   });
