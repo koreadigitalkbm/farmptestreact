@@ -269,7 +269,7 @@ const HDashboard = (props) => {
 
     if( myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-DISPLAY")
     {
-      setImgfileurl("image/greenhouse2.jpg");
+      setImgfileurl("image/greenhousebk.png");
     }
     else{
       setImgfileurl(myAppGlobal.dashboardimagefileurl);
