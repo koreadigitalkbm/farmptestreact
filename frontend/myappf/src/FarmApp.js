@@ -13,13 +13,24 @@ import  './lang/i18n';
 
 //import Dashboard from "./pages/mtest"
 
+function HTMLPageJBU() {
+
+
+  return (
+    <iframe
+      src="http://localhost:8877/dataget/jbuchamber.html" // public/sample.html로 경로 지정
+      style={{ width: "100%", height: "100vh", border: "none" }}
+      title="Sample HTML Page"
+    ></iframe>
+  );
+}
+
 function FarmApp(props) {
 
   const { t, i18n }= useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
   const [loginrol, setloginrol] = useState(null);
   const [failmsg, setfailmsg] = useState("");
-
 
 
 
@@ -63,13 +74,21 @@ function FarmApp(props) {
     setloginrol(myAppGlobal.loginrole);
   }
 
-  console.log("-------------------------FarmAPP start--------------------- loginrol:" + loginrol);
+  console.log("-------------------------FarmAPP start--------------------- pathname:" + window.location.pathname);
 
   useEffect(() => {
     
     let islocal = window.sessionStorage.getItem("islocal");
 
     console.log("-------------------------FarmAPP --------------------- useEffect loginrol:" + loginrol + " islocal :"+islocal);
+
+    if( window.location.pathname === "/datagetjbuniv")
+      {
+        console.log("----------------------------새로고침 datagetjbuniv: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid);
+  
+        setloginrol("senddatajbu");
+        return ;
+      }
 
     //세션값이 없으면 맨처음 접속임
     if (islocal == null) {
@@ -125,6 +144,11 @@ function FarmApp(props) {
     }
   }, []);
 
+
+  
+ 
+
+
   function loginSMHandler(loginid, loginpw) {
     //둘다 널이면 로그아웃임
     if (loginid == null && loginpw == null) {
@@ -160,6 +184,16 @@ function FarmApp(props) {
     return (
       <div className="FarmApp">
         <MSignIn islocal={myAppGlobal.islocal} loginfailmsg={failmsg} mhandler={loginSMHandler} />
+      </div>
+    );
+  }
+
+  
+  if (loginrol === "senddatajbu") {
+    console.log("------------------senddatajbu----------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid);
+    return (
+      <div className="FarmApp">
+          <HTMLPageJBU />
       </div>
     );
   }
