@@ -226,6 +226,49 @@ module.exports = class DatabaseInterface {
     }
   }
 
+  
+  //  db 검색해서 결과 리턴
+  getDBdatasJBU(rsp, reqmsg, returncallback) {
+    if (this.dbconnectioncheck() == false) {
+      returncallback(rsp, "");
+      return;
+    }
+
+    try {
+      
+      const devid = "IF0001";
+      let sqlquery;
+      let sday = 0;
+      let eday = 1; 
+
+
+      sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + " ORDER BY id DESC  LIMIT 20";
+      
+
+      console.log("getDBdatas query start: \n" +sqlquery);
+
+
+      this.conn.query(sqlquery, function (error, result) {
+        //console.log(result);
+        if (error) {
+          console.log("getDBdatas error........ \n");
+          console.log(error);
+          diconnectcount++;
+          returncallback(rsp, "");
+        } else {
+          console.log("getDBdatas query end ok: \n" );
+          diconnectcount = 0;
+          returncallback(rsp, result);
+        }
+      });
+    } catch (err) {
+      console.log("getDBatas eror");
+      console.log(err);
+    }
+  }
+
+
+
   //  db 검색해서 결과 리턴
   getDBdatas(rsp, reqmsg, returncallback) {
     if (this.dbconnectioncheck() == false) {

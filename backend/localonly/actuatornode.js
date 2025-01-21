@@ -154,7 +154,7 @@ module.exports = class ActuatorNode {
           let mopid = rv1.data[i * 4 + 0];
           let mremain = ((rv1.data[i * 4 + 2] << 16) & 0xffff0000) | (rv1.data[i * 4 + 3] & 0xffff);
           this.actlist[i].updatestatus(msat, mopid, mremain);
-          console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
+          //console.log("ReadStatus ch: " +i+" state:"+ msat + " wopid : " + mopid);
         }
         //  console.log("-ActuatorNode ReadStatusAll------------------");
 

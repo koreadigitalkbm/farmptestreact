@@ -152,6 +152,20 @@ module.exports = class LocalAPI {
     }
   }
 
+  postapiforjbu(req, rsp) {
+    try {
+      
+      return this.mMain.localDBinterface.getDBdatasJBU(rsp, req, this.callbackreturn);
+
+      
+    } catch (error) {
+      console.log("---------------------------------postapiforjbu  locol error : " + error.toString());
+    }
+    
+  }
+
+
+
   postapi(req, rsp) {
     try {
       let reqmsg = JSON.parse(JSON.stringify(req.body));
