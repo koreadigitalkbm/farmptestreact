@@ -250,7 +250,7 @@ console.log("getDBdatas query sday: \n" +sday);
 
       //sqlquery = "SELECT  devid as D,dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid IN('IF0001' ,'IF0005' , devid ='FW0011')"+ "  AND dtime>='" + sday + "'" + " LIMIT 200";
       
-      sqlquery = "SELECT  devid as D,dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid IN('IF0001' ,'IF0005' , devid ='FW0011')"+"  AND dtime>='" + sday + "'" + " ORDER BY id DESC  LIMIT 200";
+      sqlquery = "SELECT  devid as D,dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid IN ('IF0001' ,'IF0005' ,'FW0011')"+"  AND dtime>='" + sday + "'" + " ORDER BY id DESC  LIMIT 200";
 
       console.log("getDBdatas query start: \n" +sqlquery);
 
