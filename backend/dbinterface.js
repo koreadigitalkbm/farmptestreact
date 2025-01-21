@@ -243,7 +243,7 @@ module.exports = class DatabaseInterface {
       const now = moment();
 
 // 10분 전 시간 계산
-const tenMinutesAgo = now.subtract(5, 'minutes');
+const tenMinutesAgo = now.subtract(2, 'minutes');
       let sday =tenMinutesAgo.format('YYYY-MM-DD HH:mm:ss');// tenMinutesAgo.replace("T00:00:00.000Z","");
 
 console.log("getDBdatas query sday: \n" +sday);
