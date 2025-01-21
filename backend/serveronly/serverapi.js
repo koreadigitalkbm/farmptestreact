@@ -61,7 +61,7 @@ module.exports = class ServerAPI {
     try {
       
       
-      return this.DBInterface.getDBdatasJBU(rsp, reqmsg, this.callbackreturn);
+      return this.DBInterface.getDBdatasJBU(rsp, req, this.callbackreturn);
 
      // console.log("---------------------------------postapiforDB END:");
     } catch (error) {
