@@ -12,6 +12,16 @@ import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
 //import AutocontrolTestpage from "./control/autotestp";
 
+function HTMLPageJBU() {
+  return (
+    <iframe
+      src="http://localhost:8877/dataget/jbuchamber.html" // public/sample.html로 경로 지정
+      style={{ width: "100%", height: "100vh", border: "none" }}
+      title="Sample HTML Page"
+    ></iframe>
+  );
+}
+
 const dropMenu = ["Setting"];
 
 export default function FMainpage(props) {
@@ -161,6 +171,8 @@ export default function FMainpage(props) {
         <Route path="/autocontrol" element={<Autocontrolpage />} />
         <Route path="/Data" element={<DataMainPage />} />
         <Route path="/Setting" element={props.loginrol === "factoryadmin" ? <FactorySetup {...props} /> : <SetupPage {...props} />} />
+        <Route path="/datagetjbuniv" element={<HTMLPageJBU />} />
+
       </Routes>
     );
   }

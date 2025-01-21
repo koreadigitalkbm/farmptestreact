@@ -236,7 +236,7 @@ module.exports = class DatabaseInterface {
 
     try {
       
-      const devid = "IF0001";
+      const devid = "FW0001";
       let sqlquery;
       let sday = 0;
       let eday = 1; 
