@@ -87,7 +87,7 @@ app.use("/api/firebasersp", function (req, res) {
 });
 
 //중부대학교 챔버 데이터 전송
-app.post("/dataget/jbuchamber", (req, res) => {
+app.get("/dataget/jbuchamber.html", (req, res) => {
   mMainclass.mAPI.postapiforjbu(req, res);
 
 });

@@ -131,3 +131,5 @@ common/local_files/*.*
 frontend/myappf/public/cameraimage/*.*
 frontend/myappf/public/cameraimage/IF0001/*.*
 *.jpg
+frontend/myappf/src/lang/lang.en.json
+frontend/myappf/src/lang/lang.ko.json
