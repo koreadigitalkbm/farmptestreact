@@ -238,12 +238,19 @@ module.exports = class DatabaseInterface {
       
       const devid = "IF0001";
       let sqlquery;
-      let sday = 0;
-      let eday = 1; 
-
-
-      sqlquery = "SELECT  dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid ='" + devid + "'" + " ORDER BY id DESC  LIMIT 20";
       
+      let eday = 1; 
+      const now = moment();
+
+// 10분 전 시간 계산
+const tenMinutesAgo = now.subtract(5, 'day');
+      let sday =tenMinutesAgo.format('YYYY-MM-DD HH:mm:ss');// tenMinutesAgo.replace("T00:00:00.000Z","");
+
+console.log("getDBdatas query sday: \n" +sday);
+
+      //sqlquery = "SELECT  devid as D,dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid IN('IF0001' ,'IF0005' , devid ='FW0011')"+ "  AND dtime>='" + sday + "'" + " LIMIT 200";
+      
+      sqlquery = "SELECT  devid as D,dtime as T,value as V,stype as P, nodenum as N, channel as C FROM sensordatas  WHERE devid IN('IF0001' ,'IF0005' , devid ='FW0011')"+"  AND dtime>= NOW() - INTERVAL 5 MINUTE " + " ORDER BY id DESC  LIMIT 200";
 
       console.log("getDBdatas query start: \n" +sqlquery);
 
@@ -286,6 +293,7 @@ module.exports = class DatabaseInterface {
 
       if (qparam.TableName == "sensor") {
 
+        
         const dateend = new Date(eday);
         const datestart = new Date(sday);
         const differenceday = (dateend.getTime() - datestart.getTime())/ (1000 * 3600 * 24);
