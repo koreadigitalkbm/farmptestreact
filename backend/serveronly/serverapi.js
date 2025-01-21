@@ -65,7 +65,7 @@ module.exports = class ServerAPI {
 
      // console.log("---------------------------------postapiforDB END:");
     } catch (error) {
-      console.log("---------------------------------postapiforjbu error : " + error.toString());
+      console.log("----------------------server---------postapiforjbu error : " + error.toString());
     }
 
   }

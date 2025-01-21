@@ -159,7 +159,7 @@ module.exports = class LocalAPI {
 
       
     } catch (error) {
-      console.log("---------------------------------postapiforjbu  locol error : " + error.toString());
+      console.log("----------------local-------------postapiforjbu  locol error : " + error.toString());
     }
     
   }
