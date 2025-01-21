@@ -86,15 +86,12 @@ app.use("/api/firebasersp", function (req, res) {
   mMainclass.mAPI.postapiforfirebase(req, res);
 });
 
-//중부대학교 챔버 데이터 전송
+//중부대학교 챔버 데이터 전송 //get은 안됨
 app.post("/dataget/jbuchamber.html", (req, res) => {
   mMainclass.mAPI.postapiforjbu(req, res);
 
 });
-app.get("/dataget/jbuchamber", (req, res) => {
-  res.status(200).json({ message: 'Hello, this is a GET response!' });
 
-});
 
 var server = app.listen(8877, function () {
   console.log("Node server is running ...");
