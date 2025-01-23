@@ -5,7 +5,7 @@ const moment = require("moment");
 const KDCommon = require("./kdcommon");
 const SystemEvent = require("./localonly/systemevent");
 
-const responseFarmscube = require("../frontend/myappf/src/commonjs/responseFarmscube");
+const responseFarmscube = require("./responseFarmscube");
 
 let ismydbconnected = false;
 let diconnectcount = 0;
@@ -260,7 +260,7 @@ module.exports = class DatabaseInterface {
         "'  ORDER BY id DESC  LIMIT 1 )";
 
       //sqlquery = " SELECT devid, dtime, value, stype, nodenum, channel, NULL AS filename  FROM (  SELECT *  FROM sensordatas  ORDER BY id DESC LIMIT 100) AS recent_data     WHERE devid = '" +reqdevid +"'     ORDER BY id DESC   LIMIT  20   ";
-      console.log("getDBdatas query start: \n" + sqlquery);
+      //console.log("getDBdatas query start: \n" + sqlquery);
 
       this.conn.query(sqlquery, function (error, result) {
         //console.log(result);
@@ -270,7 +270,7 @@ module.exports = class DatabaseInterface {
 
           return rsp.send(JSON.stringify(repmsgfarmcube));
         } else {
-          console.log("getDBdatas query end ok: \n");
+         // console.log("getDBdatas query end ok: \n");
           let sensorobj;
           let imageobj;
 
