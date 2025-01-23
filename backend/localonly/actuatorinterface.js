@@ -122,6 +122,8 @@ module.exports = class ActuatorInterface {
             actd.AStatus.Opm = actd.AOperation.Opmode;
           }
           //읽은 opid 가  마지막 명령어 opid 와 다르다면 명령어 처리가 안된상태거나  컨트롤러보드 리셋됨, 다시 명령어 전송
+          //console.log("-stateupdate uid: " + actd.UniqID + " , staus: " + actd.AStatus.Sat + ", opid :" + actd.AStatus.Opid + ", LastCompleteOPID: " + actd.LastCompleteOPID);
+
           if (actd.AOperation.Opid !== actd.AStatus.Opid && actd.AStatus.Opm !== KDDefine.OPMode.OPM_Local) {
             await curactnode.ControlNormal(actd.AOperation, actd.Basicinfo.Channel);
           } else {

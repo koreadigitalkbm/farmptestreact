@@ -119,6 +119,7 @@ module.exports = class KDDefine {
     ODT_TEMP_CONTOLLER: 9,
     ODT_HUMIDIFLER: 10,
     ODT_AG_PUMP: 11, //교반용 펌프
+    ODT_TEMP_CIRCULARFAN: 12, //냉난방기용 공기순환팬
 
     ODT_LED_WHITE: 30,
     ODT_LED_RED: 31,
@@ -291,6 +292,7 @@ module.exports = class KDDefine {
     NID_FLOWFAN: 9, //내부 유동팬
     NID_SOLVALVE: 10, // 솔밸브
     NID_TEMP_CONTROLER: 11, //냉난방 온도 제어기
+    NID_TEMP_CIRCULARFAN: 12, //냉난방용 순환팬
 
     NID_LED: 20, //LED
     NID_LEDWHITE: 21, // 흰색 LED

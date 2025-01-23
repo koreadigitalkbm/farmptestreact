@@ -4,9 +4,9 @@ const moment = require("moment");
 
 //백엔드에서 공통으로 사용되는 함수들
 module.exports = class KDCommon {
-  static defaultlangfile = "../common/local_files/defaultlang.json";
-  static langenglishfile = "../frontend/myappf/src/lang/lang.en.json";
-  static langkoreanfile =  "../frontend/myappf/src/lang/lang.ko.json";
+  //static defaultlangfile = "../common/local_files/defaultlang.json";
+  //static langenglishfile = "../frontend/myappf/src/lang/lang.en.json";
+  //static langkoreanfile =  "../frontend/myappf/src/lang/lang.ko.json";
 
   static systemconfigfilename = "../common/local_files/systemconfig.json";
   static systemaliasfilename = "../common/local_files/systemalias.json";

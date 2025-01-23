@@ -81,13 +81,20 @@ module.exports = class ActuatorBasic {
  
       //쿨러
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
+
+     //냉난방팬
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CIRCULARFAN, 2, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CIRCULARFAN));
+ 
  
       //내부유동팬
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 2, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 3, KDDefine.OutDeviceTypeEnum.ODT_FAN));
  
  
-     //냉난방기
-     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 28, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PID));
+
+ 
+      
+     //냉난방기 전기세 많이나와서 PID 제어 안함 그냥 단순제어로 20250123
+     //mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CONTROLER, 28, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CONTOLLER, 1, KDDefine.HardwareTypeEnum.HT_PID));
  
  
  

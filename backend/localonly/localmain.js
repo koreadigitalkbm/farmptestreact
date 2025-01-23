@@ -220,11 +220,11 @@ module.exports = class LocalMain {
     this.mAPI.firebasedbsetup();
 
 
-    this.checklangfile();
+    // 사용하지 않음 this.checklangfile();
     //3초후 메인시작
     setTimeout(devicemaintask, 3000, this);
   }
-
+/* 2025 01 언어파일 사용하지 않음 
   // 프로그램업데이트시에 언어파일이 0으로 되는 경우가 발생 에러나지 않도록 파일 0이거나 없거나 잘못됬을경우 디폴트 파일로 다시씀.
   checklangfile()
   {
@@ -277,7 +277,7 @@ module.exports = class LocalMain {
 
 
   }
-
+*/
   savesystemconfig(newconfig) {
     //저장하고 다시 읽어와 갱신
     console.log("---------------------------------savesystemconfig: " +newconfig);

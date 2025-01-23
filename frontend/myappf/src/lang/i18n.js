@@ -78,11 +78,10 @@ function loadlangresource()
         "LT_ACTDEVICE_7": "환기밸브",
         "LT_ACTDEVICE_8": "관수펌프",
         "LT_ACTDEVICE_9": "유동팬",
-        
-        
+               
         "LT_ACTDEVICE_10": "솔밸브",
         "LT_ACTDEVICE_11": "냉난방기",
-        "LT_ACTDEVICE_12": "솔밸브",
+        "LT_ACTDEVICE_12": "냉난방팬",
         "LT_ACTDEVICE_13": "솔밸브",
         "LT_ACTDEVICE_14": "솔밸브",
         "LT_ACTDEVICE_15": "솔밸브",
@@ -533,7 +532,7 @@ function loadlangresource()
         "LT_ACTDEVICE_9": "Flow Fan",
         "LT_ACTDEVICE_10": "SolValve",
         "LT_ACTDEVICE_11": "Air-Conditioner",
-        "LT_ACTDEVICE_12": "SolValve",
+        "LT_ACTDEVICE_12": "HVAC Fan",
         "LT_ACTDEVICE_13": "SolValve",
         "LT_ACTDEVICE_14": "SolValve",
         "LT_ACTDEVICE_15": "SolValve",

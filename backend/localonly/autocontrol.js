@@ -1072,6 +1072,7 @@ module.exports = class AutoControl {
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
         let heaterdev = null;
         let coollerdev = null;
+        let airfandev = null; //내부 유동팬이 있다면  냉난방기가 작동할때 같이 켬
 
         //console.log("-getOperationsBySpcify ACT_HEAT_COL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
 
@@ -1084,18 +1085,26 @@ module.exports = class AutoControl {
             if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_COOLER) {
               coollerdev = actd;
             }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_TEMP_CIRCULARFAN) {
+              airfandev = actd;
+            }
+
+            
           }
         }
 
         if (coollerdev != null && heaterdev != null) {
           let heaterstate = null;
           let coollerstate = null;
+          let airfanstate = false;
           if (currentstate == KDDefine.AUTOStateType.AST_On) {
             heaterstate = true;
             coollerstate = false;
+            airfanstate=true;
           } else if (currentstate == KDDefine.AUTOStateType.AST_Off) {
             heaterstate = false;
             coollerstate = true;
+            airfanstate=true;
           } else if (currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
             heaterstate = false;
             coollerstate = false;
@@ -1119,6 +1128,11 @@ module.exports = class AutoControl {
             let opcmdcooler = new ActuatorOperation(coollerdev.UniqID, coollerstate, this.OnSecTime);
             opcmdlist.push(opcmdheater);
             opcmdlist.push(opcmdcooler);
+            if(airfandev !=null)
+            {
+              let opcmdarifan = new ActuatorOperation(airfandev.UniqID, airfanstate, this.OnSecTime);
+              opcmdlist.push(opcmdarifan);
+            }
 
             //현재상태 갱신
             this.setUpdatestateWithEvent(currentstate);
