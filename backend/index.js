@@ -86,13 +86,13 @@ app.use("/api/firebasersp", function (req, res) {
   mMainclass.mAPI.postapiforfirebase(req, res);
 });
 
-
+/*
 //중부대학교 챔버 데이터 전송 //get은 안됨
 app.post("/dataforward/jbuchamber.post", (req, res) => {
   mMainclass.mAPI.postapiforjbu(req, res);
 
 });
-
+*/
 
 var server = app.listen(8877, function () {
   console.log("Node server is running ...");
