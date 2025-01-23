@@ -1,7 +1,7 @@
 
 
 // post 응답메시지 
- class responseFarmscube{
+module.exports =  class responseFarmscube{
     
     constructor()
     {
@@ -14,5 +14,4 @@
         this.imagepath="";
     }
 
-}
-module.exports = responseFarmscube;
+};
