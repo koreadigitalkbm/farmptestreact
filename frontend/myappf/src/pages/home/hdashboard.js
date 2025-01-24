@@ -1,9 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import { Box, Stack,Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
@@ -12,32 +11,25 @@ import DashboardChart from "./dashboardchart";
 import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
 
-
 //let lasteventtime = 1;
 //let lastsensortime = 1;
 //let imagefilename = "";
 
-let connecterrorcount=0;
-let loadtimeoutcount=0;
+let connecterrorcount = 0;
+let loadtimeoutcount = 0;
 
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
 
-
 let readtimemsec = 1000;
-let readcallbacktimeout=null;
-
-
-
+let readcallbacktimeout = null;
 
 let lastfileurl = "image/noimage.png";
 let isoffscreen = false;
 
-let init_count=0;
-
-
+let init_count = 0;
 
 //홈 메인 대시보드
 const HDashboard = (props) => {
@@ -49,29 +41,23 @@ const HDashboard = (props) => {
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(false);
 
+  console.log("-------------------------HDashboard  --------------------- : " + myAppGlobal.isdashboardpageinit);
 
-  console.log("-------------------------HDashboard  --------------------- : " +myAppGlobal.isdashboardpageinit );
-
-  if(myAppGlobal.isdashboardpageinit ===false)
-  {
+  if (myAppGlobal.isdashboardpageinit === false) {
     lastfileurl = "image/noimage.png";
     isoffscreen = false;
-    init_count=0;
-    
-     eventlist = [];
-      eventlistTime = [];
-      dailysensorlist = [];
+    init_count = 0;
 
+    eventlist = [];
+    eventlistTime = [];
+    dailysensorlist = [];
 
-      readtimemsec = 1000;
-      readcallbacktimeout=null;
+    readtimemsec = 1000;
+    readcallbacktimeout = null;
 
-
-
-
-    myAppGlobal.isdashboardpageinit=true;
+    myAppGlobal.isdashboardpageinit = true;
   }
-/*  
+  /*  
 
   function loadTimeouthandler()
   {
@@ -89,58 +75,45 @@ const HDashboard = (props) => {
   }
   */
 
-
   function loaddatas() {
-    
-    console.log("-------loaddata date: " + myAppGlobal.dashboardlastsensortime + " readtimemsec: " + readtimemsec + " init_count = " +init_count);
-      //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
-      if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
-        readtimemsec = 30000;
-      } else {
-        readtimemsec = 3000;
-      }
-  
-      init_count++;
-      if(init_count <100)
-      {
-        readtimemsec = 3000;
-      }
-
-
-
-    setDataloading(true);
-    loadtimeoutcount=0;
-    let isactf=true;
-    let stime = myAppGlobal.dashboardlastsensortime;
-
-    if(init_count<=2)
-    {
-      stime=0;
-      if(init_count<=1)
-      {
-        isactf=false;
-      }
-      
+    console.log("-------loaddata date: " + myAppGlobal.dashboardlastsensortime + " readtimemsec: " + readtimemsec + " init_count = " + init_count);
+    //aws 접속이면 5초에 한번만 읽자 머니 나가니까.
+    if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
+      readtimemsec = 30000;
+    } else {
+      readtimemsec = 3000;
     }
 
+    init_count++;
+    if (init_count < 100) {
+      readtimemsec = 3000;
+    }
 
+    setDataloading(true);
+    loadtimeoutcount = 0;
+    let isactf = true;
+    let stime = myAppGlobal.dashboardlastsensortime;
 
-    myAppGlobal.farmapi.getDeviceStatus(true, isactf, false, stime , myAppGlobal.dashboardlasteventtime).then((ret) => {
+    if (init_count <= 2) {
+      stime = 0;
+      if (init_count <= 1) {
+        isactf = false;
+      }
+    }
+
+    myAppGlobal.farmapi.getDeviceStatus(true, isactf, false, stime, myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
-      connecterrorcount=0;
+      connecterrorcount = 0;
       setDataloading(false);
       if (ret == null) {
       } else if (ret.IsOK == true) {
         let sensors = ret.Sensors;
         let actuators = ret.Outputs;
 
-        if( ret.retMessage!=null)
-        {
-          if(ret.retMessage ==="unotherslogin")
-          {
-            console.log("un other login:" + ret.retMessage );  
+        if (ret.retMessage != null) {
+          if (ret.retMessage === "unotherslogin") {
+            console.log("un other login:" + ret.retMessage);
             props.otherlogin("otherlogin");
-
           }
         }
         if (sensors != null) {
@@ -148,7 +121,6 @@ const HDashboard = (props) => {
           if (sensors.length > 0) {
             myAppGlobal.gsensorlist = [];
             myAppGlobal.gsensorlist.push(...sensors);
-            
 
             setSensors(myAppGlobal.gsensorlist);
           }
@@ -167,14 +139,11 @@ const HDashboard = (props) => {
           let sysevents = ret.retParam.DEvents;
           let dsensors = ret.retParam.DSensors;
 
-         
           if (ret.retParam.LastimageFilename != null) {
             //myAppGlobal.dashboardimagefileurl = ret.retParam.LastimageFilename;
             myAppGlobal.dashboardimagefileurl = "/cameraimage/" + myAppGlobal.logindeviceid + "/" + ret.retParam.LastimageFilename;
 
             if (mimgfileurl != myAppGlobal.dashboardimagefileurl) {
-              
-            
               //console.log("capture fileurl : " + lastfileurl);
               //console.log("capture fileurl mimgfileurl: " + mimgfileurl);
               setImgfileurl(myAppGlobal.dashboardimagefileurl);
@@ -189,7 +158,7 @@ const HDashboard = (props) => {
               console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(myAppGlobal.dashboardlasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
-                revlasttime = (KDUtil.getDatefromformatstring(sysevents[i].EDate)).getTime();
+                revlasttime = KDUtil.getDatefromformatstring(sysevents[i].EDate).getTime();
 
                 //     console.log("r i : " + i + " eventtime : " + revlasttime + " lasteventtime: " + myAppGlobal.dashboardlasteventtime);
                 if (revlasttime > myAppGlobal.dashboardlasteventtime) {
@@ -214,7 +183,7 @@ const HDashboard = (props) => {
                 for (let i = 0; i < eventlist.length; i++) {
                   let newobj = eventlist[eventlist.length - i - 1];
                   const etime = new Date(newobj.EDate);
-                 // console.log("createData :  etime : "+etime + "  etime local:"+ etime.toLocaleString());
+                  // console.log("createData :  etime : "+etime + "  etime local:"+ etime.toLocaleString());
 
                   eventlistTime.push(createData(etime.toLocaleString(myAppGlobal.language), newobj.EType, KDUtil.EventToString(newobj, myAppGlobal, true)));
                   //    eventlistTime.push(eventlist[eventlist.length - i - 1]);
@@ -234,7 +203,7 @@ const HDashboard = (props) => {
 
               for (let i = 0; i < dsensors.length; i++) {
                 //recivelasttime = dsensors[i].SDate;
-                recivelasttime = (KDUtil.getDatefromformatstring(dsensors[i].SDate)).getTime();
+                recivelasttime = KDUtil.getDatefromformatstring(dsensors[i].SDate).getTime();
 
                 if (recivelasttime > myAppGlobal.dashboardlastsensortime) {
                   dailysensorlist.push(dsensors[i]);
@@ -245,7 +214,6 @@ const HDashboard = (props) => {
                 myAppGlobal.dashboardlastsensortime = recivelasttime;
                 setDailysensor(dailysensorlist);
                 setLasttime(recivelasttime);
-                
 
                 console.log("update sensor : " + Date(myAppGlobal.dashboardlastsensortime) + " lenth : " + dailysensorlist.length);
                 // console.log(dailysensorlist);
@@ -262,21 +230,17 @@ const HDashboard = (props) => {
   }
 
   useEffect(() => {
-    console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" +myAppGlobal.systeminformations.Systemconfg.productmodel);
-    
-    init_count=0;    
+    console.log("-------------------------HDashboard  useEffect---------------------readtimemsec:" + myAppGlobal.systeminformations.Systemconfg.productmodel);
+
+    init_count = 0;
     readtimemsec = 1000;
 
-    if( myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-DISPLAY")
-    {
+    if (myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-DISPLAY") {
       setImgfileurl("image/greenhousebk.png");
-    }
-    else{
+    } else {
       setImgfileurl(myAppGlobal.dashboardimagefileurl);
     }
 
-    
-    
     clearTimeout(readcallbacktimeout);
     isoffscreen = false;
     readcallbacktimeout = setTimeout(loaddatas, readtimemsec);
@@ -290,8 +254,6 @@ const HDashboard = (props) => {
       //clearInterval(intervalfunch);
       clearTimeout(readcallbacktimeout);
     };
-
-    
   }, []);
 
   //이벤트가 변경될때만 렌더링되도록
@@ -303,34 +265,24 @@ const HDashboard = (props) => {
     return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
   }, [mdailysensorarray, msensorlasttime]);
   const ldate = new Date(msensorlasttime);
-  let lastime ="...";
+  let lastime = "...";
 
-  if(ldate.getFullYear() >2000)
-  {
-  lastime = myAppGlobal.langT("LT_MAINPAGE_MAIN_LATESTUPDATE")+":   " + ldate.toLocaleString(myAppGlobal.language);
+  if (ldate.getFullYear() > 2000) {
+    lastime = myAppGlobal.langT("LT_MAINPAGE_MAIN_LATESTUPDATE") + ":   " + ldate.toLocaleString(myAppGlobal.language);
   }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={0.2}>
-      
-      
-      
         <Grid item xs={12} md={12}>
-        <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1}>
+            <Typography component="div" size="1rem" color="#0d47a1" sx={{ width: 24, height: 24 }}>
+              {isdataloading === true ? <CircularProgress size="1rem" /> : <AccessTimeIcon />}
+            </Typography>
 
-          
-
-    
-          <Typography component="div" size="1rem"  color="#0d47a1"  sx={{width:24, height:24 }}>
-          {isdataloading === true ? <CircularProgress  size="1rem"  /> : <AccessTimeIcon  />}             
-          </Typography>
-
-          <Typography component="div" variant="body2" fontSize="32" color="#0d47a1"  style={{ verticalAlign: "middle" }}>
-          
-            {lastime}
-          </Typography>
-    
+            <Typography component="div" variant="body2" fontSize="32" color="#0d47a1" style={{ verticalAlign: "middle" }}>
+              {lastime}
+            </Typography>
           </Stack>
         </Grid>
 
@@ -338,7 +290,7 @@ const HDashboard = (props) => {
           {chartbox}
         </Grid>
         <Grid item xs={4}>
-          <Box component="img" src={mimgfileurl} sx={{ maxWidth: 400 }} />
+          <Box component="img" src={mimgfileurl}  sx={{ maxWidth: "100%", maxHeight: "100%",  objectFit: "contain" }} />
         </Grid>
         <Grid item xs={12} md={12}>
           <Sensordisplay sensors={msensorsarray} />

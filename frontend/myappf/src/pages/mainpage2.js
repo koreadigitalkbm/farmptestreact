@@ -10,7 +10,7 @@ import HDashboard from "./home/hdashboard";
 import Autocontrolpage from "./control/autocontrolpage";
 import myAppGlobal from "../myAppGlobal";
 import DataMainPage from "./datas/datamain";
-//import AutocontrolTestpage from "./control/autotestp";
+
 
 const dropMenu = ["Setting"];
 
@@ -23,8 +23,8 @@ export default function FMainpage(props) {
   
    const navigate = useNavigate();
 
-  //const open = Boolean(anchorEl);
-  console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
+  
+  //console.log("-------------------------FMainpage --------------------- loginrol:" + props.loginrol);
 
   function logoutbuttonHandler(e) {
     props.mhandler(null, null);
@@ -178,7 +178,7 @@ export default function FMainpage(props) {
     <Box >
       <CssBaseline />
       <AppBar component="nav">
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: "space-between" }}>
           <img src="/image/farmscube_logo_small48.png" alt="farmscube_logo"></img>
           <Typography variant="h7" component="div" sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}>
             {NameT}
