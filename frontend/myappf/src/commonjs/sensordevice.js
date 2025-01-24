@@ -84,6 +84,16 @@ const SensorCompact = require("./sensorcompact");
                 case KDDefine.KDSensorTypeEnum.SUT_QUANTUM_MOL: this.ValueUnit = "umol"; this.Name = "광양자"; this.SignificantDigit = 1; break;
                 case KDDefine.KDSensorTypeEnum.SUT_SALINITY: this.ValueUnit = "ppt"; this.Name = "염도"; this.SignificantDigit = 1; break;
 
+                case KDDefine.KDSensorTypeEnum.SUT_TENSIOMETER_KPA: this.ValueUnit = "kPa"; this.Name = "토양장력"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_SOIL_NITROGEN: this.ValueUnit = "mg/kg"; this.Name = "토양질소"; this.SignificantDigit = 0; break;
+                case KDDefine.KDSensorTypeEnum.SUT_SOIL_PHOSPHORUS: this.ValueUnit = "mg/kg"; this.Name = "토양인"; this.SignificantDigit = 0; break;
+                case KDDefine.KDSensorTypeEnum.SUT_SOIL_POTASSIUM: this.ValueUnit = "mg/kg"; this.Name = "토양칼륨"; this.SignificantDigit = 0; break;
+                case KDDefine.KDSensorTypeEnum.SUT_SOIL_PH: this.ValueUnit = "pH"; this.Name = "토양pH"; this.SignificantDigit = 1; break;
+                case KDDefine.KDSensorTypeEnum.SUT_WATER_DCO2: this.ValueUnit = "ppm"; this.Name = "용존CO2"; this.SignificantDigit = 0; break;
+                case KDDefine.KDSensorTypeEnum.SUT_WATER_NO2: this.ValueUnit = "ppm"; this.Name = "아질산염(NO2)"; this.SignificantDigit = 2; break;
+                case KDDefine.KDSensorTypeEnum.SUT_WATER_NO3: this.ValueUnit = "ppm"; this.Name = "질산염(NO3)"; this.SignificantDigit = 2; break;
+
+
 
                 default:
                     this.ValueUnit = " "; 

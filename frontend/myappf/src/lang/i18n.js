@@ -178,6 +178,19 @@ function loadlangresource()
         "LT_SNAME_44": "차압",
         "LT_SNAME_45": "광양자",
         "LT_SNAME_46": "염도",
+
+        "LT_SNAME_47": "토양장력",
+        "LT_SNAME_48": "토양질소",
+        "LT_SNAME_49": "토양인",
+        "LT_SNAME_50": "토양칼륨",
+        "LT_SNAME_51": "토양pH",
+        "LT_SNAME_52": "용존CO2",
+        "LT_SNAME_53": "아질산염(NO2)",
+        "LT_SNAME_54": "질산염(NO3)",
+        
+
+        
+
     
     
         
@@ -614,6 +627,19 @@ function loadlangresource()
         "LT_SNAME_44": "Differential Pressure",
         "LT_SNAME_45": "Quantum",
         "LT_SNAME_46": "Salinity",
+    
+        "LT_SNAME_47": "Tensiometer",
+        "LT_SNAME_48": "Nitrogen",
+        "LT_SNAME_49": "Phosphorus",
+        "LT_SNAME_50": "Potassium",
+        "LT_SNAME_51": "Soil pH",
+        "LT_SNAME_52": "DCO2",
+        "LT_SNAME_53": "Nitrite Ion(NO2)",
+        "LT_SNAME_54": "Nitrite Ion(NO3)",
+        
+
+
+
         "LT_LOADINGPAGE_INIT": "Loading to device information.",
         "LT_LOADINGPAGE_LOADAUTO": "Loading to automatic control information.",
         "LT_LOADINGPAGE_ERROR": "Can't connect to device.",

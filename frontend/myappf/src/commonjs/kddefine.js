@@ -61,6 +61,20 @@ module.exports = class KDDefine {
     SUT_QUANTUM_MOL: 45, //  광양자(Quantum) 0~2000 Mol 소수점 1자리
 
     SUT_SALINITY: 46, // 염도센서(Salinity) 0~50 ppt  소수점 1자리
+
+    SUT_TENSIOMETER_KPA:  47, //토양장력센서(tensiometer) kPa  -100~0   소수점 0자리
+	//20240122
+	SUT_SOIL_NITROGEN : 48, //토양 질소 mg/kg 소수점 0자리   Nitrogen
+	SUT_SOIL_PHOSPHORUS: 49, //토양 인 mg/kg 소수점 0자리 Phosphorus
+	SUT_SOIL_POTASSIUM : 50, //토양 칼륨 mg/kg 소수점 0자리 Potassium
+	SUT_SOIL_PH : 51, //토양 pH  0~15 소수점 1자리   Soil pH
+
+	//20250124
+	SUT_WATER_DCO2: 52, // 용존 co2   0~2000ppm 소수점 0자리  Dissolved CO2
+	SUT_WATER_NO2 : 53, //  아질산염 NO2   0~40000ppm 소수점 2자리  Nitrite Ion(NO2)
+	SUT_WATER_NO3 : 54, // 질산염 NO3   0~62000ppm 소수점 2자리  Nitrite Ion(NO3)
+
+
   });
 
   // 장비 모델명
