@@ -33,7 +33,8 @@
 //2.246 : 미니온실 자동제어 수정
 //2.247 : 수위레벨센서 적용
 //2.248 : 센서표시 정렬 오류 수정 
-const farmscubeplatformversion = 2.248;
+//2.251 : 식물재배기 창문형 추가 KPC880E 
+const farmscubeplatformversion = 2.251;
 
 const express = require("express");
 const cors = require("cors");
