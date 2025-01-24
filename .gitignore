@@ -133,3 +133,4 @@ frontend/myappf/public/cameraimage/IF0001/*.*
 *.jpg
 frontend/myappf/src/lang/lang.en.json
 frontend/myappf/src/lang/lang.ko.json
+/frontend/myappf/src/pages/testpages
