@@ -34,8 +34,9 @@
 //2.247 : 수위레벨센서 적용
 //2.248 : 센서표시 정렬 오류 수정 
 //2.251 : 식물재배기 창문형 추가 KPC880E 
+//2.252 : 앱이름 아이콘 변경
 
-const farmscubeplatformversion = 2.251;
+const farmscubeplatformversion = 2.252;
 
 const express = require("express");
 const cors = require("cors");
