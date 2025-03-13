@@ -72,6 +72,8 @@ module.exports = class AutoControlInterface {
     //구동기 설정도 초기화
     await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880a);
     await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880b);
+    await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880nb);
+    await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880tb);
     await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880c);
     await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880d);
     await KDCommon.Deletefile(KDCommon.actuatorconfigfilename_kpc880e);

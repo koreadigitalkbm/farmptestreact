@@ -18,6 +18,8 @@ class SensorInterface {
     ///모델별로 구별해서 센서노드를  설정하자.
     if(this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880A  
       || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880B 
+      || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880NB 
+      || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880TB 
       || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880C 
       || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880D
       || this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880E) 

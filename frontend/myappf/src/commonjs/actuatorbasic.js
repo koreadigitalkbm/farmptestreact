@@ -220,6 +220,98 @@ module.exports = class ActuatorBasic {
 
 
     }
+    else if (modelname === KDDefine.PModel.KPC880NB) {
+      //히터1
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 0, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
+ 
+      //쿨러
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
+ 
+      //유동팬
+      //mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRFAN, 2, KDDefine.OutDeviceTypeEnum.ODT_FLOWFAN));
+ 
+ 
+      //냉난방팬
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CIRCULARFAN, 2, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CIRCULARFAN));
+ 
+ 
+     //내부유동팬
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 7, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+
+
+
+ 
+       //펌프 relay
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_PUMP, 16, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+ 
+       //환기팬
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_FLOWFAN, 11, KDDefine.OutDeviceTypeEnum.ODT_FAN));
+ 
+ 
+       //환기밸브
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_AIRVALVE, 12, KDDefine.OutDeviceTypeEnum.ODT_VALVE));
+ 
+ 
+ 
+ 
+       //화이트
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+ 
+       //red
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+ 
+       //blue
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+ 
+ 
+       
+      //양액A  DC 6번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEA, 13, KDDefine.OutDeviceTypeEnum.ODT_SOL_A));
+
+      //양액B  DC 7번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEB, 14, KDDefine.OutDeviceTypeEnum.ODT_SOL_B));
+      //양액C  DC 8번
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_ECVALVEC_PH, 15, KDDefine.OutDeviceTypeEnum.ODT_SOL_C));
+
+      
+ 
+ 
+     }
+     else if (modelname === KDDefine.PModel.KPC880TB) {
+      //칠러
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CHILLER, 0, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CHILLER));
+
+       //펌프
+      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_WATERPUMP, 1, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+ 
+
+ 
+
+      //급수 솔밸브   DC 1번
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_VALVE_INLET_INTERNAL, 8, KDDefine.OutDeviceTypeEnum.ODT_VALVE_IN_INNER));
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_VALVE_INLET_EXTERNAL, 9, KDDefine.OutDeviceTypeEnum.ODT_VALVE_IN_EXTERN));
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_VALVE_OUTLET_INTERNAL, 10, KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_INNER));
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_VALVE_OUTLET_EXTERNAL, 11, KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_EXTERN));
+
+
+
+ 
+ 
+       //화이트
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDWHITE, 24, KDDefine.OutDeviceTypeEnum.ODT_LED_WHITE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+ 
+       //red
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDRED, 25, KDDefine.OutDeviceTypeEnum.ODT_LED_RED, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+ 
+       //blue
+       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_LEDBLUE, 26, KDDefine.OutDeviceTypeEnum.ODT_LED_BLUE, 1, KDDefine.HardwareTypeEnum.HT_PWM));
+ 
+ 
+       
+      
+ 
+ 
+     }
     else if (modelname === KDDefine.PModel.KPC880A) {
       //히터1
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 20, KDDefine.OutDeviceTypeEnum.ODT_HEATER));

@@ -88,11 +88,13 @@ module.exports = class KDDefine {
     KPC880C: "KPC880-LARGE", // 통합보드 연구용 큰거
     KPC880D: "KPC880-HOUSE", // 통합보드 미니온실
     KPC880E: "KPC880-DISPLAY", // 통합보드 윈도우형 2단재배기 디스플레이용
+    KPC880NB: "KPC880-MID-NUTRIENT", // 통합보드 교육용 중간크기, 양액기 추가, 온도 단순제어 
+    KPC880TB: "KPC880-MID-WATERTANK", // 통합보드 교육용 중간크기, 수조형 리무재배기
 
     
   });
 
-  static PModelList = [KDDefine.PModel.KPC200, KDDefine.PModel.KPC300, KDDefine.PModel.KPC480, KDDefine.PModel.VFC3300,KDDefine.PModel.KPC880A,KDDefine.PModel.KPC880B,KDDefine.PModel.KPC880C,KDDefine.PModel.KPC880D,KDDefine.PModel.KPC880E];
+  static PModelList = [KDDefine.PModel.KPC200, KDDefine.PModel.KPC300, KDDefine.PModel.KPC480, KDDefine.PModel.VFC3300,KDDefine.PModel.KPC880A,KDDefine.PModel.KPC880B,KDDefine.PModel.KPC880NB,KDDefine.PModel.KPC880TB,KDDefine.PModel.KPC880C,KDDefine.PModel.KPC880D,KDDefine.PModel.KPC880E];
 
   static ONOFFOperationTypeEnum = Object.freeze({
     OPT_On: 201, // 작동시작
@@ -134,6 +136,7 @@ module.exports = class KDDefine {
     ODT_HUMIDIFLER: 10,
     ODT_AG_PUMP: 11, //교반용 펌프
     ODT_TEMP_CIRCULARFAN: 12, //냉난방기용 공기순환팬
+    ODT_TEMP_CHILLER: 13, // 냉각수 칠러
 
     ODT_LED_WHITE: 30,
     ODT_LED_RED: 31,
@@ -153,6 +156,12 @@ module.exports = class KDDefine {
     ODT_SCREEN: 46, // 보온 덥개 스크린
     ODT_FLOWFAN: 47, //외부환기팬
     
+
+    ODT_VALVE_IN_INNER: 50, //물탱크 솔밸브 입력  내부 물통
+    ODT_VALVE_IN_EXTERN: 51, //물탱크 솔밸브 입력  외부 급수
+    ODT_VALVE_OUT_INNER: 52, //물탱크 솔밸브 출력  내부 물통
+    ODT_VALVE_OUT_EXTERN: 53, //물탱크 솔밸브 출력  외부 배수
+
 
     ODT_ETC: 99,
     ODT_DELETE: 9999, //장치삭제
@@ -241,6 +250,11 @@ module.exports = class KDDefine {
     ACT_HEATER_HUMIDITY_FOR_MINIHOUSE: 111, //습도 제어
     ACT_AIR_CIRU_TIMER_FOR_MINIHOUSE: 112, //내부 순환팬 제어 타이머
 
+    ACT_CHILLER_TEMP_CONTROL_FOR_WATERTANK: 120, // 냉각기 온도제어 KFC880TB
+    ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK: 121, // 물탱크 환수
+
+
+
     ACT_CAMERA_FJBOX: 199, // 사진촬영  자동제어로직을 사용하자
 
     ATC_USER: 999, // 사용자지정
@@ -262,6 +276,9 @@ module.exports = class KDDefine {
     
     AST_Off_finish: 10010, // 제어종료 장비를 off 하고 끝냄
     AST_Init: 10020, // 초기화상태 상태가변경되어야 제어명령어를 줄수 있으므로 초기상태값지정
+
+    AST_Drain_water: 10030, // 배수중
+    AST_Pupmping_water: 10031, // 급수중
 
     AST_AutoToMa: 20011, //자동제어에서 수동제어 변경
     AST_MaToAuto: 20022, //수동제어에서 자동제어 변경
@@ -307,6 +324,12 @@ module.exports = class KDDefine {
     NID_SOLVALVE: 10, // 솔밸브
     NID_TEMP_CONTROLER: 11, //냉난방 온도 제어기
     NID_TEMP_CIRCULARFAN: 12, //냉난방용 순환팬
+    NID_TEMP_CHILLER: 13, //냉각수 칠러
+    NID_VALVE_INLET_INTERNAL: 14, // 내부입력밸브
+    NID_VALVE_INLET_EXTERNAL: 15, // 외부입력밸브
+    NID_VALVE_OUTLET_INTERNAL: 16, // 내부입력밸브
+    NID_VALVE_OUTLET_EXTERNAL: 17, // 외부입력밸브
+
 
     NID_LED: 20, //LED
     NID_LEDWHITE: 21, // 흰색 LED

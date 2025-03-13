@@ -24,6 +24,8 @@ import JukeboxNutrientSupply from "./jukeboxnuient";
 import JukeboxPIDTemperature from "./jukeboxpidtemperature";
 import JukeboxPIDAirhumidity from "./jukeboxpidhumidity";
 
+import JukeboxChillerControl from "./jukeboxtchillercontrol";
+
 export default function Autocontroleditbox(props) {
   const orgcfg = props.myconfig;
   const copycfg = AutoControlconfig.deepcopy(orgcfg);
@@ -92,6 +94,10 @@ export default function Autocontroleditbox(props) {
         return <JukeboxCo2Supply keyname="co2supply" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
       case KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX:
         return <JukeboxNutrientSupply keyname="netrient" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
+    
+     case KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK:
+     case KDDefine.AUTOCategory.ACT_CHILLER_TEMP_CONTROL_FOR_WATERTANK:
+        return <JukeboxChillerControl keyname="chillercontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;
 
       default:
         return <JukeboxTemperatureM1 keyname="tempcontrol" initvalue={copycfg} inputallchangeHandler={inputallchangeHandler} savecfg={Msavecfg} ischangehandler={isconfigchage} />;

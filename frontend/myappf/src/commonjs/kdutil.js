@@ -23,6 +23,9 @@ module.exports = class KDUtil {
     for (const actd of actlist) {
       if (actd.UniqID === aunqid) {
         const nameid = "LT_ACTDEVICE_" + actd.Nid;
+
+        console.log("GetActuatorinfofromid :  nameid : "+nameid + "  actd.Nid:"+ actd.Nid);
+
         const statestr = myGlobal.langT(nameid);
         actd.Name = statestr;
         if(isalias === true)

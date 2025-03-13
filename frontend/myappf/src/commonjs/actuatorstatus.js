@@ -28,6 +28,13 @@ module.exports = class ActuatorStatus{
             let strid;
             switch(mSat)
             {
+                
+                case KDDefine.AUTOStateType.AST_Drain_water:
+                    strid="LT_ACT_STATE_DRAIN_WATER";
+                break;
+                case KDDefine.AUTOStateType.AST_Pupmping_water:
+                    strid="LT_ACT_STATE_PUMPING_WATER";
+                break;
 
                 case KDDefine.AUTOStateType.AST_Open:
                     strid="LT_ACT_STATE_OPEN";

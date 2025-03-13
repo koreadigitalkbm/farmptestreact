@@ -51,6 +51,7 @@ module.exports = class AutoControl {
     }
 
 
+    this.waterchagestatus = 0; //물교체 상태 0:대기 1:배수 2:배수종료 3: 급수  4: 급수종료  5: 완료 대기 -> 0: 배수 대기 
 
 
 
@@ -296,6 +297,221 @@ module.exports = class AutoControl {
     return pvalue;
 
   }
+
+
+
+
+
+
+  getStateByTimerSensorconditionforwatertank(msensors, daytotalsec) {
+    let currentstate = KDDefine.AUTOStateType.AST_IDLE;
+    
+ 
+ 
+
+    // 리무 챔버 물 공급 시 수위 감지 센서 사용할 경우
+    if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK) {
+        let watersensor = null;
+        let temperaturesensor = null;
+        let daytrycount = Number(this.mConfig.Params[0]); // 하루 배수/급수 횟수
+        let starttime = Number(this.mConfig.Params[1]); // 첫 시작 시간 (초 단위)
+        let drainTime = Number(this.mConfig.Params[2]); // 배수 지속 시간
+        let supplyTime = Number(this.mConfig.Params[3]); // 급수 지속 시간
+        let drainvalue = Number(this.mConfig.Params[4]); // 배수 수위
+        let supplyvalue = Number(this.mConfig.Params[5]); // 급수 수위
+        
+     //   let shouldDrain = false;
+    //    let shouldSupply = false;
+        let iswaterchange = false; // 물 교체 여부
+
+        // 수위 센서 찾기
+        for (const ms of msensors) {
+            if (ms.Sensortype === KDDefine.KDSensorTypeEnum.SUT_WATER_MM) {
+                watersensor = ms;
+            }
+            if (ms.Sensortype === KDDefine.KDSensorTypeEnum.SUT_Temperature) {
+              temperaturesensor = ms;
+          }
+        }
+
+        // 환수 회수가 0이면 환수 안함.
+        if( daytrycount > 0)
+        {
+
+          // 24시간을 daytrycount 횟수만큼 나누어 배수 → 급수 스케줄 생성
+          let interval = (24 * 60 * 60) / daytrycount; // 각 주기 간격 (초 단위)
+       
+          let isdrainsupplytime = false; // 배수 , 급수 시간인지 여부
+
+          for (let i = 0; i < daytrycount; i++) {
+              let cycleStart = starttime + i * interval;
+              let drainEndTime = cycleStart + drainTime; // 배수 종료 시간
+              let supplyStartTime = drainEndTime; // 급수 시작 시간
+              let supplyEndTime = supplyStartTime + supplyTime; // 급수 종료 시간
+
+
+              //급수 시간임
+              if (daytotalsec >= cycleStart && daytotalsec < supplyEndTime  ) 
+              {
+                isdrainsupplytime = true;
+
+                if(this.waterchagestatus == 0)
+                {
+                  if (daytotalsec >= cycleStart)
+                  {
+                  this.waterchagestatus = 1; //배수
+                  }
+                }
+                else if(this.waterchagestatus == 1)
+                {
+                  //배수중이고 제한시간이 오버 됬으면 배수 종료
+                  if(daytotalsec >  drainEndTime)
+                  {
+                    this.waterchagestatus = 2; //배수종료
+                  }
+                  else{
+                    //배수중이고 수위에 제한범위아래로 내려가면 정지
+                  if (watersensor !== null) {
+                    if (watersensor.value <= drainvalue)
+                    {
+                      this.waterchagestatus = 2;
+                    }
+                  }
+                }
+                  
+                }
+                else if(this.waterchagestatus == 2)
+                {
+                  //배수 종료후 급수 바로 시작
+                  
+                   this.waterchagestatus = 3; //급수
+                  
+                }
+                else if(this.waterchagestatus == 3)
+                {
+                  //급수중이고 제한시간이 오버 됬으면 급수 종료
+                  if(daytotalsec >  supplyEndTime)
+                  {
+                    this.waterchagestatus = 4; //급수종료
+                  }
+                  else{
+                    //급수중이고 수위에 제한범위 이상으로 올라가면 정지
+                    if (watersensor !== null) {
+                      if (watersensor.value >= supplyvalue)
+                      {
+                        this.waterchagestatus = 4;
+
+                      }
+                    }
+                  }
+                }
+                else if(this.waterchagestatus == 4)
+                {
+                  //급수종료후 대기
+                  this.waterchagestatus = 5; //완료 대기
+                }
+                
+
+
+                break;
+              }
+            }
+
+            //  급수가 완료됬고  급수시간범위가 아니면  다시 대기
+            if(this.waterchagestatus == 5 && isdrainsupplytime == false)
+              {
+                this.waterchagestatus = 0;
+              }
+
+
+
+            if (this.waterchagestatus == 1) {
+              currentstate = KDDefine.AUTOStateType.AST_Drain_water;
+              iswaterchange=true;
+
+            }
+            else if (this.waterchagestatus == 3 ) {
+              currentstate = KDDefine.AUTOStateType.AST_Pupmping_water;
+              iswaterchange=true;
+            }
+            else if (this.waterchagestatus == 2 || this.waterchagestatus == 4 ) {
+              currentstate = KDDefine.AUTOStateType.AST_Off;
+              iswaterchange=true;
+            }
+        
+        
+
+      }
+
+        //물 교체시간이 아니면 온도조절 구동
+        if(iswaterchange  == false)
+        {
+          
+
+          if (temperaturesensor !== null) {
+
+            let targetvalue ;
+            let upvalue;
+            let downvalue;
+
+            if (AutoControlUtil.IsIncludeTime(this.mConfig.STime, this.mConfig.ETime, daytotalsec) == true) {
+              targetvalue = Number(this.mConfig.DTValue);
+            } else {
+              targetvalue = Number(this.mConfig.NTValue);
+            }
+
+            upvalue = targetvalue + Number(this.mConfig.BValue);
+            downvalue = targetvalue - Number(this.mConfig.BValue);
+    
+            //온도가 낮아지면 닫기
+            if (temperaturesensor.value >= upvalue) {
+              currentstate = KDDefine.AUTOStateType.AST_On;
+            }
+    
+            if (temperaturesensor.value <= downvalue) {
+              currentstate = KDDefine.AUTOStateType.AST_Off;
+
+          }
+
+        }
+      }
+
+      if(currentstate === KDDefine.AUTOStateType.AST_Drain_water )
+      {
+        this.OnSecTime = drainTime;
+      }
+      else if(currentstate === KDDefine.AUTOStateType.AST_Pupmping_water )
+      {
+        this.OnSecTime = supplyTime;
+      }
+      else if(currentstate === KDDefine.AUTOStateType.AST_On )
+      {
+        this.OnSecTime = this.mConfig.DOnTime; 
+      }
+  
+
+
+
+
+
+        console.log("ACT_WATER_change " +
+            "supplyvalue:" + supplyvalue +
+            " drainvalue: " + drainvalue +
+            " drainTime: " + drainTime +
+            " supplyTime: " + supplyTime +
+            "waterchagestatus: " + this.waterchagestatus +
+            " currentstate: " + currentstate);
+    }
+
+    return currentstate;
+}
+
+
+
+
+
+
+
 
   getStateBySensorcondition(msensors, daytotalsec) {
     let currentstate = KDDefine.AUTOStateType.AST_IDLE;
@@ -692,6 +908,8 @@ module.exports = class AutoControl {
       case KDDefine.AUTOCategory.ACT_NUTRIENT_SOL3_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_AIRCIRC_CO2_HUMIDITY_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
+      case KDDefine.AUTOCategory.ACT_CHILLER_TEMP_CONTROL_FOR_WATERTANK:
+      case KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK:
       case KDDefine.AUTOCategory.ACT_LED_MULTI_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_PID_TEMP_CONTROL_FOR_FJBOX:
       case KDDefine.AUTOCategory.ACT_PID_HEATER_HUMIDITY_FOR_FJBOX:
@@ -1069,6 +1287,9 @@ module.exports = class AutoControl {
           }
           break;
 
+          
+
+
       case KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX:
         let heaterdev = null;
         let coollerdev = null;
@@ -1141,6 +1362,208 @@ module.exports = class AutoControl {
         }
         
         break;
+
+        case KDDefine.AUTOCategory.ACT_CHILLER_TEMP_CONTROL_FOR_WATERTANK:
+        let chiller = null;
+        let waterpump = null;
+        let valve_in_inner = null;
+        let valve_in_extern = null;
+        
+        let valve_out_inner = null;
+        let valve_out_extern = null;
+        
+        //console.log("-getOperationsBySpcify ACT_HEAT_COL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
+
+        for (const mactid of this.mConfig.Actlist) {
+          let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+          if (actd != null) {
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_TEMP_CHILLER) {
+              chiller = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_PUMP) {
+              waterpump = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_IN_INNER) {
+              valve_in_inner = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_IN_EXTERN) {
+              valve_in_extern = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_INNER) {
+              valve_out_inner = actd;
+            }
+            if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_EXTERN) {
+              valve_out_extern = actd;
+            }
+
+
+            
+          }
+        }
+
+        if (chiller != null && waterpump != null && valve_in_inner != null && valve_in_extern != null && valve_out_inner != null && valve_out_extern != null) {
+          
+          let coollerstate = null;
+          
+          if (currentstate == KDDefine.AUTOStateType.AST_On) {
+            coollerstate = true;
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off) {
+            coollerstate = false;
+          } else if (currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+            coollerstate = false;
+          } 
+
+
+          if (coollerstate != null) {
+            console.log("-getOperationsBySpcify  chiller:" + chiller.UniqID + ",currentstate : " + currentstate + " , OTime : " + this.OnSecTime);
+
+            
+            let opcmdcooler = new ActuatorOperation(chiller.UniqID, coollerstate, this.OnSecTime);
+            let opcmdpump = new ActuatorOperation(waterpump.UniqID, coollerstate, this.OnSecTime);
+
+            let opcmdvv1 = new ActuatorOperation(valve_in_inner.UniqID, coollerstate, this.OnSecTime);
+            let opcmdvv2 = new ActuatorOperation(valve_in_extern.UniqID, coollerstate, this.OnSecTime);
+            let opcmdvv3 = new ActuatorOperation(valve_out_inner.UniqID, coollerstate, this.OnSecTime);
+            let opcmdvv4 = new ActuatorOperation(valve_out_extern.UniqID, coollerstate, this.OnSecTime);
+
+            // 칠러가 켜지면 솔밸브 내부 순환방향으로 변경 
+            if(coollerstate == true)
+            {
+              opcmdvv2 = new ActuatorOperation(valve_in_extern.UniqID, false, this.OnSecTime);
+              opcmdvv4 = new ActuatorOperation(valve_out_extern.UniqID, false, this.OnSecTime);
+            }
+
+            
+            opcmdlist.push(opcmdcooler);
+            opcmdlist.push(opcmdpump);
+            opcmdlist.push(opcmdvv1);
+            opcmdlist.push(opcmdvv2);
+            opcmdlist.push(opcmdvv3);
+            opcmdlist.push(opcmdvv4);
+
+
+            //현재상태 갱신
+            this.setUpdatestateWithEvent(currentstate);
+            //this.mState.State = currentstate;
+          }
+        }
+        
+        break;
+
+        case KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK:
+          {
+          let chiller = null;
+          let waterpump = null;
+          let valve_in_inner = null;
+          let valve_in_extern = null;
+          
+          let valve_out_inner = null;
+          let valve_out_extern = null;
+          
+          //console.log("-getOperationsBySpcify ACT_HEAT_COL_FOR_FJBOX  currentstate: " + currentstate + " old State:" + this.mState.State);
+  
+          for (const mactid of this.mConfig.Actlist) {
+            let actd = AutoControlUtil.GetActuatorbyUid(mactlist, mactid);
+
+            if (actd != null) {
+            
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_TEMP_CHILLER) {
+                chiller = actd;
+              }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_PUMP) {
+                waterpump = actd;
+              }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_IN_INNER) {
+                valve_in_inner = actd;
+              }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_IN_EXTERN) {
+                valve_in_extern = actd;
+              }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_INNER) {
+                valve_out_inner = actd;
+              }
+              if (actd.Basicinfo.DevType == KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_EXTERN) {
+                valve_out_extern = actd;
+              }
+  
+  
+              
+            }
+          }
+  
+          if (chiller != null && waterpump != null && valve_in_inner != null && valve_in_extern != null && valve_out_inner != null && valve_out_extern != null) {
+            
+            let coollerstate = null;
+            
+            if (currentstate == KDDefine.AUTOStateType.AST_On ||  currentstate == KDDefine.AUTOStateType.AST_Drain_water || currentstate == KDDefine.AUTOStateType.AST_Pupmping_water) {
+              coollerstate = currentstate;
+            } else if (currentstate == KDDefine.AUTOStateType.AST_Off || currentstate == KDDefine.AUTOStateType.AST_Off_finish || currentstate == KDDefine.AUTOStateType.AST_ERROR) {
+              coollerstate = KDDefine.AUTOStateType.AST_Off;
+            } 
+  
+  
+            if (coollerstate != null) {
+              console.log("-getOperationsBySpcify  chiller:" + chiller.UniqID + ",currentstate : " + currentstate + " , OTime : " + this.OnSecTime);
+  
+  
+              //기본 모두 off
+              let opcmdcooler = new ActuatorOperation(chiller.UniqID, false, 0);
+              let opcmdpump = new ActuatorOperation(waterpump.UniqID, false, 0);
+              let opcmdvv1 = new ActuatorOperation(valve_in_inner.UniqID, false, 0);
+              let opcmdvv2 = new ActuatorOperation(valve_in_extern.UniqID, false, 0);
+              let opcmdvv3 = new ActuatorOperation(valve_out_inner.UniqID, false, 0);
+              let opcmdvv4 = new ActuatorOperation(valve_out_extern.UniqID, false, 0);
+  
+              
+              // 온도제어 칠러동작  켜지면 솔밸브 내부 순환방향으로 변경 
+              if(coollerstate == KDDefine.AUTOStateType.AST_On)
+              {
+                opcmdcooler = new ActuatorOperation(chiller.UniqID,true, this.OnSecTime);
+                opcmdpump = new ActuatorOperation(waterpump.UniqID, true, this.OnSecTime);
+                opcmdvv1 = new ActuatorOperation(valve_in_inner.UniqID, true, this.OnSecTime);
+                opcmdvv3 = new ActuatorOperation(valve_out_inner.UniqID, true, this.OnSecTime);
+
+             
+               
+
+              }
+              else if(coollerstate == KDDefine.AUTOStateType.AST_Drain_water)
+              {
+                //배수 
+                
+                opcmdpump = new ActuatorOperation(waterpump.UniqID, true, this.OnSecTime);
+                opcmdvv1 = new ActuatorOperation(valve_in_inner.UniqID, true, this.OnSecTime);
+                opcmdvv4 = new ActuatorOperation(valve_out_extern.UniqID, true, this.OnSecTime);
+              }
+              else if(coollerstate == KDDefine.AUTOStateType.AST_Pupmping_water)
+                {
+                  //급수
+                  
+                  opcmdpump = new ActuatorOperation(waterpump.UniqID, true, this.OnSecTime);
+                  opcmdvv2 = new ActuatorOperation(valve_in_extern.UniqID, true, this.OnSecTime);
+                  opcmdvv3 = new ActuatorOperation(valve_out_inner.UniqID, true, this.OnSecTime);
+                }
+
+
+        
+              
+              opcmdlist.push(opcmdcooler);
+              opcmdlist.push(opcmdpump);
+              opcmdlist.push(opcmdvv1);
+              opcmdlist.push(opcmdvv2);
+              opcmdlist.push(opcmdvv3);
+              opcmdlist.push(opcmdvv4);
+  
+  
+              //현재상태 갱신
+              this.setUpdatestateWithEvent(currentstate);
+              //this.mState.State = currentstate;
+            }
+          }
+        }
+          break;
+
+
     }
 
     return opcmdlist;
@@ -1240,6 +1663,18 @@ module.exports = class AutoControl {
     }
 
     if (this.isBasiccondition(timesecnow) == true) {
+
+      //물환수 제어일경우 타이머 센서 둘다사용 
+      if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK) {
+        
+        currentstate = this.getStateByTimerSensorconditionforwatertank(msensors,timesecnow);
+        
+      }
+      else{
+
+      
+
+
       if (this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT || this.mConfig.AType == KDDefine.AUTOType.ACM_TIMER_ONLY_DAY) {
         //타이머
         currentstate = this.getStateByTimercondition(msensors,timesecnow);
@@ -1247,6 +1682,8 @@ module.exports = class AutoControl {
         //센서
         currentstate = this.getStateBySensorcondition(msensors, timesecnow);
       }
+    }
+
     } else {
       //기본조건 안맞음 모두  off
       this.setdaycontroltimeover();

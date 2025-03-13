@@ -52,6 +52,21 @@ module.exports = class ActuatorInterface {
       actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880b;
 
     }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880NB) {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880nb;
+
+    }
+    else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880TB) {
+      const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
+      this.ActuatorNodes.push(myactnode_1);
+      //장비별로 따로
+      actuatorconfigfilename = KDCommon.actuatorconfigfilename_kpc880tb;
+
+    }
+    
     else if (this.mMain.localsysteminformations.Systemconfg.productmodel === KDDefine.PModel.KPC880A) {
       const myactnode_1 = new ActuatorNode(1, ActuatorNode.ACTNODEType.ANT_KPC880, this.modbusMaster);
       this.ActuatorNodes.push(myactnode_1);
@@ -174,6 +189,7 @@ module.exports = class ActuatorInterface {
       if (actd.UniqID === mloperation.Uid) {
         actd.AOperation.setoperation(mloperation.Opcmd, mloperation.Timesec, mloperation.Param, opmode);
       }
+     
     }
   }
 
@@ -265,7 +281,7 @@ module.exports = class ActuatorInterface {
 
     //사진촬영
   }
-
+/*
   // 수동제어
   setoperationmanual(manualoperation) {
     //카메라 촬영 별도로
@@ -275,6 +291,26 @@ module.exports = class ActuatorInterface {
       this.setACToperation(manualoperation, KDDefine.OPMode.OPM_Manual);
     }
   }
+*/
+  setoperationmanual(manualoperation) {
+    if (Array.isArray(manualoperation)) {
+        // 배열인 경우 각 요소를 반복 처리
+        manualoperation.forEach(operation => this.processOperationmanual(operation));
+    } else {
+        // 단일 객체인 경우 처리
+        this.processOperationmanual(manualoperation);
+    }
+}
+
+  // 개별 operation 처리 로직을 별도 함수로 분리
+processOperationmanual(operation) {
+  if (operation.Opcmd === KDDefine.ONOFFOperationTypeEnum.OPT_Camera_TakeSave) {
+      this.cameraoperation(operation);
+  } else {
+      this.setACToperation(operation, KDDefine.OPMode.OPM_Manual);
+  }
+}
+
   //자동제어
   setoperationAuto(autooperationlist) {
     for (const mopcmd of autooperationlist) {
