@@ -281,9 +281,7 @@ module.exports = class ActuatorBasic {
       //칠러
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CHILLER, 0, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CHILLER));
 
-       //펌프
-      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_WATERPUMP, 1, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
- 
+      
 
  
 
@@ -294,7 +292,9 @@ module.exports = class ActuatorBasic {
      mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_VALVE_OUTLET_EXTERNAL, 11, KDDefine.OutDeviceTypeEnum.ODT_VALVE_OUT_EXTERN));
 
 
-
+    //펌프 DC8번 
+    mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_WATERPUMP, 15, KDDefine.OutDeviceTypeEnum.ODT_PUMP));
+ 
  
  
        //화이트

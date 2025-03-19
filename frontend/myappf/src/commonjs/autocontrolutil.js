@@ -700,7 +700,7 @@ mcfglist.push(m1);
       m1.AType = KDDefine.AUTOType.ACM_TIMER_DAY_NIGHT;
       m1.Cat = KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK; //  자동제어 분류
       m1.Actlist.push("N01C00T00"); ///칠러장비
-      m1.Actlist.push("N01C01T00"); ///펌프
+      m1.Actlist.push("N01C15T00"); ///펌프
       m1.Actlist.push("N01C08T00"); ///솔밸브 장비
       m1.Actlist.push("N01C09T00"); ///솔밸브 장비
       m1.Actlist.push("N01C10T00"); ///솔밸브 장비
