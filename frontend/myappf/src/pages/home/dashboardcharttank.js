@@ -39,7 +39,7 @@ const optionChart = {
       position: "left",
       title: {
         display: true,
-        text: "온도 (℃)",
+        text: "수온 (℃)",
         color: "rgb(24, 112, 235)",
       },
     },
@@ -78,7 +78,7 @@ function decodeDsensor(sdatas) {
 
   let leftdatas = {
     type: "line",
-    label: "온도",
+    label: "수온",
     yAxisID: "y-left",
     pointStyle: "triangle",
     pointRadius: 4,
@@ -102,7 +102,7 @@ function decodeDsensor(sdatas) {
   let rightsensor;
   sdatas[0].SLIST.forEach((sitem) => {
     let sensor = new Sensordevice(sitem, myAppGlobal);
-    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Temperature) {
+    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_WTemperature) {
       if(leftsensor !=null)
       {
         //온도가 여러개이면 채널번호가 낮으것이 내부온도이다.
@@ -116,7 +116,7 @@ function decodeDsensor(sdatas) {
       }
     }
 
-    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_Humidity) {
+    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_SALINITY) {
       
       if(rightsensor !=null)
       {
@@ -191,13 +191,12 @@ function decodeDsensor(sdatas) {
 
 }
 
-const DashboardChart = (props) => {
+const DashboardChartTank = (props) => {
   console.log("------------------------DashboardChart--------------------");
 
   //다시 만들어야됨
   decodeDsensor(props.chartdatas);
 
-  //optionChart.scales["y-right"].title.text="hahahha";
 
   return (
     <Box sx={{ display: "flex" ,  height: 300}}>
@@ -209,4 +208,4 @@ const DashboardChart = (props) => {
   );
 };
 
-export default DashboardChart;
+export default DashboardChartTank;

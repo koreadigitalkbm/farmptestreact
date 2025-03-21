@@ -313,6 +313,8 @@ module.exports = class AutoControl {
     if (this.mConfig.Cat === KDDefine.AUTOCategory.ACT_PARTIAL_WATER_CHANGE_FOR_WATERTANK) {
         let watersensor = null;
         let temperaturesensor = null;
+        let tempwsensor = null;
+        let temppesensor = null;
         let daytrycount = Number(this.mConfig.Params[0]); // 하루 배수/급수 횟수
         let starttime = Number(this.mConfig.Params[1]); // 첫 시작 시간 (초 단위)
         let drainTime = Number(this.mConfig.Params[2]); // 배수 지속 시간
@@ -329,10 +331,24 @@ module.exports = class AutoControl {
             if (ms.Sensortype === KDDefine.KDSensorTypeEnum.SUT_WATER_MM) {
                 watersensor = ms;
             }
-            if (ms.Sensortype === KDDefine.KDSensorTypeEnum.SUT_Temperature) {
-              temperaturesensor = ms;
+            if (ms.Sensortype === KDDefine.KDSensorTypeEnum.SUT_WTemperature) {
+              tempwsensor = ms;
           }
+          if (ms.Sensortype === KDDefine.KDSensorTypeEnum.SUT_PE300_TEMP) {
+            temppesensor = ms;
         }
+        }
+
+        // 수온 센서가 있으면 수온 센서로 대체 (수온 센서가 우선) 다음 양액온도센서 
+        if(tempwsensor != null)
+        {
+          temperaturesensor = tempwsensor;
+        }
+        else if(temppesensor != null)
+        {
+          temperaturesensor = temppesensor;
+        }
+
 
         // 환수 회수가 0이면 환수 안함.
         if( daytrycount > 0)

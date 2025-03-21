@@ -8,6 +8,7 @@ import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
 import ActuatorDisplay from "./actuatordisplay";
 import DashboardChart from "./dashboardchart";
+import DashboardChartTank from "./dashboardcharttank";
 import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
 
@@ -235,7 +236,8 @@ const HDashboard = (props) => {
     init_count = 0;
     readtimemsec = 1000;
 
-    if (myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-DISPLAY") {
+    //카메라 없는 모델경우 기본 이미지로 대체
+    if (myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-DISPLAY" || myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-HOUSE") {
       setImgfileurl("image/greenhousebk.png");
     } else {
       setImgfileurl(myAppGlobal.dashboardimagefileurl);
@@ -262,7 +264,15 @@ const HDashboard = (props) => {
   }, [mevnetarray]);
 
   const chartbox = useMemo(() => {
-    return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
+    if (myAppGlobal.systeminformations.Systemconfg.productmodel === "KPC880-MID-WATERTANK")
+    {
+      return <DashboardChartTank chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
+    }
+    else
+    {
+      return <DashboardChart chartdatas={mdailysensorarray} lasttime={msensorlasttime} />;
+    }
+    
   }, [mdailysensorarray, msensorlasttime]);
   const ldate = new Date(msensorlasttime);
   let lastime = "...";
