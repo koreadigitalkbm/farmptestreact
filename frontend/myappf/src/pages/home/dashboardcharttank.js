@@ -102,7 +102,7 @@ function decodeDsensor(sdatas) {
   let rightsensor;
   sdatas[0].SLIST.forEach((sitem) => {
     let sensor = new Sensordevice(sitem, myAppGlobal);
-    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_WTemperature) {
+    if (sensor.Sensortype === KDDefine.KDSensorTypeEnum.SUT_WTemperature || sensor.Sensortype === KDDefine.KDSensorTypeEnum.SUT_PE300_TEMP) {
       if(leftsensor !=null)
       {
         //온도가 여러개이면 채널번호가 낮으것이 내부온도이다.
@@ -116,13 +116,14 @@ function decodeDsensor(sdatas) {
       }
     }
 
-    if (sensor.Sensortype == KDDefine.KDSensorTypeEnum.SUT_SALINITY) {
+    if (sensor.Sensortype === KDDefine.KDSensorTypeEnum.SUT_DO_MG || sensor.Sensortype === KDDefine.KDSensorTypeEnum.SUT_SALINITY ) {
       
       if(rightsensor !=null)
       {
          if( rightsensor.channel > sensor.channel)
          {
           rightsensor = sensor;
+          
          }
       }
       else{
@@ -131,6 +132,19 @@ function decodeDsensor(sdatas) {
 
     }
   });
+
+  if(rightsensor !=null)
+  {
+    if(rightsensor.Sensortype === KDDefine.KDSensorTypeEnum.SUT_DO_MG)
+      {
+        rightdatas.label = "DO (mg/L)";
+      }
+      if(rightsensor.Sensortype === KDDefine.KDSensorTypeEnum.SUT_SALINITY)
+      {
+        rightdatas.label = "Salinity (ppt)";
+      }     
+  }
+  
 
   //console.log("------decodeDsensor leftsensor : " + leftsensor.Name + " Unit:" + leftsensor.ValueUnit );
 
