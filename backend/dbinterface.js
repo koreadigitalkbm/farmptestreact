@@ -406,7 +406,7 @@ module.exports = class DatabaseInterface {
   getusersinfo(callbackresult) {
     try {
       let sqlquery;
-      sqlquery = "SELECT distinct userid,userpw,usertype,deviceid FROM  users ";
+      sqlquery = "SELECT distinct userid,userpw,usertype,info,deviceid FROM  users ";
 
       this.conn.query(sqlquery, function (error, result) {
         console.log("getusersinfo........ \n");
