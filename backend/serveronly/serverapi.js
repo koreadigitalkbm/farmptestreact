@@ -196,10 +196,17 @@ module.exports = class ServerAPI {
       } else {
         const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
         //const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
+        let mapid = reqmsg.uqid;
+        if (reqmsg.reqType != null) {
+          mapid = reqmsg.uqid + reqmsg.reqType;
+        } 
 
-        this.messagequeuemap.set(reqmsg.uqid, rsp);
-        let idtype = reqmsg.uqid + reqmsg.reqType;
-        this.messagequeuemap.set(idtype, rsp);
+        this.messagequeuemap.set(mapid, rsp);
+
+        
+        //this.messagequeuemap.set(reqmsg.uqid, rsp);
+        //let idtype = reqmsg.uqid + reqmsg.reqType;
+//        this.messagequeuemap.set(idtype, rsp);
 
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
