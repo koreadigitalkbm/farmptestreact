@@ -498,6 +498,15 @@ const SetupPage = () => {
     );
   };
 
+
+   if (myAppGlobal.isuseradmin === false) {
+    return(<Stack spacing={0} direction="row" justifyContent="space-between">
+            <Typography variant="body1" sx={{ pr: 2 }}>
+      {myAppGlobal.langT("LT_SYSTEMSETUP")}
+      </Typography>
+    </Stack>);
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ maxWidth: 800 }}>
