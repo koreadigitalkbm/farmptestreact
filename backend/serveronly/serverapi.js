@@ -320,6 +320,8 @@ module.exports = class ServerAPI {
               break;
             }
               // info 필드에서 viewerpassword 체크
+              console.log("info :" + this.userinfos[i].info );
+              
             if (this.userinfos[i].info) {
               try {
                 const infoJson = JSON.parse(this.userinfos[i].info);
