@@ -345,6 +345,9 @@ module.exports = class ServerAPI {
 
 
         if (reqmsg_last != null    ) {
+
+          console.log(reqmsg);
+          console.log(reqmsg_last);
           const timeDiff = Math.abs(reqmsg.Time - reqmsg_last.Time);
           console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqmsg.Time + ", reqmsg_last.Time:" + reqmsg_last.Time);
 
