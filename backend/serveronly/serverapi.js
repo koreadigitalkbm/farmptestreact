@@ -15,6 +15,7 @@ module.exports = class ServerAPI {
     this.fbdatabase = null;
     this.sessionmap = new Map();
     this.messagequeuemap = new Map();
+    this.messagequeuemapviewer = new Map();
 
     this.DBInterface = new DatabaseInterface(mMain);
 
@@ -70,7 +71,7 @@ module.exports = class ServerAPI {
         mapid = reqmsg.devID;
       }
 
-      let respp = this.messagequeuemap.get(mapid);
+      let respp = this.messagequeuemapviewer.get(mapid);
       if (respp != null) {
         respp.send(JSON.stringify(reqmsg));
       }
@@ -220,7 +221,7 @@ module.exports = class ServerAPI {
         rsp.send(JSON.stringify(responsemsg));
       } else {
         const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
-        //const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
+        
         let mapid = reqmsg.uqid;
         if (reqmsg.reqType != null) {
           mapid = reqmsg.uqid + reqmsg.reqType;
@@ -316,6 +317,47 @@ module.exports = class ServerAPI {
       console.log("---------------------------------postapifordevice error : " + error.toString());
     }
   }
+
+
+  // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
+  async postapifordeviceviewer(req, rsp) {
+    try {
+     // console.log("---------------------------------postapifordevice--  ");
+
+      const jsonstr = JSON.stringify(req.body);
+      const reqmsg = JSON.parse(jsonstr);
+      //기본 nak 메시지로 만듬.
+      let responsemsg = new responseMessage();
+
+      
+      let msgisd = req.header("Session-ID");
+      console.log("-------------severviewer uqid:" + reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
+
+      
+        const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/requestviewer");
+        
+        let mapid = reqmsg.uqid;
+        if (reqmsg.reqType != null) {
+          mapid = reqmsg.uqid + reqmsg.reqType;
+        } 
+
+        this.messagequeuemapviewer.set(mapid, rsp);
+
+      
+
+        let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+        reqkey.set(objJsonB64encode);
+
+       
+
+       
+      
+    } catch (error) {
+      console.log("---------------------------------postapifordevice error : " + error.toString());
+    }
+  }
+
+
 
   //////////////////////
   messageprocessing(reqmsg) {

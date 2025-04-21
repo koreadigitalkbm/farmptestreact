@@ -79,6 +79,12 @@ app.use("/api/farmrequest", function (req, res) {
 app.use("/api/devicerequest", function (req, res) {
     mMainclass.mAPI.postapifordevice(req, res);
 });
+//뷰어가 장비로 부터 데이터를 요청할때
+app.use("/api/devicerequestviewer", function (req, res) {
+  mMainclass.mAPI.postapifordeviceviewer(req, res);
+});
+
+
 // DB 관련 요청 서버, 장비
 app.use("/api/dbrequest", function (req, res) {
   mMainclass.mAPI.postapifordatabase(req, res);

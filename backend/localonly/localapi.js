@@ -195,6 +195,20 @@ module.exports = class LocalAPI {
     }
   }
 
+  async postapifordeviceviewer(req, rsp) {
+    try {
+      let jsonstr = JSON.stringify(req.body);
+      let reqmsg = JSON.parse(jsonstr);
+      //기본 nak 메시지로 만듬.
+      let responsemsg = this.messageprocessingviewer(reqmsg);
+
+      rsp.send(JSON.stringify(responsemsg));
+    } catch (error) {
+      console.log(" postapifordevice  catch error : " + error.toString());
+      rsp.send("");
+    }
+  }
+
   //콜백함수에서 응답해야한다면 이함수를사용하자.
   callbackreturn(rsp, mparam) {
     let rspmsg = new responseMessage();
