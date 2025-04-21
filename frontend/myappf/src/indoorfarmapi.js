@@ -68,8 +68,17 @@ export default class IndoorFarmAPI {
     let resdata;
 
     try {
-      resdata = await this.postData(API + "devicerequest", mReqmsg);
-      //console.log(" setRequestdevice reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
+       
+      if(myAppGlobal.isuseradmin == true)       
+      {
+        resdata = await this.postData(API + "devicerequest", mReqmsg);
+      }
+      else
+      {
+        resdata = await this.postData(API + "devicerequestviewer", mReqmsg);
+      }
+      
+      console.log(" setRequestdevice admin: " + myAppGlobal.isuseradmin + ",reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {
@@ -111,14 +120,9 @@ export default class IndoorFarmAPI {
   async getSysteminformations() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMINIFO);
 
-    if(myAppGlobal.isuseradmin == true)   
-    {
+   
       return  await this.setRequestdevice(reqmsg);
-    }
-    else
-    {
-      return   await this.setRequestdeviceviewer(reqmsg);
-    }
+    
   }
 
   async getdevicelog() {
@@ -209,14 +213,9 @@ export default class IndoorFarmAPI {
   async getAutocontrolconfig() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETAUTOCONTROLCONFIG);
 
-    if(myAppGlobal.isuseradmin == true)   
-      {
+    
         return  await this.setRequestdevice(reqmsg);
-      }
-      else
-      {
-        return   await this.setRequestdeviceviewer(reqmsg);
-      }
+   
 
     
   }
