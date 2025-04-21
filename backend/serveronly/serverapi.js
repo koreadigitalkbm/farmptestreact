@@ -331,7 +331,7 @@ module.exports = class ServerAPI {
 
       
       let msgisd = req.header("Session-ID");
-      console.log("-------------severviewer uqid:" + reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
+      console.log("-------------severviewer uqid:" + reqmsg.uqid +  ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
 
       
         const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/requestviewer");
