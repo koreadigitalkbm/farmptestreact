@@ -195,12 +195,14 @@ module.exports = class ServerAPI {
         rsp.send(JSON.stringify(responsemsg));
       } else {
         const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
-        const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
+       // const repskey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/response/" + reqmsg.reqType);
+        let mapid = reqmsg.devID;
+        if (reqmsg.reqType != null) {
+          mapid = reqmsg.devID + reqmsg.reqType;
+        }
 
-        this.messagequeuemap.set(reqmsg.uqid, rsp);
-        let idtype = reqmsg.uqid + reqmsg.reqType;
-        this.messagequeuemap.set(idtype, rsp);
-
+        this.messagequeuemap.set(mapid, rsp);
+       
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
 
@@ -321,7 +323,7 @@ module.exports = class ServerAPI {
             }
               // info 필드에서 viewerpassword 체크
               console.log("info :" + this.userinfos[i].info );
-              
+
             if (this.userinfos[i].info) {
               try {
                 const infoJson = JSON.parse(this.userinfos[i].info);
