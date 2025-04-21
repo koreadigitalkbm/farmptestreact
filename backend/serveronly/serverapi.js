@@ -342,17 +342,22 @@ module.exports = class ServerAPI {
         let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
 
         if (reqmsg_last != null) {
-          // ISO 문자열을 Date 객체로 변환
-          const reqTime = new Date(reqmsg.Time);
-          const lastTime = new Date(reqmsg_last.Time);
-          
-          // 시간 차이 계산 (밀리초 단위)
-          const timeDiff = Math.abs(reqTime.getTime() - lastTime.getTime());
-          const oneMinuteInMs = 60 * 1000; // 1분 = 60초 * 1000밀리초
+          // 시간 문자열에서 분 데이터만 추출하여 비교
+          const getMinuteFromTime = (timeStr) => {
+            const [ampm, time] = timeStr.split(' ');
+            const [hours, minutes] = time.split(':').map(Number);
+            return minutes;
+          };
 
-          console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqTime + ", reqmsg_last.Time:" + lastTime);
+          const reqMinute = getMinuteFromTime(reqmsg.Time);
+          const lastMinute = getMinuteFromTime(reqmsg_last.Time);
 
-          if(timeDiff < oneMinuteInMs) {
+          // 분이 같으면 같은 시간으로 간주
+          const isSameMinute = reqMinute === lastMinute;
+
+          console.log("-------------severviewer last mapid:" + mapid + ", reqMinute:" + reqMinute + ", lastMinute:" + lastMinute + ", isSameMinute:" + isSameMinute);
+
+          if(isSameMinute) {
             return rsp.send(JSON.stringify(reqmsg_last));
           }
         }

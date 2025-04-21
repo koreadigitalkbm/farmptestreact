@@ -6,7 +6,7 @@
     constructor()
     {
         const d = new Date();
-        this.Time=d.toISOString();
+        this.Time=d.toLocaleTimeString();
         this.devID="";
         this.reqType="";
         this.Sensors=[];    /// 센서상태값
