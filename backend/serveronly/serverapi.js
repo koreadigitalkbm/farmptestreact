@@ -313,26 +313,29 @@ module.exports = class ServerAPI {
         for (let i = 0; i < this.userinfos.length; i++) {
           //console.log("i :" +i);
           //console.log(this.userinfos[i]);
-          if (this.userinfos[i].userid === reqmsg.reqParam.loginID && this.userinfos[i].userpw === reqmsg.reqParam.loginPW && this.userinfos[i].usertype == 0) {
-            if (this.userinfos[i].deviceid.length == 6) {
+          if (this.userinfos[i].userid === reqmsg.reqParam.loginID  && this.userinfos[i].usertype == 0) {
+            if (this.userinfos[i].deviceid.length == 6 && this.userinfos[i].userpw === reqmsg.reqParam.loginPW) {
               rspmsg.retMessage = "user";
               rspmsg.retParam = this.userinfos[i].deviceid;
               break;
             }
-          }
-          // info 필드에서 viewerpassword 체크
-          if (this.userinfos[i].info) {
-            try {
-              const infoJson = JSON.parse(this.userinfos[i].info);
-              if (infoJson.viewerpassword === reqmsg.reqParam.loginPW) {
-                rspmsg.retMessage = "viewer";
-                rspmsg.retParam = this.userinfos[i].deviceid;
-                break;
+              // info 필드에서 viewerpassword 체크
+            if (this.userinfos[i].info) {
+              try {
+                const infoJson = JSON.parse(this.userinfos[i].info);
+                if (infoJson.viewerpassword === reqmsg.reqParam.loginPW) {
+                  rspmsg.retMessage = "viewer";
+                  rspmsg.retParam = this.userinfos[i].deviceid;
+                  break;
+                }
+              } catch (e) {
+                console.log("Error parsing info JSON:", e);
               }
-            } catch (e) {
-              console.log("Error parsing info JSON:", e);
             }
+
+
           }
+          
         }
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
