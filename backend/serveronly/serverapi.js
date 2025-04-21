@@ -347,7 +347,7 @@ module.exports = class ServerAPI {
         // 마지막 요청이 있으면 응답함.
         let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
         if (reqmsg_last != null) {
-          console.log("-------------severviewer last mapid:" + mapid) ;
+          console.log("-------------severviewer last mapid:" + mapid + ", Time:" + reqmsg_last.Time) ;
           return rsp.send(JSON.stringify(reqmsg_last));
         }
 
