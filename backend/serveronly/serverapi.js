@@ -328,13 +328,7 @@ module.exports = class ServerAPI {
 
       const jsonstr = JSON.stringify(req.body);
       const reqmsg = JSON.parse(jsonstr);
-      //기본 nak 메시지로 만듬.
-      let responsemsg = new responseMessage();
-
-      
-      let msgisd = req.header("Session-ID");
-      console.log("-------------severviewer uqid:" + reqmsg.uqid +  ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
-
+     
       
         const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/requestviewer");
         
@@ -346,7 +340,11 @@ module.exports = class ServerAPI {
 
         // 마지막 요청이 있으면 응답함.
         let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
-        if (reqmsg_last != null) {
+        const timeDiff = Math.abs(reqmsg.Time - reqmsg_last.Time);
+        console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqmsg.Time + ", reqmsg_last.Time:" + reqmsg_last.Time);
+        
+
+        if (reqmsg_last != null  && timeDiff <60000 ) {
           console.log("-------------severviewer last mapid:" + mapid + ", Time:" + reqmsg_last.Time) ;
           return rsp.send(JSON.stringify(reqmsg_last));
         }
