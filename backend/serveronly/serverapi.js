@@ -340,13 +340,19 @@ module.exports = class ServerAPI {
 
         // 마지막 요청이 있으면 응답함.
         let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
-        const timeDiff = Math.abs(reqmsg.Time - reqmsg_last.Time);
-        console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqmsg.Time + ", reqmsg_last.Time:" + reqmsg_last.Time);
+
         
 
-        if (reqmsg_last != null  && timeDiff <60000 ) {
-          console.log("-------------severviewer last mapid:" + mapid + ", Time:" + reqmsg_last.Time) ;
-          return rsp.send(JSON.stringify(reqmsg_last));
+
+        if (reqmsg_last != null    ) {
+          const timeDiff = Math.abs(reqmsg.Time - reqmsg_last.Time);
+          console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqmsg.Time + ", reqmsg_last.Time:" + reqmsg_last.Time);
+
+          if(timeDiff <60000)
+          {
+            return rsp.send(JSON.stringify(reqmsg_last));
+          }
+          
         }
 
 
