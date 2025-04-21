@@ -322,7 +322,7 @@ module.exports = class ServerAPI {
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordeviceviewer(req, rsp) {
     try {
-     // console.log("---------------------------------postapifordevice--  ");
+      console.log("---------------------------------postapifordeviceviewer--  ");
 
       const jsonstr = JSON.stringify(req.body);
       const reqmsg = JSON.parse(jsonstr);
