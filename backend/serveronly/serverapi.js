@@ -342,7 +342,7 @@ module.exports = class ServerAPI {
         let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
 
         if (reqmsg_last != null) {
-          // 문자열 시간을 Date 객체로 변환
+          // ISO 문자열을 Date 객체로 변환
           const reqTime = new Date(reqmsg.Time);
           const lastTime = new Date(reqmsg_last.Time);
           
@@ -350,7 +350,7 @@ module.exports = class ServerAPI {
           const timeDiff = Math.abs(reqTime.getTime() - lastTime.getTime());
           const oneMinuteInMs = 60 * 1000; // 1분 = 60초 * 1000밀리초
 
-          console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqmsg.Time + ", reqmsg_last.Time:" + reqmsg_last.Time);
+          console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqTime + ", reqmsg_last.Time:" + lastTime);
 
           if(timeDiff < oneMinuteInMs) {
             return rsp.send(JSON.stringify(reqmsg_last));
