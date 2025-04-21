@@ -38,9 +38,9 @@ let isswupdateok=false;
 let isswupdate = null;
 let newTimezonechange = Number(0);
 let istimezoneupdate=false;
+let newMonitorPassword = "";
 
-
-export default function SetupPage(props) {
+const SetupPage = () => {
   const { i18n } = useTranslation();
   const [cookies, setCookie] = useCookies(["languageT"]);
   const [langstr, setlangstr] = React.useState("");
@@ -51,7 +51,7 @@ export default function SetupPage(props) {
   const [savepwdisable, setBtnPWDisable] = React.useState(true);
   const [newpwdisable, setNewpwDisable] = React.useState(true);
   const [isupdating, setisupdate] = useState(false);
-
+  const [saveMonitorPwDisable, setSaveMonitorPwDisable] = React.useState(true);
 
   const closeDialog = () => {
     setAlert(null);
@@ -427,6 +427,77 @@ export default function SetupPage(props) {
     );
   };
 
+  const handleMonitorPassword = (e) => {
+    newMonitorPassword = e.target.value;
+    if (newMonitorPassword.length >= 4) {
+      setSaveMonitorPwDisable(false);
+    } else {
+      setSaveMonitorPwDisable(true);
+    }
+  };
+
+  function applyMonitorPasswordHandler() {
+    let newMyInfo = myAppGlobal.systeminformations.Systemconfg;
+    newMyInfo.monitorPassword = newMonitorPassword;
+
+    if (myAppGlobal.islocal == true) {
+      savemyconfig(newMyInfo);
+    } else {
+      myAppGlobal.farmapi.setLoginPWServerViewer(myAppGlobal.loginswid, newMonitorPassword).then((ret) => {
+        let isok = false;
+        if (ret) {
+          if (ret.IsOK === true) {
+            isok = true;
+          }
+        }
+        if (isok === true) {
+          alertparams.type = "success";
+          alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
+          alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
+          setAlert(alertparams);
+        }
+      });
+    }
+  }
+
+  const monitorPasswordBlock = () => {
+
+    //로컬 접속시 암호 변경 불가
+    if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true")
+    {
+       return null;
+    }
+
+    return (
+      <Box sx={{ mt: 5, backgroundColor: "white", p: 1 }}>
+        <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ backgroundColor: "#f5f5f5", p: 2, borderRadius: 1 }}>
+          <Typography id="modal-configure-title" variant="subtitle1">
+            {myAppGlobal.langT("LT_MONITOR_PASSWORD")}
+          </Typography>
+          <TextField
+            required
+            id="monitorPassword"
+            label={myAppGlobal.langT("LT_NEWPASSWORD")}
+            type="password"
+            variant="standard"
+            onChange={handleMonitorPassword}
+            sx={{ width: 200, ml: 1, mt: 0, mb: 0, "& .MuiInputBase-input": { border: 0 } }}
+          />
+          <Button
+            onClick={applyMonitorPasswordHandler}
+            disabled={saveMonitorPwDisable}
+            size="large"
+            variant="contained"
+            endIcon={<LibraryAddCheckIcon />}
+            sx={{ mt: 1, ml: 1, mb: 1, backgroundColor: "#fb8c00", width: 200 }}
+          >
+            {myAppGlobal.langT("LT_SETTING_MODAL_APPLYPW")}
+          </Button>
+        </Stack>
+      </Box>
+    );
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ maxWidth: 800 }}>
@@ -500,7 +571,10 @@ export default function SetupPage(props) {
               {myAppGlobal.langT("LT_SETTING_MODAL_APPLY")}
             </Button>
 
-            <Box sx={{ mt: 2, backgroundColor: "#eceff1" }}>{loginpwblock()}</Box>
+            <Box sx={{ mt: 2, backgroundColor: "#eceff1" }}>
+              {loginpwblock()}
+              {monitorPasswordBlock()}
+            </Box>
           </Box>
         </CardContent>
 
@@ -541,3 +615,5 @@ export default function SetupPage(props) {
     </ThemeProvider>
   );
 }
+
+export default SetupPage;

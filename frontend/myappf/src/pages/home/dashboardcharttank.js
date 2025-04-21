@@ -45,7 +45,7 @@ const optionChart = {
     },
     "y-right": {
       min: 0,
-      max: 100,
+      max: 40,
       type: "linear",
       display: true,
       position: "right",

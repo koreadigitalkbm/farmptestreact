@@ -226,6 +226,16 @@ export default class IndoorFarmAPI {
     return await this.setRequestDB(reqmsg);
   }
 
+  async setLoginPWServerViewer(uid, upw) {
+    let reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SETDB_LOGINPWVIEWER);
+    reqmsg.reqParam ={
+      devid:myAppGlobal.logindeviceid,
+      userid:uid,
+      userpw:upw,
+    };
+
+    return await this.setRequestDB(reqmsg);
+  }
 
   
 

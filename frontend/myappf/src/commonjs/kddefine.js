@@ -206,6 +206,7 @@ module.exports = class KDDefine {
     RT_GETDB_DATAS: "getdbdatas", //  DB 에서 데이터를 검색해서 보내준다.
 
     RT_SETDB_LOGINPW: "setloginpw", //  로그인 암호를 변경한다.
+    RT_SETDB_LOGINPWVIEWER: "setloginpwviewer",  //  뷰어 사용자 로그인 암호를 변경한다.
   });
 
   //자동제어 타입

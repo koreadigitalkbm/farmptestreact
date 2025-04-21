@@ -87,6 +87,15 @@ module.exports = class ServerAPI {
         switch (reqmsg.reqType) {
           //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
 
+          case KDDefine.REQType.RT_SETDB_LOGINPWVIEWER:
+
+            this.DBInterface.setloginpwviewer(reqmsg.reqParam.devid, reqmsg.reqParam.userid, reqmsg.reqParam.userpw);
+            this.isneeduserinforead = true;
+
+            responsemsg.IsOK = true;
+
+            break;
+
           case KDDefine.REQType.RT_SETDB_LOGINPW:
             //        console.log("  devid:" + reqmsg.reqParam.devid);
 

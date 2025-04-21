@@ -20,7 +20,7 @@ function loadlangresource()
         "LT_CHANGEPASSWORD_RELOGIN": "로그인 암호를 변경하려면 다시 로그인 하세요.",
         "LT_OLDPASSWORD": "이전 암호",
         "LT_NEWPASSWORD": "새 암호",
-        
+        "LT_MONITOR_PASSWORD": "보기전용 사용자 암호를 변경합니다.",
                 
         "LT_ANAME_DEFULT": "자동제어",
         "LT_ANAME_TEMP": "온도제어(냉난방)",
@@ -519,6 +519,8 @@ function loadlangresource()
         "LT_CHANGEPASSWORD_RELOGIN": "Please login again to change your login password.",
         "LT_OLDPASSWORD": "Old password",
         "LT_NEWPASSWORD": "New password",
+        "LT_MONITOR_PASSWORD": "Change Viewer Access Password.",
+
         "LT_ANAME_DEFULT": "Automatic Control",
         "LT_ANAME_TEMP": "Temperature Control",
         "LT_ANAME_TEMP_PID": "Temperature Control(PID)",

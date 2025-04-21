@@ -185,7 +185,23 @@ module.exports = class DatabaseInterface {
     } else {
       const sqlquery = "UPDATE  fjbox.users  SET  userpw='" + userpassword + "'" + "WHERE userid ='" + userid + "'" + "AND deviceid ='" + did + "'";
 
-      //      console.log("setloginpw sqlquery:"+sqlquery);
+      
+
+      this.conn.query(sqlquery, function (error, result) {
+        console.log(error);
+      });
+    }
+  }
+
+  setloginpwviewer(did, userid, userpassword) {
+    if (this.dbconnectioncheck() == false) {
+      return;
+    } else {
+      const infostring = JSON.stringify({viewerpassword:userpassword});
+
+      const sqlquery = "UPDATE  fjbox.users  SET  info='" + infostring + "'" + "WHERE userid ='" + userid + "'" + "AND deviceid ='" + did + "'";
+
+      
 
       this.conn.query(sqlquery, function (error, result) {
         console.log(error);
