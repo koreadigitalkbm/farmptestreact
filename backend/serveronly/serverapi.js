@@ -320,6 +320,19 @@ module.exports = class ServerAPI {
               break;
             }
           }
+          // info 필드에서 viewerpassword 체크
+          if (this.userinfos[i].info) {
+            try {
+              const infoJson = JSON.parse(this.userinfos[i].info);
+              if (infoJson.viewerpassword === reqmsg.reqParam.loginPW) {
+                rspmsg.retMessage = "viewer";
+                rspmsg.retParam = this.userinfos[i].deviceid;
+                break;
+              }
+            } catch (e) {
+              console.log("Error parsing info JSON:", e);
+            }
+          }
         }
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답

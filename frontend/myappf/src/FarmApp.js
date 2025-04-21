@@ -140,6 +140,11 @@ function FarmApp(props) {
             } else {
               // 로그인인 되면 가장 중요한 연결된 장치ID를 받아서 저장해놈. 이ID를 통해  통신
               //로그인 상태로 변경하고 화면갱신
+              if (ret.retMessage === "viewer") {
+                myAppGlobal.isuseradmin = false;
+              } else {
+                myAppGlobal.isuseradmin = true;
+              }
               myAppGlobal.loginswpw = loginpw;
               myAppGlobal.loginswid = loginid;
               
