@@ -90,6 +90,12 @@ app.use("/api/firebasersp", function (req, res) {
 });
 
 
+// 파이어베이스 요청에 대한 디바이스 응답
+app.use("/api/firebaserspviewer", function (req, res) {
+  mMainclass.mAPI.postapiforfirebaseviewer(req, res);
+});
+
+
 //중부대학교 챔버 데이터 전송 //get은 안됨
 app.post("/dataforward/jbuchamber.post", (req, res) => {
   mMainclass.mAPI.postapiforjbu(req, res);

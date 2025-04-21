@@ -78,6 +78,22 @@ export default class IndoorFarmAPI {
     }
   }
 
+  
+  // 장비에 데이터 요청
+  async setRequestdeviceviewer(mReqmsg) {
+    let resdata;
+
+    try {
+      resdata = await this.postData(API + "devicerequestviewer", mReqmsg);
+      //console.log(" setRequestdeviceviewer reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
+    } catch (error) {
+      console.log(" setRequestdeviceviewer error : " + error);
+    } finally {
+      //console.log(" setRequestdeviceviewer finally  : ");
+      return resdata;
+    }
+  }
+
   async setLoginDevice(lid, lpw, lssid) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_LOGIN);
 
@@ -95,7 +111,14 @@ export default class IndoorFarmAPI {
   async getSysteminformations() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMINIFO);
 
-    return  this.setRequestdevice(reqmsg);
+    if(myAppGlobal.isuseradmin == true)   
+    {
+      return  await this.setRequestdevice(reqmsg);
+    }
+    else
+    {
+      return   await this.setRequestdeviceviewer(reqmsg);
+    }
   }
 
   async getdevicelog() {
@@ -185,7 +208,17 @@ export default class IndoorFarmAPI {
 
   async getAutocontrolconfig() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETAUTOCONTROLCONFIG);
-    return await this.setRequestdevice(reqmsg);
+
+    if(myAppGlobal.isuseradmin == true)   
+      {
+        return  await this.setRequestdevice(reqmsg);
+      }
+      else
+      {
+        return   await this.setRequestdeviceviewer(reqmsg);
+      }
+
+    
   }
 
  

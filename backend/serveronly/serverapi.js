@@ -57,6 +57,31 @@ module.exports = class ServerAPI {
     }
   }
 
+  
+  postapiforfirebaseviewer(req, rsp) {
+    try {
+      //console.log("---------------------------------postapiforfirebase  ");
+      const reqmsg = JSON.parse(JSON.stringify(req.body));
+      let mapid = reqmsg.devID;
+      if (reqmsg.reqType != null) {
+        mapid = reqmsg.devID + reqmsg.reqType;
+        console.log("-------------------postapiforfirebaseviewer :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
+      } else {
+        mapid = reqmsg.devID;
+      }
+
+      let respp = this.messagequeuemap.get(mapid);
+      if (respp != null) {
+        respp.send(JSON.stringify(reqmsg));
+      }
+
+      //console.log("---------------------------------postapiforfirebase  END : " + respp);
+      rsp.send("ok");
+    } catch (error) {
+      console.log("---------------------------------postapiforfirebase  error : " + error.toString());
+    }
+  }
+
   postapiforjbu(req, rsp) {
     try {
       
@@ -203,15 +228,15 @@ module.exports = class ServerAPI {
 
         this.messagequeuemap.set(mapid, rsp);
 
-        
-        //this.messagequeuemap.set(reqmsg.uqid, rsp);
-        //let idtype = reqmsg.uqid + reqmsg.reqType;
-//        this.messagequeuemap.set(idtype, rsp);
+      
 
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
 
-        // 이벤트 리스너 한번만
+        // 이벤트 등록되어있음 파이어베이스에 데이터 갱신되면 mapid 찾아 응답함.
+   
+
+          // 이벤트 리스너 한번만
 
         /*
       repskey.once("value", (snapshot) => {
@@ -285,8 +310,7 @@ module.exports = class ServerAPI {
       }
       */
 
-        //rsp.send(JSON.stringify(responsemsg));
-        //console.log("---------------------------------postapifordevice end : " + responsemsg.datetime);
+       
       }
     } catch (error) {
       console.log("---------------------------------postapifordevice error : " + error.toString());
@@ -349,7 +373,13 @@ module.exports = class ServerAPI {
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
         if (rspmsg.retMessage != "not") {
-          this.sessionmap.set(rspmsg.retParam, reqmsg.reqParam.SessionID);
+          if(rspmsg.retMessage == "viewer")
+          {
+            //뷰어는 세션저장안함.
+          }else
+          {
+            this.sessionmap.set(rspmsg.retParam, reqmsg.reqParam.SessionID);
+          }
         }
       }
 
