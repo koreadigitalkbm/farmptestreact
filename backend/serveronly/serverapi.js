@@ -341,34 +341,26 @@ module.exports = class ServerAPI {
         // 마지막 요청이 있으면 응답함.
         let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
 
-        
+        if (reqmsg_last != null) {
+          // 문자열 시간을 Date 객체로 변환
+          const reqTime = new Date(reqmsg.Time);
+          const lastTime = new Date(reqmsg_last.Time);
+          
+          // 시간 차이 계산 (밀리초 단위)
+          const timeDiff = Math.abs(reqTime.getTime() - lastTime.getTime());
+          const oneMinuteInMs = 60 * 1000; // 1분 = 60초 * 1000밀리초
 
-
-        if (reqmsg_last != null    ) {
-
-          console.log(reqmsg);
-          console.log(reqmsg_last);
-          const timeDiff = Math.abs(reqmsg.Time - reqmsg_last.Time);
           console.log("-------------severviewer last mapid:" + mapid + ", timeDiff:" + timeDiff + ", reqmsg.Time:" + reqmsg.Time + ", reqmsg_last.Time:" + reqmsg_last.Time);
 
-          if(timeDiff <60000)
-          {
+          if(timeDiff < oneMinuteInMs) {
             return rsp.send(JSON.stringify(reqmsg_last));
           }
-          
         }
-
 
         this.messagequeuemapviewer.set(mapid, rsp);
 
-      
-
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
-
-       
-
-       
       
     } catch (error) {
       console.log("---------------------------------postapifordevice error : " + error.toString());
