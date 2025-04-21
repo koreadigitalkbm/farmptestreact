@@ -75,13 +75,19 @@ module.exports = class ServerAPI {
       this.messagequeuemapviewer_response.set(mapid, reqmsg);
       let respp = this.messagequeuemapviewer.get(mapid);
       if (respp != null) {
-        respp.send(JSON.stringify(reqmsg));
+        if(!respp.headersSent)    
+        {
+          respp.send(JSON.stringify(reqmsg));
+        }
       }
 
       //console.log("---------------------------------postapiforfirebase  END : " + respp);
-      rsp.send("ok");
+      if (!rsp.headersSent) {
+        rsp.send("error");
+      }
+      
     } catch (error) {
-      console.log("---------------------------------postapiforfirebase  error : " + error.toString());
+      console.log("---------------------------------postapiforfirebaseviewer  error : " + error.toString());
     }
   }
 
@@ -366,9 +372,17 @@ module.exports = class ServerAPI {
 
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
+
+        // 응답이 아직 전송되지 않았다면 "ok" 전송
+        if (!rsp.headersSent) {
+          rsp.send("ok");
+        }
       
     } catch (error) {
-      console.log("---------------------------------postapifordevice error : " + error.toString());
+      console.log("---------------------------------postapifordeviceviewer error : " + error.toString());
+      if (!rsp.headersSent) {
+        rsp.send("error");
+      }
     }
   }
 

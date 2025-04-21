@@ -501,7 +501,7 @@ module.exports = class LocalAPI {
 
         //console.log("frebase response set: " +objJsonB64encode);
       } catch (e) {
-        console.log("firebasedbsetup error: " + e);
+        console.log("firebasedbsetupviewer error: " + e);
 
         return false;
       }
