@@ -16,6 +16,7 @@ module.exports = class ServerAPI {
     this.sessionmap = new Map();
     this.messagequeuemap = new Map();
     this.messagequeuemapviewer = new Map();
+    this.messagequeuemapviewer_response = new Map(); // 뷰어 메시지는 저장후 동일한 요청이오면 여기에서 응답함.
 
     this.DBInterface = new DatabaseInterface(mMain);
 
@@ -71,6 +72,7 @@ module.exports = class ServerAPI {
         mapid = reqmsg.devID;
       }
 
+      this.messagequeuemapviewer_response.set(mapid, reqmsg);
       let respp = this.messagequeuemapviewer.get(mapid);
       if (respp != null) {
         respp.send(JSON.stringify(reqmsg));
@@ -340,6 +342,15 @@ module.exports = class ServerAPI {
         if (reqmsg.reqType != null) {
           mapid = reqmsg.uqid + reqmsg.reqType;
         } 
+
+
+        // 마지막 요청이 있으면 응답함.
+        let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
+        if (reqmsg_last != null) {
+          console.log("-------------severviewer last mapid:" + mapid) ;
+          return rsp.send(JSON.stringify(reqmsg_last));
+        }
+
 
         this.messagequeuemapviewer.set(mapid, rsp);
 
