@@ -15,7 +15,7 @@ import ActuatorAliasCard from "./devicealiascard";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const CardFarmsCube = styled(Card)(({ theme }) => ({
   margin: "4px",
@@ -185,6 +185,15 @@ const Autocontrolpage = (props) => {
   
   return (
     <Box sx={{ maxWidth: "50rem" }}>
+       {myAppGlobal.loginrole === "viewer" && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <VisibilityIcon color="action" />
+                <Typography variant="body2" color="text.secondary">
+                {myAppGlobal.langT("LT_AUTOCONTROL_READONLYMODE")}
+                </Typography>
+              </Box>
+            )}
+
       <Grid container spacing={1}>
         <Grid item xs={12} md={12}>
           <Card sx={{ backgroundColor: "#f1f8e9" }}>

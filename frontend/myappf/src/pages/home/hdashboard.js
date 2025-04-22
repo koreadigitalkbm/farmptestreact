@@ -3,6 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import Sensordisplay from "./sensordisplay";
 import myAppGlobal from "../../myAppGlobal";
@@ -12,14 +13,10 @@ import DashboardChartTank from "./dashboardcharttank";
 import EventListView from "../datas/eventlistview";
 import KDUtil from "../../commonjs/kdutil";
 
-//let lasteventtime = 1;
-//let lastsensortime = 1;
-//let imagefilename = "";
 
-let connecterrorcount = 0;
-let loadtimeoutcount = 0;
 
 //화면 출력 빨리 되도록 기존데이터 저장하고 있음
+
 let eventlist = [];
 let eventlistTime = [];
 let dailysensorlist = [];
@@ -42,7 +39,7 @@ const HDashboard = (props) => {
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(false);
 
-  console.log("-------------------------HDashboard  --------------------- : " + myAppGlobal.loginrole);
+  console.log("-------------------------HDashboard  --------------------- loginrole: " + myAppGlobal.loginrole + " isuseradmin: " + myAppGlobal.isuseradmin );
 
   if (myAppGlobal.isdashboardpageinit === false) {
     lastfileurl = "image/noimage.png";
@@ -58,23 +55,7 @@ const HDashboard = (props) => {
 
     myAppGlobal.isdashboardpageinit = true;
   }
-  /*  
 
-  function loadTimeouthandler()
-  {
-    console.log("-------loadTimeouthandler  loadtimeoutcount: "+loadtimeoutcount + " connecterrorcount:"+connecterrorcount);
-
-    loadtimeoutcount++;
-    
-
-    if(loadtimeoutcount >10)
-    {
-      loadtimeoutcount=0;
-      connecterrorcount++;
-      loaddatas();
-    }
-  }
-  */
 
   function loaddatas() {
     console.log("-------loaddata date: " + myAppGlobal.dashboardlastsensortime + " readtimemsec: " + readtimemsec + " init_count = " + init_count);
@@ -91,7 +72,7 @@ const HDashboard = (props) => {
     }
 
     setDataloading(true);
-    loadtimeoutcount = 0;
+    
     let isactf = true;
     let stime = myAppGlobal.dashboardlastsensortime;
 
@@ -104,7 +85,7 @@ const HDashboard = (props) => {
 
     myAppGlobal.farmapi.getDeviceStatus(true, isactf, false, stime, myAppGlobal.dashboardlasteventtime).then((ret) => {
       //console.log(ret);
-      connecterrorcount = 0;
+      
       setDataloading(false);
       if (ret == null) {
       } else if (ret.IsOK == true) {
@@ -283,16 +264,28 @@ const HDashboard = (props) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      {myAppGlobal.loginrole === "user" && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <VisibilityIcon color="action" />
+                <Typography variant="body2" color="text.secondary">
+                  {myAppGlobal.langT("LT_MAINPAGE_MAIN_READONLYMODE")}
+                </Typography>
+              </Box>
+            )}
+
       <Grid container spacing={0.2}>
         <Grid item xs={12} md={12}>
-          <Stack direction="row" spacing={1}>
-            <Typography component="div" size="1rem" color="#0d47a1" sx={{ width: 24, height: 24 }}>
-              {isdataloading === true ? <CircularProgress size="1rem" /> : <AccessTimeIcon />}
-            </Typography>
-
-            <Typography component="div" variant="body2" fontSize="32" color="#0d47a1" style={{ verticalAlign: "middle" }}>
-              {lastime}
-            </Typography>
+          <Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+          
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography component="div" size="1rem" color="#0d47a1" sx={{ width: 24, height: 24 }}>
+                {isdataloading === true ? <CircularProgress size="1rem" /> : <AccessTimeIcon />}
+              </Typography>
+              <Typography component="div" variant="body2" fontSize="32" color="#0d47a1" style={{ verticalAlign: "middle" }}>
+                {lastime}
+              </Typography>
+            </Box>
+           
           </Stack>
         </Grid>
 
