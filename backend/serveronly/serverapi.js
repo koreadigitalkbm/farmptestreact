@@ -377,10 +377,7 @@ module.exports = class ServerAPI {
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
 
-        // 응답이 아직 전송되지 않았다면 "ok" 전송
-        if (!rsp.headersSent) {
-          rsp.send("ok");
-        }
+       
       
     } catch (error) {
       console.log("---------------------------------postapifordeviceviewer error : " + error.toString());
