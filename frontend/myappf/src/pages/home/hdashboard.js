@@ -264,7 +264,7 @@ const HDashboard = (props) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      {myAppGlobal.loginrole === "user" && (
+      {myAppGlobal.loginrole === "viewer" && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <VisibilityIcon color="action" />
                 <Typography variant="body2" color="text.secondary">
