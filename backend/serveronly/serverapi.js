@@ -71,7 +71,7 @@ module.exports = class ServerAPI {
       let mapid = reqmsg.devID;
       if (reqmsg.reqType != null) {
         mapid = reqmsg.devID + reqmsg.reqType;
-        console.log("-------------------postapiforfirebaseviewer :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
+        //console.log("-------------------postapiforfirebaseviewer :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
       } else {
         mapid = reqmsg.devID;
       }
@@ -224,7 +224,7 @@ module.exports = class ServerAPI {
 
       let sid = this.sessionmap.get(reqmsg.uqid);
       let msgisd = req.header("Session-ID");
-      console.log("-------------sever uqid:" + reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
+      //console.log("-------------sever uqid:" + reqmsg.uqid + ", sid :" + sid + ", msgisd:" + msgisd + ", reqtype: " + reqmsg.reqType + " time:" + reqmsg.Time);
 
       if (sid != msgisd) {
         console.log("session not same ....");
@@ -334,7 +334,7 @@ module.exports = class ServerAPI {
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordeviceviewer(req, rsp) {
     try {
-      console.log("---------------------------------postapifordeviceviewer--  ");
+//      console.log("---------------------------------postapifordeviceviewer--  ");
 
       const jsonstr = JSON.stringify(req.body);
       const reqmsg = JSON.parse(jsonstr);
@@ -365,10 +365,10 @@ module.exports = class ServerAPI {
           // 분이 같으면 같은 시간으로 간주
           const isSameMinute = reqMinute === lastMinute;
 
-          console.log("-------------severviewer last mapid:" + mapid + ", reqMinute:" + reqMinute + ", lastMinute:" + lastMinute + ", isSameMinute:" + isSameMinute);
+          //console.log("-------------severviewer last mapid:" + mapid + ", reqMinute:" + reqMinute + ", lastMinute:" + lastMinute + ", isSameMinute:" + isSameMinute);
 
           if(isSameMinute) {
-            console.log("-------------severviewer last send ok");
+            //console.log("-------------severviewer last send ok");
             return rsp.send(JSON.stringify(reqmsg_last));
           }
         }
