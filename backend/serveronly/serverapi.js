@@ -49,11 +49,15 @@ module.exports = class ServerAPI {
 
       let respp = this.messagequeuemap.get(mapid);
       if (respp != null) {
-        respp.send(JSON.stringify(reqmsg));
+        if(!respp.headersSent)  
+        {
+          respp.send(JSON.stringify(reqmsg));
+        }
       }
 
-      //console.log("---------------------------------postapiforfirebase  END : " + respp);
-      rsp.send("ok");
+      if (!rsp.headersSent) {
+        rsp.send("ok");
+      }
     } catch (error) {
       console.log("---------------------------------postapiforfirebase  error : " + error.toString());
     }

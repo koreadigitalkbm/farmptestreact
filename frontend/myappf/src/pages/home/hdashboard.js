@@ -42,7 +42,7 @@ const HDashboard = (props) => {
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(false);
 
-  console.log("-------------------------HDashboard  --------------------- : " + myAppGlobal.isdashboardpageinit);
+  console.log("-------------------------HDashboard  --------------------- : " + myAppGlobal.loginrole);
 
   if (myAppGlobal.isdashboardpageinit === false) {
     lastfileurl = "image/noimage.png";
