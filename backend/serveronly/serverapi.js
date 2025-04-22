@@ -368,6 +368,7 @@ module.exports = class ServerAPI {
           console.log("-------------severviewer last mapid:" + mapid + ", reqMinute:" + reqMinute + ", lastMinute:" + lastMinute + ", isSameMinute:" + isSameMinute);
 
           if(isSameMinute) {
+            console.log("-------------severviewer last send ok");
             return rsp.send(JSON.stringify(reqmsg_last));
           }
         }
