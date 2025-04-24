@@ -463,7 +463,7 @@ const SetupPage = () => {
   const monitorPasswordBlock = () => {
 
     //로컬 접속시 암호 변경 불가
-    if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true")
+    if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true"  ||  deviceversion >2.3)
     {
        return null;
     }
