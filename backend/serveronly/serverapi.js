@@ -342,8 +342,14 @@ module.exports = class ServerAPI {
 
         const getMinuteFromTime = (timeStr) => {
           console.log("-------------severviewertimeStr:" + timeStr + "reqmsg.reqType:"+reqmsg.reqType);
+          let ampm = "";
+          let time = timeStr;
+             // 공백문자가 있는 경우에만 분리
+          if (timeStr.includes(" ")) {
+            [ampm, time] = timeStr.split(" ");
+          }
 
-          const [ampm, time] = timeStr.split(" ");
+          
           const [hours, minutes] = time.split(":").map(Number);
           return minutes;
         };
