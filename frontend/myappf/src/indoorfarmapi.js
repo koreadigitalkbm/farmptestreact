@@ -4,9 +4,7 @@ import KDDefine from "./commonjs/kddefine";
 
 const reqMessage = require("./commonjs/reqMessage");
 
-
 const API = "/api/";
-
 
 export default class IndoorFarmAPI {
   constructor(islocal) {
@@ -24,7 +22,7 @@ export default class IndoorFarmAPI {
         "Session-ID": myAppGlobal.sessionid,
       },
       body: JSON.stringify(data), //
-      signal: AbortSignal.timeout(50000) //50초타임아웃설정
+      signal: AbortSignal.timeout(50000), //50초타임아웃설정
     });
     return await response.json();
   }
@@ -45,7 +43,6 @@ export default class IndoorFarmAPI {
     }
   }
 
-
   // 장비또는 서버의 DB 데이터 요청
   async setRequestDB(mReqmsg) {
     let resdata;
@@ -61,24 +58,18 @@ export default class IndoorFarmAPI {
     }
   }
 
-
-
   // 장비에 데이터 요청
   async setRequestdevice(mReqmsg) {
     let resdata;
 
     try {
-       
-      if(myAppGlobal.isuseradmin == true)       
-      {
+      if (myAppGlobal.isuseradmin == true) {
         resdata = await this.postData(API + "devicerequest", mReqmsg);
-      }
-      else
-      {
+      } else {
         resdata = await this.postData(API + "devicerequestviewer", mReqmsg);
       }
-      
-      console.log(" setRequestdevice admin: " + myAppGlobal.isuseradmin + ",reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
+
+      //console.log(" setRequestdevice admin: " + myAppGlobal.isuseradmin + ",reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {
@@ -87,7 +78,6 @@ export default class IndoorFarmAPI {
     }
   }
 
-  
   // 장비에 데이터 요청
   async setRequestdeviceviewer(mReqmsg) {
     let resdata;
@@ -106,10 +96,10 @@ export default class IndoorFarmAPI {
   async setLoginDevice(lid, lpw, lssid) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_LOGIN);
 
-    reqmsg.reqParam ={
-      loginID:lid,
-      loginPW:lpw,
-      SessionID:lssid,
+    reqmsg.reqParam = {
+      loginID: lid,
+      loginPW: lpw,
+      SessionID: lssid,
     };
     //reqmsg.loginID = id;
     //reqmsg.loginPW = pw;
@@ -120,9 +110,7 @@ export default class IndoorFarmAPI {
   async getSysteminformations() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMINIFO);
 
-   
-      return  await this.setRequestdevice(reqmsg);
-    
+    return await this.setRequestdevice(reqmsg);
   }
 
   async getdevicelog() {
@@ -140,7 +128,7 @@ export default class IndoorFarmAPI {
     }
   }
 
-  async setsoftwareupdate(islocal,upversion) {
+  async setsoftwareupdate(islocal, upversion) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SWUPDATE);
 
     reqmsg.reqParam = upversion;
@@ -154,31 +142,28 @@ export default class IndoorFarmAPI {
     }
   }
 
-  async setshellcommand(mcmd,mpath) {
+  async setshellcommand(mcmd, mpath) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SHELLCMD);
 
-    reqmsg.reqParam ={
-      cmd:mcmd,
-      path:mpath,
+    reqmsg.reqParam = {
+      cmd: mcmd,
+      path: mpath,
     };
-      return await this.setRequestdevice(reqmsg);
-
-
+    return await this.setRequestdevice(reqmsg);
   }
 
   //장비에 대한 전체 상태를 읽어온다. 센서, 구동기, 자동제어, 기타 등등
-  async getDeviceStatus(issensor, isactuator, isautocontrol, lastSensorTime,lastEventtime ) {
+  async getDeviceStatus(issensor, isactuator, isautocontrol, lastSensorTime, lastEventtime) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SYSTEMSTATUS);
 
-    console.log("getDeviceStatus lastSensorTime :" + lastSensorTime + " lastEventtime :" + lastEventtime);
-    
+    //console.log("getDeviceStatus lastSensorTime :" + lastSensorTime + " lastEventtime :" + lastEventtime);
 
-    reqmsg.reqParam ={
-      isSEN:issensor,
-      isACT:isactuator,
-      isAUTO:isautocontrol,
-      STime:lastSensorTime,
-      ETime:lastEventtime,
+    reqmsg.reqParam = {
+      isSEN: issensor,
+      isACT: isactuator,
+      isAUTO: isautocontrol,
+      STime: lastSensorTime,
+      ETime: lastEventtime,
     };
 
     return await this.setRequestdevice(reqmsg);
@@ -188,7 +173,6 @@ export default class IndoorFarmAPI {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_ACTUATOROPERATION);
     reqmsg.reqParam = actopcmd;
     console.log("isetActuatorOperation :" + actopcmd);
-
 
     return await this.setRequestdevice(reqmsg);
   }
@@ -213,14 +197,8 @@ export default class IndoorFarmAPI {
   async getAutocontrolconfig() {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_GETAUTOCONTROLCONFIG);
 
-    
-        return  await this.setRequestdevice(reqmsg);
-   
-
-    
+    return await this.setRequestdevice(reqmsg);
   }
-
- 
 
   async saveAutocontrolconfig(autoccfg) {
     const reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG);
@@ -246,13 +224,12 @@ export default class IndoorFarmAPI {
     return await this.setRequestDB(reqmsg);
   }
 
-
   async setLoginPWServer(uid, upw) {
     let reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SETDB_LOGINPW);
-    reqmsg.reqParam ={
-      devid:myAppGlobal.logindeviceid,
-      userid:uid,
-      userpw:upw,
+    reqmsg.reqParam = {
+      devid: myAppGlobal.logindeviceid,
+      userid: uid,
+      userpw: upw,
     };
 
     return await this.setRequestDB(reqmsg);
@@ -260,16 +237,12 @@ export default class IndoorFarmAPI {
 
   async setLoginPWServerViewer(uid, upw) {
     let reqmsg = new reqMessage(myAppGlobal.logindeviceid, KDDefine.REQType.RT_SETDB_LOGINPWVIEWER);
-    reqmsg.reqParam ={
-      devid:myAppGlobal.logindeviceid,
-      userid:uid,
-      userpw:upw,
+    reqmsg.reqParam = {
+      devid: myAppGlobal.logindeviceid,
+      userid: uid,
+      userpw: upw,
     };
 
     return await this.setRequestDB(reqmsg);
   }
-
-  
-
-
 }

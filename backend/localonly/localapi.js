@@ -11,8 +11,6 @@ const exec = require("child_process").exec;
 //const os = require("os");
 // import fetch from "node-fetch";
 
-
-
 const SERVERAPI_URL = "http://15.164.60.217/api/";
 
 function adminshellcommand(mMain, mcmd, mpath) {
@@ -137,7 +135,6 @@ module.exports = class LocalAPI {
   postapiforfirebase(req, rsp) {}
   postapiforfirebaseviewer(req, rsp) {}
 
-
   postapifordatabase(req, rsp) {
     try {
       let reqmsg = JSON.parse(JSON.stringify(req.body));
@@ -156,17 +153,11 @@ module.exports = class LocalAPI {
 
   postapiforjbu(req, rsp) {
     try {
-      
       return this.mMain.localDBinterface.getDBdatasJBU(rsp, req, this.callbackreturn);
-
-      
     } catch (error) {
       console.log("----------------local-------------postapiforjbu  locol error : " + error.toString());
     }
-    
   }
-
-
 
   postapi(req, rsp) {
     try {
@@ -295,16 +286,13 @@ module.exports = class LocalAPI {
       case KDDefine.REQType.RT_SYSTEMSTATUS:
         if (this.mMain.sensorinterface != null && reqmsg.reqParam.isSEN === true) {
           rspmsg.Sensors = this.mMain.sensorinterface.getsensorssimple();
-          
         }
         if (this.mMain.actuatorinterface != null && reqmsg.reqParam.isACT === true) {
           rspmsg.Outputs = this.mMain.actuatorinterface.getactuatorstatus();
-          
         }
         // 시간이 0으로오면 요청없음
         if (this.mMain.dailydatas != null && reqmsg.reqParam.STime > 0) {
           rspmsg.retParam = this.mMain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
-          
         }
         //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
@@ -340,40 +328,24 @@ module.exports = class LocalAPI {
     return rspmsg;
   }
 
- 
-
-
-  
   messageprocessingviewer(reqmsg) {
     let rspmsg = new responseMessage();
     //console.log("------------local messageprocessing :  req type :" + reqmsg.reqType);
+    //뷰어 사용자는 시스템정보와 자동제어 정보 센서정보만 볼수 있음.
     switch (reqmsg.reqType) {
       case KDDefine.REQType.RT_LOGIN:
-       
-      
       case KDDefine.REQType.RT_ACTUATOROPERATION:
       case KDDefine.REQType.RT_SWUPDATE:
-      
-    
       case KDDefine.REQType.RT_SHELLCMD:
- 
       case KDDefine.REQType.RT_GETVERSION:
-        case KDDefine.REQType.RT_SETMYINFO:
-      
-
-        case KDDefine.REQType.RT_SETALIAS:
-         
-  
-        case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
-         
-        case KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG:
-
+      case KDDefine.REQType.RT_SETMYINFO:
+      case KDDefine.REQType.RT_SETALIAS:
+      case KDDefine.REQType.RT_SAVEAUTOCONTROLCONFIG:
+      case KDDefine.REQType.RT_RESETAUTOCONTROLCONFIG:
       case KDDefine.REQType.RT_DEVICELOG:
-      
         rspmsg.retMessage = "ok";
         rspmsg.IsOK = true;
         break;
-
 
       case KDDefine.REQType.RT_SYSTEMINIFO:
         if (this.mMain.localsysteminformations != null) {
@@ -395,36 +367,27 @@ module.exports = class LocalAPI {
           rspmsg.IsOK = true;
         }
         break;
-     
-       
 
       case KDDefine.REQType.RT_SYSTEMSTATUS:
         if (this.mMain.sensorinterface != null && reqmsg.reqParam.isSEN === true) {
           rspmsg.Sensors = this.mMain.sensorinterface.getsensorssimple();
-          
         }
         if (this.mMain.actuatorinterface != null && reqmsg.reqParam.isACT === true) {
           rspmsg.Outputs = this.mMain.actuatorinterface.getactuatorstatus();
-          
         }
         // 시간이 0으로오면 요청없음
         if (this.mMain.dailydatas != null && reqmsg.reqParam.STime > 0) {
           rspmsg.retParam = this.mMain.dailydatas.getdatabytime(reqmsg.reqParam.STime, reqmsg.reqParam.ETime);
-          
         }
         //      console.log("---------------------------------RT_SYSTEMSTATUS  lenisSENgth : " + reqmsg.reqParam.isSEN + " lastSensorTime:"+ reqmsg.reqParam.STime);
 
         rspmsg.IsOK = true;
         break;
-
-
-      
     }
 
     //console.log("msgprocessing_common   return :  " + rspmsg.IsOK);
     return rspmsg;
   }
-
 
   async firebasedbsetup() {
     const admin = require("firebase-admin");
@@ -437,7 +400,6 @@ module.exports = class LocalAPI {
     console.log("---------------------------------firebasedbsetup  mylocaldeviceid: " + this.mylocaldeviceid);
 
     this.fbdatabase = admin.database();
-
 
     const reqkeystr = "IFDevices/" + this.mylocaldeviceid + "/request";
     const fblocalrequst = this.fbdatabase.ref(reqkeystr);
@@ -453,7 +415,7 @@ module.exports = class LocalAPI {
           const reqmsg = JSON.parse(decodedStr);
           const rspmsg = this.messageprocessing(reqmsg);
 
-            //console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time +  ", tp:"+reqmsg.reqType);
+          //console.log("fb ................ : reqtime:" + reqmsg.Time + " ressptime:" + rspmsg.Time +  ", tp:"+reqmsg.reqType);
           //동시에 다른 요청이 있을수 있으므로 reqType 별로 키값에 응답전송
           //      const objJsonB64encode = Buffer.from(JSON.stringify(rspmsg)).toString("base64");
           //      const responsekeystr = "IFDevices/" + this.mylocaldeviceid + "/response/" + reqmsg.reqType;
@@ -463,7 +425,6 @@ module.exports = class LocalAPI {
           rspmsg.devID = this.mylocaldeviceid;
           rspmsg.reqType = reqmsg.reqType;
           this.setRequestServerforfirebase(rspmsg);
-          
         }
 
         //console.log("frebase response set: " +objJsonB64encode);
@@ -474,13 +435,12 @@ module.exports = class LocalAPI {
       }
     });
 
-
     //viewer 요청 파이어베이스 리얼타임디비 설정
-    
+
     const reqkeystrviewer = "IFDevices/" + this.mylocaldeviceid + "/requestviewer";
     const fblocalrequstviewer = this.fbdatabase.ref(reqkeystrviewer);
     //값 초기화  이전 데이터가 남아있을수 있음
-    fblocalrequstviewer.set("");  
+    fblocalrequstviewer.set("");
 
     fblocalrequstviewer.on("value", (snapshot) => {
       const data = snapshot.val();
@@ -491,12 +451,9 @@ module.exports = class LocalAPI {
           const reqmsg = JSON.parse(decodedStr);
           const rspmsg = this.messageprocessingviewer(reqmsg);
 
-           
-
           rspmsg.devID = this.mylocaldeviceid;
           rspmsg.reqType = reqmsg.reqType;
           this.setRequestServerforfirebaseviewer(rspmsg);
-          
         }
 
         //console.log("frebase response set: " +objJsonB64encode);
@@ -506,8 +463,6 @@ module.exports = class LocalAPI {
         return false;
       }
     });
-
-
   }
 
   async setsensordatatoserver(did, dtime, slist) {
@@ -557,7 +512,7 @@ module.exports = class LocalAPI {
         "Session-ID": 877,
       },
       body: JSON.stringify(data), //
-      signal: AbortSignal.timeout(200000) 
+      signal: AbortSignal.timeout(200000),
     });
     return response;
   }
@@ -592,18 +547,18 @@ module.exports = class LocalAPI {
     }
   }
 
-    // 서버 에 파이어베이스 응답
-    async setRequestServerforfirebaseviewer(mReqmsg) {
-      let resdata;
-  
-      try {
-        resdata = await this.postData(SERVERAPI_URL + "firebaserspviewer", mReqmsg);
-        //      console.log(" setRequest rsp : " + resdata.IsOK);
-      } catch (error) {
-        console.log(" setRequestServer fb error : " + error);
-      } finally {
-        //console.log(" setRequestServer finally  : ");
-        return resdata;
-      }
+  // 서버 에 파이어베이스 응답
+  async setRequestServerforfirebaseviewer(mReqmsg) {
+    let resdata;
+
+    try {
+      resdata = await this.postData(SERVERAPI_URL + "firebaserspviewer", mReqmsg);
+      //      console.log(" setRequest rsp : " + resdata.IsOK);
+    } catch (error) {
+      console.log(" setRequestServer viewer fb error : " + error);
+    } finally {
+      //console.log(" setRequestServer finally  : ");
+      return resdata;
     }
+  }
 };

@@ -39,7 +39,7 @@ const HDashboard = (props) => {
   const [msensorlasttime, setLasttime] = useState(null);
   const [isdataloading, setDataloading] = useState(false);
 
-  console.log("-------------------------HDashboard  --------------------- loginrole: " + myAppGlobal.loginrole + " isuseradmin: " + myAppGlobal.isuseradmin );
+  //console.log("-------------------------HDashboard  --------------------- loginrole: " + myAppGlobal.loginrole + " isuseradmin: " + myAppGlobal.isuseradmin );
 
   if (myAppGlobal.isdashboardpageinit === false) {
     lastfileurl = "image/noimage.png";
@@ -94,12 +94,12 @@ const HDashboard = (props) => {
 
         if (ret.retMessage != null) {
           if (ret.retMessage === "unotherslogin") {
-            console.log("un other login:" + ret.retMessage);
+           // console.log("un other login:" + ret.retMessage);
             props.otherlogin("otherlogin");
           }
         }
         if (sensors != null) {
-          console.log("sensors length:" + sensors.length);
+         // console.log("sensors length:" + sensors.length);
           if (sensors.length > 0) {
             myAppGlobal.gsensorlist = [];
             myAppGlobal.gsensorlist.push(...sensors);
@@ -109,7 +109,7 @@ const HDashboard = (props) => {
         }
 
         if (actuators != null) {
-          console.log("actuators : " + actuators.length);
+         // console.log("actuators : " + actuators.length);
           if (actuators.length > 0) {
             myAppGlobal.gactuaotrslist = [];
             myAppGlobal.gactuaotrslist.push(...actuators);
@@ -137,7 +137,7 @@ const HDashboard = (props) => {
               let revlasttime;
               let isupdateevent = false;
 
-              console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(myAppGlobal.dashboardlasteventtime));
+             // console.log("sysevents : " + sysevents.length + "  ,lasevttime : " + Date(myAppGlobal.dashboardlasteventtime));
 
               for (let i = 0; i < sysevents.length; i++) {
                 revlasttime = KDUtil.getDatefromformatstring(sysevents[i].EDate).getTime();

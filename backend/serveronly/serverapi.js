@@ -42,15 +42,14 @@ module.exports = class ServerAPI {
       let mapid = reqmsg.devID;
       if (reqmsg.reqType != null) {
         mapid = reqmsg.devID + reqmsg.reqType;
-        console.log("-------------------postapiforfirebase :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
+      //  console.log("-------------------postapiforfirebase :  reqmsg devid :" + reqmsg.devID + " reqType: " + reqmsg.reqType);
       } else {
         mapid = reqmsg.devID;
       }
 
       let respp = this.messagequeuemap.get(mapid);
       if (respp != null) {
-        if(!respp.headersSent)  
-        {
+        if (!respp.headersSent) {
           respp.send(JSON.stringify(reqmsg));
         }
       }
@@ -63,7 +62,6 @@ module.exports = class ServerAPI {
     }
   }
 
-  
   postapiforfirebaseviewer(req, rsp) {
     try {
       //console.log("---------------------------------postapiforfirebase  ");
@@ -79,8 +77,7 @@ module.exports = class ServerAPI {
       this.messagequeuemapviewer_response.set(mapid, reqmsg);
       let respp = this.messagequeuemapviewer.get(mapid);
       if (respp != null) {
-        if(!respp.headersSent)    
-        {
+        if (!respp.headersSent) {
           respp.send(JSON.stringify(reqmsg));
         }
       }
@@ -89,7 +86,6 @@ module.exports = class ServerAPI {
       if (!rsp.headersSent) {
         rsp.send("error");
       }
-      
     } catch (error) {
       console.log("---------------------------------postapiforfirebaseviewer  error : " + error.toString());
     }
@@ -97,25 +93,22 @@ module.exports = class ServerAPI {
 
   postapiforjbu(req, rsp) {
     try {
-      
-      
       return this.DBInterface.getDBdatasJBU(rsp, req, this.callbackreturn);
 
-     // console.log("---------------------------------postapiforDB END:");
+      // console.log("---------------------------------postapiforDB END:");
     } catch (error) {
       console.log("----------------------server---------postapiforjbu error : " + error.toString());
     }
-
   }
 
   postapifordatabase(req, rsp) {
     try {
-     // console.log("---------------------------------postapifordatabase  ");
+      // console.log("---------------------------------postapifordatabase  ");
       const reqmsg = JSON.parse(JSON.stringify(req.body));
       let responsemsg = new responseMessage();
       let isvalid = false;
 
-     // console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
+      // console.log("----postapiforDB :  DID :" + reqmsg.reqParam.devid + " type:" + reqmsg.reqType);
 
       if (reqmsg.reqParam != null) {
         isvalid = true;
@@ -126,7 +119,6 @@ module.exports = class ServerAPI {
           //db 관련 쿼리실행후 결과 콜백이 오면 그때 리턴
 
           case KDDefine.REQType.RT_SETDB_LOGINPWVIEWER:
-
             this.DBInterface.setloginpwviewer(reqmsg.reqParam.devid, reqmsg.reqParam.userid, reqmsg.reqParam.userpw);
             this.isneeduserinforead = true;
 
@@ -152,7 +144,7 @@ module.exports = class ServerAPI {
 
             let mevents = [];
             for (const mevt of reqmsg.reqParam.eventlist) {
-             // console.log("  RT_SETDB_EVENT EDate :" + mevt.EDate);
+              // console.log("  RT_SETDB_EVENT EDate :" + mevt.EDate);
               let newev = SystemEvent.Clonbyjsonobj(mevt);
               mevents.push(newev);
             }
@@ -191,7 +183,7 @@ module.exports = class ServerAPI {
 
       rsp.send(JSON.stringify(responsemsg));
 
-     // console.log("---------------------------------postapiforDB END:");
+      // console.log("---------------------------------postapiforDB END:");
     } catch (error) {
       console.log("---------------------------------postapifordatabase error : " + error.toString());
     }
@@ -211,7 +203,7 @@ module.exports = class ServerAPI {
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordevice(req, rsp) {
     try {
-     // console.log("---------------------------------postapifordevice--  ");
+      // console.log("---------------------------------postapifordevice--  ");
 
       const jsonstr = JSON.stringify(req.body);
       const reqmsg = JSON.parse(jsonstr);
@@ -233,23 +225,20 @@ module.exports = class ServerAPI {
         rsp.send(JSON.stringify(responsemsg));
       } else {
         const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/request");
-        
+
         let mapid = reqmsg.uqid;
         if (reqmsg.reqType != null) {
           mapid = reqmsg.uqid + reqmsg.reqType;
-        } 
+        }
 
         this.messagequeuemap.set(mapid, rsp);
-
-      
 
         let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
         reqkey.set(objJsonB64encode);
 
         // 이벤트 등록되어있음 파이어베이스에 데이터 갱신되면 mapid 찾아 응답함.
-   
 
-          // 이벤트 리스너 한번만
+        // 이벤트 리스너 한번만
 
         /*
       repskey.once("value", (snapshot) => {
@@ -322,64 +311,56 @@ module.exports = class ServerAPI {
           });
       }
       */
-
-       
       }
     } catch (error) {
       console.log("---------------------------------postapifordevice error : " + error.toString());
     }
   }
 
-
   // 서버로 요청하면 디바이스로 요청한다. 파이어베이스 리얼타임디비를 사용하여 메시지를 터널링한다.
   async postapifordeviceviewer(req, rsp) {
     try {
-//      console.log("---------------------------------postapifordeviceviewer--  ");
+      //      console.log("---------------------------------postapifordeviceviewer--  ");
 
       const jsonstr = JSON.stringify(req.body);
       const reqmsg = JSON.parse(jsonstr);
-     
-      
-        const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/requestviewer");
-        
-        let mapid = reqmsg.uqid;
-        if (reqmsg.reqType != null) {
-          mapid = reqmsg.uqid + reqmsg.reqType;
-        } 
 
+      const reqkey = this.fbdatabase.ref("IFDevices/" + reqmsg.uqid + "/requestviewer");
 
-        // 마지막 요청이 있으면 응답함.
-        let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
+      let mapid = reqmsg.uqid;
+      if (reqmsg.reqType != null) {
+        mapid = reqmsg.uqid + reqmsg.reqType;
+      }
 
-        if (reqmsg_last != null) {
-          // 시간 문자열에서 분 데이터만 추출하여 비교
-          const getMinuteFromTime = (timeStr) => {
-            const [ampm, time] = timeStr.split(' ');
-            const [hours, minutes] = time.split(':').map(Number);
-            return minutes;
-          };
+      // 마지막 요청이 있으면 응답함.
+      let reqmsg_last = this.messagequeuemapviewer_response.get(mapid);
 
-          const reqMinute = getMinuteFromTime(reqmsg.Time);
-          const lastMinute = getMinuteFromTime(reqmsg_last.Time);
+      if (reqmsg_last != null) {
+        // 시간 문자열에서 분 데이터만 추출하여 비교
+        const getMinuteFromTime = (timeStr) => {
+          const [ampm, time] = timeStr.split(" ");
+          const [hours, minutes] = time.split(":").map(Number);
+          return minutes;
+        };
 
-          // 분이 같으면 같은 시간으로 간주
-          const isSameMinute = reqMinute === lastMinute;
+        const reqMinute = getMinuteFromTime(reqmsg.Time);
+        const lastMinute = getMinuteFromTime(reqmsg_last.Time);
 
-          //console.log("-------------severviewer last mapid:" + mapid + ", reqMinute:" + reqMinute + ", lastMinute:" + lastMinute + ", isSameMinute:" + isSameMinute);
+        // 분이 같으면 같은 시간으로 간주
+        const isSameMinute = reqMinute === lastMinute;
 
-          if(isSameMinute) {
-            //console.log("-------------severviewer last send ok");
-            return rsp.send(JSON.stringify(reqmsg_last));
-          }
+        //console.log("-------------severviewer last mapid:" + mapid + ", reqMinute:" + reqMinute + ", lastMinute:" + lastMinute + ", isSameMinute:" + isSameMinute);
+
+        if (isSameMinute) {
+          //console.log("-------------severviewer last send ok");
+          return rsp.send(JSON.stringify(reqmsg_last));
         }
+      }
 
-        this.messagequeuemapviewer.set(mapid, rsp);
+      this.messagequeuemapviewer.set(mapid, rsp);
 
-        let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
-        reqkey.set(objJsonB64encode);
-
-       
-      
+      let objJsonB64encode = Buffer.from(jsonstr).toString("base64");
+      reqkey.set(objJsonB64encode);
     } catch (error) {
       console.log("---------------------------------postapifordeviceviewer error : " + error.toString());
       if (!rsp.headersSent) {
@@ -388,14 +369,12 @@ module.exports = class ServerAPI {
     }
   }
 
-
-
   //////////////////////
   messageprocessing(reqmsg) {
     let rspmsg = new responseMessage();
 
     if (reqmsg.reqType == KDDefine.REQType.RT_LOGIN) {
-     // console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
+      // console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
 
       if (this.isneeduserinforead == true) {
         this.userinfos = [];
@@ -417,15 +396,15 @@ module.exports = class ServerAPI {
         for (let i = 0; i < this.userinfos.length; i++) {
           //console.log("i :" +i);
           //console.log(this.userinfos[i]);
-          if (this.userinfos[i].userid === reqmsg.reqParam.loginID  && this.userinfos[i].usertype == 0) {
+          if (this.userinfos[i].userid === reqmsg.reqParam.loginID && this.userinfos[i].usertype == 0) {
             if (this.userinfos[i].deviceid.length == 6 && this.userinfos[i].userpw === reqmsg.reqParam.loginPW) {
               rspmsg.retMessage = "user";
               rspmsg.retParam = this.userinfos[i].deviceid;
               break;
             }
-              // info 필드에서 viewerpassword 체크
-              console.log("info :" + this.userinfos[i].info );
-              
+            // info 필드에서 viewerpassword 체크
+            console.log("info :" + this.userinfos[i].info);
+
             if (this.userinfos[i].info) {
               try {
                 const infoJson = JSON.parse(this.userinfos[i].info);
@@ -438,19 +417,14 @@ module.exports = class ServerAPI {
                 console.log("Error parsing info JSON:", e);
               }
             }
-
-
           }
-          
         }
 
         //로그인 성공이면 세션 ID 저장 해당 ID 가 맞는거만 응답
         if (rspmsg.retMessage != "not") {
-          if(rspmsg.retMessage == "viewer")
-          {
+          if (rspmsg.retMessage == "viewer") {
             //뷰어는 세션저장안함.
-          }else
-          {
+          } else {
             this.sessionmap.set(rspmsg.retParam, reqmsg.reqParam.SessionID);
           }
         }

@@ -65,7 +65,7 @@ module.exports = class DatabaseInterface {
   }
 
   dbconnectioncheck() {
-    console.log("db is connect : " + ismydbconnected + " diconnectcount:" + diconnectcount);
+    //console.log("db is connect : " + ismydbconnected + " diconnectcount:" + diconnectcount);
 
     if (ismydbconnected == false) {
       diconnectcount++;

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useCookies } from "react-cookie";
-import { Box, Button, Card, CardContent, CardHeader, Divider, FormControl, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Box, Button, Card, CardContent,  Divider, FormControl, MenuItem, Select, Stack, TextField, Typography } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+
 
 import CardActions from "@mui/material/CardActions";
 import LibraryAddCheckIcon from "@mui/icons-material/LibraryAddCheck";
 import CircularProgress from "@mui/material/CircularProgress";
-import IconButton from "@mui/material/IconButton";
+
 import UpgradeIcon from "@mui/icons-material/Upgrade";
 import SettingsIcon from "@mui/icons-material/Settings";
 import InfoIcon from "@mui/icons-material/Info";
@@ -15,8 +16,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "../muiTheme";
 import myAppGlobal from "../../myAppGlobal";
 
-import KDUtil from "../../commonjs/kdutil";
-import CreateModal from "../pages/components/createModal";
+
 import AlertDialog from "../uicomponent/basicalert";
 
 const theme = muiTheme;
@@ -34,10 +34,10 @@ let newDevicename = "";
 let oldpassword = "";
 let newlocalpassword = "";
 let newlangstrchange = "";
-let isswupdateok=false;
+let isswupdateok = false;
 let isswupdate = null;
 let newTimezonechange = Number(0);
-let istimezoneupdate=false;
+let istimezoneupdate = false;
 let newMonitorPassword = "";
 
 const SetupPage = () => {
@@ -67,8 +67,6 @@ const SetupPage = () => {
 
   const [alertmssage, setAlert] = useState(alertparams);
 
-  
-
   function savemyconfig(newMyInfo) {
     myAppGlobal.farmapi.setMyInfo(newMyInfo).then((ret) => {
       let isok = false;
@@ -82,15 +80,12 @@ const SetupPage = () => {
       if (isok === true) {
         alertparams.type = "success";
         alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
-        if(istimezoneupdate == true)
-        {
+        if (istimezoneupdate == true) {
           alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_TIMEZON_CONFIG");
-        }
-        else
-        {
+        } else {
           alertparams.message = myAppGlobal.langT("LT_SETTING_SAVE_CONFIG");
         }
-        
+
         setAlert(alertparams);
       }
     });
@@ -103,14 +98,12 @@ const SetupPage = () => {
 
     if (myAppGlobal.islocal == true) {
       savemyconfig(newMyInfo);
-    }
-    else
-    {
-      myAppGlobal.farmapi.setLoginPWServer(myAppGlobal.loginswid,newlocalpassword).then((ret) => {
+    } else {
+      myAppGlobal.farmapi.setLoginPWServer(myAppGlobal.loginswid, newlocalpassword).then((ret) => {
         let isok = false;
         if (ret) {
           if (ret.IsOK === true) {
-              isok = true;
+            isok = true;
           }
         }
         if (isok === true) {
@@ -120,43 +113,35 @@ const SetupPage = () => {
           setAlert(alertparams);
         }
       });
-
     }
-    
   }
 
   function applyhandler() {
-
     let isupdate = false;
     let newMyInfo = myAppGlobal.systeminformations.Systemconfg;
 
     if (i18n.language != newlangstrchange) {
-
       //console.log("applyhandler new  language: " + newlangstrchange);
-
 
       i18n.changeLanguage(newlangstrchange);
       var nextyear = new Date();
       nextyear.setFullYear(nextyear.getFullYear() + 2);
       setCookie("languageT", newlangstrchange, { expires: nextyear });
-      newMyInfo.language=newlangstrchange;
-      isupdate= true;
+      newMyInfo.language = newlangstrchange;
+      isupdate = true;
     }
 
-    
-    
     if (newDevicename != myAppGlobal.systeminformations.Systemconfg.name && newDevicename.length > 0) {
       newMyInfo.name = newDevicename;
       isupdate = true;
     }
 
-    istimezoneupdate=false;
-    if(newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes)
-    {
-      newMyInfo.timezoneoffsetminutes=newTimezonechange;
+    istimezoneupdate = false;
+    if (newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes) {
+      newMyInfo.timezoneoffsetminutes = newTimezonechange;
       //console.log("applyhandler new  timezoneoffsetminutes: " + newMyInfo.timezoneoffsetminutes);
 
-      isupdate=true;
+      isupdate = true;
       istimezoneupdate = true;
     }
 
@@ -164,7 +149,7 @@ const SetupPage = () => {
       //console.log("applyhandler new  timezoneoffsetminutes: " + newMyInfo.timezoneoffsetminutes);
       //console.log("applyhandler new  name: " + newMyInfo.name);
       //console.log("applyhandler new  language: " + newMyInfo.language);
-      
+
       savemyconfig(newMyInfo);
     }
   }
@@ -196,46 +181,35 @@ const SetupPage = () => {
 
     newTimezonechange = myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes;
     setTimezone(myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes);
-
-    
-
-
   }, []);
 
   if (serverversion > deviceversion && deviceversion > 0) {
     isswupdate = true;
-  }
-  else{
+  } else {
     isswupdate = false;
   }
 
-  function swupdatecallback()
-  {
-    
-    console.log(" swupdatecallback isswupdateok : " + isswupdateok); 
+  function swupdatecallback() {
+    console.log(" swupdatecallback isswupdateok : " + isswupdateok);
     if (isswupdateok === true) {
       alertparams.type = "success";
       alertparams.title = myAppGlobal.langT("LT_ALERT_SUCESS");
       alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_OK");
-      
-    }
-    else
-    {
+    } else {
       alertparams.type = "error";
       alertparams.title = myAppGlobal.langT("LT_ALERT_FAIL");
       alertparams.message = myAppGlobal.langT("LT_SETTING_SW_UPDATE_FAIL");
     }
     setAlert(alertparams);
     setisupdate(false);
-
   }
 
   function updateforlocaldevice(e) {
     //console.log("updateforlocaldevice : " + e.target.name + " serverversion:" + serverversion);
 
     setisupdate(true);
-    isswupdateok=false;
-    setTimeout(swupdatecallback, 30000); 
+    isswupdateok = false;
+    setTimeout(swupdatecallback, 30000);
     myAppGlobal.farmapi.setsoftwareupdate(true, serverversion).then((ret) => {
       console.log(" setsoftwareupdate ret : " + ret.retMessage);
 
@@ -246,46 +220,36 @@ const SetupPage = () => {
           }
         }
       }
-      
-    
-
     });
   }
 
-  
   function settimezoneui() {
     console.log("settimezone deviceversion : " + deviceversion);
 
-    
-    if (deviceversion < 2.240) {
+    if (deviceversion < 2.24) {
       return null;
     }
 
-    
-
     return (
       <Stack direction="column" alignItems="flex-start">
-              <Typography id="modal-configure-title" variant="subtitle1">
-                {myAppGlobal.langT("LT_CHANGE_TIMEZONE")}{" "}
-              </Typography>
+        <Typography id="modal-configure-title" variant="subtitle1">
+          {myAppGlobal.langT("LT_CHANGE_TIMEZONE")}{" "}
+        </Typography>
 
-              <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
-                <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={timezonevalue} onChange={handleChangetimezone} label="language">
-                  <MenuItem value={0}>Europe/London</MenuItem>
-                  <MenuItem value={540}>Asia/Seoul</MenuItem>
-                  <MenuItem value={-600}>US/Hawaii</MenuItem>
-                  <MenuItem value={-540}>US/Hawaii-Aleutain</MenuItem>
-                  <MenuItem value={-480}>US/Alaska</MenuItem>
-                  <MenuItem value={-420}>US/Pacific</MenuItem>
-                  <MenuItem value={-360}>US/Mountain</MenuItem>
-                  <MenuItem value={-300}>US/Central</MenuItem>
-                  <MenuItem value={-240}>US/Eastern </MenuItem>
-
-                  
-                </Select>
-              </FormControl>
-            </Stack>
-
+        <FormControl variant="standard" sx={{ ml: 1, width: 200 }}>
+          <Select labelId="demo-simple-select-standard-label" id="demo-simple-select-standard" value={timezonevalue} onChange={handleChangetimezone} label="language">
+            <MenuItem value={0}>Europe/London</MenuItem>
+            <MenuItem value={540}>Asia/Seoul</MenuItem>
+            <MenuItem value={-600}>US/Hawaii</MenuItem>
+            <MenuItem value={-540}>US/Hawaii-Aleutain</MenuItem>
+            <MenuItem value={-480}>US/Alaska</MenuItem>
+            <MenuItem value={-420}>US/Pacific</MenuItem>
+            <MenuItem value={-360}>US/Mountain</MenuItem>
+            <MenuItem value={-300}>US/Central</MenuItem>
+            <MenuItem value={-240}>US/Eastern </MenuItem>
+          </Select>
+        </FormControl>
+      </Stack>
     );
   }
 
@@ -299,8 +263,8 @@ const SetupPage = () => {
         </Typography>
       );
     }
-    if (isswupdate == null  || deviceversion == 0) {
-      return (<CircularProgress />);
+    if (isswupdate == null || deviceversion == 0) {
+      return <CircularProgress />;
     }
 
     if (isswupdate == false) {
@@ -319,7 +283,7 @@ const SetupPage = () => {
           </Typography>
         </Stack>
 
-        <Button size="large"  disabled={isupdating} variant="contained" onClick={updateforlocaldevice} endIcon={isupdating===true?   <CircularProgress />:<UpgradeIcon />} sx={{ m:2 , backgroundColor: "#fb8c00" }} >
+        <Button size="large" disabled={isupdating} variant="contained" onClick={updateforlocaldevice} endIcon={isupdating === true ? <CircularProgress /> : <UpgradeIcon />} sx={{ m: 2, backgroundColor: "#fb8c00" }}>
           {myAppGlobal.langT("Update") + "(" + serverversion + ")"}
         </Button>
       </Stack>
@@ -337,8 +301,7 @@ const SetupPage = () => {
       isapplay = true;
     }
 
-    if(newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes)
-    {
+    if (newTimezonechange != myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes) {
       isapplay = true;
     }
 
@@ -360,18 +323,13 @@ const SetupPage = () => {
   };
 
   const handleChangetimezone = (event) => {
-    
-
-    newTimezonechange= Number(event.target.value);
+    newTimezonechange = Number(event.target.value);
     setTimezone(newTimezonechange);
 
-        console.log("-------------------------handleChangetimezone:" + newTimezonechange);
+    console.log("-------------------------handleChangetimezone:" + newTimezonechange);
 
     applycheck();
-
-
   };
-
 
   const handleNewpword = (e) => {
     //console.log("-------------------------handleNewpword name:" + e.target.id + ",pw:" + myAppGlobal.loginswpw);
@@ -461,11 +419,9 @@ const SetupPage = () => {
   }
 
   const monitorPasswordBlock = () => {
-
     //로컬 접속시 암호 변경 불가
-    if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true"  ||  deviceversion <2.3)
-    {
-       return null;
+    if (myAppGlobal.islocal === true || myAppGlobal.islocal === "true" || deviceversion < 2.3) {
+      return null;
     }
 
     return (
@@ -474,23 +430,8 @@ const SetupPage = () => {
           <Typography id="modal-configure-title" variant="subtitle1">
             {myAppGlobal.langT("LT_MONITOR_PASSWORD")}
           </Typography>
-          <TextField
-            required
-            id="monitorPassword"
-            label={myAppGlobal.langT("LT_NEWPASSWORD")}
-            type="password"
-            variant="standard"
-            onChange={handleMonitorPassword}
-            sx={{ width: 200, ml: 1, mt: 0, mb: 0, "& .MuiInputBase-input": { border: 0 } }}
-          />
-          <Button
-            onClick={applyMonitorPasswordHandler}
-            disabled={saveMonitorPwDisable}
-            size="large"
-            variant="contained"
-            endIcon={<LibraryAddCheckIcon />}
-            sx={{ mt: 1, ml: 1, mb: 1, backgroundColor: "#fb8c00", width: 200 }}
-          >
+          <TextField required id="monitorPassword" label={myAppGlobal.langT("LT_NEWPASSWORD")} type="password" variant="standard" onChange={handleMonitorPassword} sx={{ width: 200, ml: 1, mt: 0, mb: 0, "& .MuiInputBase-input": { border: 0 } }} />
+          <Button onClick={applyMonitorPasswordHandler} disabled={saveMonitorPwDisable} size="large" variant="contained" endIcon={<LibraryAddCheckIcon />} sx={{ mt: 1, ml: 1, mb: 1, backgroundColor: "#fb8c00", width: 200 }}>
             {myAppGlobal.langT("LT_SETTING_MODAL_APPLYPW")}
           </Button>
         </Stack>
@@ -498,13 +439,21 @@ const SetupPage = () => {
     );
   };
 
-
-   if (myAppGlobal.isuseradmin === false) {
-    return(<Stack spacing={0} direction="row" justifyContent="space-between">
-            <Typography variant="body1" sx={{ pr: 2 }}>
-      {myAppGlobal.langT("LT_SYSTEMSETUP_NOT_ADMIN")}
-      </Typography>
-    </Stack>);
+  if (myAppGlobal.isuseradmin === false) {
+    return (
+      <Stack spacing={0} direction="row" justifyContent="space-between">
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <VisibilityIcon color="action" />
+                <Typography variant="body2" color="text.secondary">
+                  {myAppGlobal.langT("LT_MAINPAGE_MAIN_READONLYMODE")}
+                </Typography>
+              </Box>
+              
+        <Typography variant="body1" sx={{ pr: 2 }}>
+          {myAppGlobal.langT("LT_SYSTEMSETUP_NOT_ADMIN")}
+        </Typography>
+      </Stack>
+    );
   }
 
   return (
@@ -555,9 +504,6 @@ const SetupPage = () => {
               </FormControl>
             </Stack>
             {settimezoneui()}
-
-
-            
 
             <Stack spacing={0} direction="column" alignItems="flex-start" sx={{ mt: 3 }}>
               <Typography id="modal-configure-title" variant="subtitle1">
@@ -623,6 +569,6 @@ const SetupPage = () => {
       </Box>
     </ThemeProvider>
   );
-}
+};
 
 export default SetupPage;
