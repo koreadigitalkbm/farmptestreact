@@ -213,6 +213,7 @@ function loadlangresource()
     
         "LT_MAINPAGE_MAIN_LATESTUPDATE": "최근측정시간",
         "LT_MAINPAGE_MAIN_READONLYMODE": "읽기전용 모드입니다. 1분마다 데이터가 갱신됩니다.",
+        "LT_READONLYMODE": "읽기전용 모드입니다.",
         "LT_MAINPAGE_MAIN_SENSOR_DISCONNECTED": "연결해제됨.",
         "LT_MAINPAGE_MAIN_ACTUATOR_FIELDCONTROL": "현장제어중",
         "LT_MAINPAGE_MAIN_ACTUATOR_MANUAL": "정지(수동)",
@@ -684,6 +685,7 @@ function loadlangresource()
         "LT_MAINPAGE_NAV_LOGOUT": "LOGOUT",
         "LT_MAINPAGE_MAIN_LATESTUPDATE": "Latest Update",
         "LT_MAINPAGE_MAIN_READONLYMODE": "Read only mode. Data is updated every minute.",
+        "LT_READONLYMODE": "Read only mode.",
         "LT_MAINPAGE_MAIN_SENSOR_DISCONNECTED": "Disconnected",
         "LT_MAINPAGE_MAIN_ACTUATOR_FIELDCONTROL": "Field control",
         "LT_MAINPAGE_MAIN_ACTUATOR_MANUAL": "MANUAL",

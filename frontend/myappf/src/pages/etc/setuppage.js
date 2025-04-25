@@ -442,13 +442,13 @@ const SetupPage = () => {
   if (myAppGlobal.isuseradmin === false) {
     return (
       <Stack spacing={0} direction="row" justifyContent="space-between">
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+       
                 <VisibilityIcon color="action" />
                 <Typography variant="body2" color="text.secondary">
-                  {myAppGlobal.langT("LT_MAINPAGE_MAIN_READONLYMODE")}
+                  {myAppGlobal.langT("LT_READONLYMODE")}
                 </Typography>
-              </Box>
-              
+       
+
         <Typography variant="body1" sx={{ pr: 2 }}>
           {myAppGlobal.langT("LT_SYSTEMSETUP_NOT_ADMIN")}
         </Typography>
