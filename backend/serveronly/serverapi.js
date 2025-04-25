@@ -374,7 +374,7 @@ module.exports = class ServerAPI {
     let rspmsg = new responseMessage();
 
     if (reqmsg.reqType == KDDefine.REQType.RT_LOGIN) {
-      // console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
+       console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
 
       if (this.isneeduserinforead == true) {
         this.userinfos = [];
