@@ -382,7 +382,7 @@ module.exports = class DatabaseInterface {
         sqlquery = "SELECT  dtime,etype,edatas FROM systemevent  WHERE devid ='" + devid + "'" + "  AND dtime>='" + sday + "'" + "  AND  dtime <'" + eday + "'";
       }
 
-      console.log("getDBdatas query start: \n" + sqlquery);
+//      console.log("getDBdatas query start: \n" + sqlquery);
 
       this.conn.query(sqlquery, function (error, result) {
         //console.log(result);
@@ -392,7 +392,7 @@ module.exports = class DatabaseInterface {
           diconnectcount++;
           returncallback(rsp, "");
         } else {
-          console.log("getDBdatas query end ok: \n");
+       //   console.log("getDBdatas query end ok: \n");
           diconnectcount = 0;
           returncallback(rsp, result);
         }

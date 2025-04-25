@@ -31,7 +31,7 @@ module.exports = class ServerAPI {
     let rspmsg = new responseMessage();
     rspmsg.retMessage = mparam;
     rspmsg.IsOK = true;
-    console.log("callbackreturn mparam:" + mparam.length);
+    //console.log("callbackreturn mparam:" + mparam.length);
     return rsp.send(JSON.stringify(rspmsg));
   }
 
