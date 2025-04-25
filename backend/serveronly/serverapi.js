@@ -338,9 +338,11 @@ module.exports = class ServerAPI {
       if (reqmsg_last != null) {
         // 시간 문자열에서 분 데이터만 추출하여 비교
 
-        console.log("-------------severviewertimeStr:" + timeStr);
+
 
         const getMinuteFromTime = (timeStr) => {
+          console.log("-------------severviewertimeStr:" + timeStr);
+          
           const [ampm, time] = timeStr.split(" ");
           const [hours, minutes] = time.split(":").map(Number);
           return minutes;
