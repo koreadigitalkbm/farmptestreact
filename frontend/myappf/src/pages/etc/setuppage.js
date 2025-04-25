@@ -441,7 +441,7 @@ const SetupPage = () => {
 
   if (myAppGlobal.isuseradmin === false) {
     return (
-      <Stack spacing={0} direction="row" justifyContent="space-between">
+      <Stack spacing={0} direction="row" >
        
                 <VisibilityIcon color="action" />
                 <Typography variant="body2" color="text.secondary">
