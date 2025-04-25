@@ -446,12 +446,11 @@ const SetupPage = () => {
                 <VisibilityIcon color="action" />
                 <Typography variant="body2" color="text.secondary">
                   {myAppGlobal.langT("LT_READONLYMODE")}
+                  {myAppGlobal.langT("LT_SYSTEMSETUP_NOT_ADMIN")}
                 </Typography>
        
 
-        <Typography variant="body1" sx={{ pr: 2 }}>
-          {myAppGlobal.langT("LT_SYSTEMSETUP_NOT_ADMIN")}
-        </Typography>
+      
       </Stack>
     );
   }
