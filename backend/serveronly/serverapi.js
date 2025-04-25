@@ -341,8 +341,8 @@ module.exports = class ServerAPI {
 
 
         const getMinuteFromTime = (timeStr) => {
-          console.log("-------------severviewertimeStr:" + timeStr);
-          
+          console.log("-------------severviewertimeStr:" + timeStr + "reqmsg.reqType:"+reqmsg.reqType);
+
           const [ampm, time] = timeStr.split(" ");
           const [hours, minutes] = time.split(":").map(Number);
           return minutes;
