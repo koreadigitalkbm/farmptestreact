@@ -341,7 +341,7 @@ module.exports = class ServerAPI {
 
 
         const getMinuteFromTime = (timeStr) => {
-          console.log("-------------severviewertimeStr:" + timeStr + "reqmsg.reqType:"+reqmsg.reqType);
+          //console.log("-------------severviewertimeStr:" + timeStr + "reqmsg.reqType:"+reqmsg.reqType);
           let ampm = "";
           let time = timeStr;
              // 공백문자가 있는 경우에만 분리
@@ -385,7 +385,7 @@ module.exports = class ServerAPI {
     let rspmsg = new responseMessage();
 
     if (reqmsg.reqType == KDDefine.REQType.RT_LOGIN) {
-       console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
+       //console.log("setlogin   pw:  " + reqmsg.reqParam.loginPW + ", SID:" + reqmsg.reqParam.SessionID);
 
       if (this.isneeduserinforead == true) {
         this.userinfos = [];
