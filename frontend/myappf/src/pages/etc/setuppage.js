@@ -156,6 +156,7 @@ const SetupPage = () => {
 
   useEffect(() => {
     console.log("SetupPage  useEffect timezoneoffsetminutes: " + myAppGlobal.systeminformations.Systemconfg.timezoneoffsetminutes);
+    
 
     if (myAppGlobal.islocal === false || myAppGlobal.islocal === "false") {
       if (serverversion == 0) {

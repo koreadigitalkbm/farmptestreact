@@ -69,7 +69,7 @@ export default class IndoorFarmAPI {
         resdata = await this.postData(API + "devicerequestviewer", mReqmsg);
       }
 
-      console.log(" setRequestdevice admin: " + myAppGlobal.isuseradmin + ",reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
+     // console.log(" setRequestdevice admin: " + myAppGlobal.isuseradmin + ",reqtype : " +mReqmsg.reqType+ ",isok : " + resdata.IsOK);
     } catch (error) {
       console.log(" setRequestdevice error : " + error);
     } finally {

@@ -130,7 +130,7 @@ function FarmApp(props) {
       myAppGlobal.farmapi = new IndoorFarmAPI(myAppGlobal.islocal);
       setloginrol(myAppGlobal.loginrole);
       
-      console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid + "loginrole:" +myAppGlobal.loginrole);
+      //console.log("----------------------------새로고침 islocal: " + myAppGlobal.islocal + " ssid : "+myAppGlobal.sessionid + "loginrole:" +myAppGlobal.loginrole);
     }
   }, []);
 
