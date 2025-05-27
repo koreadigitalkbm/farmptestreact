@@ -113,6 +113,15 @@ function FarmApp(props) {
       myAppGlobal.logindeviceid = window.sessionStorage.getItem("deviceid");
       myAppGlobal.loginrole = window.sessionStorage.getItem("login");
 
+      if( myAppGlobal.loginrole === null || myAppGlobal.loginrole === "viewer")
+      {
+        myAppGlobal.isuseradmin = false;
+      }
+      else{
+        myAppGlobal.isuseradmin =true;
+
+      }
+
       if (cookies.languageT != i18n.language) {
         i18n.changeLanguage(cookies.languageT);
       }
