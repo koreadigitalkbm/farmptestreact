@@ -119,15 +119,18 @@ module.exports = class ActuatorBasic {
     else if (modelname === KDDefine.PModel.KPC880D) {
 
 
-      /*
+      
+
       //히터1
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_HEATER, 0, KDDefine.OutDeviceTypeEnum.ODT_HEATER));
-
+ 
       //쿨러
       mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_COOLER, 1, KDDefine.OutDeviceTypeEnum.ODT_COOLER));
-      */
+ 
+      //냉난방팬
+     mcfglist.push(new ActuatorBasic(KDDefine.ActuatorNameID.NID_TEMP_CIRCULARFAN, 2, KDDefine.OutDeviceTypeEnum.ODT_TEMP_CIRCULARFAN));
+ 
 
-      
 
 
       //펌프5

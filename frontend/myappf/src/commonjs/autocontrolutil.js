@@ -216,6 +216,29 @@ mcfglist.push(m1);
 
       let m1 = new AutoControlconfig();
 
+
+       //////////////////////////온도제어 단순 on off 제어  추가 20250822
+      m1.Lid = "LT_ANAME_TEMP";
+      m1.Name = "온도제어(냉난방)";
+      m1.Pri = KDDefine.AUTOPriority.AP_NORMAL;
+      m1.Enb = false;
+      m1.AType = KDDefine.AUTOType.ACM_SENSOR_DAY_NIGHT;
+      m1.Cat = KDDefine.AUTOCategory.ACT_HEAT_COOL_FOR_FJBOX; //  자동제어 분류
+      m1.Actlist.push("N01C00T00"); ///히터 릴레이 장비
+      m1.Actlist.push("N01C01T00"); ///쿨러 릴레이 장비
+      m1.Actlist.push("N01C02T00"); ///내부냉난방팬 릴레이 장비
+      m1.DOnTime = AutoControlconfig.OnTimesecMAX;
+      m1.DOffTime = 0;
+      m1.STime = 8 * 3600;
+      m1.ETime = 18 * 3600;
+      m1.Senlist.push("S01C00T01"); /// 온도센서 지정
+      m1.DTValue = 24.0;
+      m1.NTValue = 20.0;
+      m1.BValue = 5;
+      m1.Cdir = KDDefine.SensorConditionType.SCT_DOWNBOTHIDLE;
+      mcfglist.push(m1);
+
+
       //////////////////관수제어
       m1 = new AutoControlconfig();
       m1.Lid = "LT_ANAME_WATER";

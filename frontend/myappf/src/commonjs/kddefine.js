@@ -78,6 +78,8 @@ module.exports = class KDDefine {
   });
 
   // 장비 모델명
+  // 장비를 추가하면 장비의 구동채널에 대한 정의를 actuatorbasic.js에 추가해야 합니다. 
+  // 장비에 대한 자동제어 설정을 autocontrolbasic.js에 추가해야하며 actuatorbasic.js에 정의된 장비의 ID에 맞게 설정해야합니다.
   static PModel = Object.freeze({
     KPC200: "KPC200", // 식물재배기 1차 2차
     KPC300: "KPC300", // 식물재배기  3차(교육용)
